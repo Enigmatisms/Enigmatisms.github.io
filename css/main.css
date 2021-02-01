@@ -1809,6 +1809,15 @@ pre code {
   width: 100%;
   z-index: 1500;
 }
+.reading-progress-bar {
+  background: #37c6c0;
+  height: 3px;
+  left: 0;
+  position: fixed;
+  width: 0;
+  z-index: 1500;
+  top: 0;
+}
 .rtl.post-body p,
 .rtl.post-body a,
 .rtl.post-body h1,
@@ -2866,11 +2875,11 @@ hr {
 }
 @media (min-width: 992px) {
   .sidebar-active {
-    margin-left: 320px;
+    margin-left: 240px;
   }
 }
 .sidebar {
-  left: -320px;
+  left: -240px;
 }
 .sidebar-active .sidebar {
   left: 0;
@@ -2882,7 +2891,7 @@ hr {
   position: fixed;
   top: 0;
   transition: all 0.2s ease-out;
-  width: 320px;
+  width: 240px;
   z-index: 1200;
 }
 .sidebar a {
@@ -2904,7 +2913,7 @@ hr {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #4f8cf5;
+  background: #be77ff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
