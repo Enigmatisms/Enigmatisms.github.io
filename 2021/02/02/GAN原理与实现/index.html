@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://enigmatisms.github.io/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_1.JPG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_2.JPG">
 <meta property="article:published_time" content="2021-02-01T16:33:15.000Z">
-<meta property="article:modified_time" content="2021-02-01T16:48:56.991Z">
+<meta property="article:modified_time" content="2021-02-04T17:04:41.130Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="DL">
 <meta property="article:tag" content="knowings">
@@ -135,7 +135,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">5</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">2</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -208,7 +208,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -221,11 +221,15 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
+  <div class="sidebar-button site-overview-item animated"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
         <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
@@ -233,6 +237,9 @@
       <span class="links-of-author-item">
         <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -294,10 +301,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-02-02 00:33:15 / Modified: 00:48:56" itemprop="dateCreated datePublished" datetime="2021-02-02T00:33:15+08:00">2021-02-02</time>
+      <time title="Created: 2021-02-02 00:33:15" itemprop="dateCreated datePublished" datetime="2021-02-02T00:33:15+08:00">2021-02-02</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-02-05 01:04:41" itemprop="dateModified" datetime="2021-02-05T01:04:41+08:00">2021-02-05</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -324,9 +337,7 @@
 <h2 id="编码器原理">编码器原理</h2>
 <h3 id="自动编码器">自动编码器</h3>
 <p>​ 自动编码器，简单地说就是以下结构：</p>
-<figure>
-<img src="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_1.JPG" alt><figcaption>自动编码器结构</figcaption>
-</figure>
+<p><img src="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_1.JPG"></p>
 <p>​ 从原始输入，对其进行编码（编码过程可以使用感知机（前馈，无BP操作）或者神经网络（现在的架构一般是BP式的优化）），生成 <strong><u>压缩后的编码数据</u></strong>。再想办法从编码中（必然存在信息损失）恢复原来的图片。但是一般而言，自动编码器（AE）都是确定输入输出的，每一种编码会由训练得到唯一的输出。</p>
 <p>​ 我们希望生成更多的数据或者达到人工智能创作 / 想象的目的，需要随机的输出。我们希望可以加入编码的扰动（Perturbance）或者人工的干预（Intervention），让编码更加多样化 / 随机化，而且Decoder可以对这种加入的噪声鲁棒。这就得到了VAE（Variational Auto Encoder）变分自动编码器。</p>
 <h3 id="变分自动编码器">变分自动编码器</h3>
@@ -348,9 +359,7 @@ P_X(x)=\sum_kP(X|Z_k)P(Z_k)\label{YY}
 <li>GAN需要构建一个生成器和一个判别器，生成器需要生成能够以假乱真的数据。生成出的数据需要输入到判别器中，由判别器进行判定：此数据是真的（非生成的）还是假的（生成的）。<strong><u>固定判别器的参数，训练生成器参数，</u></strong>使得生成器生成的结果输入到判别器中，二分类（真假判定）得到结果尽可能接近1.</li>
 <li>判别器的训练：我们希望我们的判别网络尽可能强大，能够区分真假数据，这样再进行生成器训练时，生成器训练会有更加严格的监督。判别器训练时，固定生成器网络参数，生成器生成的数据需要使label尽可能为false。</li>
 </ul>
-<figure>
-<img src="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_2.JPG" alt><figcaption>GAN的训练流程</figcaption>
-</figure>
+<p><img src="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/GAN_2.JPG"></p>
 <ul>
 <li>并且，分类器不仅能正确处理生成器生成的数据（正确地label成false类）（True Positive），还需要有处理True Negative的能力，对于真实的数据，需要正确分类为真。</li>
 </ul>
@@ -506,6 +515,23 @@ f:D \subset \mathbb R^n\rightarrow \mathbb R,\;\exists K,\;|f(a)-f(b)|\leq K|a-b
     
 
     <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" title="GAN原理与实现">https://enigmatisms.github.io/2021/02/02/GAN原理与实现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
           <div class="post-tags">
               <a href="/tags/DL/" rel="tag"># DL</a>
               <a href="/tags/knowings/" rel="tag"># knowings</a>
@@ -520,6 +546,9 @@ f:D \subset \mathbb R^n\rightarrow \mathbb R,\;\exists K,\;|f(a)-f(b)|\leq K|a-b
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/" rel="next" title="LaTex基础语法记录">
+                  LaTex基础语法记录 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -573,6 +602,7 @@ f:D \subset \mathbb R^n\rightarrow \mathbb R,\;\exists K,\;|f(a)-f(b)|\leq K|a-b
   </footer>
 
   
+  <script size="256" alpha="0.3" zIndex="-1" src="//cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
