@@ -220,7 +220,7 @@
         <category>learning</category>
       </categories>
       <tags>
-        <tag>latex</tag>
+        <tag>typesetting</tag>
       </tags>
   </entry>
   <entry>
@@ -408,6 +408,184 @@ f:D \subset \mathbb R^n\rightarrow \mathbb R,\;\exists K,\;|f(a)-f(b)|\leq K|a-b
       <tags>
         <tag>DL</tag>
         <tag>knowings</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Typora &amp; Markdown Intros</title>
+    <url>/2021/02/09/Typora-Markdown-Intros/</url>
+    <content><![CDATA[<h1 id="typora-markdown">Typora &amp; Markdown</h1>
+<hr>
+<h2 id="why">Why?</h2>
+<p><span id="start"></span></p>
+<p>​ 此文撰写的目的是：</p>
+<ul>
+<li>归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到）</li>
+<li>给我Raven的安利。</li>
+</ul>
+<p></p>
+<h3 id="why-markdown">Why Markdown?</h3>
+<p>​ 虽说markdown实际是给 不爱使用鼠标在word上点来点去的人使用的（并且面向的人群一般是对敲代码有兴趣的人），但由于Markdown上手极其简单，并且使用效率极高，<strong><u>极其适合：</u></strong></p>
+<ul>
+<li>撰写ReadMe，帮助他人理解某个程序 / 文件包 / 压缩包文件 / 文档 / 代码 如何使用。</li>
+<li>写一些风格简约而又好看的文档，方便撰写 tutorials / ideas / agenda / 会议记录 / <strong><u>学习笔记</u></strong> / <strong><u>实验报告</u></strong> / 等等，<strong><u>并快速生成PDF文件</u></strong>。</li>
+<li>【Event Horizon】上的所有博文，均是markdown渲染出来的。</li>
+</ul>
+<h3 id="why-typora">Why Typora?</h3>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/from_site.png"></p>
+<center>
+Figure 1. 来自官网的图片
+</center>
+<p>​ Typora 是一款极其轻量级的Markdown语法编辑器，其界面就像windows自带的记事本。并且，对于markdown语法支持实时渲染（直接显示效果）。易用性与美观性（尤其是其自带的Pixyll主题，中英文都极其美观）是其另外两个优点。Typora支持：</p>
+<ul>
+<li>Markdown所有语法</li>
+<li>LaTex数学公式渲染</li>
+<li>html支持（网页前端语言，markdown进阶中用于美化，本文会提几个常用栗子）</li>
+</ul>
+<hr>
+<h2 id="level-1-skills">Level 1 Skills</h2>
+<p>​ 本节将会介绍基础的markdown语法。记忆这些语法是非常容易的，因为都很简单。</p>
+<h3 id="无序-有序items">无序 &amp; 有序items</h3>
+<h4 id="无序items">无序items</h4>
+<p>​ 在分点操作时，常常会使用 (1) 分点内容前面加上一个黑色圆点 (2) 使用编号（有序排列），在markdown中，无需进行鼠标点击（鼠标 / 触控板 / 触屏 在文档撰写的时候真的累赘）。对于 <strong>无序分点，可以如下输入：</strong></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> Markdown is easy to use.</span><br><span class="line"><span class="bullet">-</span> Markdown is so goodlooking.</span><br><span class="line"><span class="bullet">-</span> Simplicity is the basic traits.</span><br></pre></td></tr></table></figure>
+<p>​ （前面的- 就是减号，当然 “*” 号也是可以替换“-” 号的），在Typora页面上实时显示的结果是：</p>
+<ul>
+<li>Markdown is easy to use.</li>
+<li>Markdown is so goodlooking.</li>
+<li>Simplicity is the basic traits.</li>
+</ul>
+<p>​ 当然，不同级别的items（分级）也是支持的，只需要通过缩进的方式（比如TAB缩进，或是Typora提供的 <code>Ctrl + ]</code> 增加缩进（级别减小（子item）），<code>Ctrl + [</code> 减少缩进（或者说：级别增大））：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> Markdown is easy to use.</span><br><span class="line"><span class="bullet">	-</span> Gramma is easy to remember.</span><br><span class="line"><span class="bullet">		-</span> &quot;- + indent&quot; is unordered item.</span><br><span class="line"><span class="bullet">    -</span> Then What?</span><br></pre></td></tr></table></figure>
+<p>​ 在Typora页面上实时显示的结果是：</p>
+<ul>
+<li>Markdown is easy to use.
+<ul>
+<li>Gramma is easy to remember.
+<ul>
+<li>"- + indent" is unordered item.</li>
+</ul></li>
+<li>Then What?</li>
+</ul></li>
+</ul>
+<h4 id="有序items">有序items</h4>
+<p>​ 需要按照编号排列时，可以输入以下语句：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> Open the gate.</span><br><span class="line"><span class="bullet">2.</span> Let the army in.</span><br><span class="line"><span class="bullet">3.</span> Close the gate.</span><br></pre></td></tr></table></figure>
+<p>​ 这个其实有点鸡肋了，markdown会自动帮你调整编号的位置。Typora则会帮你自动添加编号，也即：输入一个 1. 再换行，会自动出现 2. 3. 等等。以上的输出结果是：</p>
+<ol type="1">
+<li>Open the gate.</li>
+<li>Let the army in.</li>
+<li>Close the gate.</li>
+</ol>
+<p>​ 当然，有序items也是可以分级的。同样使用缩进的方法可以达到目的。</p>
+<h4 id="typora-items使用的一个坑">Typora items使用的一个坑</h4>
+<ul>
+<li><p>随便写的一句话。</p>
+<p>随便写的第二句话。</p></li>
+<li><p>随便写的一句话</p></li>
+</ul>
+<p>​ 随便写的第二句话。</p>
+<p>​ 在写完items后，不想要分下一个点了，想要开始另一端正文，但是无论使用 backspace 删除 还是使用 <code>Ctrl + [</code> 删去自动添加的分点，都会让下一行的首行缩进变得很奇怪，主要体现在：按下TAB之后，正常情况下只会缩进一个字符，但是此情况下，缩进了不止一个字符，并且出现了错位的情况。</p>
+<table>
+<thead>
+<tr class="header">
+<th><img src="/2021/02/09/Typora-Markdown-Intros/ind_1.JPG"></th>
+<th>错误情况，正文与item文字对齐了。并且一个tab就能缩进到此情况</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="/2021/02/09/Typora-Markdown-Intros/ind_2.JPG"></td>
+<td>正确情况，需要两个tab才能达到首行缩进两个字符的情况</td>
+</tr>
+</tbody>
+</table>
+<p>​ 对于强迫症患者而言（如作者），这是不能被接受的。解决方法是：</p>
+<ul>
+<li>在错误情况的行首 两次tab键，先进行一次首行两字符缩进。</li>
+<li>再使用<code>Ctrl + [</code> 取消Typora自动设置的item缩进，即可。</li>
+</ul>
+<hr>
+<h3 id="字体变换">字体变换</h3>
+<p>​ Markdown 如何打出：<em>斜体（Italic）</em>，<strong>加粗（Bold）</strong>，<strong><em>斜体加粗（Combined）</em></strong>，<u>下划线</u>，<del>删除线</del>呢？</p>
+<ul>
+<li><p>斜体使用：<code>*斜体*</code>，输入两个<code>**</code> 在<code>*</code>包括的部分内部内输入需要斜体的文字即可。当然，不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+I</code></p></li>
+<li><p>加粗：<code>**加粗**</code>，需要加粗的文字需要左右各两个<code>*</code>。不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+B</code></p></li>
+<li><p>斜体加粗：<code>***斜体加粗***</code>，也就是需要加粗的部分左右各3星。不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+I+B</code></p></li>
+<li><p>下划线：<font color="blue">这是第一个HTML语法的小栗子，不过很简单</font>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;u&gt;需要下划线的部分&lt;&#x2F;u&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;u&gt;</code>表示起始（underline），<code>&lt;/u&gt;</code>前的<code>/</code>表示结束。</li>
+<li>不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+U</code></li>
+</ul></li>
+<li><p>删除线：<code>~~需要删除的部分~~</code>，也就是左右各两个<code>~</code>。Typora中，默认快捷键是：<code>Alt+Shift+5</code>。</p></li>
+</ul>
+<p>​ 给出一个实际的例子，输入如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">开始：*这是文中需要倾斜的部分*，这是正常的部分，这是**需要加粗的部分**，而这是***综合部分***。下划线可以&lt;u&gt;这么加&lt;&#x2F;u&gt;，而下划线+加粗可以这样，&lt;u&gt;**虽然Ctrl+B+U快捷键完全可以解决**&lt;&#x2F;u&gt;。删除线则是~~这样使用的~~。</span><br></pre></td></tr></table></figure>
+<p>​ 实际输出如下：</p>
+<p>​ 开始：<em>这是文中需要倾斜的部分</em>，这是正常的部分，这是<strong>需要加粗的部分</strong>，而这是<strong><em>综合部分</em></strong>。下划线可以<u>这么加</u>，而下划线+加粗可以这样，<u><strong>虽然Ctrl+B+U快捷键完全可以解决</strong></u>。删除线则是<del>这样使用的</del>。</p>
+<hr>
+<h3 id="标题与分割线">标题与分割线</h3>
+<p>​ Markdown中的标题是格式化的。不需要设置大小与格式（不过正常情况下标题是左对齐的）。标题使用 <code>#</code> + 空格来表示。</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br></pre></td></tr></table></figure>
+<p>​ 输出结果是长这样的：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/caption.JPG"></p>
+<center>
+Figure 2. 标题样式
+</center>
+<p>​ 注意，<code>#</code>之后一定要跟上空格，再输入标题内容。</p>
+<p>​ 分割线：只需要在需要分割的位置，加入<code>---</code>即可进行分割（注意<code>---</code>一定要另起一行，分割线行中只能写这一个内容）。比如文中的分割线，都是<code>---</code>的渲染结果，例子：</p>
+<h2 id="section"><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Contents I</span><br><span class="line">---</span><br><span class="line">Contents II</span><br></pre></td></tr></table></figure></h2>
+<h3 id="超链接的两种常见方式">超链接的两种常见方式</h3>
+<p>​ HyperLink （超链接）最常见的使用方式就是 <strong><u>网页跳转</u></strong>。当然，markdown中存在另一种页内跳转的方式。假设我们希望读者在读到这段文字的时候，去查看本文其他位置的内容，比如 <a href="#start">【点我查看文章开头】</a>，确实也是可以做到的。</p>
+<h4 id="网页跳转">网页跳转</h4>
+<p>​ reference编写时，可能我们希望读者可以通过点击直接跳转到某个位置，可以使用以下方式进行编写：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[跳转链接](https:&#x2F;&#x2F;www.baidu.com&#x2F;)</span><br></pre></td></tr></table></figure>
+<p>​ <code>[]</code>内部指定：超链接嵌入在<code>[]</code>包括的文字内部，也就是说，点击此段被包括的部分，可以进行跳转。<code>()</code>内部则是网址了，网址只需要在浏览器上复制后粘贴于此处即可。上述渲染结果如下：</p>
+<p>​ <a href="https://www.baidu.com/">跳转链接</a></p>
+<h4 id="页内跳转">页内跳转</h4>
+<p>​ 如果是PDF文件，需要读者可以方便地随着作者的思路走，可以使用如下方式。</p>
+<ol type="1">
+<li><p>在需要跳转到的位置插入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;span id&#x3D;&#39;name&#39;&gt;</span><br><span class="line">需要跳转的位置，比如上个&quot;超链接的两种常见方式&quot;开头部分跳转到文章开头，则将此块插入到文章开头</span><br><span class="line">&lt;&#x2F;span&gt;</span><br><span class="line">例如：</span><br><span class="line">&lt;span id&#x3D;&#39;start&#39;&gt;</span><br><span class="line">	此文撰写的目的是：</span><br><span class="line">- 归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到）</span><br><span class="line">- 给我Raven的安利。</span><br><span class="line">&lt;&#x2F;span&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 需要说明的是，id='name' 在这里设置了一个标签，name是标签的名字。比如一篇文章内部可能有很多跳转，为了不混淆目的地，需要标记不同的目的地的名称。比如开头标记为<code>span id='start'</code>，而结尾标记为<code>span id='ending'</code>。此后就根据标记跳转到需要的地方。</p></li>
+<li><p>在开始跳转位置处写：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[点我跳转](#name)</span><br></pre></td></tr></table></figure>
+<p>​ 由于作者在文章开头处设置了一个跳转目的地，写的是<code>&lt;span id='start'&gt;</code>，也就是目的地被称为了<code>start</code>，上面这个例子的name 如果设置成start，则结果是这样的：</p>
+<p>​ <a href="#start">点我跳转</a>。当然一般为了美观，可以在<code>[]</code>内再加上一个<code>[]</code>，就会变成<a href="#name">[点我跳转]</a>。注意在<code>()</code>内，需要一个<code>#</code>，此处不表示一级标题。</p></li>
+<li><p>查看结果。</p></li>
+</ol>
+<hr>
+<h2 id="todos-需要更新的内容">TODOs (需要更新的内容)</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled>
+图片插入与表格插入</li>
+<li><input type="checkbox" disabled>
+todos写法与引用写法</li>
+<li><input type="checkbox" disabled>
+代码片段与代码块写法</li>
+<li><input type="checkbox" disabled>
+emoji插入（Typora特性）</li>
+<li><input type="checkbox" disabled>
+关于Typora的设置以及一些实用功能</li>
+<li><input type="checkbox" disabled>
+（进阶）如何修改字体大小 / 字体颜色 / 字体类型</li>
+<li><input type="checkbox" disabled>
+（进阶）LaTex数学公式输入</li>
+<li><input type="checkbox" disabled>
+（进阶）实用的HTML命令（简单可复制）</li>
+<li><input type="checkbox" disabled>
+实践练习</li>
+</ul>
+<center>
+<font size="5"> To be updated. 2021.2.10</font>
+</center>
+<p>​</p>
+]]></content>
+      <categories>
+        <category>tutorial</category>
+      </categories>
+      <tags>
+        <tag>typesetting</tag>
       </tags>
   </entry>
 </search>
