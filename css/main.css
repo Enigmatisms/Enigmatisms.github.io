@@ -17,10 +17,10 @@
   --btn-default-hover-bg: #fff;
   --btn-default-hover-color: #222;
   --btn-default-hover-border-color: #222;
-  --highlight-background: #1e1e1e;
-  --highlight-foreground: #dcdcdc;
-  --highlight-gutter-background: #313131;
-  --highlight-gutter-foreground: #c9c9c9;
+  --highlight-background: #fff;
+  --highlight-foreground: #434f54;
+  --highlight-gutter-background: #eceded;
+  --highlight-gutter-foreground: #556065;
 }
 html {
   line-height: 1.15; /* 1 */
@@ -181,7 +181,7 @@ body {
 body {
   background: var(--body-bg-color);
   color: var(--text-color);
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Merriweather, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 1em;
   line-height: 2;
   min-height: 100%;
@@ -194,7 +194,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Merriweather, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-weight: bold;
   line-height: 1.5;
   margin: 20px 0 15px;
@@ -242,10 +242,11 @@ embed {
   max-width: 100%;
 }
 hr {
-  background-image: repeating-linear-gradient(-45deg, #ddd, #ddd 4px, transparent 4px, transparent 8px);
+  width: 80%;
+  margin: 0 auto;
   border: 0;
-  height: 3px;
-  margin: 40px 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
 }
 blockquote {
   border-left: 4px solid #ddd;
@@ -360,86 +361,75 @@ td {
   transform: rotate(-45deg);
 }
 /*
- * Visual Studio 2015 dark style
- * Author: Nicolas LLOBERA <nllobera@gmail.com>
- */
+
+Arduino® Light Theme - Stefania Mellai <s.mellai@arduino.cc>
+
+*/
 
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #1E1E1E;
-  color: #DCDCDC;
+  background: #FFFFFF;
+}
+
+.hljs,
+.hljs-subst {
+  color: #434f54;
 }
 
 .hljs-keyword,
-.hljs-literal,
-.hljs-symbol,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-doctag,
 .hljs-name {
-  color: #569CD6;
-}
-.hljs-link {
-  color: #569CD6;
-  text-decoration: underline;
+  color: #00979D;
 }
 
 .hljs-built_in,
-.hljs-type {
-  color: #4EC9B0;
-}
-
-.hljs-number,
-.hljs-class {
-  color: #B8D7A3;
-}
-
-.hljs-string,
-.hljs-meta-string {
-  color: #D69D85;
+.hljs-literal,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition {
+  color: #D35400;
 }
 
 .hljs-regexp,
-.hljs-template-tag {
-  color: #9A5334;
-}
-
-.hljs-subst,
-.hljs-function,
-.hljs-title,
-.hljs-params,
-.hljs-formula {
-  color: #DCDCDC;
-}
-
-.hljs-comment,
-.hljs-quote {
-  color: #57A64A;
-  font-style: italic;
-}
-
-.hljs-doctag {
-  color: #608B4E;
-}
-
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-  color: #9B9B9B;
-}
-
+.hljs-symbol,
 .hljs-variable,
-.hljs-template-variable {
-  color: #BD63C5;
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #00979D;
 }
 
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-  color: #9CDCFE;
+.hljs-type,
+.hljs-string,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+  color: #005C5F;
 }
 
+.hljs-title,
 .hljs-section {
-  color: gold;
+  color: #880000;
+  font-weight: bold;
+}
+
+.hljs-comment {
+  color: rgba(149,165,166,.8);
+}
+
+.hljs-meta-keyword {
+  color: #728E00;
+}
+
+.hljs-meta {
+  color: #434f54;
 }
 
 .hljs-emphasis {
@@ -450,29 +440,12 @@ td {
   font-weight: bold;
 }
 
-/*.hljs-code {
-  font-family:'Monospace';
-}*/
-
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-  color: #D7BA7D;
+.hljs-function {
+  color: #728E00;
 }
 
-.hljs-addition {
-  background-color: #144212;
-  display: inline-block;
-  width: 100%;
-}
-
-.hljs-deletion {
-  background-color: #600;
-  display: inline-block;
-  width: 100%;
+.hljs-number {
+  color: #8A7B52;  
 }
 
 code,
@@ -1208,7 +1181,7 @@ pre code {
 .site-brand-container {
   display: flex;
   flex-shrink: 0;
-  padding: 0 10px;
+  padding: 10px 10px;
 }
 .use-motion .header,
 .use-motion .site-brand-container .toggle {
@@ -1241,7 +1214,7 @@ pre code {
   color: var(--brand-hover-color);
 }
 .site-title {
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Merriweather, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 1.375em;
   font-weight: normal;
   margin: 0;
@@ -1989,7 +1962,7 @@ pre code {
   width: 4px;
 }
 .post-body {
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Merriweather, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   overflow-wrap: break-word;
 }
 @media (min-width: 1200px) {
@@ -2184,7 +2157,7 @@ pre code {
 }
 .posts-expand .post-meta-container {
   color: #999;
-  font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: Merriweather, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 0.75em;
   margin-top: 3px;
 }
@@ -2249,12 +2222,6 @@ pre code {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-.post-eof {
-  background: #ccc;
-  height: 1px;
-  margin: 80px auto 60px;
-  width: 20%;
 }
 .post-block:last-of-type .post-eof {
   display: none;
@@ -2745,7 +2712,7 @@ mjx-container[display="true"] + br {
     padding-top: 35px;
   }
 }
-.post {
+.post-block {
   margin-top: 60px;
   margin-bottom: 60px;
   padding: 25px;
@@ -2866,7 +2833,7 @@ mjx-container[display="true"] + br {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #ff09f4;
+  background: #5538aa;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
