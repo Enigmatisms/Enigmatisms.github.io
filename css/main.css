@@ -248,11 +248,30 @@ hr {
   height: 1px;
   background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
 }
+blockquote:after {
+  position: relative;
+  content: "\f10e";
+  font-size: 1.5em;
+  float: right;
+  top: -1rem;
+  margin-right: -1em;
+  color: #233;
+  font-family: fontawesome;
+}
+blockquote:before {
+  position: relative;
+  content: "\f10d";
+  font-size: 1.5em;
+  left: 0;
+  margin-left: -1em;
+  color: #444;
+  font-family: fontawesome;
+}
 blockquote {
-  border-left: 4px solid #ddd;
-  color: var(--blockquote-color);
-  margin: 0;
-  padding: 0 15px;
+  margin-left: 1em;
+  margin-right: 1em;
+  padding: 0.25em 1em;
+  color: #666;
 }
 blockquote cite::before {
   content: '-';
@@ -670,6 +689,7 @@ pre code {
   width: 5rem;
 }
 .post-body .link-grid .link-grid-container p {
+  text-align: center;
   margin: 0 1rem 0 6rem;
 }
 .post-body .link-grid .link-grid-container p:first-of-type {
@@ -944,6 +964,7 @@ pre code {
   outline: 0;
 }
 .post-body .note summary p {
+  text-align: center;
   display: inline;
 }
 .post-body .note h2,
@@ -973,6 +994,15 @@ pre code {
 .post-body .note img:last-child {
   margin-bottom: 0;
 }
+.post-body .note:not(.no-icon) {
+  padding-left: 2.5em;
+}
+.post-body .note:not(.no-icon)::before {
+  font-size: 1.5em;
+  left: 0.3em;
+  position: absolute;
+  top: calc(50% - 1em);
+}
 .post-body .note.default {
   background: #f3f3f3;
   border-color: #e1e1e1;
@@ -985,6 +1015,11 @@ pre code {
 .post-body .note.default a:not(.btn):hover {
   border-bottom-color: #454545;
   color: #454545;
+}
+.post-body .note.default:not(.no-icon)::before {
+  content: '\f0a9';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
 }
 .post-body .note.primary {
   background: #f3daff;
@@ -999,6 +1034,11 @@ pre code {
   border-bottom-color: #453298;
   color: #453298;
 }
+.post-body .note.primary:not(.no-icon)::before {
+  content: '\f055';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
 .post-body .note.info {
   background: #d9edf7;
   border-color: #b3e5ef;
@@ -1011,6 +1051,11 @@ pre code {
 .post-body .note.info a:not(.btn):hover {
   border-bottom-color: #215761;
   color: #215761;
+}
+.post-body .note.info:not(.no-icon)::before {
+  content: '\f05a';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
 }
 .post-body .note.success {
   background: #dff0d8;
@@ -1025,6 +1070,11 @@ pre code {
   border-bottom-color: #32562c;
   color: #32562c;
 }
+.post-body .note.success:not(.no-icon)::before {
+  content: '\f058';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
 .post-body .note.warning {
   background: #fcf4e3;
   border-color: #fae4cd;
@@ -1038,6 +1088,11 @@ pre code {
   border-bottom-color: #714f30;
   color: #714f30;
 }
+.post-body .note.warning:not(.no-icon)::before {
+  content: '\f06a';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
 .post-body .note.danger {
   background: #f2dfdf;
   border-color: #ebcdd2;
@@ -1050,6 +1105,11 @@ pre code {
 .post-body .note.danger a:not(.btn):hover {
   border-bottom-color: #84333f;
   color: #84333f;
+}
+.post-body .note.danger:not(.no-icon)::before {
+  content: '\f056';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
 }
 .pdfobject-container iframe,
 .pdfobject-container embed {
@@ -1195,6 +1255,9 @@ pre code {
   .site-meta {
     text-align: center;
   }
+}
+.site-meta p {
+  text-align: center;
 }
 .custom-logo-image {
   margin-top: 20px;
@@ -1764,9 +1827,6 @@ pre code {
 .back-to-top {
   font-size: 12px;
 }
-.back-to-top span {
-  display: none;
-}
 .back-to-top {
   bottom: -100px;
   box-sizing: border-box;
@@ -1779,7 +1839,6 @@ pre code {
   position: fixed;
   z-index: 1300;
   left: 30px;
-  width: 24px;
 }
 @media (max-width: 991px) {
   .back-to-top {
@@ -2833,7 +2892,7 @@ mjx-container[display="true"] + br {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #5538aa;
+  background: #fa52ff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
