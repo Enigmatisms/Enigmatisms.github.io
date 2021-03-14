@@ -37,21 +37,22 @@
   </script>
 
 
-<meta name="description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。">
+<meta name="description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。   Figure 1. 2D-2D单应匹配">
 <meta property="og:type" content="article">
 <meta property="og:title" content="协方差 &amp; 特征值的交集">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。">
+<meta property="og:description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。   Figure 1. 2D-2D单应匹配">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/Users/15300/Desktop/normal.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/normal.JPG">
 <meta property="article:published_time" content="2021-03-12T14:45:03.000Z">
-<meta property="article:modified_time" content="2021-03-14T04:48:47.876Z">
+<meta property="article:modified_time" content="2021-03-14T04:52:25.152Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="线性代数">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/Users/15300/Desktop/normal.JPG">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg">
 
 
 <link rel="canonical" href="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/">
@@ -318,7 +319,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-14 12:48:47" itemprop="dateModified" datetime="2021-03-14T12:48:47+08:00">2021-03-14</time>
+        <time title="Modified: 2021-03-14 12:52:25" itemprop="dateModified" datetime="2021-03-14T12:52:25+08:00">2021-03-14</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -350,6 +351,10 @@
         <h1 id="eigens-covs">Eigens &amp; Covs</h1>
 <hr>
 <p>​ 线性代数确实很有趣，但是展开成<span class="math inline">\(\sum\)</span>的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵/向量求导）（烦人的分子分母布局）。</p>
+<p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg"></p>
+<center>
+Figure 1. 2D-2D单应匹配
+</center>
 <a id="more"></a>
 <hr>
 <h2 id="矩阵特征量与法向量估计">矩阵特征量与法向量估计</h2>
@@ -376,9 +381,9 @@ z
 \]</span> ​ 那么对A可以求其特征量。这些特征量表征的是什么呢？为了简单以及便于人类进行空间想象，以下讨论主要集中于二维矩阵与三维矩阵的讨论。</p>
 <h3 id="二维直线法向量估计">二维直线法向量估计</h3>
 <p>​ 实际上，在二维的情况下，估计法向量与估计直线是同一个问题。假设有一堆点，如下图所示，存在噪声并且由于实际表面是个曲面，需要选择一个合理的范围，利用范围内点的信息进行法向量估计：</p>
-<p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/Users\15300\Desktop\normal.JPG"></p>
+<p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/normal.JPG"></p>
 <center>
-Figure 1. 2D法向量估计
+Figure 2. 2D法向量估计
 </center>
 <p>​ 我们需要估计一条直线（法向量形式）： <span class="math display">\[
 \begin{equation}\label{normal}
@@ -392,39 +397,40 @@ a^T\pmb{x}-b=0
 \begin{equation}\label{cost}
 C=\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x})
 \end{equation}
-\]</span> ​ 加上约束，可以得到一个带约束优化问题。约束是：<span class="math inline">\(a^Ta=1\)</span>。也就是说希望法向量是单位向量： $$ <span class="math display">\[\begin{equation}
-\left \{
+\]</span> ​ 加上约束，可以得到一个带约束优化问题。约束是：<span class="math inline">\(a^Ta=1\)</span>。也就是说希望法向量是单位向量： <span class="math display">\[
+\begin{equation}
+\left\{
 \begin{array}{ll}\label{obj}
 \text{min }\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x}) \\
 \text{s.t. } a^Ta=1
-
 \end{array}
 \right.\rightarrow
 \text{min }\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x}) + \lambda(a^Ta-1)\\
-\end{equation}\]</span> <span class="math display">\[
-​       也就是又用Lagrange乘子法将有约束问题转化为无约束问题了。对KKT条件进行讨论，等式约束的KKT条件就不用说了。对$a$求导，有（这里有必要穿插一下矩阵与向量的求导知识）。如果x是一个 n * 1的列向量，那么一个关于x的标量函数关于x求导，求出将会是一个行向量。进一步地，可以证明（见[【Appendix】](#app)）：
-\]</span> <span class="math display">\[\begin{equation}\label{lemma}
+\end{equation}
+\]</span> ​ 也就是又用Lagrange乘子法将有约束问题转化为无约束问题了。对KKT条件进行讨论，等式约束的KKT条件就不用说了。对<span class="math inline">\(a\)</span>求导，有（这里有必要穿插一下矩阵与向量的求导知识）。如果x是一个 n * 1的列向量，那么一个关于x的标量函数关于x求导，求出将会是一个行向量。进一步地，可以证明（见<a href="#app">【Appendix】</a>）： <span class="math display">\[
+\begin{equation}\label{lemma}
 \begin{array}{ll}
 \text{if }\alpha=x^TAx,\text{where }A\text{ is }n \times n \\
 \text{then } \frac{\partial\alpha}{\partial x}=x^T(A+A^T)
 \end{array}
-\end{equation}\]</span> <span class="math display">\[
-​       那么根据公式$\eqref{lemma}$，并且对$\eqref{obj}$进行关于a（2 * 1列向量）求导，此处求导的结果是：
-\]</span> <span class="math display">\[\begin{equation}\label{der}
+\end{equation}
+\]</span> ​ 那么根据公式<span class="math inline">\(\eqref{lemma}\)</span>，并且对<span class="math inline">\(\eqref{obj}\)</span>进行关于a（2 * 1列向量）求导，此处求导的结果是： <span class="math display">\[
+\begin{equation}\label{der}
 2\lambda a^T-2bn\overline{x}^T+\sum_{i=1}^n2a^T(x_ix_i^T)
-\end{equation}\]</span> <span class="math display">\[
-​       而对b求导实际上也能得到重要的结论：即$b=a^T\overline{x}$，那么带入到公式$\eqref{der}$中就会有：
-\]</span> <span class="math display">\[\begin{equation}\label{der2}
+\end{equation}
+\]</span> ​ 而对b求导实际上也能得到重要的结论：即<span class="math inline">\(b=a^T\overline{x}\)</span>，那么带入到公式<span class="math inline">\(\eqref{der}\)</span>中就会有： <span class="math display">\[
+\begin{equation}\label{der2}
 2\lambda a^T+2a^T\sum_{i=1}^n(x_ix_i^T)-(\overline{x}\overline{x}^T)=2\lambda a^T+2a^T\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T
-\end{equation}\]</span> <span class="math display">\[
-​       而$\eqref{der2}$的右半部分求和式实际上是点集的协方差，最后也就得到了（忽略负号给$\lambda$代来的影响）：
-\]</span> <span class="math display">\[\begin{equation}\label{eig}
+\end{equation}
+\]</span> ​ 而<span class="math inline">\(\eqref{der2}\)</span>的右半部分求和式实际上是点集的协方差，最后也就得到了（忽略负号给<span class="math inline">\(\lambda\)</span>代来的影响）： <span class="math display">\[
+\begin{equation}\label{eig}
 \left(\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T\right)a=\lambda a
-\end{equation}\]</span> <span class="math display">\[
-​       也就是说，$\lambda$为点集协方差矩阵的一个特征值，而$a$则为对应的特征向量。也就是说，$a$（法向量）的解实际上是点集协方差的一个特征向量，但是对于二维问题而言，特征向量有两个（一个最大特征向量，一个最小特征向量）。那么显然，根据$\eqref{eig}$以及$b=a^T\overline{x}$，带入到目标函数$\eqref{obj}$中可以得到：
-\]</span> <span class="math display">\[\begin{equation}
+\end{equation}
+\]</span> ​ 也就是说，<span class="math inline">\(\lambda\)</span>为点集协方差矩阵的一个特征值，而<span class="math inline">\(a\)</span>则为对应的特征向量。也就是说，<span class="math inline">\(a\)</span>（法向量）的解实际上是点集协方差的一个特征向量，但是对于二维问题而言，特征向量有两个（一个最大特征向量，一个最小特征向量）。那么显然，根据<span class="math inline">\(\eqref{eig}\)</span>以及<span class="math inline">\(b=a^T\overline{x}\)</span>，带入到目标函数<span class="math inline">\(\eqref{obj}\)</span>中可以得到： <span class="math display">\[
+\begin{equation}
 L=0+\sum_{i=1}^n[a^T(x_i-\overline{x})][a^T(x_i-\overline{x})]^T=n\lambda
-\end{equation}\]</span> $$ ​ 可以指导，<span class="math inline">\(\lambda\)</span>应该选择最小特征值。那么<span class="math inline">\(a\)</span>的解就是最小特征值对应的特征向量。感觉这个过程就十分的精妙，主要是要完全利用KKT条件，一个都不能漏，并且有意识地构造协方差 / 均值以及<span class="math inline">\(x^Tx / xx^T\)</span>两种形式。<strong><u>不难发现</u></strong>，这种表示形式可以自然推广到三维空间中去，此时求取的不再是直线的法向量，而是平面的法向量。</p>
+\end{equation}
+\]</span> ​ 可以知道，<span class="math inline">\(\lambda\)</span>应该选择最小特征值。那么<span class="math inline">\(a\)</span>的解就是最小特征值对应的特征向量。感觉这个过程就十分的精妙，主要是要完全利用KKT条件，一个都不能漏，并且有意识地构造协方差 / 均值以及<span class="math inline">\(x^Tx / xx^T\)</span>两种形式。<strong><u>不难发现</u></strong>，这种表示形式可以自然推广到三维空间中去，此时求取的不再是直线的法向量，而是平面的法向量。</p>
 <hr>
 <h2 id="d图像配准闭式解">2D图像配准闭式解</h2>
 <p>​ 考虑一个2D问题，两幅图像的配准。假设我们通过SIFT算子 + RANSAC优化，得到了准确的特征点配对关系，那么如何求这个单应矩阵呢？</p>
