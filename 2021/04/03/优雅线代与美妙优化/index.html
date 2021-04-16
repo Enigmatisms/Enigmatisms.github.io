@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/err.JPG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/gauss.JPG">
 <meta property="article:published_time" content="2021-04-03T15:17:19.000Z">
-<meta property="article:modified_time" content="2021-04-09T06:35:51.827Z">
+<meta property="article:modified_time" content="2021-04-16T17:57:13.921Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="线性代数">
@@ -321,7 +321,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-04-09 14:35:51" itemprop="dateModified" datetime="2021-04-09T14:35:51+08:00">2021-04-09</time>
+        <time title="Modified: 2021-04-17 01:57:13" itemprop="dateModified" datetime="2021-04-17T01:57:13+08:00">2021-04-17</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -440,18 +440,21 @@ A\hat{x}(k-1)\\
 z(k)
 \end{pmatrix} + E(k)
 \end{equation}
-\]</span> ​ 假设我们求解噪声矩阵<span class="math inline">\(E(k)\)</span>的协方差，那么它应该是这样的： <span class="math display">\[
+\]</span></p>
+<p>​ 假设我们求解噪声矩阵<span class="math inline">\(E(k)\)</span>的协方差，那么它应该是这样的： <span class="math display">\[
 \begin{equation}\label{ecov}
 \mathbb{E}(E(k)E(k)^T)=\begin{pmatrix}
 \breve{P}(k) &amp; \mathbf{0}   \\
 \mathbf{0} &amp; R(k)
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 协方差为什么长成这样呢？很显然：<span class="math inline">\(w(x)\)</span>自己的协方差就是状态转移协方差（注意不是噪声协方差Q，因为Q需要进行状态转移），而<span class="math inline">\(v(x)\)</span>的协方差是噪声协方差。而<span class="math inline">\(w(x),v(x)\)</span>默认是相互独立的，故非对角线矩阵块为0。接下来，对这个协方差进行矩阵分解： <span class="math display">\[
+\]</span></p>
+<p>​ 协方差为什么长成这样呢？很显然：<span class="math inline">\(w(x)\)</span>自己的协方差就是状态转移协方差（注意不是噪声协方差Q，因为Q需要进行状态转移），而<span class="math inline">\(v(x)\)</span>的协方差是噪声协方差。而<span class="math inline">\(w(x),v(x)\)</span>默认是相互独立的，故非对角线矩阵块为0。接下来，对这个协方差进行矩阵分解： <span class="math display">\[
 \begin{equation}
 Cholesky(\mathbb{E}(E(k)E(k)^T))=SS^T
 \end{equation}
-\]</span> ​ 此后所做的事情有点奇怪，矩阵<span class="math inline">\(S\)</span>被单独使用了（协方差矩阵的矩阵LU分解代表了什么意义？）。实际上，这里是要使linear transform之后的噪声协方差为单位阵（也就是说，此处做了一个白化变换）。我们看公式<span class="math inline">\(\eqref{optim}\)</span>，<span class="math inline">\(E(k)\)</span>是系统的噪声，而系统高斯噪声并不为单位阵，问题并非标准问题，也可以说是：输入没有进行标准化。那么对于<span class="math inline">\(\eqref{optim}\)</span>而言，等号左右乘以<span class="math inline">\(S^{-1}\)</span>实际上就是在做白化变换： <span class="math display">\[
+\]</span></p>
+<p>​ 此后所做的事情有点奇怪，矩阵<span class="math inline">\(S\)</span>被单独使用了（协方差矩阵的矩阵LU分解代表了什么意义？）。实际上，这里是要使linear transform之后的噪声协方差为单位阵（也就是说，此处做了一个白化变换）。我们看公式<span class="math inline">\(\eqref{optim}\)</span>，<span class="math inline">\(E(k)\)</span>是系统的噪声，而系统高斯噪声并不为单位阵，问题并非标准问题，也可以说是：输入没有进行标准化。那么对于<span class="math inline">\(\eqref{optim}\)</span>而言，等号左右乘以<span class="math inline">\(S^{-1}\)</span>实际上就是在做白化变换： <span class="math display">\[
 \begin{align}
 &amp;S^{-1}\begin{pmatrix}
 I\\
@@ -496,7 +499,8 @@ I\\
 H
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 而<span class="math inline">\(SS^T\)</span>是公式<span class="math inline">\(\eqref{ecov}\)</span>中的协方差矩阵，那么可以进一步得到： <span class="math display">\[
+\]</span></p>
+<p>​ 而<span class="math inline">\(SS^T\)</span>是公式<span class="math inline">\(\eqref{ecov}\)</span>中的协方差矩阵，那么可以进一步得到： <span class="math display">\[
 \begin{equation}
 X^T(k)X(k)=
 (I\quad H)
@@ -509,11 +513,13 @@ I\\
 H
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 展开以上式子可以得到： <span class="math display">\[
+\]</span></p>
+<p>​ 展开以上式子可以得到： <span class="math display">\[
 \begin{equation}
 (X^T(k)X(k))^{-1}=(P^{-1}+H^TR^{-1}H)^{-1}=P+H^{-1}R(H^{-1})^{T}
 \end{equation}
-\]</span> ​ 诶，只需要顺着这样的分解下去，不难发现（真的不难，所以费篇幅在这推公式了），优化结果<span class="math inline">\(\eqref{optim3}\)</span>与之前的后验更新式<span class="math inline">\(\eqref{xcor}\)</span>是完全一致的。而协方差的先验后验更新实际上是类似的，这里就不再详细推导了。妙啊兄弟们，这样我们就推出了最小二乘与KF的关系。</p>
+\]</span></p>
+<p>​ 诶，只需要顺着这样的分解下去，不难发现（真的不难，所以费篇幅在这推公式了），优化结果<span class="math inline">\(\eqref{optim3}\)</span>与之前的后验更新式<span class="math inline">\(\eqref{xcor}\)</span>是完全一致的。而协方差的先验后验更新实际上是类似的，这里就不再详细推导了。妙啊兄弟们，这样我们就推出了最小二乘与KF的关系。</p>
 <hr>
 <h2 id="最小二乘的几何解释">最小二乘的几何解释</h2>
 <p>​ 上DIP（数字图像处理）的时候，老师突然抛出一个问题来：</p>
@@ -538,43 +544,46 @@ Figure 3. 误差投影 投影后影响观测（实际观测是绿色 + 紫色）
 \end{array}
 \right.
 \end{equation}
-\]</span> ​ 什么意思？意思就是，假设<span class="math inline">\(\pmb{a}\)</span>是投影平面的单位法向量，那么<span class="math inline">\(\pmb{a}^T\pmb{e}\)</span>就是误差在单位法向量上的投影，而<span class="math inline">\(\pmb{e}-(\pmb{a}^T\pmb{e})\pmb{a}\)</span>就是误差在观测平面上的投影。需要使得这个投影最短。</p>
+\]</span></p>
+<p>​ 什么意思？意思就是，假设<span class="math inline">\(\pmb{a}\)</span>是投影平面的单位法向量，那么<span class="math inline">\(\pmb{a}^T\pmb{e}\)</span>就是误差在单位法向量上的投影，而<span class="math inline">\(\pmb{e}-(\pmb{a}^T\pmb{e})\pmb{a}\)</span>就是误差在观测平面上的投影。需要使得这个投影最短。</p>
 <p>​ 那么解这个问题，实际上最后会求出：需要对误差的协方差<span class="math inline">\(\pmb{e}\pmb{e}^T=\Sigma\)</span>进行矩阵分解，求最大特征值对应的特征向量，就是<span class="math inline">\(\pmb{a}\)</span>。而这个特征向量实际上对应了误差的主方向（PCA部分中会提到这个思想），如果只有一个观测的话，则就是误差的方向。至于为什么，<strong><u>很简单</u></strong>，公式<span class="math inline">\(\eqref{f17}\)</span>留给读者作为练习。</p>
 <hr>
 <h2 id="谱聚类矩阵分析">谱聚类矩阵分析</h2>
 <p>​ 谱聚类（spectrum clustering）是一种很美妙的聚类理论，它包含了<strong><u>图论</u></strong>， <strong><u>矩阵分析</u></strong>，<strong><u>优化理论</u></strong>以及<strong><u>机器学习理论</u></strong>，综合性的一个算法，理解这个算法可以帮助对以上四个方面的理论都有进一步的认识。</p>
 <h3 id="laplace算子">Laplace算子</h3>
-<p>​ 这是我DIP课程中刚讲的空域滤波器kernel，虽然之前就知道Laplace长什么样，但是从来没有从DSP的角度去思考，也没有思考其数学原理。Laplace算子用 <strong><u>求二阶导</u></strong>，这是为什么呢？小编也不知道，小编也觉得很有趣。一个典型的Laplace kernel长这样： $$ <span class="math display">\[\begin{equation}
+<p>​ 这是我DIP课程中刚讲的空域滤波器kernel，虽然之前就知道Laplace长什么样，但是从来没有从DSP的角度去思考，也没有思考其数学原理。Laplace算子用 <strong><u>求二阶导</u></strong>，这是为什么呢？小编也不知道，小编也觉得很有趣。一个典型的Laplace kernel长这样： <span class="math display">\[
+\begin{equation}
 \begin{pmatrix}
 0 &amp; -1 &amp; 0 \\
 -1 &amp; 4 &amp; -1 \\
 0 &amp; -1 &amp; 0
-
 \end{pmatrix}
-\end{equation}\]</span> <span class="math display">\[
-​       从DSP的角度考虑Laplace算子的设计，这也就是一个高通滤波器嘛（求边缘使用），而对于直流分量这种显然是低频的信号成分来说，它是要被高通滤波器滤除的。于是高通滤波器不能保留任何直流的能量，需要保证对于平滑区域（比如ones），卷积结果为0。而图分析（graph）中，对于离散的图而言也有Laplace算子，并且其物理意义非常明确：**&lt;u&gt;求图上的最小割&lt;/u&gt;**。首先推一下离散的二阶导，使用一个简单的一阶导表达式：
-\]</span> <span class="math display">\[\begin{equation}\label{de_1}
+\end{equation}
+\]</span></p>
+<p>​ 从DSP的角度考虑Laplace算子的设计，这也就是一个高通滤波器嘛（求边缘使用），而对于直流分量这种显然是低频的信号成分来说，它是要被高通滤波器滤除的。于是高通滤波器不能保留任何直流的能量，需要保证对于平滑区域（比如ones），卷积结果为0。而图分析（graph）中，对于离散的图而言也有Laplace算子，并且其物理意义非常明确：<strong><u>求图上的最小割</u></strong>。首先推一下离散的二阶导，使用一个简单的一阶导表达式： <span class="math display">\[
+\begin{equation}\label{de_1}
 \frac{df}{dx}=f&#39;(x)=f(x)-f(x-1)
-\end{equation}\]</span> <span class="math display">\[
-​       而需要求二阶导，也就需要在本函数的基础上再求一阶导：
-\]</span> <span class="math display">\[\begin{equation}\label{de_2}
+\end{equation}
+\]</span></p>
+<p>​ 而需要求二阶导，也就需要在本函数的基础上再求一阶导： <span class="math display">\[
+\begin{equation}\label{de_2}
 \frac{d^2f}{dx^2}=f&#39;&#39;(x)=f&#39;(x)-f&#39;(x-1)=f(x)-2f(x-1)+f(x-2)
-\end{equation}\]</span> $$ ​ 接下来分析无向带权图上的Laplace矩阵。</p>
+\end{equation}
+\]</span></p>
+<p>​ 接下来分析无向带权图上的Laplace矩阵。</p>
 <p>​ 首先定义<span class="math inline">\(W\)</span>为权重矩阵（无向带权图的邻接矩阵，注意<span class="math inline">\(w_{i,i}=0\)</span>），<span class="math inline">\(W\)</span>就刻画了节点之间的联系程度（或者cost）。在聚类问题中，我们设定，假设两个样本点之间的关系越紧密，特征越类似，对应节点之间的边权也就越大。那么聚类实际上就是在这样的图上寻找一个最小割（最小权的边集合），使得经过这个cut之后可以分为k个指定类。</p>
 <p>​ 此外，定义<span class="math inline">\(D\)</span>为度矩阵，与普通的度定义不同（这个度是有权的），<span class="math inline">\(D\)</span>为对角矩阵，元素<span class="math inline">\(d_{i,j}\)</span>的意义是： <span class="math display">\[
 \begin{equation}
 d_{i,j}=\left\{
-\begin{array}{ll}
+\begin{array}{l}
 \sum_{j=1}^nw(i,j),\text{ if }i=j \\
 0,\text{ otherwise}
 \end{array}
-\right.
+\right.{}
 \end{equation}
-\]</span> ​ D衡量的实际是一个节点与其他所有节点的联系紧密程度。则有了这两个矩阵，我们接下来定义： <span class="math display">\[
-\begin{equation}
-\text{definition: } L=D-W
-\end{equation}
-\]</span> ​ 也就是度矩阵减去邻接矩阵，看起来非常抽象？直接看L是难以得到其物理意义的，需要有其他向量的帮助</p>
+\]</span></p>
+<p>​ D衡量的实际是一个节点与其他所有节点的联系紧密程度。则有了这两个矩阵，我们接下来定义<span class="math inline">\(L=D-W\)</span></p>
+<p>​ 也就是度矩阵减去邻接矩阵，看起来非常抽象？直接看L是难以得到其物理意义的，需要有其他向量的帮助</p>
 <h5 id="性质1-向量差异">性质1 向量“差异”</h5>
 <p><span class="math display">\[
 \begin{equation}
@@ -614,7 +623,8 @@ x_n
 \sum_{j\neq 1}w_{nj}(x_n-x_j)\\
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 证明就是暴力展开。可以发现一个x时，对x做线性变换实际上求了x各个元素之间的差异。</p>
+\]</span></p>
+<p>​ 证明就是暴力展开。可以发现一个x时，对x做线性变换实际上求了x各个元素之间的差异。</p>
 <h5 id="性质2-标量输出">性质2 标量输出</h5>
 <p><span class="math display">\[
 \begin{equation}\label{diff2}
@@ -632,7 +642,8 @@ x_i=\left\{
 \end{array}
 \right.
 \end{equation}
-\]</span> ​ 那么<span class="math inline">\(Lx\)</span>实际上就是不同节点之间label的差异，比如两个点为同一个簇，则<span class="math inline">\(Lx\)</span>对应分量为0，否则为一个非0的值（正数）。现在要找一种方式割开这个点集（也就是找一个x），使得两个类之间的联系是最小的。那么实际上，切开两类的割对应的值就是两类之间被丢弃的（割开）类间联系，实际可以对应于<span class="math inline">\(x^TLx\)</span>。在不同的formulation下，<span class="math inline">\(x\)</span>可以有不同形式，但是其意义基本一致：割。</p>
+\]</span></p>
+<p>​ 那么<span class="math inline">\(Lx\)</span>实际上就是不同节点之间label的差异，比如两个点为同一个簇，则<span class="math inline">\(Lx\)</span>对应分量为0，否则为一个非0的值（正数）。现在要找一种方式割开这个点集（也就是找一个x），使得两个类之间的联系是最小的。那么实际上，切开两类的割对应的值就是两类之间被丢弃的（割开）类间联系，实际可以对应于<span class="math inline">\(x^TLx\)</span>。在不同的formulation下，<span class="math inline">\(x\)</span>可以有不同形式，但是其意义基本一致：割。</p>
 <p>​ k=2时，完全可以使用一个向量进行运算（<span class="math inline">\(\pm1\)</span>），而涉及到多类时，可能<span class="math inline">\(x\)</span>就会是一个矩阵了（因为不存在一种赋值方式使得任意两类不同的结点的cost相减是相同的，举个例子：0为A，1为B，2为C，虽然AB，BC之间相差1，但是AC之间差2）。</p>
 <h4 id="二类cut">二类Cut</h4>
 <p>​ k=2聚类直接使用如<span class="math inline">\(\eqref{indicate}\)</span>所定义的向量x即可。</p>
@@ -643,11 +654,13 @@ x_i=\left\{
 \begin{equation}
 x^TLx=(\sum_{i=1}^na_i\pmb{v}_i)^TL(\sum_{i=1}^na_i\pmb{v}_i),\text{ where }\pmb{v}_i\text{ is the eigen vec of }L
 \end{equation}
-\]</span> ​ 由于特征向量的定义，那么上式实际上就等于： <span class="math display">\[
+\]</span></p>
+<p>​ 由于特征向量的定义，那么上式实际上就等于： <span class="math display">\[
 \begin{equation}
 x^TLx=\sum_{i=1}^na_i^2\lambda_i,\text{ where }\lambda_i\text{ is the eigen value of }L
 \end{equation}
-\]</span> ​ <span class="math inline">\(x^TLx\)</span>中的x并非是没有约束的，在二分类问题中，x是正负1的向量，而<span class="math inline">\(\pmb{v}_i\)</span>为归一化之后的特征向量，故<span class="math inline">\(a_i\)</span>的最大值不可能小于<span class="math inline">\(1/\sqrt{n}\)</span>，既然如此，设<span class="math inline">\(\max(a_i)=a_m\)</span>，<span class="math inline">\(a_m\)</span>必然会作用到其中一个特征值上。那么可以发现，如果要求最小的话，显然让<span class="math inline">\(a_m\)</span>作用到最小特征值上就可以让<span class="math inline">\(x^TLx\)</span>等价地最小。那么求第j小也就相当于使用第j小特征值，那么对应的解向量也就是<span class="math inline">\(v_{\text{min jth}}\)</span>。其实特征值最大最小性在之前就已经提过：</p>
+\]</span></p>
+<p>​ <span class="math inline">\(x^TLx\)</span>中的x并非是没有约束的，在二分类问题中，x是正负1的向量，而<span class="math inline">\(\pmb{v}_i\)</span>为归一化之后的特征向量，故<span class="math inline">\(a_i\)</span>的最大值不可能小于<span class="math inline">\(1/\sqrt{n}\)</span>，既然如此，设<span class="math inline">\(\max(a_i)=a_m\)</span>，<span class="math inline">\(a_m\)</span>必然会作用到其中一个特征值上。那么可以发现，如果要求最小的话，显然让<span class="math inline">\(a_m\)</span>作用到最小特征值上就可以让<span class="math inline">\(x^TLx\)</span>等价地最小。那么求第j小也就相当于使用第j小特征值，那么对应的解向量也就是<span class="math inline">\(v_{\text{min jth}}\)</span>。其实特征值最大最小性在之前就已经提过：</p>
 <p>​ 最大化类间方差时，就需要使用到协方差矩阵最大特征值对应的特征向量。而求平面 / 线段的normal时，就需要使用到最小特征值，不过这里的最小特征值可以有两种方法解释，以求线段的法线为例：</p>
 <ul>
 <li>最小二乘得到线段的最优估计过程也就等价得到了法线的最优估计，那么最小二乘问题本身对应着最小特征值 以及其对应的特征向量</li>
@@ -662,7 +675,8 @@ x^TLx=\sum_{i=1}^na_i^2\lambda_i,\text{ where }\lambda_i\text{ is the eigen valu
 0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 这是四个特征向量，已经按照从左到右特征值逐渐减小的顺序排列了。假设我们最终需要得到簇k = 3，那么可以知道需要选择两个最小特征值对应的特征向量进行cut。</p>
+\]</span></p>
+<p>​ 这是四个特征向量，已经按照从左到右特征值逐渐减小的顺序排列了。假设我们最终需要得到簇k = 3，那么可以知道需要选择两个最小特征值对应的特征向量进行cut。</p>
 <ul>
 <li>首先自然选取的是最后一个，这说的意义是：需要把最后一个结点单独割开，其他的结点暂时不管。</li>
 <li>倒数第二个特征向量，两个正数，说明第二，第三个点是同一类的，割为一类。那么最后得到：<span class="math inline">\(\{1,\{2,3\},4\}\)</span></li>
@@ -678,7 +692,8 @@ x^TLx=\sum_{i=1}^na_i^2\lambda_i,\text{ where }\lambda_i\text{ is the eigen valu
 \begin{equation}\label{svd}
 \text{SVD}(\Sigma)=USU^T
 \end{equation}
-\]</span> ​ 直接进行SVD分解，由于<span class="math inline">\(\Sigma\)</span>的对称性，可以得到如公式<span class="math inline">\(\eqref{svd}\)</span>所示的分解式，其中S是对角矩阵。如果说其他矩阵的分解结果没有那么直观的物理意义的话，PCA则完全不一样。对协方差的矩阵分解有非常清晰的物理意义：<span class="math inline">\(S\)</span>是“标准”的协方差，也就是在没有经过旋转的方差。可以给一个简单的高斯函数的例子。</p>
+\]</span></p>
+<p>​ 直接进行SVD分解，由于<span class="math inline">\(\Sigma\)</span>的对称性，可以得到如公式<span class="math inline">\(\eqref{svd}\)</span>所示的分解式，其中S是对角矩阵。如果说其他矩阵的分解结果没有那么直观的物理意义的话，PCA则完全不一样。对协方差的矩阵分解有非常清晰的物理意义：<span class="math inline">\(S\)</span>是“标准”的协方差，也就是在没有经过旋转的方差。可以给一个简单的高斯函数的例子。</p>
 <p><img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/gauss.JPG"></p>
 <center>
 Figure 4. 独立情况下的协方差与一般协方差 高斯
@@ -693,11 +708,43 @@ Figure 4. 独立情况下的协方差与一般协方差 高斯
 &amp;\text{max } \mathbb E((z_1-z_2)^2)=\mathbb E(F^T(\pmb{x}_1-\pmb{x}_2)(\pmb{x}_1-\pmb{x}_2)^TF)\label{obj}\\
 &amp;\text{s.t. }\Vert F\Vert=1
 \end{align}
-\]</span> ​ 由于F是确定性的变换，所以实际只需要对内部的<span class="math inline">\((\pmb{x}_1-\pmb{x}_2)((\pmb{x}_1-\pmb{x}_2))^T\)</span>进行期望求取即可，可知这个实际上就是协方差矩阵<span class="math inline">\(\Sigma\)</span>。那么公式<span class="math inline">\(\eqref{obj}\)</span>实际上变成了下式（注意F有约束） <span class="math display">\[
+\]</span></p>
+<p>​ 由于F是确定性的变换，所以实际只需要对内部的<span class="math inline">\((\pmb{x}_1-\pmb{x}_2)((\pmb{x}_1-\pmb{x}_2))^T\)</span>进行期望求取即可，可知这个实际上就是协方差矩阵<span class="math inline">\(\Sigma\)</span>。那么公式<span class="math inline">\(\eqref{obj}\)</span>实际上变成了下式（注意F有约束） <span class="math display">\[
 \begin{equation}
 \text{max } \mathbb{E}(F^T\Sigma F)
 \end{equation}
-\]</span> ​ 也就是求这个二次型（标量结果）的最大。由特征向量构成等价线性空间基的性质以及特征值存在一定取值范围，可知差异最大就是要选取最大的特征值。也就是说，选取前k个最大的特征值是完全能够保证新特征在特征空间下，样本间两两差异的期望最大。</p>
+\]</span></p>
+<p>​ 也就是求这个二次型（标量结果）的最大。由特征向量构成等价线性空间基的性质以及特征值存在一定取值范围，可知差异最大就是要选取最大的特征值。也就是说，选取前k个最大的特征值是完全能够保证新特征在特征空间下，样本间两两差异的期望最大。</p>
+<p>​ 啊，其实这个解释多么接近正确答案啊。我在4.17晚上复习LDA的时候，突然想到了如何正确地从数学角度而非直观角度解释为什么需要选择最大特征值对应的特征向量。LDA中（可见于博文<a href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/">[线性/树型分类器的纯理论分析]</a>），LDA巧妙变换了类间方差和类内方差的表示形式。而PCA中，实际上也是相求方差最大！并且还是<strong><u>类内方差</u></strong>，因为我们希望降维后的数据能够有最好的区分度，保留的信息量最大，也就对应着方差最大，个体差异大代表了丰富性。假设降维到1维，也即需要寻找一个线性组合向量<span class="math inline">\(w_{k\times 1}\)</span>，使得投影后（线性组合后）的特征向量<span class="math inline">\(y=w^T\pmb{x}_{k\times 1}\)</span>方差最大，也即： <span class="math display">\[
+\begin{equation}\label{max2}
+\text{max }\sum^{n}(y_i-\overline y)^2\rightarrow \text{max }\sum^{n}(w^T\pmb{x}_i-w^T\overline {\pmb{x}})^2
+\end{equation}
+\]</span></p>
+<p>​ 那么把非随机变量<span class="math inline">\(w\)</span>提出来有： <span class="math display">\[
+\begin{align}
+\label{max3}
+&amp;\text{max }\sum^{n}(y_i-\overline y)^2\rightarrow \text{max }\sum^{n}w^T(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^Tw\rightarrow \\
+&amp;\text{max }w^T\sum^{n}(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^Tw
+\end{align}
+\]</span></p>
+<p>​ 像LDA一样，把<span class="math inline">\(\sum^{n}(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^T\)</span>设为类内散度矩阵<span class="math inline">\(S_w\)</span>，其意义就是对原空间下方差的一种度量。这样我们可以求<span class="math inline">\(\eqref{max3}\)</span>定义的最大化问题了，但是还有个小小的问题：<span class="math inline">\(w\)</span>的模长可以无限大，导致<span class="math inline">\(\eqref{max3}\)</span>无限大。那么我们只需要限定<span class="math inline">\(w\)</span>是单位向量，模长为1即可（实际上，这恰好符合之后矩阵分解<span class="math inline">\(w\)</span>为特征向量的特性）： <span class="math display">\[
+\begin{equation}\label{max4}
+\text{max }w^TS_bw\\
+\text{s.t. } \Vert w\Vert=1
+\end{equation}
+\]</span></p>
+<p>​ 则根据Lagrange乘子，可以写为： <span class="math display">\[
+\begin{equation}\label{lag}
+\text{max }w^TS_bw - \lambda (w^Tw-1)\\
+\end{equation}
+\]</span></p>
+<p>​ KKT条件，对<span class="math inline">\(w\)</span>求导，使用分子布局（结果转置，那分子布局和分母布局没有什么不同）： <span class="math display">\[
+\begin{equation}\label{res}
+S_bw=\lambda w
+\end{equation}
+\]</span></p>
+<p>​ 也就是说，<span class="math inline">\(w\)</span>为一个特征向量（我们的线性组合是个特征向量，<span class="math inline">\(S_b\)</span>的特征向量，<strong><u><span class="math inline">\(S_b\)</span>恰好是原来样本的协方差矩阵</u></strong>）。而根据<span class="math inline">\(\eqref{res}\)</span>，等式左右左乘以<span class="math inline">\(w^T\)</span>，得到：<span class="math inline">\(w^TS_bw=\lambda w^Tw\)</span>，根据<span class="math inline">\(w^Tw=1\)</span>，可知，<span class="math inline">\(w^TS_bw=\lambda\)</span>。又由于需要让<span class="math inline">\(w^TS_bw\)</span>最大，那么<span class="math inline">\(\lambda\)</span>作为特征值需要选择最大的。在多维的情况下，最大的被选走了，就按照特征值大小排序，依次选取次大的特征值对应的特征向量即可。</p>
+<p>​ 这样就可以明白，为什么PCA要选择最大的特征值对应的特征向量作为降维组合方式了。很可惜的是，在<span class="math inline">\(\eqref{obj}\)</span>式分析时，并没有这样去思考，但是原来的想法已经非常接近这个我认为最有解释力的答案了。</p>
 
     </div>
 
