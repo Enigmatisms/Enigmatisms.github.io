@@ -114,8 +114,8 @@
         <category>learning</category>
       </categories>
       <tags>
-        <tag>DL</tag>
         <tag>knowings</tag>
+        <tag>DL</tag>
       </tags>
   </entry>
   <entry>
@@ -1045,8 +1045,8 @@ L=1-\int_{R_1}p(x|w_1)dx+\lambda\left( \int_{R_1}p(x|w_2)dx-\epsilon_0 \right) =
       </categories>
       <tags>
         <tag>knowings</tag>
-        <tag>ML</tag>
         <tag>概率论</tag>
+        <tag>ML</tag>
       </tags>
   </entry>
   <entry>
@@ -1305,8 +1305,8 @@ Gini(D)=\sum_{i=1}^{|\mathcal Y|}p_i\sum_{k\neq i}p_k=1-\sum_{k=1}^{|\mathcal Y|
       </categories>
       <tags>
         <tag>knowings</tag>
-        <tag>ML</tag>
         <tag>概率论</tag>
+        <tag>ML</tag>
       </tags>
   </entry>
   <entry>
@@ -1840,8 +1840,8 @@ A=
         <category>learning</category>
       </categories>
       <tags>
-        <tag>DL</tag>
         <tag>knowings</tag>
+        <tag>DL</tag>
       </tags>
   </entry>
   <entry>
@@ -2306,8 +2306,8 @@ x\mathop{\rightarrow}^F F(x)\rightarrow x&#39;,y=x+x&#39;
         <category>learning</category>
       </categories>
       <tags>
-        <tag>DL</tag>
         <tag>knowings</tag>
+        <tag>DL</tag>
       </tags>
   </entry>
   <entry>
@@ -3115,8 +3115,8 @@ f:D \subset \mathbb R^n\rightarrow \mathbb R,\;\exists K,\;|f(a)-f(b)|\leq K|a-b
         <category>learning</category>
       </categories>
       <tags>
-        <tag>DL</tag>
         <tag>knowings</tag>
+        <tag>DL</tag>
       </tags>
   </entry>
   <entry>

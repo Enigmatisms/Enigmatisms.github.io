@@ -1,6 +1,8 @@
 /* global CONFIG */
 
+
 document.addEventListener('DOMContentLoaded', () => {
+  
 
   const isRight = CONFIG.sidebar.position === 'right';
   const mousePos = {};
