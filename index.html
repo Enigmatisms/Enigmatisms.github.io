@@ -140,7 +140,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">10</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">11</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">3</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">16</span></a></li>
       <li class="menu-item menu-item-search">
@@ -227,7 +227,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -339,6 +339,106 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/" class="post-title-link" itemprop="url">滤波＆卡尔曼</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-31 00:48:14" itemprop="dateCreated datePublished" datetime="2021-05-31T00:48:14+08:00">2021-05-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-06-17 19:59:50" itemprop="dateModified" datetime="2021-06-17T19:59:50+08:00">2021-06-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="filtering-kalman">Filtering &amp; Kalman</h1>
+<hr>
+<h2 id="i.-引入">I. 引入</h2>
+<p>​ 2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。</p>
+<p><img src="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/disp-1622393689154.png"></p>
+<center>
+Figure 1. 单方向ARKF滤波预测
+</center>
+<p>​ 本文是对近段时间使用的滤波方法进行的一个比较肤浅的总结，包括：</p>
+<ul>
+<li>ARKF（自适应抗差KF）</li>
+<li>MEE &amp; CMEE（约束最小误差熵KF）</li>
+<li>ESKF（Error State KF）</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -777,87 +877,6 @@ Figure 1. 2D-2D单应匹配
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/03/07/%E5%8D%A1%E5%B0%94%E6%9B%BC%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%AE%9E%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/07/%E5%8D%A1%E5%B0%94%E6%9B%BC%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">卡尔曼进阶与粒子滤波实现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2021-03-07 13:29:58 / Modified: 13:30:05" itemprop="dateCreated datePublished" datetime="2021-03-07T13:29:58+08:00">2021-03-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><center> 还在路上... </center></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/07/%E5%8D%A1%E5%B0%94%E6%9B%BC%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%AE%9E%E7%8E%B0/">
                 Read more &raquo;
               </a>
             </div>
