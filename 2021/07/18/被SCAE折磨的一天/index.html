@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+
+<meta name="description" content="SCAE  I. Intros ​ 在复现完CapsNet第一版之后，想复现这篇论文（第三版CapsNet：Stacked Capsule Autoencoders, Adam R. Kosiorek, et al.）。复现的基础是看懂，理解其意义。本篇博客为我读这篇论文时的一些思考，其中当然还有些(很多)不够透彻的地方。要是完全透彻了我估计就可以直接动手复现了。   Figure 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被SCAE折磨的一天">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="SCAE  I. Intros ​ 在复现完CapsNet第一版之后，想复现这篇论文（第三版CapsNet：Stacked Capsule Autoencoders, Adam R. Kosiorek, et al.）。复现的基础是看懂，理解其意义。本篇博客为我读这篇论文时的一些思考，其中当然还有些(很多)不够透彻的地方。要是完全透彻了我估计就可以直接动手复现了。   Figure 1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/2.PNG">
+<meta property="article:published_time" content="2021-07-18T09:39:14.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:59:57.130Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/2.PNG">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>被SCAE折磨的一天 | Event Horizon</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Event Horizon</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">12</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">19</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#scae"><span class="nav-number">1.</span> <span class="nav-text">SCAE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-number">1.1.</span> <span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-ccae"><span class="nav-number">1.2.</span> <span class="nav-text">II. CCAE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ccae%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 CCAE结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ccae-mle"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 CCAE &amp; MLE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii-pcae"><span class="nav-number">1.3.</span> <span class="nav-text">III PCAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-ocae"><span class="nav-number">1.4.</span> <span class="nav-text">IV. OCAE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ocae%E4%BD%9C%E7%94%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 OCAE作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ocae-ccae-%E8%81%94%E7%B3%BB%E8%B0%88"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 OCAE &#x2F; CCAE 联系谈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ocae%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 OCAE的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-sparse-regularization"><span class="nav-number">1.5.</span> <span class="nav-text">V. Sparse Regularization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#todos"><span class="nav-number">1.6.</span> <span class="nav-text">TODOs</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          被SCAE折磨的一天
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-07-18 17:39:14 / Modified: 17:59:57" itemprop="dateCreated datePublished" datetime="2021-07-18T17:39:14+08:00">2021-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="scae">SCAE</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ 在复现完CapsNet第一版之后，想复现这篇论文（第三版CapsNet：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.06818"><em>Stacked Capsule Autoencoders, Adam R. Kosiorek, et al.</em></a>）。复现的基础是看懂，理解其意义。本篇博客为我读这篇论文时的一些思考，其中当然还有些(很多)不够透彻的地方。要是完全透彻了我估计就可以直接动手复现了。</p>
+<p><img src="/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/2.PNG"></p>
+<center>
+Figure 1.Stacked Capsule Autoencoders网络结构图
+</center>
+<a id="more"></a>
+<hr>
+<h2 id="ii.-ccae">II. CCAE</h2>
+<h3 id="ccae结构">2.1 CCAE结构</h3>
+<p>​ 很顶啊，CCAE上来就使用Set Transformer进行了特征学习，变形金刚牛逼：</p>
+<ul>
+<li>输入一堆n维向量，输出是一堆object capsules（k个）。这个capsules包含：
+<ul>
+<li>object—viewer 3 * 3图像仿射变换（9）</li>
+<li>feature向量（未知）</li>
+<li>此capsule表示的物体是否存在的概率（1）</li>
+<li><strong><u>此部分为Transformer输入输出，n输入-&gt;k胶囊输出</u></strong></li>
+</ul></li>
+<li>每个胶囊都会进行内部的MLP，这个MLP将利用自己的特征向量（比如自己是<span class="math inline">\(\pmb{c}_k\)</span>）去推测，N个候选的part（这个part就是物体部件）的相关信息:
+<ul>
+<li>此后的MLP学习的是：部件 / 物体的变换，而已经学到的有：物体 / 观测者（也就是部件在图像上的pose），那么部件 / 观测者的位姿变换也就有了。</li>
+<li>学习条件概率（<strong><u>这个涉及到CCAE高斯混合体的理解</u></strong>），<span class="math inline">\(a_{k, n}\)</span></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+a_{k, n}=P(p_n|cap_k)
+\end{equation}
+\]</span></p>
+<p>​ 也即，一个object capsule k存在时，部件n存在的概率。而之前在Set transformer实际上学习了，cap k存在的概率，那么实际上结合起来就可以得到联合概率。</p>
+<p>​ 我感觉这里做了一个很妙的最大后验估计操作，理解一下：</p>
+<ul>
+<li>使用高斯混合模型，那么其中的高斯分布参数：均值是原有高斯分布均值经过OV,OP位姿变换得到的，而协方差已经经过MLP学习到了。我们可以通过均值和协方差写出：</li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+p(\pmb{x}_m|k,n)=N(\pmb{x}_m|\mu_{k,n},\lambda_{k,n})
+\end{equation}
+\]</span></p>
+<p>​ 结合这个高斯混合 + 极大似然的意义，我们再来理解一下均值和方差以及其对应下标的意义。</p>
+<h3 id="ccae-mle">2.2 CCAE &amp; MLE</h3>
+<p>​ 对于论文中的公式(5): <span class="math display">\[
+\begin{equation}
+p(\mathbf{x}_{1:M})=\prod_{m=1}^M\sum_{k=1}^K \sum_{n=1}^{N} \frac{a_ka_{k,n}} {\sum_i\left(a_i\sum_ja_{i,j}\right)} p(\mathbf{x}_m|k,n)
+\end{equation}
+\]</span> ​ 个人的理解是，对于给定的一张图像：</p>
+<ul>
+<li>一方面，我们可以通过Set Transformer 求出k个object capsules，再由这学习到的k个capsule组成n个物体部件，也就是学习一些隐含信息</li>
+<li>另一方面，我们可以根据隐含信息重构物体，我们认为物体是由抽象的几个部件组成的，部件的生成与object capsules也有一定关系。那么部件以及object capsules产生的贡献可以被写为 <span class="math inline">\(p(\pmb{x}_m|k,n)\)</span>，换句话说，就是：我从图像（训练集）上学习出object capsule给定为k且存在部件为n的情况下，为目标<span class="math inline">\(\pmb{x}_m\)</span>的概率。</li>
+</ul>
+<p>​ 训练集可以看作是样本总体分布的抽样，那么在根据样本进行学习时，可以使用极大似然估计的方法：<strong><u>使得抽样（训练集）出现的概率最大</u></strong>，也就是： <span class="math display">\[
+\begin{equation}
+\max P(X)=\max\prod_{i=1}^nP(\pmb{x}_i)
+\end{equation}
+\]</span> ​ 在这里<span class="math inline">\(p(\pmb{x}_m|k,n)\)</span>只是条件概率，我们需要去掉条件部分，所以需要根据之前Set Transformer以及MLP的输出，可以得到： <span class="math display">\[
+\begin{equation}
+\frac{a_ka_{k,n}}{\sum_i\left(a_i\sum_ja_{i,j}\right)}=\frac{p(k,n)}{\sum_i\sum_jp(i,j)}=p(k,n)
+\end{equation}
+\]</span> ​ 那么公式5很容易从左边转化为右边。而左边和右边相等的意义是？</p>
+<ul>
+<li>左式是我们的目标函数（极大似然估计需要最大化的联合概率分布，由于训练集是独立同分布的）</li>
+<li>右式是由特征提取 / 训练 的输出构成的：
+<ul>
+<li><span class="math inline">\(p(\pmb{x}_m|k,n)\)</span>是高斯混合体，高斯分布的参数一方面由Set Transformer的OV / MLP的OP对原均值进行线性变换组成，另一方面则是MLP直接输出的方差值。GM模型可以是多个高斯混合在一起形成的，所以其参数很多。</li>
+<li><span class="math inline">\(a_k,a_{k,n}\)</span>是由Set Transformer / MLP分别输出的。</li>
+</ul></li>
+<li>那么右式由于是网络输出的结果，是存在网络参数的，可以对输出进行一定的loss变换之后，对其求导以调整网络参数。</li>
+</ul>
+<p>​ part capsules是什么？输入的原始数据向量就是part capsule，但是为什么叫part capsule？可能在后续的论文中会提到，下面第一次提到 part capsules，但是貌似是由别的东西来“替代”真正的 part capsules 来进行说明：</p>
+<div class="note info"><p>All input points (which take the role of part capsules).</p>
+</div>
+<hr>
+<h2 id="iii-pcae">III PCAE</h2>
+<p>​ PCAE用于获得part templates，也就是学习模板。比如说：</p>
+<ul>
+<li>我们先通过encoder（结构是CNN特征提取 + Attention Pooling，所以Attention思想你还是得王权搞明白啊）从图像中学习一些表征（part capsule）出来：
+<ul>
+<li>pose，比如旋转 / 缩放 / 斜切 / 平移，出现的概率，特征向量（<strong><u>独特属性</u></strong>）</li>
+<li>特征向量可以用于推测模板的颜色等等抽象信息（MLP），比如从特征向量中，直接获得模板输出的三通道强度（也就是模板图像本身的值）</li>
+<li>得到模板之后，通过pose进行仿射变换</li>
+<li>注意模板本身会携带一个alpha通道，相当于我们搞PS的时候，为了使图抹更加真实，调整画笔透明度，允许不同的templates叠在一起。</li>
+<li>图像上每一点的输出，实际上都是不同的part按照概率 + alpha通道结合得到的（相当于一个decoder操作），使之与原图接近，或者可以说成是：对原图的极大似然估计。</li>
+</ul></li>
+</ul>
+<p>​ 那么一套流程下来，实际上我们要得到是一个可以生成part capsule的auto encoder，之后的decoder层个人认为：只是用于计算loss或者产生一个part capsule生成好坏的evaluation方法。以上的文字叙述部分已经把PCAE的思想概括了一下，这是个人开始的理解，其中存在一些偏差：</p>
+<div class="note warning"><p>此论文中的Template不是学出来的？使用的是Fixed templates？（4通道）</p>
+</div>
+<p>​ 就是说我对现有的part templates，学习变换（pose），独有特征（比如MLP输出颜色），出现概率。虽然我感觉论文的这三句话有点冲突：</p>
+<blockquote>
+<p>I. while the decoder <strong><u>learns an image template</u></strong> <span class="math inline">\(T_m\)</span> for each part</p>
+<ol start="2" type="I">
+<li><p>SCAE under-performs on CIFAR10, which could be because of using <strong><u>fixed templates</u></strong>, which are not expressive enough to model real data</p></li>
+<li><p>Training the PCAE results in <strong><u>learning templates</u></strong> for object parts</p></li>
+</ol>
+</blockquote>
+<p>​ 所以开始时<strong><u>晕了</u></strong>，到底是学出来的还是给定的？个人感觉学出来的templates肯定是更加不错的（只要学得好就行，作者自己也承认）。</p>
+<hr>
+<h2 id="iv.-ocae">IV. OCAE</h2>
+<h3 id="ocae作用">4.1 OCAE作用</h3>
+<p>​ OCAE：通过已经学习到的part capsule去组成object（这个和PCAE的decoder区别在哪？）。OCAE与之前的CCAE很类似，但是它受到了来自part capsule的概率影响：</p>
+<p>​ OCAE与CCAE结构类似，也存在Set Transformer的encoder，那么part capsules输出的概率会影响encoder，使得Transformer忽略一些没有出现的输入（或者说part）。part capsules输出的概率会使得log likelihood（在MLE过程中）进行幂加权，使得概率小者造成的影响小</p>
+<p>​ 个人感觉，由于OCAE结构上很类似CCAE，CCAE的输入是简单的星星点，那么OCAE应该是CCAE的一般化：</p>
+<blockquote>
+<p>We first encode all input points (which take the role of part capsules)</p>
+</blockquote>
+<p>​ 所以这里说的就是这个意思，CCAE是：</p>
+<ul>
+<li>输入是简单点而非part capsules的OCAE</li>
+<li>一些part capsule 概率加权不存在的OCAE</li>
+</ul>
+<p>​ CCAE最后求出了part capsule的似然（作为MLE的优化目标），而PCAE自己也有关于自己生成的part capsule的似然。</p>
+<h3 id="ocae-ccae-联系谈">4.2 OCAE / CCAE 联系谈</h3>
+<p>​ CCAE部分，作者已经说了，CCAE的输入是简单的星座点。而一般化的OCAE，输入是上层PCAE的part capsule输出：</p>
+<blockquote>
+<p>In the <strong><u>first stage</u></strong>, the model predicts presences and poses of part templates directly from the image and tries to reconstruct the image by appropriately arranging the templates. In the <strong><u>second stage</u></strong>, SCAE predicts parameters of a few object capsules, which are then used to reconstruct part poses. ---<em>From Abstract</em></p>
+</blockquote>
+<p>​ 个人的理解就是：PCAE为first stage，其目的是得到templates，学习templates的目标函数通过<em>"reconstruct the image"</em>来完成。OCAE就是接收stage I输出的second stage，通过学习object又来反推part pose？</p>
+<p>​ <strong><u>所以明确目的是多么重要！</u></strong>PCAE并没有得到用于MLE的log likelihood，论文中的公式(9),(10)都是为了构建PCAE的loss（重构图像的重构loss），可以这么说：</p>
+<ul>
+<li>一个普通的CNN分类网络，其输出结构可以用于直接计算loss，我们使用的也就是其输出结果</li>
+<li>而PCAE，输出结果需要经过一定变换（reconstructed image），才能用于构建loss，而用于构建loss的部分，并不是我们使用的那部分。PCAE的目的是获得一个好的image template。</li>
+<li>之前的部分已经说过了，CCAE（特殊化的OCAE）：
+<ul>
+<li>首先经过Set Transformer学习K个object capsules。</li>
+<li>每个object capsule都会使用MLP（M个MLP），学出组成这个object的M个part，但这个学习过程不涉及到具体的part capsule输出，输出的是：OP，条件概率以及协方差，用于获得GMM的分布</li>
+</ul></li>
+</ul>
+<h3 id="ocae的作用">4.3 OCAE的作用</h3>
+<p>​ 为什么OCAE又要重构part？它具体重构了part的什么部分？达到了什么效果？这是本篇论文的一个重点问题，作者在一行脚注里这么说：</p>
+<blockquote>
+<p>Discovered objects are <em>not</em> used top-down to refine the presences or poses of the parts during inference. However, the derivatives backpropagated via OCAE <strong><u>refine the lower-level encoder</u></strong> network that infers the parts.</p>
+</blockquote>
+<p>​ 可能可以这么理解：</p>
+<ul>
+<li>PCAE学出来的part capsules，需要经过检验。这样的part组成object到底合不合适？这种合适度通过likelihood来衡量。</li>
+<li>如果说，part capsules直接重建图像，是一种直接的具体的metrics，OCAE对应的likelihood就是抽象的metrics。如果要用极大似然的思想来解释：</li>
+</ul>
+<blockquote>
+<p>It learns to discover <strong><u>further structure</u></strong> in previously identified parts.</p>
+</blockquote>
+<p>​ 此处的衡量metrics是part likelihood，是通过：</p>
+<ul>
+<li>与object capsules有关的一个条件概率分布（比如CCAE中的高斯混合分布），与object学习过程中的其他概率组成，相当于是：MLE在优化的过程中，只优化<span class="math inline">\(p(x|\theta)\)</span>的参数<span class="math inline">\(\theta\)</span>部分，而此处由BP，会将MLE的“抽样”<span class="math inline">\(x\)</span>一起进行优化，使得<span class="math inline">\(p(x|\theta)\)</span>最大。</li>
+<li>虽然我感觉这样就不是MLE了，但可能可以这么理解吧：我学习的分布，参数是<span class="math inline">\(\theta\)</span>，已经能很好地表示真实情况（总体分布）了，考虑到我如此强而输入有一定噪声，那输入也进行一定的修改吧，因为学到的分布觉得你的输入有些问题。这MLE可以说是很另类的了。</li>
+<li>所以总结起来就是：通过一层抽象的学习，MLE同时优化object capsule生成网络参数（<span class="math inline">\(\theta\)</span>）也反过来优化输入（输入就是part capsules）</li>
+</ul>
+<hr>
+<h2 id="v.-sparse-regularization">V. Sparse Regularization</h2>
+<p>​ 论文中说，直接使用Capsules结构，容易导致：</p>
+<ul>
+<li>object capsules滥用，导致难以训练 + 模型描述力下降（显然，有些object不存在于一些图片中，但是还要用对应object强行解释，这是不行的）
+<ul>
+<li>与之相对的，我们希望每个图像能有特定的少量object capsules（以及相应的part capsules）来描述</li>
+</ul></li>
+<li>mode collapse，只使用特定的一些object，发生过拟合。
+<ul>
+<li>与之相对的，我们希望对于整个训练集，object capsules尽量都能用上（否则相当于是出现了训练集label分布不均的情况）</li>
+</ul></li>
+</ul>
+<p>​ 那么，作者设计了两个正则化项，用<strong><u>期望</u></strong>的思想很好理解了：</p>
+<ul>
+<li><span class="math inline">\(\bar{u}_k\)</span>是第k个object capsule的出现概率总和（对不同的样本）：</li>
+</ul>
+<p><span class="math display">\[
+\begin{align}
+&amp; \bar{u}_k=\sum_{b=1}^M a_{b,k}^{\text{prior}} \label{uni_b}\\
+&amp; \bar{u}_b=\sum_{k=1}^K a_{b,k}^{\text{prior}} \label{uni_k}\\
+\end{align}
+\]</span></p>
+<p>​ 则我们希望，不同的类别能用上尽可能一样数量的object capsules，假设有C类，K个object capsules，那么每一类可以用：<span class="math inline">\(K/C\)</span>个capsules来描述。而由于对于K个capsules，每个出现的概率是<span class="math inline">\(a_k^{\text{prior}}\)</span>，每一个capsule出现的期望（因为是两点分布）就是概率本身，那么根据期望的运算，一个minibatch内B个训练用例，期望capsule数量应该是公式<span class="math inline">\(\eqref{uni_b}\)</span>。则我们令<span class="math inline">\(\bar{u}_k\leftrightarrow K/C\)</span>两者足够接近即可。</p>
+<p>​ 另一方面，我们希望：每个用例能仅用部分object capsules来描述。假设总体不同class均匀分布，那么一个minibatch内部，每个类别有<span class="math inline">\(B/C\)</span>类，那么每个用例object capsules的期望实际上就是公式<span class="math inline">\(\eqref{uni_k}\)</span>定义的概率和，那么可以得到论文中的第一个稀疏性先验。</p>
+<p>​ 后验稀疏性很好理解，可以认为是LDA思想：类内熵最小化，类间熵最大化（也即类内的后验分布趋于一致，类间趋于不同）。</p>
+<hr>
+<h2 id="todos">TODOs</h2>
+<p>​ 本论文看第一遍之后，感觉实现部分很模糊，论文图6感觉好像也非常粗略，前面的Attention机制也没有特别体现（只在Part Capsules到Object Capsule时有），但是前面所说的 Part Capsules特征提取部分应该也包括了Attention-based pooling。梯度阻断机制也让我觉得有点奇怪，templates方面也有相关问题没理解。那么在过段时间重读这篇论文时，希望能够在这几个问题上得到更好的理解：</p>
+<details class="note primary"><summary><p>需要进一步理解的问题们：</p>
+</summary>
+<ul>
+<li><p>Attention都在什么地方使用到了？为什么schematic图中看起来只有一处？</p>
+<ul>
+<li>个人认为只是没写出来罢了，只要是capsule autoencoders就逃不开attention机制，内部会有一个类似CCAE的（attention + MLP）实现，当然对于part capsules来说，可能更加复杂。</li>
+</ul></li>
+<li><p>Capsule在schematic图里面是输出还是网络层？个人的感觉应该是网络层，Part Capsule之上还stack了很多个Object Capsules，但是具体结构为何？</p></li>
+<li><p>Templates为什么没有来自CNN或者Part Capsules的梯度流？</p>
+<ul>
+<li>个人感觉：Transformed templates可以组成图像，而由于capsules携带transformation信息，templates应该可以直接去transform得到，但是为何templates到 tf templates也有梯度？</li>
+<li>既然Templates被标注为Trainable variables，为什么说templates是fixed的？</li>
+<li>Template的color是学出来的，而color可以被认为是三通道的图像，那么templates在图像上的值不也就是学出来的了吗？</li>
+</ul></li>
+<li><p>Fixed Object-Part Relations是什么？在哪里起作用？</p></li>
+<li><p>PCAE / OCAE的作用，虽然现在感觉自己懂了，但是总有种说不上来的“不透彻感”。</p></li>
+</ul>
+
+</details>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/" title="被SCAE折磨的一天">https://enigmatisms.github.io/2021/07/18/被SCAE折磨的一天/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/" rel="prev" title="Dynamic Routing Between Capsules 复现">
+                  <i class="fa fa-chevron-left"></i> Dynamic Routing Between Capsules 复现
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+<script>
+if (document.querySelectorAll('.pdf-container').length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/pdfobject@2.2.4/pdfobject.min.js', () => {
+    document.querySelectorAll('.pdf-container').forEach(element => {
+      PDFObject.embed(element.dataset.target, element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height   : element.dataset.height
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+<script>
+if (document.querySelectorAll('.mermaid').length) {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/mermaid@8.8.4/dist/mermaid.min.js', () => {
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'all'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "Enigmatisms/Enigmatisms.github.io");
+  script.setAttribute('issue-term', "pathname");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+</body>
+</html>
