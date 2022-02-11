@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）">
+<meta property="og:type" content="website">
+<meta property="og:title" content="概率图模型">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-10T02:33:59.000Z">
+<meta property="article:modified_time" content="2021-11-14T16:51:41.365Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/","path":"2021/11/10/概率图模型/","title":"概率图模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>概率图模型 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#crf-mrf"><span class="nav-text">CRF &amp; MRF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-introduction"><span class="nav-text">I. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-dgm"><span class="nav-text">II. DGM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dgm-%E4%B8%AD%E4%B8%89%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%BB%93%E6%9E%84%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">2.1 DGM 中三种典型结构的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%80-tail-to-tail-%E5%8D%95%E7%88%B6%E5%A4%9A%E5%AD%90"><span class="nav-text">2.1.1 结构一 Tail to Tail (单父，多子)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BA%8C-head-to-tail-%E5%85%B8%E5%9E%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB"><span class="nav-text">2.1.2 结构二 Head to Tail （典型的因果关系）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%89-head-to-head-%E6%B1%87%E7%82%B9"><span class="nav-text">2.1.3 结构三 Head to Head （汇点）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E4%B8%8E%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE"><span class="nav-text">2.2 条件独立与马尔可夫链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90%E7%90%86%E8%A7%A3dgm-%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3 使用例子理解DGM &#x2F; 马尔可夫毯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3.1 马尔可夫毯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dgm%E5%88%B0%E5%BA%95%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="nav-text">2.3.2 DGM到底能干什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E7%9A%84%E6%A6%82%E7%8E%87%E8%A1%A8%E7%A4%BA"><span class="nav-text">2.3.3 有向图的概率表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E6%97%A0%E5%90%91%E5%9B%BE%E6%A8%A1%E5%9E%8Bugm"><span class="nav-text">III. 无向图模型（UGM）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A2%E5%9D%97clique%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">3.2 团块（Clique）的概念</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          概率图模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-10 10:33:59" itemprop="dateCreated datePublished" datetime="2021-11-10T10:33:59+08:00">2021-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-11-15 00:51:41" itemprop="dateModified" datetime="2021-11-15T00:51:41+08:00">2021-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="crf-mrf">CRF &amp; MRF</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 本文是早期被挂在<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus">Github🔗: Enigmatisms/Algorithm Plus</a>上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。</p>
+<p>​ 可能我最近还是要重新学一下概率图模型:</p>
+<blockquote>
+<p>一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解</p>
+</blockquote>
+<p>​ 之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-dgm">II. DGM</h2>
+<h3 id="dgm-中三种典型结构的理解">2.1 DGM 中三种典型结构的理解</h3>
+<p>​ DGM(Directed Graph Model)。又叫贝叶斯网络。</p>
+<pre class="mermaid">
+graph LR
+
+A[A Intelligence]--&gt;B[B GPA]
+A--&gt;C[C Innovative prop.]
+
+</pre>
+<h4 id="结构一-tail-to-tail-单父多子">2.1.1 结构一 Tail to Tail (单父，多子)</h4>
+<ul>
+<li>当观测到A，B与C之间独立（不存在关系，<strong><u>没有可以有信息推断</u></strong>）</li>
+<li>没有观测到A，B，C之前可以有隐含的关系，不独立</li>
+</ul>
+<p>举个例子：</p>
+<ul>
+<li>A智力，B成绩，C创新力。当不知道A时，我们可以隐含地推定，当一个人成绩高，说明他创新能力高的概率很大（概率推断），反之亦然</li>
+<li>而如果GPA，创新力只受到智力一个因素的影响时，已知A，那么GPA和创新力就毫无关系了。因为这两个因素B,C已经确定了，再进行概率推断已经没有意义了（信息量为0）.<strong><u>如果这个例子不好理解，那么还有一个例子：</u></strong></li>
+<li>A 今天下雨，B明天下雨，C今天地面湿。其中，A（下雨）有80%可能导致积水（C），20%可能导致不积水（<span class="math inline">\(\overline C\)</span>），50%下雨（B）。那么A未知时，地面湿时（假设C发生），可以反推A是否发生，再反推B是否发生，反过来也一样。</li>
+<li>但是如果A发生了，那么C与B只与A当前事实有关，<strong><u>已经不会受到来自B或者C的推断影响了！（影响消除）</u></strong>。</li>
+<li>A的观测会导致B,C的相互独立（信息的互不影响性）</li>
+</ul>
+<h4 id="结构二-head-to-tail-典型的因果关系">2.1.2 结构二 Head to Tail （典型的因果关系）</h4>
+<pre class="mermaid">
+graph LR
+
+A[A Diffculty]--&gt;B[B Grade]
+B--&gt;C[C Recommendation]
+
+</pre>
+<p>B为关键结点。当：</p>
+<ul>
+<li>B没有被观测，A和C是可以有推断关系（信息关联性）的，不独立</li>
+<li>B被观测：A与C独立，A已经不影响C的发生了</li>
+</ul>
+<p><strong><u>可以用马尔可夫链的想法来理解！</u></strong>历史事件的无后效性！当 当前不确定时，<strong>由于历史状态可以确定当前状态</strong>，那么相当于历史可以影响未来（下一状态）。而当前状态已知的话，历史信息已经不起作用力，下一状态完全由当前状态决定。</p>
+<p>例子：</p>
+<ul>
+<li>不知道成绩的情况下，如果考试的难度大，那么每个人在考好的情况下获得推荐的概率都大。</li>
+<li>但是知道了成绩的话，收益就和风险没关系了。你考得好就能获得推荐，考不好就不行。</li>
+</ul>
+<h4 id="结构三-head-to-head-汇点">2.1.3 结构三 Head to Head （汇点）</h4>
+<pre class="mermaid">
+graph LR
+
+A[A Difficulty]--&gt;C[C Grade]
+B[B Intelligence]--&gt;C
+
+</pre>
+<p>C为关键节点。当：</p>
+<ul>
+<li>C没有被观测：那么A和B互相不影响（因为缺少信息判断A与B的相互影响性），结果未知，原因互相产生的影响不可知。<strong><u>条件独立</u></strong></li>
+<li>C被观测到：A与B存在联系的结果，可以A-&gt;B推断或者反之。</li>
+</ul>
+<p>例子：</p>
+<ul>
+<li>考试成绩不清楚的时候，每个人的智力 / 考试难度两者之间如果也未知，知道其中一个也推不出另一个来。</li>
+<li>但是如果已知成绩，比如：成绩普遍很好。那么由B，比如某个人的智力不行，但是成绩好，可以推定A（难度低），反之，如果成绩普遍很差，由B（高智力），可以推知A（难度高）。</li>
+</ul>
+<p><strong><u>以上这三种有向图结构，可以方便进行条件独立判定以及信息关联性的快速区分，判定两个随机变量之间是否存在关联时可以应用。</u></strong>联系例子即可。</p>
+<ul>
+<li>每个节点：都是一个随机变量，一般未知，需要从信息中推断</li>
+<li>每个有向弧：都是条件概率。A发生时，C存在概率发生，则A-&gt;C有弧。</li>
+</ul>
+<h3 id="条件独立与马尔可夫链">2.2 条件独立与马尔可夫链</h3>
+<p>条件独立： <span class="math display">\[
+\begin{equation}
+P(X,Y|Z)=P(X|Z)P(Y|Z)
+\end{equation}
+\]</span> ​ 在Z发生的情况下，X，Y同时发生的概率为分别概率的积。可以写成另一种形式： <span class="math display">\[
+\begin{equation}
+P(X|Y,Z)=\frac{P(X,Y,Z)}{P(Y,Z)}=\frac{P(X,Y|Z)P(Z)}{P(Y|Z)P(Z)}=\frac{P(X,Y|Z)}{P(Y|Z)}=P(X|Z)
+\end{equation}
+\]</span> ​ 这最能直接说明条件独立的意义：给定条件Y,Z，若X,Y条件独立，Y条件不影响X事件，可以直接从条件中删除。而CRF中的有向边表征了条件概率，对应地，结点间关系（以上三种模式）表征了条件独立性。</p>
+<p>​ 如果两个结点之间的中间结点已经完全确定，已经没有 <strong><u>不通过中间已经观测结点</u></strong> 的直连路径或者间接路径了，此时两个结点条件独立。而条件独立可以用于理解Markov链： <span class="math display">\[
+\begin{equation}
+P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_1,x_2)...P(x_t|x_1,x_2,...x_{t-1})
+\end{equation}
+\]</span> ​ 这个是普通的链式法则。而由于一阶马尔可夫假设：历史不影响未来，过去的状态与未来条件独立。那么可以简化链式法则为： <span class="math display">\[
+\begin{equation}
+P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_2)...P(x_t|x_{t-1})=P(x_1)\prod_{i=1}^tP(x_{i}|x_{i-1})
+\end{equation}
+\]</span> ​ 这可以大大简化运算以及储存难度。</p>
+<h3 id="使用例子理解dgm-马尔可夫毯">2.3 使用例子理解DGM / 马尔可夫毯</h3>
+<p>朴素贝叶斯就是个很典型的DGM例子。朴素（naive）就naive在：</p>
+<blockquote>
+<p>基于特征条件独立假设的分类器。</p>
+</blockquote>
+<p>​ 特征条件独立这个假设很强了，一般做不到。但是在DGM中可以表示为：</p>
+<pre class="mermaid">
+graph TB
+
+A[Label]--&gt;B[Feature 1]
+A--&gt;C[Feature 2]
+A--&gt;D[Feature 3]
+A--&gt;E[...]
+
+</pre>
+<p>​ 给定Label后，所有的Features毫无关联（Tail to Tail 结构）。</p>
+<h4 id="马尔可夫毯">2.3.1 马尔可夫毯</h4>
+<p>​ 马尔可夫毯说的是这样一个集合：集合<span class="math inline">\(\Pi(t)\)</span>表征了，当我们对集合<span class="math inline">\(\Pi(t)\)</span>内的所有随机变量进行观测，那么会导致结点t与剩下的结点之间完全条件独立（<strong>啊，被孤立了，相当于<span class="math inline">\(\Pi(t)\)</span></strong>把t墙了）。例子：</p>
+<pre class="mermaid">
+graph LR
+
+A(1)--&gt;B(2)
+A--&gt;C(3)
+B--&gt;D(5)
+C--&gt;D
+B--&gt;E(4)
+C--&gt;F(6)
+E--&gt;G(7)
+D--&gt;F
+D--&gt;G
+F--&gt;G
+
+</pre>
+<p>​ 那么对于结点5，其马尔可夫毯为？</p>
+<ul>
+<li>首先2，3给定之后，由于2，3为5的父结点，2，3的观测导致5与1的独立</li>
+<li>此后是5与4的独立：有赖于2的给定。</li>
+<li><strong><u>观测本身会导致被观测变量与其父节点或者子结点独立！</u></strong>不确定性消除。故5建立6，7的观测，6，7要给定。</li>
+<li>但是给定了7，在5，7，4形成了一个Head to Head 结构。会导致5和4的不独立，那么需要给定4以消除不确定性的方式终结。</li>
+<li>最后的毯子是：<span class="math inline">\({\{2,3,4,6,7\}}\)</span></li>
+</ul>
+<h4 id="dgm到底能干什么">2.3.2 DGM到底能干什么</h4>
+<p>​ 多个变量错综复杂的因果关系，相互有影响。一个变量的改变可能导致整个网络（说到网络就会形成一个高维结构了，之所以是高维，指的是这个图可能不是平面图，不一定表达的就是二维关系）内部的变量发生连锁变化。那么为了解决有条件独立 / 条件概率联系起来的多个网络变量，需要使用这个方法。</p>
+<h4 id="有向图的概率表示">2.3.3 有向图的概率表示</h4>
+<p>由条件概率的定义，联合概率可以由边缘 / 条件表示。在有向图中，由于有向图对条件概率进行建模（每一条边就是一个条件概率关系），那么使用有向图如何表示概率？举个例子：</p>
+<pre class="mermaid">
+graph LR
+
+A((X1))--&gt;B((X2))
+B--&gt;C((X3))
+B--&gt;D((X4))
+C--&gt;E((X5))
+D--&gt;E
+
+</pre>
+<p>​ 如果需要使用有向图关系表示<span class="math inline">\(\{x_1,x_2,x_3,x_4,x_5\}\)</span>的联合概率分布，如何写出这个表达式？（给定顶层结点，也就是起源结点<span class="math inline">\(x_1\)</span>的初始分布<span class="math inline">\(P(x_1)\)</span>），则表达式为： <span class="math display">\[
+\begin{equation}
+P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)\rightarrow?
+\end{equation}
+\]</span> ​ 之后，<span class="math inline">\(x_3\)</span> <span class="math inline">\(x_4\)</span>是乘法关系还是加法关系？首先可以肯定，接下来的概率表达式是<span class="math inline">\(P(x_4|x_2)\)</span>与<span class="math inline">\(P(x_3|x_2)\)</span>（由于<span class="math inline">\(x_2\)</span>的存在，导致<span class="math inline">\(x_1\)</span>，<span class="math inline">\(\{x_3,x_4\}\)</span>条件独立），个人认为，此处<span class="math inline">\(x_5\)</span>的产生是<span class="math inline">\(\{x_3,x_4\}\)</span>共同作用的结果。比如说，考试：<span class="math inline">\(\{x_3,x_4\}\)</span>分别表示难度以及学生智力，<span class="math inline">\(x_5\)</span>为分数。产生分数必须要有前两个因素，故此处虽然是两个通路，但是仍然是乘法原则起作用（与事件）（<strong><u>可能隐含表达了，DGM中子结点需要所有父结点成立而产生</u></strong>） <span class="math display">\[
+\begin{equation}
+P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)P(x_3|x_2)P(x_4|x_2)P(x5|x_3,x_4)
+\end{equation}
+\]</span> ​ 一个更加复杂的例子：</p>
+<pre class="mermaid">
+graph LR
+
+A((X1))
+B((X2))
+C((X3))
+D((X4))
+E((X5))
+F((X6))
+G((X7))
+A--&gt;D
+A--&gt;E
+B--&gt;D
+C--&gt;D
+C--&gt;E
+D--&gt;F
+D--&gt;G
+E--&gt;G
+
+</pre>
+<p>​ 可以立即得到联合分布：（不仔细推了） <span class="math display">\[
+\begin{equation}
+P(x_1,...x_7)=P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|x_4,x_5)
+\end{equation}
+\]</span></p>
+<p>​ 这样的联合概率求解规律是可以推广的。</p>
+<hr>
+<h2 id="iii.-无向图模型ugm">III. 无向图模型（UGM）</h2>
+<h3 id="基本概念">3.1 基本概念</h3>
+<p>​ 区别于有向图模型（DGM），无向图模型不是对因果关系进行建模。</p>
+<p>​ 无向图和有向图的区别是什么？有向图表征了因果关系，并且连接有方向性，导致了处理图像这样的问题时，<strong><u>不方便进行建模</u></strong>。</p>
+<pre class="mermaid">
+graph LR
+
+1--&gt;4
+2--&gt;5
+3--&gt;6
+1--&gt;2
+2--&gt;3
+
+4--&gt;5
+
+5--&gt;6
+
+4--&gt;7
+5--&gt;8
+6--&gt;9
+7--&gt;8
+8--&gt;9
+
+</pre>
+<p>​ 可以看出，在对有向图进行建模时，如果要进行条件独立分析（比如我们要单独分析5与其他的结点的条件独立性）。需要寻找马尔可夫毯，那么在有向图中，除了<span class="math inline">\(\{2,4,6,8\}\)</span>之外，实际上还有别的结点，而<span class="math inline">\(\{2,4,6,8\}\)</span>是1阶邻域，在图像处理中比较常见求一阶邻域与中心点间的关系。而此处，要加入<span class="math inline">\(\{3,7\}\)</span>结点（Head to Head，由于给定了8，5与7不再条件独立，需要给定7，3的话同理）。那么显然我们加入了奇怪的点，导致分析存在一些问题，并且与有向图网络的生成方向还存在关系。</p>
+<p>​ 而使用无向图的话，由于结点之间是平等的，在无向图中的马尔可夫毯直接就是<span class="math inline">\(\{2,4,6,8\}\)</span>。</p>
+<p>​ 无向图中，存在三种独立性：</p>
+<ol type="1">
+<li>全局独立性（全局马尔可夫性）</li>
+</ol>
+<pre class="mermaid">
+graph LR
+
+A((1))---B((2))
+B---D((4))
+A---C((3))
+C---D
+E((5))---A
+D---F((6))
+
+</pre>
+<p>​ 当我们删除结点<span class="math inline">\(\{2,3\}\)</span>时，可知集合<span class="math inline">\(\{1,5\}\)</span>以及<span class="math inline">\(\{4,6\}\)</span>之间完全没有联系了。删除两个结点之间的连通性结点，产生两个连通支，则这两个连通支 <strong>独立</strong>。</p>
+<ol start="2" type="1">
+<li>局部独立性（局部马尔可夫性）</li>
+</ol>
+<pre class="mermaid">
+graph TB
+
+a((1))
+b((2))
+c((3))
+d((4))
+e((5))
+f((6))
+g((7))
+a---b
+a---c
+a---d
+a---e
+c---f
+e---g
+b---f
+d---g
+
+</pre>
+<p>​ 可知，当我们把2，3，4，5删去之后，1结点与所有其他结点完全没有联系了。<strong><u>1被孤立了，因为其马尔可夫毯已经被删除了。</u></strong>那么，1与其他结点条件独立。写为表达式可以如下：</p>
+<p>​ 设<span class="math inline">\(V_k\)</span>为我们探索的结点，<span class="math inline">\(V_M\)</span>为<span class="math inline">\(V_k\)</span>的马尔可夫毯的节点集合，而<span class="math inline">\(V_S\)</span>为<span class="math inline">\(V_i\in \{V\}/\{V_M\cup V_k\}\)</span>，则可知： <span class="math display">\[
+\begin{equation}
+V_k\perp V_S|V_M
+\end{equation}
+\]</span> ​ 即给定马尔可夫毯，则对应结点和除其本身以及马尔可夫毯结点之外的所有结点条件独立。</p>
+<ol start="3" type="1">
+<li>成对独立性（成对马尔可夫性）</li>
+</ol>
+<p>​ u，v为两个没有直连边的结点。去掉u，v之外的其他点，<strong><u>u，v条件独立。</u></strong></p>
+<h3 id="团块clique的概念">3.2 团块（Clique）的概念</h3>
+<p>​ 如果一个结点集合内，任意两个结点之间存在连边，那么称这是一个团（Clique）。</p>
+<p>​ 最大团：在一个团C外部任意找一个结点，加入此团后都会破坏团的性质（此结点与至少一个结点之间不存在连边）。也即外部已经不能再加入结点使团变大了。</p>
+<p>​ 无向图模型中一般会涉及到大量结点，那么要表示这些结点的联合概率就十分麻烦。可以使用最大团来进行描述，将 <strong><u>无向图中的联合概率分布表示为极大团的势函数（Potential Function）</u></strong>的积。也即： <span class="math display">\[
+\begin{equation}
+P(x)=\frac{1}{Z}\prod_{i=1}^n\psi_i(x_i)
+\end{equation}
+\]</span> ​ 上式中，<span class="math inline">\(\psi_i(x)\)</span>表示极大团<span class="math inline">\(x_i\)</span>的势函数，而Z则是归一化因子，为了使<span class="math inline">\(P(x)\)</span>满足概率的归一化性质。归一化因子又叫做：配分函数（Partition Function），但是如何进行计算呢？举个例子（例子来自CSDN，但是感觉讲的不太清楚，我自己理解一下：）</p>
+<div class="note info"><p>2021.11.15补充：当时还会看粪坑CSDN呢。PS：参考的文献都没有记录。</p>
+</div>
+<pre class="mermaid">
+graph TB
+
+A((x1))
+B((x2))
+C((x3))
+D((x4))
+E((x5))
+A---B
+A---C
+B---C
+C---D
+C---E
+
+</pre>
+<p>​ 可知，图中存在三个极大团：<span class="math inline">\(\{x_1, x_2, x_3\}\)</span>，<span class="math inline">\(\{x_3,x_5\}\)</span>，<span class="math inline">\(\{x_3, x_4\}\)</span> (注意一个结点可以存在于多个极大团中！)。那么整个联合概率分布可以写为： <span class="math display">\[
+\begin{equation}
+P(x_1, x_2, x_3,x_4,x_5)=\frac 1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)
+\end{equation}
+\]</span> ​ 那么Z应如何计算？需要对每个结点进行遍历。下式为每个结点所在极大团的势函数： <span class="math display">\[
+\begin{align}
+    &amp; x_1:\psi_1(x_1,x_2,x_3)\\
+    &amp; x_2:\psi_1(x_1,x_2,x_3)\\
+    &amp; x_3:\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)\\
+    &amp; x_4:\psi_3(x_3,x_4)\\
+    &amp; x_5:\psi_2(x_3,x_5)
+\end{align}
+\]</span> ​ 对每个结点进行求和归一化。为什么要这么做？为什么是对每一个结点结点所在团的势函数？而不是求每一个结点对应的某一个其他函数进行累加求和？</p>
+<div class="note danger"><p>2021.11.15 补充：诶？我最后在这里写了一个开放性思考题？应该是原来我没想清楚，但是最后也没去想。</p>
+</div>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/" title="概率图模型">https://enigmatisms.github.io/2021/11/10/概率图模型/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/" rel="prev" title="位姿变换与六轴仿真">
+                  <i class="fa fa-chevron-left"></i> 位姿变换与六轴仿真
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/14/Distance-Metrics-on-Point-Clouds/" rel="next" title="Distance Metrics on Point Clouds">
+                  Distance Metrics on Point Clouds <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Bayesian  贝叶斯分类器 ​ 个人很喜欢贝叶斯学派的理论，感觉贝叶斯理论非常具有美感。 ​ 贝叶斯分类器是典型的生成式模型。对于分类问题的概率形式，有\(P(c|x)\)是给定特征情况下，分类结果为c的概率，显然这是我们想知道的（而反过来\(P(x|c)\)可能是Encoder模型所讨论的）。判别式模型直接对\(P(c|x)\)进行建模，举个例子，决策树吧。决策树根据x的不同分量进">
+<meta property="og:type" content="website">
+<meta property="og:title" content="贝叶斯学习的理解">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Bayesian  贝叶斯分类器 ​ 个人很喜欢贝叶斯学派的理论，感觉贝叶斯理论非常具有美感。 ​ 贝叶斯分类器是典型的生成式模型。对于分类问题的概率形式，有\(P(c|x)\)是给定特征情况下，分类结果为c的概率，显然这是我们想知道的（而反过来\(P(x|c)\)可能是Encoder模型所讨论的）。判别式模型直接对\(P(c|x)\)进行建模，举个例子，决策树吧。决策树根据x的不同分量进">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-10T02:06:19.000Z">
+<meta property="article:modified_time" content="2021-03-12T05:41:23.643Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/","path":"2021/03/10/贝叶斯学习的理解/","title":"贝叶斯学习的理解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>贝叶斯学习的理解 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bayesian"><span class="nav-text">Bayesian</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8"><span class="nav-text">贝叶斯分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="nav-text">朴素贝叶斯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E6%9C%B4%E7%B4%A0%E7%9A%84%E7%89%88%E6%9C%AC"><span class="nav-text">最朴素的版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8B%AC%E4%BE%9D%E8%B5%96%E7%89%88%E6%9C%AC"><span class="nav-text">独依赖版本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E4%BA%92%E4%BF%A1%E6%81%AF"><span class="nav-text">条件互信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E9%A3%8E%E9%99%A9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%86%B3%E7%AD%96"><span class="nav-text">最小风险贝叶斯决策</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%89%E5%B8%83%E6%96%AF%E9%87%87%E6%A0%B7"><span class="nav-text">吉布斯采样</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3"><span class="nav-text">简单理解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95"><span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="nav-text">基本流程的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87%E7%9A%84%E6%95%B0%E5%AD%A6%E7%90%86%E8%AE%BA"><span class="nav-text">优化目标的数学理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jensen%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-text">Jensen不等式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E6%80%A7%E9%87%87%E6%A0%B7"><span class="nav-text">重要性采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%BC%E7%84%B6%E8%BD%AC%E5%8C%96"><span class="nav-text">似然转化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E5%88%86%E6%9E%90"><span class="nav-text">收敛分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#neyman-pearson%E5%86%B3%E7%AD%96"><span class="nav-text">Neyman-Pearson决策</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F%E5%8F%98%E6%8D%A2"><span class="nav-text">形式变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          贝叶斯学习的理解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-10 10:06:19" itemprop="dateCreated datePublished" datetime="2021-03-10T10:06:19+08:00">2021-03-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 13:41:23" itemprop="dateModified" datetime="2021-03-12T13:41:23+08:00">2021-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>11 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="bayesian">Bayesian</h1>
+<hr>
+<h2 id="贝叶斯分类器">贝叶斯分类器</h2>
+<p>​ 个人很喜欢贝叶斯学派的理论，感觉贝叶斯理论非常具有美感。</p>
+<p>​ 贝叶斯分类器是典型的生成式模型。对于分类问题的概率形式，有<span class="math inline">\(P(c|x)\)</span>是给定特征情况下，分类结果为c的概率，显然这是我们想知道的（而反过来<span class="math inline">\(P(x|c)\)</span>可能是Encoder模型所讨论的）。判别式模型直接对<span class="math inline">\(P(c|x)\)</span>进行建模，举个例子，决策树吧。决策树根据x的不同分量进行划分，每层选取信息增益或者基尼指数最大的属性进行分支。那么决策树这个判别式模型，具体是如何对<span class="math inline">\(P(c|x)\)</span>进行建模的？</p>
+<span id="more"></span>
+<p>​ 个人的理解是：假设样本特征<span class="math inline">\(x=\{x_1,x_2,x_3,...,x_n\}\)</span>，其中，<span class="math inline">\(x_i\)</span>的下标表示分支顺序。在根节点处，假设分支基于特征分量<span class="math inline">\(x_1\)</span>，那么在根向下一层，概率会有如下形式： <span class="math display">\[
+P(c|x/\{x_1\},x_1=...)
+\]</span> ​ 也就是基于<span class="math inline">\(x_1\)</span>确定后的结果进一步分支，直到无法分支为止。也就是说<span class="math inline">\(P(c|x)\)</span>中，x的每个分量逐步确定，对应到叶节点上的<span class="math inline">\(P(c|x)\)</span>也就确定了。</p>
+<p>​ 而生成式模型（比如贝叶斯），建模的是联合分布或者是似然： <span class="math display">\[
+\begin{equation}\label{bayes}
+P(c|x)=\frac{P(x,c)}{P(x)}=\frac{P(x|c)P(c)}{P(x)}
+\end{equation}
+\]</span> ​ P(c)可直接根据样本估计（样本中分类为<span class="math inline">\(c_i\)</span>的占比，近似为先验概率，啊贝叶斯学派也用频率学派的结论了？）<span class="math inline">\(P(x)\)</span>为归一化常数，无需讨论。</p>
+<p>​ 关于<span class="math inline">\(P(c|x)\)</span>我们要做什么？我们只希望将其计算出来（估计出来），就可以根据特征计算分类概率了。那么<span class="math inline">\(P(c|x)\)</span>分布的参数可以通过优化估计<span class="math inline">\(P(x|c)\)</span>来完成，简单的方法，就是进行极大似然估计（因为<span class="math inline">\(P(x|c)\)</span>是似然，是可以从样本中估计的）</p>
+<hr>
+<h2 id="朴素贝叶斯">朴素贝叶斯</h2>
+<h3 id="最朴素的版本">最朴素的版本</h3>
+<p>​ <span class="math inline">\(P(x|c)\)</span>好求吗？不好求，<span class="math inline">\(P(x|c)\)</span>的意义是：给定分类下，特征取值为x的概率。首先，有可能对应x根本没有在训练集样本中出现，其次，即使出现也可能因为组合爆炸导致可用样本数量少到无法正确用于估计，另外也可能产生样本某个属性值缺失的情况。</p>
+<div class="note info"><p><strong>朴素贝叶斯认为</strong></p>
+<p>假设样本所有的属性都是相互独立的，那么<span class="math inline">\(P(x|c)\)</span>就可以由独立条件拆开</p>
+</div>
+<p><span class="math display">\[
+\begin{equation}\label{naive}
+P(x|c)=\prod_{i=1}^nP(x_i|c)P(c)
+\end{equation}
+\]</span> ​ 这好吗？很好，对某个属性的分布估计是比较简单的，并且样本数据一般都是充足的。但是这又不好，因为 <strong><u>通常属性之间都不会有太好的独立性</u></strong>（但是PCA之后可以用贝叶斯，由于PCA之后的特征不相关）。由于这个强独立性假设，所以这种贝叶斯称为“朴素的（你们啊，naive）”。</p>
+<h3 id="独依赖版本">独依赖版本</h3>
+<p>​ 由于朴素贝叶斯 sometimes naive，导致使用者angry。为了减轻这种效应，首先进行协方差分析，找到与每一个属性关联性最强的另一个属性，讨论联合分布： <span class="math display">\[
+\begin{equation}\label{ode}
+P(x|c) \propto P(c)\prod_{i=1}^nP(x_i|c,x_{i,k})=P(c)\prod_{i=1}^n \frac{P(x_i,x_{i,k}|c)}{P(x_{i,k}|c)}
+\end{equation}
+\]</span> ​ 公式<span class="math inline">\(\eqref{ode}\)</span>最右部分个人感觉好像可以直接从样本中推出来，并且不会遇到组合爆炸效应，对独立性假设有放松作用。</p>
+<h4 id="条件互信息">条件互信息</h4>
+<p>​ 在<a href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/">[线性-树型分类器的纯理论分析]</a>中，提到了互信息，是指联合分布<span class="math inline">\(P_{X,Y}\)</span>与独立假设下边缘分布乘积<span class="math inline">\(P_XP_Y\)</span>的KL散度。那么条件互信息就是增加了一个条件概率： <span class="math display">\[
+\begin{equation}\label{cmi}
+I(x,y|c)=\int_y\int_x p(x,y|c)\log\frac{p(x,y|c)}{p(x|c)p(y|c)}
+\end{equation}
+\]</span> ​ 条件互信息就刻画了给定条件（分类为c）下，两个属性之间的关联关系。那么生成ODE结构可以以此为指导。</p>
+<hr>
+<h2 id="最小风险贝叶斯决策">最小风险贝叶斯决策</h2>
+<p>​ 定义风险矩阵<span class="math inline">\(\Lambda\)</span>: <span class="math display">\[
+\begin{pmatrix}
+\lambda_{11} &amp; \lambda_{12} &amp; ... &amp;\lambda_{1n} \\
+\lambda_{21} &amp; \lambda_{22} &amp; ... &amp;\lambda_{2n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\lambda_{n1} &amp; \lambda_{n2} &amp; ... &amp;\lambda_{nn} \\
+\end{pmatrix}
+\]</span> ​ 其中，<span class="math inline">\(\lambda_{i,j}\)</span>表示本身是第j类，但是分类结果是第i类的风险。（注意顺序啊，因为决策表的横轴一般定义为实际情况，而纵轴为决策）。那么给定一个样本x，进行分类得到c，根据c进行决策<span class="math inline">\(\alpha\)</span>，由此产生的损失是r，那么： <span class="math display">\[
+\begin{align}
+&amp; P(c_i|x)=\frac{P(x|c_i)P(c_i)}{\sum_{i=1}^nP(x|c_i)}\\
+&amp; R(\alpha_i|x)=\sum_{j=1}^n\lambda_{i, j}P(c_i|x) \label{rsingle}\\
+&amp; R_{total} = \sum_{x}R(\alpha(x)|x)    \label{rtotal} \\
+&amp; E(R) =\sum_x R(\alpha(x)|x)P(x)
+\end{align}
+\]</span> ​ 我们实际上要最小化<span class="math inline">\(\eqref{rtotal}\)</span>，也就是对于每一个样本x，其分类函数<span class="math inline">\(\alpha(x)\)</span>需要让的总体决策风险的期望最低，因为实际上<span class="math inline">\(R_{total}\)</span>的指导意义并不大，它是局限于训练样本的，我们希望能独立于样本得到泛化能力，通过给不同特征的样本进行加权，求得期望（事实上不变成期望也没办法进行数值上的估计）。 <span class="math display">\[
+\begin{equation}\label{arg}
+\alpha^*=\mathop{\text{argmin}}_\alpha E(R)\leftarrow\mathop{\text{argmin}}_{i=1,2...n}R(\alpha_i|x)
+\end{equation}
+\]</span> ​ 每个样本都能得到最优的决策时，总体看起来决策结果也是最优的，则需要选择决策风险最小的分类结果。那么现在的问题是：会不会出现选择的决策函数<span class="math inline">\(\alpha(x)\)</span>对某些x'而言是<span class="math inline">\(R(a(x&#39;)|x&#39;)\)</span>最小，而另一些并不是最小，但总的期望却是最小的情况？<strong><u>其实个人认为这是有可能的</u></strong>，但是我还是觉得需要确定一下，之后问老师吧。我的想法是：如果固定训练集，只在训练集上讨论，那么确实是有办法让所有x的风险最小的（<strong><u>疯狂过拟合，产生奇异的分类边界</u></strong>），但是这未必是对全局都最优的，只是在训练集上的风险表现最小。</p>
+<hr>
+<h2 id="吉布斯采样">吉布斯采样</h2>
+<p>​ 吉布斯采样（Gibbs sampling）作为一种MCMC延伸的随机采样方式，基于的理论是Markov链逐渐收敛到平稳分布（stationary distribution）时的性质。针对的问题是：</p>
+<div class="note info"><p>​ 对于一个多元分布，联合概率一般难以获得，但已知一些变量的条件分布情况下，如何通过采样来估计联合概率分布？</p>
+</div>
+<p>​ 从联合分布采样确实是很难的事情，因为联合分布综合的信息最多。通过边缘化操作，可以得到边缘分布，通过联合分布和边缘分布可以得到条件分布。也即联合分布已经包含了一个多元分布的所有信息了。既然包含的信息越多，获取必然也就越困难。对此，Wikipedia[1]也说：</p>
+<blockquote class="blockquote-center">
+<p>The point of Gibbs sampling is that given a multivariate distribution it is simpler to sample from a conditional distribution than to marginalize by integrating over a joint distribution.</p>
+
+</blockquote>
+<h3 id="简单理解">简单理解</h3>
+<p>​ 假设可怜的卷怪有如下几种状态：</p>
+<ul>
+<li>学习空间：<span class="math inline">\(X=\)</span> 概率，线代，离散</li>
+<li>观测时间：$Y = $ 上午，中午，下午</li>
+<li>状态空间：<span class="math inline">\(Z=\)</span> 高效，一般，不想学</li>
+</ul>
+<p>​ 对于联合分布<span class="math inline">\(P(X,Y,Z)\)</span>，直接讨论是极其复杂的。但是有一些先验知识却比较好获得：</p>
+<ul>
+<li>学习的可能：<span class="math inline">\(P(X|Y,Z)\)</span>：在给定学习状态以及当前观测时间时，卷怪可能学什么的分布。</li>
+<li>观测时间：<span class="math inline">\(P(Y|X,Z)\)</span>：已知当前卷怪的状态以及ta在学什么，得到当前时间的分布。</li>
+<li>状态推测：<span class="math inline">\(P(Z|X,Y)\)</span>：已知当前时间以及科目，求卷怪的学习状态。</li>
+</ul>
+<p>​ 以上三种条件概率都比较好讨论，比如观察半学期该卷怪的学习习惯，也就能总结出来规律，作为先验知识。Gibbs sampling就是利用Markov链以及这几种条件分布的关联性，逼近联合分布的，方法如下：</p>
+<ol type="1">
+<li>获取一个初始的变量，比如X = 概率，Y = 中午，Z = 不想学。这个变量不一定需要有来源的理由。将这个随机初始生成的状态变量设为<span class="math inline">\(S^0\)</span>（0时刻的状态）</li>
+<li>从<span class="math inline">\(S^0\)</span>出发，根据定义的条件分布，<strong><u>每次选择一个变量进行改变</u></strong>。举个例子，<span class="math inline">\(S^0\rightarrow S^1\)</span>的状态转移时，固定中午以及不想学两个状态（对应Y,Z），根据条件概率<span class="math inline">\(P(X|Y,Z)\)</span>，从这个条件分布里采样一个可能的<span class="math inline">\(X\)</span>状态。修改此X。</li>
+<li><span class="math inline">\(S^t\rightarrow S^{t+1}\)</span>也是这样做，每次选择一个变量进行修改（为了保证均匀性，可以顺序遍历所有存在条件分布的变量）。</li>
+<li>Markov链收敛后（采样次数比较大），生成的样本实际是按照近似联合分布生成的。从这些样本中，可以求出所有边缘分布（假设采样足够），那么联合分布可以顺势推导出来。</li>
+</ol>
+<p>​ 有关Markov以及平稳分布的数学原理，见<a href>【Post:无向图模型 &amp; Markov的“家具”】</a>。</p>
+<hr>
+<h2 id="em算法">EM算法</h2>
+<p>​ 这个算法之前一直没有搞懂其数学意义，因为不管是《西瓜书》还是Wikipedia，对于其数学性解释都极其简略。在查找资料的过程中偶然看到一篇CSDN博客[2]（可能不是[2]对应的网址，由于原网页没有被我保存），觉得说得很对。但是毕竟这是别人的推导，加上CSDN等等网站的博主都是你抄我我抄你的，个人觉得有必要自己推一遍，加深理解。</p>
+<h3 id="基本流程的解释">基本流程的解释</h3>
+<p>​ EM算法要解决什么问题？<strong><u>概率推理问题</u></strong>，并且还是无监督的。给定一个随机状态<span class="math inline">\(X&#39;\)</span>，但<span class="math inline">\(X&#39;\)</span>实际包含了已经被观测到的状态<span class="math inline">\(X\)</span>以及未被观测的状态<span class="math inline">\(Z\)</span>，这个Z十分烦人（称为隐变量，latent vector），存在这种未知信息的情况下，要进行模型参数<span class="math inline">\(\pmb{\theta}\)</span>的估计。一般情况下，我们是使用MLE来估计的，首先需要构造似然： <span class="math display">\[
+\begin{equation}\label{likely}
+L(\pmb{\theta}|X)=P(X|\pmb{\theta})\rightarrow L(\pmb{\theta}|X,Z)=P(X,Z|\pmb{\theta})
+\end{equation}
+\]</span> ​ 关于Z的信息是缺失的，即使我们给定参数（比如<span class="math inline">\(\pmb{\theta}\)</span>是限定某个分布的参数）也无法直接估计<span class="math inline">\(P(X,Z|\pmb{\theta})\)</span>。当然，对于公式<span class="math inline">\(\eqref{likely}\)</span>定义的似然，处理Z的一个方法是让他不存在。怎么搞呢？边缘化就好了： <span class="math display">\[
+\begin{equation}\label{margin}
+L(\pmb{\theta}|X)=\int_ZL(\pmb{\theta}|X,Z)dZ=\int_ZP(X,Z|\pmb{\theta})dZ
+\end{equation}
+\]</span> ​ 但Wikipedia这么说：</p>
+<blockquote class="blockquote-center">
+<p>However, this quantity is often <strong><u>intractable</u></strong> (e.g. if <span class="math inline">\(\mathbf {Z}\)</span> is a sequence of events, so that the number of values grows <strong><u>exponentially</u></strong> with the sequence length, the exact calculation of the sum will be <strong><u>extremely difficult</u></strong>).</p>
+
+</blockquote>
+<p>​ 什么意思呢？看公式<span class="math inline">\(\eqref{margin}\)</span>，我们是对Z进行积分，而Z可能是多元变量，正如上述引用所说，要是有<span class="math inline">\(Z = \{X_{n-k},...X_{n-1},X_n\}\)</span>，那在边缘化的时候我们不得不这样： <span class="math display">\[
+\begin{equation}\label{awful}
+L(\pmb{\theta}|X)=\int_ZP(X,Z|\pmb{\theta})dZ=\int_{X_n}\int_{X_{n-1}}...\int_{X_{n-k}}P(X,Z|\pmb{\theta})dZ
+\end{equation}
+\]</span> ​ 这好吗？这不好。太丑陋了，而且难以计算。所以我们需要其他算法！那么EM(Expectation Maximization)算法就是来干这个的。好，我来摘抄一下令人疑惑的基本优化过程，虽然基本优化过程的数学表达乍一看难以理解，但是意思还是比较明确的：</p>
+<ol type="1">
+<li>构造似然：<span class="math inline">\(Q(\pmb{\theta}|\pmb{\theta}^{(t)})\)</span>，这个似然是在：<strong><u>估计得到当前最优的条件分布<span class="math inline">\(P(Z|X,\pmb{\theta})\)</span></u></strong>下定义的，也即是：</li>
+</ol>
+<p><span class="math display">\[
+\begin{equation}\label{estep}
+Q(\pmb{\theta}|\pmb{\theta}^{(t)})=E_{P_{Z|X,\pmb{\theta}^{(t)}}}[\text{log} L(\pmb{\theta}|X,Z)]
+\end{equation}
+\]</span></p>
+<ol start="2" type="1">
+<li>优化似然：使得<span class="math inline">\(\pmb{\theta}\)</span>最大化：</li>
+</ol>
+<p><span class="math display">\[
+\begin{equation}\label{mstep}
+\pmb{\theta}^{(t+1)}=\mathop{\text{arg max}}_{\pmb{\theta}}Q(\pmb{\theta}|\pmb{\theta}^{(t)})
+\end{equation}
+\]</span></p>
+<p>​ 个人的初步理解大概是这样的：类似于机队预判敌方位置使用的双迭代算法：</p>
+<ul>
+<li>构造似然的过程（称为E-step）：根据最优<span class="math inline">\(\pmb{\theta}\)</span>更新条件分布<span class="math inline">\(P(Z|X,\pmb{\theta})\)</span>并且生成目标的过程。</li>
+<li>优化似然的过程（称为M-step）：根据<span class="math inline">\(P(Z|X,\pmb{\theta})\)</span>优化<span class="math inline">\(\pmb{\theta}\)</span>的过程</li>
+</ul>
+<p>​ 实际上，在下面一小节（【数学理论】）中，这两个过程的意义将更加清晰。个人比较笨，觉得上面<span class="math inline">\(\eqref{estep}\)</span>以及<span class="math inline">\(\eqref{mstep}\)</span>定义的公式（<span class="math inline">\(\eqref{mstep}\)</span>还好些），直接看根本不知道EM算法到底在搞什么，取什么期望，算什么分布，怎么算。</p>
+<h3 id="优化目标的数学理论">优化目标的数学理论</h3>
+<h4 id="jensen不等式">Jensen不等式</h4>
+<p>​ 数学竞赛，啊熟悉的不等式。在函数或者多元函数里的琴生不等式说的是：对于凸函数而言，函数值的加权平均会大于加权平均的函数值。这个不再多提，很简单。而在概率（信息论）中，琴生不等式的定义如下： <span class="math display">\[
+\begin{equation}\label{jensen}
+\begin{array}{ll}
+\psi\left( E(X)\right) \leq E(\psi(X)),\\
+\text{where }\psi \text{ is convex function}
+\end{array}
+\end{equation}
+\]</span> ​ 而琴生不等式并不是我的讨论重点，这显然也是一个非常基础的结论：凸函数映射后的随机变量取值存在的性质。但是这个结论很重要，一会儿要用到。</p>
+<h4 id="重要性采样">重要性采样</h4>
+<p>​ 由公式<span class="math inline">\(\eqref{margin}\)</span>的离散化形式，展开似然函数式子，并且注意，此处要符合我们在E-step中构建的似然（也就是取对数，将连乘变成连加，下式展示的是：取对数似然之前的Z边缘化操作 <span class="math display">\[
+L(\pmb{\theta}|x_i)=\text{log}P(x_i|\pmb{\theta})=\text{log}\sum_ZP(x_i,Z|\pmb{\theta})
+\]</span> ​ 那么，似然可以写为： <span class="math display">\[
+\begin{equation}\label{like}
+L(\pmb{\theta}|X)=\sum_i\text{log}P(x_i|\pmb{\theta})=\sum_i\text{log}\sum_ZP(x_i,Z|\pmb{\theta})
+\end{equation}
+\]</span> ​ 首先需要知道，log是个凹函数，那么凹函数琴生不等式有<span class="math inline">\(\eqref{jensen}\)</span>相反的结论，接下来就是要想办法让log换个位置，我们考虑将<span class="math inline">\(P(x_i,Z|\pmb{\theta})\)</span>拆开为： <span class="math display">\[
+\begin{equation}\label{trans1}
+P(x_i,z_i|\pmb{\theta})=Q(z_i)\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)}
+\end{equation}
+\]</span> ​ 根据公式<span class="math inline">\(\eqref{trans1}\)</span>，可以将公式<span class="math inline">\(\eqref{like}\)</span>化成如下形式，注意，对Z进行边缘化操作实际上与取期望存在等价之处，都是消除Z的影响（消除Z的随机变量性）： <span class="math display">\[
+\begin{equation}\label{equ1}
+L(\pmb{\theta}|X)=\sum_i\text{log}\sum_ZP(x_i,Z|\pmb{\theta})=\sum_iQ(z_i)\text{log}\sum_Z\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)}
+\end{equation}
+\]</span> ​ <span class="math inline">\(Q(z_i)\)</span>是隐变量的一种分布，但是形式暂时未知。我们可以将公式<span class="math inline">\(\eqref{equ1}\)</span>的log内部看成是对Z的期望（实际上，把<span class="math inline">\(Q(z_i)\)</span>移动到z累加式内部，就能看出来，概率<span class="math inline">\(Q(z_i)\)</span>乘以某一个值的期望形式）。这部分很像《概率机器人》[3]中，说粒子滤波时的重要性采样： <span class="math display">\[
+\begin{equation}\label{imp}
+E(X)=\int_xxp(x)\text{d}x=\int_xx\frac{p(x)}{q(x)}q(x)\text{d}x
+\end{equation}
+\]</span> ​ 也就相当于，将一个难以求取的期望，转化为另一个分布下，另一个随机变量函数的期望。而实际上，在重要性采样中，<span class="math inline">\(p(x)/q(x)\)</span>是一个经过估计的权值。关于这一点，我将会在<a href="https://enigmatisms.github.io/2021/03/07/%E5%8D%A1%E5%B0%94%E6%9B%BC%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%AE%9E%E7%8E%B0/">【Post: 卡尔曼进阶与粒子滤波实现 】</a>中提到。</p>
+<p>​ 由log的性质（log是凹函数）与琴生不等式，有： <span class="math display">\[
+\text{log}\sum_Z\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} \geq \sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} 
+\]</span> ​ 那么似然<span class="math inline">\(\eqref{equ1}\)</span>的一个下界已经找到了： <span class="math display">\[
+\begin{align}
+L(\pmb{\theta}|X)=\sum_iQ(z_i)\text{log}\sum_Z\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} \geq \\
+L_{lb}(\pmb{\theta}|X)=\sum_iQ(z_i)\sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} \label{lb}
+\end{align}
+\]</span> ​ 如何优化？EM算法的想法实际上是：</p>
+<ul>
+<li>E-step：确定似然函数，求得当前Z的分布，计算得到的是<strong><u>似然函数的下界</u></strong>。</li>
+<li>M-step：根据下界，优化这个下界。使下界更大，根据夹逼准则，最大值的期望也将更大。</li>
+</ul>
+<p>​ 那如何最大化这个下界？</p>
+<h4 id="似然转化">似然转化</h4>
+<p>​ 琴生不等式告诉我们，<span class="math inline">\(\eqref{equ1}\)</span>是永远大于等于<span class="math inline">\(\eqref{lb}\)</span>的，成立的条件是：X是确定变量。哦？那么此处X就是<span class="math inline">\(\eqref{lb}\)</span>log里面的部分。如果这是个常数，也即： <span class="math display">\[
+\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} =C\rightarrow P(x_i,z_i|\pmb{\theta})=CQ(z_i)
+\]</span> ​ 由于<span class="math inline">\(\sum Q(z_i)=1\)</span>（概率归一化性质），则<span class="math inline">\(P(x_i|\pmb{\theta})=C\)</span>，也就得到了这样的结论： <span class="math display">\[
+\begin{equation}\label{qres}
+Q(z_i)=\frac{P(x_i,z_i|\pmb{\theta})}{P(x_i|\pmb{\theta})}=\frac{P(x_i,z_i,\pmb{\theta})}{P(x_i,\pmb{\theta})}=P(z_i|x_i,\pmb{\theta})
+\end{equation}
+\]</span> ​ wow。这说明了什么？这说明，使得下界最大的，Z分布的估计应该是<span class="math inline">\(P(Z|X,\pmb{\theta})\)</span>。那么这样一操作，我们把似然objective写了出来，并且最大化了下界，得到了此时关于Z分布的估计。因为我们实际上不知道Z的分布，但是为了进行这个MLE，我们做了一个最大化下界操作，也就估计出了隐变量Z的分布。</p>
+<p>​ 下一步当然是M-step，固定已经选择优化完的<span class="math inline">\(Q(Z)\)</span>，开始argmax <span class="math inline">\(\pmb{\theta}\)</span>。这里就有点像coordinate descent了，跟我写的灯条优化算法是类似的，固定某几个分量，优化剩余的一个分量。E-step就是固定<span class="math inline">\(\pmb{\theta}\)</span>，而M-step就是固定Q。M-step的工作是进一步优化下界。</p>
+<p>​ 我们优化的是哪个式子？优化的是下界式<span class="math inline">\(\eqref{lb}\)</span>，需要进一步调整<span class="math inline">\(\pmb{\theta}\)</span>。由于<span class="math inline">\(\eqref{lb}\)</span>实际上已经完全确定了，所以M-step实际上在优化一个仅关于<span class="math inline">\(\theta\)</span>的表达式： <span class="math display">\[
+\begin{equation}\label{obj}
+Q^{*}_{lb}=\sum_iQ(z_i)\sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta})}{Q(z_i)} =\sum_iP(Z|x_i,\pmb{\theta})\sum_zP(X|\pmb{\theta})
+\end{equation}
+\]</span> ​ 实际上这成了一个优化问题。Wikipedia上举了关于高斯分布<span class="math inline">\(\theta\)</span>参数的优化过程。这里就省略了。</p>
+<h4 id="收敛分析">收敛分析</h4>
+<p>​ 证明收敛？也就是需要证明，每一次的结果（似然函数）不会比前一次低即可。推导过程倒是比较直接：</p>
+<ul>
+<li>由于M-step才更新<span class="math inline">\(\pmb{\theta}^t \rightarrow \pmb{\theta}^{t+1}\)</span>，而更新过程保证了（因为我们希望优化下界，使得似然变大）</li>
+</ul>
+<p><span class="math display">\[
+Q_{lb}(\pmb{\theta}|\pmb{\theta}^{t+1}) \geq Q_{lb}(\pmb{\theta}|\pmb{\theta}^{t})\rightarrow \sum_iQ(z_i)\sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta}^{t+1})}{Q(z_i)} \geq
+\sum_iQ(z_i)\sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta}^{t})}{Q(z_i)}
+\]</span></p>
+<ul>
+<li>而我们知道<span class="math inline">\(Q_{lb}(\pmb{\theta}|\pmb{\theta}^{t+1})\)</span>只是似然<span class="math inline">\(L(\pmb{\theta}^{t+1}|X)\)</span>的下界，所以t+1迭代的似然必然大于等于下界。</li>
+<li>而由于，琴生不等式我们取了等号成立，那么下式成立：</li>
+</ul>
+<p><span class="math display">\[
+\sum_iQ(z_i)\sum_Z\text{log}\frac{P(x_i,z_i|\pmb{\theta}^{t})}{Q(z_i)}=L(\pmb{\theta}^{t}|X)
+\]</span></p>
+<ul>
+<li>故综上，每次更新之后，似然函数不会比原来小。EM算法是收敛的。</li>
+</ul>
+<hr>
+<h2 id="neyman-pearson决策">Neyman-Pearson决策</h2>
+<p>​ 说实话，决策这部分完全可以单独开一篇讲。决策是要做什么？举一个简单的例子，新冠。</p>
+<ul>
+<li>医院将阴性患者识别为阳性（TN-&gt;FP），称之为第一类错误（拒真，虚警，假阳性率，也就是实际阴性的人中，检测结果为阳性人的比例）</li>
+<li>医院将阳性患者识别为阴性（TP-&gt;FN），称之为第二类错误（存伪，漏报，假阴性率）（注意此处存伪，拒真两个定义其实意思上互换没什么大问题）</li>
+</ul>
+<p>​ 那么作为医院，这两种判定必然存在，但是哪一种更严重？显然是第二类错误，把阳性存下来了。医院需要对检测结果存在的情况进行加权，尽量减少两类，但是两类中又各有侧重，加权地给出风险。Neyman-Pearson决策是贝叶斯决策的一种特殊情况，但是很常见：两类错误各有概率，但是我们希望：</p>
+<ul>
+<li>犯其中一类错误的概率能达到某个标准值（比如<span class="math inline">\(\epsilon_0\)</span>）</li>
+<li>与此同时，犯另一种错误的概率越小越好</li>
+</ul>
+<p>​ 这就是Neyman-Pearson决策讨论的问题，其表达式可以写为（以其中一种情况为例）： <span class="math display">\[
+\begin{equation}\label{np}
+\begin{array}{ll}
+\text{min }P_1\\
+\text{s.t. } P_2=\epsilon_0
+\end{array}
+\end{equation}
+\]</span> ​ 此处表达的意思是：当犯第二类错误的概率为<span class="math inline">\(\epsilon_0\)</span>时（达到第二类错误规定的标准），犯第一类错误概率尽可能小。</p>
+<h3 id="形式变换">形式变换</h3>
+<p>​ 首先我们先写出<span class="math inline">\(P_1,P_2\)</span>的表达式，假设类1对应了阴性，类2对应了阳性。那么阳性判别范围是<span class="math inline">\(R_2\)</span>，阴性判别范围是<span class="math inline">\(R_1\)</span>。 <span class="math display">\[
+\begin{align}
+&amp;P_1=\int_{R_2}p(x|w_1)dx\label{p1}\\
+&amp;P_2=\int_{R_1}p(x|w_2)dx\label{p2}
+\end{align}
+\]</span> ​ 其意义是什么？P1是第一类错误犯错概率，也就是假阳性率（实际为阴性<span class="math inline">\(w_1\)</span>的样本，却在阳性判别范围内当作阳性检测出）。P2是第二类错误犯错概率，意义类似。那么由公式<span class="math inline">\(\eqref{np}\)</span>可以知道，问题是约束极小值求解问题，可以使用Lagrange法处理，那么乘子化后的objective带入公式<span class="math inline">\(\eqref{p1}\)</span>以及<span class="math inline">\(\eqref{p2}\)</span>有： <span class="math display">\[
+\begin{equation}\label{obj2}
+L=\int_{R_2}p(x|w_1)dx+\lambda\left( \int_{R_1}p(x|w_2)dx-\epsilon_0 \right)
+\end{equation}
+\]</span> ​ 而实际上，<span class="math inline">\(\eqref{obj2}\)</span>是可以拆解的（有关假阳性率部分），根据概率公式拆解： <span class="math display">\[
+\begin{equation}\label{obj3}
+L=1-\int_{R_1}p(x|w_1)dx+\lambda\left( \int_{R_1}p(x|w_2)dx-\epsilon_0 \right) =
+1-\lambda\epsilon_0+\int_{R_1}\lambda p(x|w_2)-p(x|w_1)dx 
+\end{equation}
+\]</span> ​ 好，回顾熟悉的KKT条件，<span class="math inline">\(L\)</span>相对于<span class="math inline">\(\lambda\)</span>的偏导数是要为0的，实际上就是等式约束要成立，这里就不写了。而还有什么可以求导的吗？千万不要忘记自己要干什么。讨论这个决策objective，最小化它是为了找到一个最好的决策模型，也就是说，模型参数是我们想知道的！此处我们像书[4]上一样，只简单讨论模型参数【决策边界】的划定，也即参数t。对t求偏导会发生什么？ <span class="math display">\[
+\frac{\partial}{\partial t}\int_{R_1}\lambda p(x|w_2)-p(x|w_1)dx =\frac{\partial R_1}{\partial t}\times[\lambda p(x|w_2)-p(x|w_1)]
+\]</span> ​ 书上没写清楚，但个人认为是这样的。这是由变限积分的性质决定的。那么边界对t的偏导不好求，可以是0，也可以不是0。由KKT偏导为0要求，显然下式成立是较优的选择： <span class="math display">\[
+\begin{equation}\label{cond}
+\lambda = \frac{p(x|w_1)}{p(x|w_2)}
+\end{equation}
+\]</span> ​ 注意KKT条件产生了两个约束。而对于公式<span class="math inline">\(\eqref{obj3}\)</span>的积分，我们发现，如果可以让积分符号里面的项小于0，那么积分结果必然负的程度最大，L最小，这是最期望的情况。于是实际上我们有<span class="math inline">\(\eqref{cond}\)</span>稍微修改一下的要求：左边应该小于右边。也就是： <span class="math display">\[
+\begin{equation}\label{cond2}
+\lambda &lt; \frac{p(x|w_1)}{p(x|w_2)}
+\end{equation}
+\]</span> ​ 公式<span class="math inline">\(\eqref{obj3}\)</span>定义的积分项是在<span class="math inline">\(R_1\)</span>上的，也就是说，在<span class="math inline">\(R_1\)</span>上时，条件<span class="math inline">\(\eqref{cond2}\)</span>成立，就可以让L变小。那么，就自然可以综上所述： <span class="math display">\[
+\begin{align}
+&amp; \int_{R_1}p(x|w_2)dx = \epsilon_0 \tag{KKT condition 1}\\
+&amp; \lambda = \frac{p(x|w_1)}{p(x|w_2)} (\large{\text{说明决策边界}}) \tag{KKT condition 2} \\
+&amp; \lambda &lt; \frac{p(x|w_1)}{p(x|w_2)} (R_1\large{\text{内部要求}})  \tag{int op}
+\end{align}
+\]</span> ​ 理解起来还是比较简单的。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Gibbs_sampling">[Wikipedia, Gibbs sampling]</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://blog.csdn.net/yzheately/article/details/51164441">CSDN-EM算法-数学原理及其证明</a></p>
+<p>[3] Sebastian Thrun, Wolfram Burgard, Dieter Fox <strong><em>Probabilistic Robotics</em></strong>.</p>
+<p>[4] 张学工（编著），模式识别（第三版），清华大学出版社</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/" title="贝叶斯学习的理解">https://enigmatisms.github.io/2021/03/10/贝叶斯学习的理解/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
+              <a href="/tags/ML/" rel="tag"><i class="fa fa-tag"></i> ML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/" rel="prev" title="线性/树型分类器的纯理论分析">
+                  <i class="fa fa-chevron-left"></i> 线性/树型分类器的纯理论分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/" rel="next" title="协方差 & 特征值的交集">
+                  协方差 & 特征值的交集 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

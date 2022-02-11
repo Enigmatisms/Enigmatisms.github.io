@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="GPU  ​ 懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：     Figure 1. 什么？CUDA是Nvidia的？">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GPU Architecture Intros">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="GPU  ​ 懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：     Figure 1. 什么？CUDA是Nvidia的？">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/amd.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/raster.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/pipeline.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/structure.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/bin1.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/bin2.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/bin3.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/2021-09-05%20(1).png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/2021-09-05%20(2).png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/2021-09-05.png">
+<meta property="article:published_time" content="2021-09-03T12:30:44.000Z">
+<meta property="article:modified_time" content="2021-09-09T03:40:03.167Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="GPU">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/amd.gif">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/","path":"2021/09/03/GPU-Architecture-Intros/","title":"GPU Architecture Intros"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GPU Architecture Intros | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gpu"><span class="nav-text">GPU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-preliminaries"><span class="nav-text">II. Preliminaries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-text">2.1 名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vertex-%E4%B8%8E-vertex-shader"><span class="nav-text">Vertex 与 Vertex Shader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#primitives-%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2"><span class="nav-text">Primitives 基本图形</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fragment-rasterizer"><span class="nav-text">Fragment &amp; Rasterizer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline-%E5%8A%A0%E9%80%9F%E6%96%B9%E5%BC%8F"><span class="nav-text">2.2 Pipeline &amp; 加速方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-text">2.4 更多关键词</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-gpu%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">III. GPU存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shared-memory"><span class="nav-text">3.1 Shared memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduction-example-sum"><span class="nav-text">3.2 Reduction Example: Sum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parallelism-example-quick-sort"><span class="nav-text">3.3 Parallelism Example: Quick sort</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#practical-slides"><span class="nav-text">3.4 Practical slides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GPU Architecture Intros
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-03 20:30:44" itemprop="dateCreated datePublished" datetime="2021-09-03T20:30:44+08:00">2021-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-09-09 11:40:03" itemprop="dateModified" datetime="2021-09-09T11:40:03+08:00">2021-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="gpu">GPU</h1>
+<hr>
+<p>​ 懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：</p>
+<center>
+<img src="/2021/09/03/GPU-Architecture-Intros/amd.gif" style="zoom:120%;">
+</center>
+<center>
+Figure 1. 什么？CUDA是Nvidia的？
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-preliminaries">II. Preliminaries</h2>
+<h3 id="名词解释">2.1 名词解释</h3>
+<h4 id="vertex-与-vertex-shader">Vertex 与 Vertex Shader</h4>
+<p>​ 顶点表示了什么，这很好理解，wikipedia一看就懂：</p>
+<blockquote>
+<p>A vertex (plural vertices) in computer graphics is a data structure that describes certain attributes, like the position of a point in 2D or 3D space, or multiple points on a surface.</p>
+</blockquote>
+<p>​ 但是，vertex从何而来，为什么会有这个数据结构，其存在的意义是什么？这个貌似没有那种一搜就能明白的解释。对于以上的这几个问题，我的理解是：</p>
+<div class="note info"><p>​ 顶点可以就是模型数据本身，比如模型就给定了一个需要进行渲染的mesh。或者，给定的是一个更加精细的模型，根据某种采样+生成算法，得到的vertex。注意vertex在意义上就有别于point，point是无空间关联关系的，而vertex是存在邻接结构的。</p>
+</div>
+<p>​ 而节点着色器的职责则是：把原本模型空间中的顶点，转换（transform）到屏幕空间坐标下。根据个人的理解，我觉得相机模型就是一个非常简单的顶点着色器，根据外参内参将世界系下的点转换到二维屏幕上。</p>
+<h4 id="primitives-基本图形">Primitives 基本图形</h4>
+<p>​ GPU渲染管线用于渲染的最基本图形，比如根据顶点着色器的输出，生成很多小的三角形进行后续处理。一般来说，这些primitive都是不可再分的（atomic），这些基本图形之后会被送到。。。比如，光栅化器（rasterizer）中进行一种采样量化操作（因为屏幕的表示能力受到了分辨率的限制）。</p>
+<h4 id="fragment-rasterizer">Fragment &amp; Rasterizer</h4>
+<p>​ Fragment可以认为是每个基本图形量化后的结果，也就是一堆没有着色的像素集合。我们的采样量化精细程度就决定了图像的质量，比如说：当我们需要抗锯齿的时候，可以提高rasterizer的采样精细度，并辅助羽化。光栅化则是我们这段时间接触过的内容，光栅化就是一种采样过程，对于不同精度的数据，将其采样到合适的分辨率下。</p>
+<center>
+<img src="/2021/09/03/GPU-Architecture-Intros/raster.gif" style="zoom:67%;">
+</center>
+<center>
+Figure 2. Top-left triangle rasterization rule[1]
+</center>
+<p>​ 在光栅化过程中，经常遇到的问题就是：锯齿。解决锯齿问题就需要一些亚像素精度的操作。</p>
+<p>​ 而片段着色器的作用则是：对已经生成的raster图像，进行渲染。比如光照，根据光照模型渲染像素的颜色，或者根据alpha通道信息进行绘制。</p>
+<h3 id="pipeline-加速方式">2.2 Pipeline &amp; 加速方式</h3>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/pipeline.PNG"></p>
+<center>
+Figure 3. GPU简化管线示意图
+</center>
+<p>​ 从CPU如何到GPU？可能是需要摒弃一些CPU的设计思想的，毕竟CPU/GPU的功能非常不同，自然就应该对应不同的结构，不同的结构就会引出不同的特性。</p>
+<p>​ CPU通常有很多针对一条指令流程优化的方式：</p>
+<ul>
+<li>多级cache（prefetching），嵌入式课讲过</li>
+<li>分支预测（branch），嵌入式也讲过</li>
+<li>乱序执行（这个嵌入式课程中没有显式提到，但是实际上存在于分支处理中，比如将一些指令移动位置以填充分支）</li>
+</ul>
+<p>​ 但是这些在GPU中显得不那么重要。GPU的并行任务通常都是：对大量数据做类似的操作，比如Fragment渲染，深度学习。CPU中ALU资源是有限的，每次就只能处理几个输入数据，显然没有办法很好地并行，那么这种需求很可能要求我们需要多个数据处理单元（比如ALU）。如果每个处理单元（比如ALU）都配置多级cache，分支预测等等CPU标配，那么谁来控制芯片的面积？谁来控制不同单元的分支预测？涉及到CPU的一些耗时操作怎么办（比如上下文切换，cache coherence等等）看看：</p>
+<blockquote>
+<p>In computer architecture, a branch predictor is a digital circuit that tries to guess which way a branch (e.g., an if–then–else structure) will go before this is known definitively. --Wikipedia</p>
+</blockquote>
+<p>​ 直接复制CPU cores肯定会让GPU变得笨重。所以这些特性可以都砍掉。</p>
+<p>​ 针对我们的第一个要求，显然最好的处理方式是：引入SIMD（single instruction multiple data）的思想。毕竟GPU最常做的事情就是这个，输入不同，操作相同。那么这就涉及到：</p>
+<ul>
+<li>多个处理单元fetch/decode/execute同一条指令</li>
+<li>多路数据同时输入：取数据不再像CPU处理一样，比如进行像素处理时，一个个位置访问，而是一组组位置访问。有N个处理单元就一次同时访问N个位置，取数据，可以节省大量fetch data的时间。</li>
+</ul>
+<p>​ 那么可以认为，CPU是一种<strong><u>标量</u></strong> (literally) 处理器（这里说的标量和 scalar processor不一样），GPU是一种向量处理器（一次处理一个向量，因为有多个处理单元）。将这些处理单元归为一组，GPU可以有多个这样的组。组间可以遵循流水线设计（避免长时间阻滞带来的吞吐量下降）。</p>
+<p>​ 当GPU有多个这样的SIMD核可以并行时，可能可以演化为MIMD。实际上有些架构（比如N卡中），使用的是SIMT（multiple threads），每个线程是独立的，可以存在不同线程不同分支或者是非连续访问的情况。</p>
+<h3 id="更多关键词">2.4 更多关键词</h3>
+<p>​ 参考加州理工CS179 <a target="_blank" rel="noopener" href="http://courses.cms.caltech.edu/cs179/2021_lectures/cs179_2021_lec02.pdf">lecture 2</a> [2]，这里就不赘述了。</p>
+<hr>
+<h2 id="iii.-gpu存储结构">III. GPU存储结构</h2>
+<p>​ GPU（CUDA为例）的存储结构大致如下：</p>
+<center>
+<img src="/2021/09/03/GPU-Architecture-Intros/structure.PNG" style="zoom:67%;">
+</center>
+<center>
+Figure 4. GPU存储结构
+</center>
+<p>​ 如果要说这几个不同的存储空间的特点，网上应该有很多介绍了。无非就是：</p>
+<ul>
+<li>constant/texture是可以由host修改的不可变内存，被cache掉了</li>
+<li>global memory是host device可以共同修改的，最慢的内存，shared memory应该多用，因为通常很快，shared memory是同一个block的</li>
+</ul>
+<p>​ 之前太年轻，写CUDA程序的时候也没有特别去学过CUDA的内存管理，疯狂使用全局内存，应该是会很慢的吧？global memory倒是没有太多可以说的，接下来主要讲一下shared memory吧。</p>
+<h3 id="shared-memory">3.1 Shared memory</h3>
+<p>​ shared memory是一种存取很快的内存，硬件实现与L1 cache是一样的（那么可以体会一下其速度级别）。有些地方说，shared memory存取只需要1个周期，有些材料（比如加州理工的PPT）说是5ns（这也很快，毕竟我记得GPU的时钟一般会比CPU慢一些？emmm，说GPU是低频高吞吐率）。</p>
+<p>​ 但是shared memory有两个限制：</p>
+<ul>
+<li>shared memory物理实现与L1 cache相同，这意味着shared memory不可能太大（SRAM很贵），对于一个block中的warps来说，所有warps使用的共享内存不能超过每个block所具有的内存。这就需要一定的精巧设计：充分利用shared memory使得尽可能多的warps工作。</li>
+<li><strong><u>Bank conflict，这是一个有趣的问题。</u></strong>Bank conflict很像在嵌入式课程中学到的cache冲突问题，cache频繁冲突会引起cache内容的频繁擦写，由于cache coherence，导致多个存储器需要被修改，这很不好。而Bank conflict产生则是引起读写操作的并行化。</li>
+</ul>
+<p>​ Bank conflict的定义：</p>
+<blockquote>
+<p>A <strong>bank conflict</strong> occurs when 2 threads in a warp access different elements in the same bank. Shared memory is setup as 32 <strong>banks</strong></p>
+</blockquote>
+<p>​ 根据stackoverflow上一个佬外“可视化”的bank（或者shared memory分块），加入我们假设管理内存的单元是4字节，那么：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">0-3</th>
+<th style="text-align: center;">4-7</th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;">120-123</th>
+<th style="text-align: center;">124-127</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">data</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">data</td>
+<td style="text-align: center;">data</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">...</td>
+</tr>
+</tbody>
+</table>
+<p>​ 也就是说，这是一个“循环索引”的存储空间。连续的字节流会直接在不同bank之间切换，到末尾bank就会循环切回到第一个bank上。那么，当32个线程（一个warp）所需的内存是线性连续的，那么此时就不会出现两个线程同时访问一个bank的情况。</p>
+<p>​ 假设我们的bank设置就是按照如上方式进行的，并且假设线程数量为32。那么当每个线程访问的步长为1是，没有bank conflict。</p>
+<p>​ 当步长为2时，显然，只有一半的bank被访问，16个线程之后就会循环回到第一个bank。那么此时会引发两路冲突的bank conflict。</p>
+<p>​ 同理，步长为4时，会引发4路冲突...</p>
+<p>​ 当步长为32时。有两种说法：</p>
+<ul>
+<li>shared memory 也存在broadcast机制，多路访问我直接广播。</li>
+<li>32路冲突，这种情况完全串行，需要进行+1步长的padding。</li>
+</ul>
+<p>​ 当前的GPU对于bank conflict基本上都更友好，遇到多路同时访问时，可以采用多播(multicast)或者广播策略。这是global memory所没有的。</p>
+<h3 id="reduction-example-sum">3.2 Reduction Example: Sum</h3>
+<p>​ CS179的lecture 7讲了两个很有意思的例子。第一个就是：并行时我如何对一个数组进行求和？</p>
+<p>​ 显然，要利用并行计算的资源，两两求和的过程不能顺序进行（否则就是串行）。显然，求和过程可以分层进行，比如数组长度为32，第一层我就并行执行16个两两相加，保存，同步。第二层就执行8个...</p>
+<p>​ 这例子看起来很简单嘛。都能想出来怎么做呢，但实际上这里全是坑。</p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/bin1.PNG"></p>
+<center>
+Figure 5. 直接二分树状分解并行[3]
+</center>
+<p>​ 看起来不错。但是会遇上一个巨大的问题，warp divergence。显然，上图中我们实际使用了16个线程（奇数id线程什么都没做，但是由于处在同一个warp中，还是要执行NOP）。这非常不好，意味着我们每次相加操作之后，还有一段时间的NOP。（很奇怪，为什么可以使用数量为16的warp）</p>
+<p>​ 既然这样，那我们可以：</p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/bin2.PNG"></p>
+<center>
+Figure 6. 连续线程并行[3]
+</center>
+<p>​ 虽然我觉得这里有点奇怪，我用了一个大小为8的warp，之后又用了大小为4的warp... 并且bank的组织和我每次使用的warp大小是一致的。</p>
+<p>​ 这样确实可以避免warp divergence，但是又会引起新的问题：bank conflict。由于第一次我使用了一个大小为8的block（属实理解不了这个组织，所以我查了一下为什么，列在了3.2末尾），那么bank根据线程数组织：8个bank，啊哦，这就是一个步长为2的2路冲突。因为此时，bank从10这个位置开始，到3，5（5 exactly）位置结束。后面是循环回到第一个bank存储。</p>
+<p>​ 第二个循环中，4线程的block是4 banks，那么直接导致了4路冲突... 依此类推。</p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/bin3.PNG"></p>
+<center>
+Figure 7. 序列寻址并行[3]
+</center>
+<p>​ 这样就完全好了。</p>
+<p>​ 而关于：“What happens when threads per block is less than 32”问题，我一直觉得这里是存在warp divergence的。来自这个回答 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40112959/what-will-happen-if-the-number-of-threads-in-a-warp-are-less-than-32">stackoverflow/What will happen if the number of threads in a warp are less than 32?</a></p>
+<blockquote>
+<p>Regarding warps, it's important to remember that warp and their size is a property of the hardware. Warps are a grouping of hardware threads that execute the same instruction (these days) every cycle. In other words, the size width indicates the SIMD-style execution width, something that the programmer can not change. In CUDA you launch blocks of threads which, when mapped to the hardware, get <strong><u>executed in warp-sized bunches</u></strong>. If you start blocks with thread count that is not divisible by the warp size, the hardware will simply execute the last warp with some of the threads "<strong><u>masked out</u></strong>"</p>
+</blockquote>
+<p>​ CUDA官方的论坛上，技术大佬貌似没有看懂提问者的问题，提问者想问（就跟我的问题一致）：</p>
+<blockquote>
+<p>I know that you can specify a block size that is less than 32, but I expect that will make part of the <strong><u>warp idle</u></strong>, and reduce resource utilization.</p>
+</blockquote>
+<p>​ 那。。。这些不就是warp divergence吗？除非，GPU做了一些实际的优化，对于一个warp中没有用到的线程直接mask掉，那么第一种实现又有何不可呢？感觉要么就是自己没理解透，再要么就是自己没理解透，最后要么就是 这个例子就是有问题，只能强行解释。</p>
+<h3 id="parallelism-example-quick-sort">3.3 Parallelism Example: Quick sort</h3>
+<p>​ 这是另一个很有趣的例子：如何在GPU上并行快排？</p>
+<p>​ 首先，老师们把这个问题拆解成了两部分。第一部分是：根据条件，选择出符合要求的数组元素形成新的数组。比如：[4, 5, 2, 5, 8, 9, 1, 0, 3, 7] 选出大于4的部分：[5, 5, 8, 9, 7]。</p>
+<p>​ GPU能并行做这个事情吗？回答是可以的，但是不是一步并行的，因为这种往数组中 <strong><u>保序</u></strong> 添加是不好做的。这样一个任务被拆解为三个串行部分：</p>
+<ul>
+<li>True / False 标签：创建一个等大小的flag数组来指示每个元素是否满足要求，满足为1，不满足为0，这个可以全并行。比如例子中[0, 1, 0, 1, 1, 1, 0, 0, 0, 1]</li>
+<li>prefix sum，讲flag数组prefix sum求和：[0, 1, 1, 2, 3, 4, 4, 4, 4, 5]，这也是可以并行（分级）的（数组记作prefix）</li>
+<li>最后：并行访问flag数组以及prefix sum数组，如果flag[i] = 1，那么原数组[i]保存在新数组的prefix[i]-1位置。也是可以全并行的</li>
+</ul>
+<p>​ 这件事做完之后就是标准的快排流程了。选pivot，甚至可以在GPU里递归。</p>
+<h3 id="practical-slides">3.4 Practical slides</h3>
+<p>​ 很有用，总结的也很好，我没有产生自己的新理解，就直接把这些slides[6]放上来当作保存了。</p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/2021-09-05%20(1).png"></p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/2021-09-05%20(2).png"></p>
+<p><img src="/2021/09/03/GPU-Architecture-Intros/2021-09-05.png"></p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rasterisation">Wikipedia - Rasterization</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="http://courses.cms.caltech.edu/cs179/2021_lectures/cs179_2021_lec02.pdf">CalTech CS 179 lecture 2</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="http://courses.cms.caltech.edu/cs179/2021_lectures/cs179_2021_lec07.pdf">CalTech CS 179 lecture 7</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="http://courses.cms.caltech.edu/cs179/">California Tech CS179</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-f11/www/lec_slides/lec19.pdf">CMU/How a GPU works</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://www.techylib.com/en/view/sizzlepicture/introduction_to_nvidia_cuda">Introduction to Nvidia CUDA</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/" title="GPU Architecture Intros">https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/GPU/" rel="tag"><i class="fa fa-tag"></i> GPU</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/29/Contrastive-Learning-Intros/" rel="prev" title="Contrastive Learning Intros">
+                  <i class="fa fa-chevron-left"></i> Contrastive Learning Intros
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/" rel="next" title="【笔记】两篇双目相关论文">
+                  【笔记】两篇双目相关论文 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

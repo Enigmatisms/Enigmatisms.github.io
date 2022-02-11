@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="特龙智慧  ​ 我在大二上学期购买了《概率机器人》一书，当时还没有学概率论，所以我看不懂（但是我大受震撼）。大二下的暑假曾经学了一段时间，但是没有深入，到第五章就结束了。直到现在，大四了，项目有这方面的需求了，才重新开始看特龙(Sebstian Thrun)这本口碑很好的书。尽管这本书是2006年出版的，其中的很多思想在现在的我看来，都还很有指导意义。非常后悔，自己没能在之前花精力啃下这本SL">
+<meta property="og:type" content="website">
+<meta property="og:title" content="特龙智慧-GMapping">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="特龙智慧  ​ 我在大二上学期购买了《概率机器人》一书，当时还没有学概率论，所以我看不懂（但是我大受震撼）。大二下的暑假曾经学了一段时间，但是没有深入，到第五章就结束了。直到现在，大四了，项目有这方面的需求了，才重新开始看特龙(Sebstian Thrun)这本口碑很好的书。尽管这本书是2006年出版的，其中的很多思想在现在的我看来，都还很有指导意义。非常后悔，自己没能在之前花精力啃下这本SL">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%202021-10-22%20194809.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-55-33.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-57-36.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-59-28.png">
+<meta property="article:published_time" content="2021-10-21T17:03:49.000Z">
+<meta property="article:modified_time" content="2021-10-22T12:19:23.355Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="SLAM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%202021-10-22%20194809.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/","path":"2021/10/22/特龙智慧-GMapping/","title":"特龙智慧-GMapping"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>特龙智慧-GMapping | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7"><span class="nav-text">特龙智慧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-gmapping-%E8%AE%BA%E6%96%87%E5%88%86%E6%9E%90"><span class="nav-text">II. GMapping 论文分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E8%87%B4%E6%80%9D%E6%83%B3"><span class="nav-text">2.1 大致思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%93%E5%90%88%E8%A7%82%E6%B5%8B"><span class="nav-text">2.2 如何结合观测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-gmapping-%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B"><span class="nav-text">III. GMapping 代码流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#processscan"><span class="nav-text">3.1 processScan</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E5%8A%A8%E6%A8%A1%E5%9E%8B"><span class="nav-text">3.1.1 运动模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E7%A7%BB%E5%8A%A8%E8%B7%9D%E7%A6%BB"><span class="nav-text">3.1.2 计算移动距离</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#scanmatch"><span class="nav-text">3.1.3 scanMatch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#updatetreeweights"><span class="nav-text">3.2 updateTreeWeights</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E9%87%87%E6%A0%B7"><span class="nav-text">3.3 重采样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="nav-text">IV. 流程总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-%E6%95%88%E6%9E%9C"><span class="nav-text">V. 效果</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          特龙智慧-GMapping
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-10-22 01:03:49 / Modified: 20:19:23" itemprop="dateCreated datePublished" datetime="2021-10-22T01:03:49+08:00">2021-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="特龙智慧">特龙智慧</h1>
+<hr>
+<p>​ 我在大二上学期购买了《概率机器人》一书，当时还没有学概率论，所以我看不懂（但是我大受震撼）。大二下的暑假曾经学了一段时间，但是没有深入，到第五章就结束了。直到现在，大四了，项目有这方面的需求了，才重新开始看特龙(Sebstian Thrun)这本口碑很好的书。尽管这本书是2006年出版的，其中的很多思想在现在的我看来，都还很有指导意义。非常后悔，自己没能在之前花精力啃下这本SLAM以及移动机器人著作。</p>
+<p>​ GMapping（以及相关的粒子滤波SLAM方法）或多或少都有他的参与，最近也刚好读了相关的论文，并且仔细研读了其代码（OpenSLAM上的💩山，literally），故我把这些笔记整理成了一篇文章：</p>
+<ul>
+<li>本文作者并没有特龙，但是估计是相关团队的文章：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/4084563/">Improved Techniques for Grid Mapping with Rao-Blackwellized Particle Filters</a></li>
+<li>上面这篇论文可以说是：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/1250629/">IROS2003:An Efficient FastSLAM Algorithm for Generating Maps of Large-Scale Cyclic Environments from Raw Laser Range Measurements</a>的升级版（这篇论文的建议分布是“学”出来的）。</li>
+</ul>
+<p><img src="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%202021-10-22%20194809.png"></p>
+<center>
+Figure 1. 这人有一个以自己名字命名的实验室，还曾拒绝过出任Google副总裁...
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-gmapping-论文分析">II. GMapping 论文分析</h2>
+<h3 id="大致思想">2.1 大致思想</h3>
+<p>​ gmapping是一篇基于粒子滤波的配准工作，其主要创新点只有一点：就是得到了一个改进的粒子滤波建议分布（improved proposal distribution），这篇文章既没有涉及到回环检测、后端优化，也没有深入分析前端的配准算法。其主要贡献就是：改进粒子滤波在某些传感器上的表现。</p>
+<p>​ 我们考虑激光雷达，一般来说，激光雷达的测距精度很高，在配准算法具有很好的表现情况下时，可以认为配准也有比较好，配准结果噪声较小。因为粒子滤波的主要思想是：</p>
+<div class="note info"><ul>
+<li>我先建模一个易于获取的建议分布（proposal）</li>
+<li>再建模一个【近似的】建议分布与目标分布之间的差别w（权重）（根据贝叶斯理论，一般是乘性的因子）</li>
+</ul>
+</div>
+<p>​ 可见，如果目标分布（贝叶斯后验）很好获得，那么我们可以直接将目标分布当作建议分布，并且使得这差别权重都相等，为1。但是一般来说，需要粒子滤波解决的问题都不会有简单的目标后验，故建模一个好的建议分布是非常必要的：</p>
+<div class="note primary"><ul>
+<li>一个好的建议分布可以使得【近似的】差别权重对于其近似性的要求降低</li>
+<li>好的建议分布可以提高采样的质量</li>
+</ul>
+</div>
+<p>​ 传统意义上，建议分布一般会使用odometry的运动模型分布，比如沿着运动方向的与垂直运动方向两个方向为主轴的高斯分布。在粒子的更新阶段（也即从建议分布采样阶段），我们根据控制<span class="math inline">\(u_t\)</span>，确定<span class="math inline">\(x_t^{(i)}=u_t *x_{t-1}^{(i)}\)</span>，并且根据<span class="math inline">\(u_t\)</span>，确定一个带噪声的<span class="math inline">\(x_t^{(i)}\)</span>，人工加噪相当于是从运动模型分布中采样了。但是，gmapping这篇论文说：odometry较之于LiDAR配准来说，一般都大了一些，如果我们可以在建议分布中也用上观测的值，说不定可以得到更加符合目标分布的建议分布。</p>
+<blockquote>
+<p>When using the odometry model as the proposal distribution in such a case, the importance weights of the individual samples can differ signifificantly from each other since only a fraction of the drawn samples cover the regions of state space that have a high likelihood under the observation model</p>
+</blockquote>
+<p>​ 举一个例子：假设我们有一条长走廊，长走廊较为理想。那么对于配准来说，长走廊情况下的配准协方差沿着走廊方向的分量更大，但是垂直走廊方向很小，而另一方面，odometry在两个方向上可能都有较大的协方差。如果我们使用odometry的协方差，在更新采样环节可能会采到次优的位置，但如果此时结合配准误差、里程计协方差，可以将：</p>
+<ul>
+<li>垂直长走廊方向的协方差降下来，沿着长走廊方向的协方差则可以由odometry主导。</li>
+</ul>
+<p>​ 从这样的分布中采样，可以得到更好的结果。</p>
+<p>​ 此外，还有另一个问题。为什么你在实现PF时，使用完全随机的采样策略效果并不好？这篇论文中的一个解释我觉得非常有道理：</p>
+<blockquote>
+<p>However, if the observation likelihood is <strong><u>peaked</u></strong> the number of pose samples <span class="math inline">\(x_j\)</span> that has to be sampled from the motion model is high, since a dense sampling is needed for sufficiently capturing the <strong><u>typically small areas of high likelihood</u></strong>. This results in a similar problem than using the motion model as the proposal: a high number of samples is needed to s<strong><u>ufficiently cover the meaningful region of the distribution</u></strong>.</p>
+</blockquote>
+<p>​ 之前也没有想得太深，只是觉得角度上的采样不足，于是增大了角度采样。现在想想，整个后验分布确实就是一个具有突出峰值的分布，在实验过程中也发现了这一点（实验是<a href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/">上一篇博客</a>中的粒子滤波，更新过程中发现，收敛时的粒子分布的确呈尖峰形状）。</p>
+<h3 id="如何结合观测">2.2 如何结合观测</h3>
+<p>​ PF更新公式如下： <span class="math display">\[
+\begin{equation}
+w_t=w_{t-1}\frac{
+\eta p(z_t|x_{1:t}, z_{1:t-1})p(x_t|x_{t-1},u_{t-1})
+}{
+\pi(x_t|x_{1:t-1},z_{1:t},u_{1:t-1})
+}
+\end{equation}
+\]</span> ​ 朴素情况下，建议分布就是运动状态转移分布：<span class="math inline">\(p(x_t|x_{t-1},u_{t-1})\)</span>，我们将其替换：考虑到配准信息也可以使用，那么gmapping使用了一个这样的策略：</p>
+<ul>
+<li>首先我根据scan-matcher确定一个ROM（region of meaning，有意义的区域），也即是配准认为可能的分布位置</li>
+<li>在这个有意义的区域内进行<strong><u>多次采样</u></strong>。多次采样的结果，使用scan-matcher得到<span class="math inline">\(p(x_t|x_{1:t},z_{1:t-1})\)</span>（似然），而由于控制已知（均值已知），参数一般也已知，那么分布就已知，则在选取的点可以计算<span class="math inline">\(p(x_t^{(j)}|x_{t-1},u_{t-1})\)</span></li>
+<li>我们需要计算的improved proposal是：<span class="math inline">\(p(x_t|m^{(i)}_{t-1},x_{t-1},z_t,u_{t-1})\)</span>。这个的物理意义是：在第i个粒子对应的map <span class="math inline">\(m^{(i)}_{t-1}\)</span>下，由<span class="math inline">\(x_{t-1}\)</span>由控制量<span class="math inline">\(u_{t-1}\)</span>转移，观测到<span class="math inline">\(z_t\)</span>的条件下，在<span class="math inline">\(x_t\)</span>位置的概率。看起来这个非常像后验，但是其计算是近似的。</li>
+</ul>
+<p>​ 但是实际上，在RBPF中，更新公式有所不同。因为RBPF是专门针对SLAM设计的一种粒子滤波，在滤波过程中，各种概率分布需要包含地图信息。针对RBPF的权重更新公式如下： <span class="math display">\[
+\begin{equation}\label{rbpf}
+w_t=w_{t-1}\frac{
+\eta p(z_t|x_{t}, m_{t-1})p(x_t|x_{t-1},u_{t-1})
+}{
+p(x_t|x_{t-1},z_t,u_{t-1},m_{t-1})
+}
+\end{equation}
+\]</span> ​ 上式的分母可以使用贝叶斯理论展开： <span class="math display">\[
+\begin{align}
+&amp;p(x_t|x_{t-1},z_t,u_{t-1},m_{t-1})=\frac{p(z_t|x_t,x_{t-1},u_{t-1},m_{t-1})p(x_t,x_{t-1},u_{t-1},m_{t-1})}
+{p(z_t,x_{t-1},u_{t-1},m_{t-1})}\\
+&amp;p(x_t,x_{t-1},u_{t-1},m_{t-1})=p(x_t|u_{t-1},m_{t-1},x_{t-1})p(u_{t-1},m_{t-1},x_{t-1})=p(u_{t-1},m_{t-1},x_{t-1})p(x_t|x_{t-1},u_{t-1})\tag{条件独立性-1}\\
+&amp;p(z_t|x_t,x_{t-1},u_{t-1},m_{t-1})=p(z_t|x_{t},m_{t-1})\tag{条件独立性-2}
+\end{align}
+\]</span> ​ 故，分母可以展开成为： <span class="math display">\[
+\begin{equation}
+\frac{p(z_t|x_t,m_{t-1})p(x_t|x_{t-1},u_{t-1})}
+{p(z_t|x_{t-1},u_{t-1},m_{t-1})}
+\end{equation}
+\]</span> ​ 带入公式<span class="math inline">\(\eqref{rbpf}\)</span>中可以得到<span class="math inline">\(w_t=w_{t-1}p(z_t|x_{t-1},u_{t-1},m_{t-1})\)</span>。则进一步可以写为（别看公式很长，其实完全就是贝叶斯，“很好”推的！）： <span class="math display">\[
+\begin{align}
+&amp;p(z_t|x_{t-1},u_{t-1},m_{t-1})=\int p(z_t,x&#39;|x_{t-1},m_{t-1},u_{t-1})dx&#39;=\\
+&amp;\int \frac {p(x&#39;,z_t,x_{t-1},m_{t-1},u_{t-1})}{p(x&#39;|x_{t-1},m_{t-1},u_{t-1})p(x_{t-1},u_{t-1},m_{t-1})}p(x&#39;|x_{t-1},m_{t-1},u_{t-1})dx&#39;=\\
+&amp;\int p(z_t|m_{t-1},x&#39;,x_{t-1},u_{t-1})p(x&#39;|x_{t-1},m_{t-1},u_{t-1})dx&#39;\stackrel{\text{独立性}}{\longrightarrow}\\
+&amp;\int p(z_t|x&#39;,m_{t-1})p(x&#39;|x_{t-1},u_{t-1})dx&#39;\propto\\
+&amp;\sum_{i=1}^Kp(z_t|m_{t-1}^{(i)},x_j)p(x_j|x_{t-1}^{(i)},u_{t-1})\label{approx}
+\end{align}
+\]</span> ​ 公式<span class="math inline">\(\eqref{approx}\)</span>将最后的转换完成了，这个公式使得我们不必计算复杂的条件概率，而可以使用：机器人运动学模型分布与观测模型分布的加权组合，更新每一个粒子（<strong><u>运用好独立性假设以及边缘化，可以推出很多有意思的公式</u></strong>）。</p>
+<p>​ 论文中的更新迭代策略是这样的：</p>
+<ul>
+<li>根据里程计信息，作为初值，进行配准，得到带有观测信息的<span class="math inline">\(u_{t-1}^*\)</span></li>
+<li><span class="math inline">\(x_{t-1}+u_{t-1}^*\)</span>周围（一个球内）采样，每个采样点<span class="math inline">\(x_s\)</span>都可以根据里程计的高斯分布以及配准的似然域计算点权（<span class="math inline">\(p(z|x)p(x|x&#39;,u)\)</span>），注意，所有点的点权之和，就是更新公式的<span class="math inline">\(p(z_t|x_{t-1},u_{t-1},m_{t-1})\)</span>。</li>
+<li>根据采样的点可以计算高斯分布，最后得到的粒子从这个高斯分布中采样。</li>
+</ul>
+<div class="note danger"><p>​ 非常奇怪的是，<strong><u>网上所有GMapping的实现</u></strong>，都没有实现多点采样生成高斯分布再进行重新采样的步骤。</p>
+</div>
+<hr>
+<h2 id="iii.-gmapping-代码流程">III. GMapping 代码流程</h2>
+<h3 id="processscan">3.1 processScan</h3>
+<p>​ processScan是核心函数：</p>
+<h5 id="运动模型">3.1.1 运动模型</h5>
+<p>​ 首先从运动模型中采样（<code>drawFromMotion</code>函数，此函数的原理在《概率机器人上》）</p>
+<h5 id="计算移动距离">3.1.2 计算移动距离</h5>
+<p>​ 计算移动距离：<code>m_linearDistance</code>, <code>m_angularDistance</code></p>
+<ul>
+<li>保证平移距离不过大，过大则认为位置发生了突变</li>
+<li>当移动距离过大，或是长时间没有更新，那么就需要进行一次配准</li>
+</ul>
+<h5 id="scanmatch">3.1.3 scanMatch</h5>
+<p>​ scanMatch首先根据plainReading（也就是点云原始数据）进行配准，配准使用搜索算法，在<code>optimize</code>函数中。注意代码里有bug：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (bestScore&gt;=currentScore)</span><br></pre></td></tr></table></figure>
+<p>​ 六个方向移动，直到达到最大分数或者迭代次数，每次减小步长</p>
+<p>​ score的计算,在之后的函数中说. 配准函数针对了每一个粒子,每个粒子都进行了一次优化</p>
+<p>​ <code>likelihoodAndAScore</code>函数 进行似然计算：大概做了这样的事情：</p>
+<ul>
+<li>skip是跳过处理的一种实现，指的是：激光线太多，信息冗余，可以跳过一个激光线计算似然域</li>
+<li>首先把激光器的位姿投影到世界坐标系下，此后对于每一条需要处理的激光线，也转到世界坐标系下，并且确定一个位于空域的点位置（激光线截短一截）</li>
+<li>在一个领域内，查找最适合的障碍物点（因为激光测距会存在噪声），障碍物点需要满足：该点占用概率大于阈值，对应空域点占用概率小于阈值</li>
+<li>求均值，并求激光点世界坐标位置与该均值的距离（越小说明越应该是这个障碍点）</li>
+<li>求似然。这样求出的似然域是较为平滑的，故在scanMatch的optimize中，计算score也是用了类似的平滑函数</li>
+</ul>
+<p>​ <code>computeActiveArea</code>：是一个更新地图操作，因为地图是基于占用栅格的，未知区域也是需要表征的，限制范围可以节约内存资源。computeActiveArea更新了地图大小（每个粒子）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//this allocates the unallocated cells in the active area of the map</span></span><br><span class="line"><span class="comment">//cout &lt;&lt; &quot;activeArea::size() &quot; &lt;&lt; activeArea.size() &lt;&lt; endl;</span></span><br><span class="line">map.<span class="built_in">storage</span>().<span class="built_in">setActiveArea</span>(activeArea, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>​ 在此前，先根据scanMatch计算的位姿，计算了占用栅格（每条激光线经过的每个点），将占用栅格加入到map中，等待对地图进行更新。</p>
+<h3 id="updatetreeweights">3.2 updateTreeWeights</h3>
+<p>​ updateTreeWeights只做了三件事：</p>
+<ul>
+<li>归一化权重</li>
+<li>轨迹树重置</li>
+<li>权重沿着树传播</li>
+</ul>
+<p>​ 轨迹树会不会做的是这样一件事情呢？初始时粒子都在同一位置，在迭代过程中，也可能出现两个粒子位姿一致的情况吗？会有一个parent对应了很多child的情况吗，轨迹树的child会怎么来？</p>
+<p>​ propagateWeights就是一层一层将叶子节点的weight向上传播（因为在scanMatch中会重新衡量叶子节点的weight，而上层weight（相当于之前的位姿）是逐层累加的）。</p>
+<p>​ 但是resample计算使用的是当前叶子节点的权重，与上层的权重无关。那么这样逐层累加的weight，其作用是什么？<code>weightSum</code>在另一个类中被使用了。看代码时没有注意继承关系，以为只有<code>GridSlamProcessor</code>是主要模块，最后发现openslam版本中，还有一个类叫做：<code>GridSlamProcessorThread</code>，内部实现了一些父类没有实现的回调函数，在这个类中定义的<code>onScanmatchUpdate</code>函数中，用到了weightSum：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(part-&gt;weightSum&gt;bestWeight)&#123;</span><br><span class="line">    bestIdx=idx;</span><br><span class="line">    bestWeight=part-&gt;weightSum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 算法选择权重综合最大的一个粒子（故与历史信息相关了），取该粒子对应的map作为当前地图，根据最大权重的粒子更新地图，并且选择最优粒子的位姿当作自身当前位姿。</p>
+<p>​ 不过根据算法的逻辑，每次计算了底层叶子节点的weight之后，上层需要根据底层来的值修改权重累加，但是非叶子节点的weightSum并没有用（weightSum本身就没有被用过多少次），只有叶子节点（当前最新的particles）对应的weightSum才有价值，故propagateWeights以及相应函数其实是没有作用的。</p>
+<h3 id="重采样">3.3 重采样</h3>
+<p>​ resmapleIndexes函数：这里的重采样策略使用的也是《概率机器人》上的低方差重采样。故可能出现：两个粒子重复的情况。返回的是被采样到的粒子的下标。在这个函数的内部，由于使用的策略是低方差采样，下标是有顺序的，故采样的结果也是有顺序的。 ​ 而<code>new TNode</code>在整个项目中出现在：</p>
+<ul>
+<li><code>gridslamprocessor_tree.cpp</code> 的<code>integrateScanSequence</code>中，没有实际调用</li>
+<li><code>gridslamprocessor_tree.cpp</code> 的 <code>getTrajectory</code>中，在GSP构造时使用，所以对代码逻辑的影响应该不大</li>
+<li><code>gridslamprocessor.hxx</code> 的<code>resample</code>函数中用到过，此处的使用对代码逻辑有实际的影响</li>
+</ul>
+<p>​ 建立以及更新权重轨迹树的流程与作用：</p>
+<ul>
+<li>根据权重进行低方差采样，结果被保存在<code>m_indexes</code>之中，注意<code>m_indexes</code>是顺序化的，比如：原来有8个粒子，id从0-7，重采样之后成为：1 1 1 4 4 4 7 7，那么在轨迹树中，0，2，3，5，6均会被删除（假设没有其他关联，整条与这几个节点有关的树枝均会被切除）</li>
+<li>轨迹树实际上就是重采样树，0 1 2 3 4 5 6 7 这8个节点，按照上面的重采样例子会生成如下图所示的树：</li>
+</ul>
+<pre class="mermaid">
+graph TD
+
+A(root)
+A1(0)
+A2(1)
+A3(2)
+A4(3)
+A5(4)
+A6(5)
+A7(6)
+A8(7)
+B(1-1)
+C(1-2)
+D(1-3)
+E(4-1)
+F(4-2)
+G(4-3)
+H(7-1)
+I(7-2)
+A---A1
+A---A2
+A---A3
+A---A4
+A---A5
+A---A6
+A---A7
+A---A8
+A2---B
+A2---C
+A2---D
+A5---E
+A5---F
+A5---G
+A8---H
+A8---I
+
+</pre>
+<center>
+Figure 2. GMapping权重树结构示例
+</center>
+<p>​ 重采样得到点就相当于子节点，重采样前的节点是父节点。</p>
+<ul>
+<li>删除所有重采样后没有结果的点，比如假设上述例子又发生了一次重采样，(7-1)(7-2)权重过小，那么(7-1)(7-2)(7)都会被删除</li>
+<li>对重采样后的新particles，根据当前的点云信息，更新地图（activeArea重新计算），但是权重会被重置为0。那么这个为0的权重，将会在scanMatch函数中被修改（计算完likelihood之后，权重会被设置为likelihood），并且在weightSum中也累加一份。</li>
+</ul>
+<hr>
+<h2 id="iv.-流程总结">IV. 流程总结</h2>
+<p>​ 我已经发现了：openslam的代码又臭又长，还不能编译，令人根本不知道processScan这个函数究竟在什么情况下被使用，貌似因为下载的是最原始的版本。</p>
+<div class="note danger no-icon"><p>​ addScan函数（貌似是ROS封装），在转换scan信息之后，调用processScan函数。此函数首先从motion model中采样，此后判定是否需要进行配准。</p>
+</div>
+<div class="note warning no-icon"><p>​ 如果需要配准，通常情况下是超时或者超出距离阈值，则需要调用scanMatch函数，此函数内部使用被称之为【爬山法】的搜索方法进行匹配，得到修正后的位姿（<strong><u>但是貌似没有实现GMapping中的生成高斯分布</u></strong>）。</p>
+</div>
+<div class="note info no-icon"><p>​ 此后需要计算似然，使用似然域法，在领域内搜点获得一个平滑似然。计算得到的似然作为新的权重，并且将此权重累加到weightSum上去。</p>
+</div>
+<div class="note success no-icon"><p>​ 计算地图更新，也就是重新计算activeArea，需要向栅格图原始数据（PointAccumulator）的容器中增加新的栅格（或者对原有栅格进行访问）。</p>
+</div>
+<div class="note primary no-icon"><p>​ 重采样步骤，重采样的过程中，会对轨迹树进行重建。方法在上文已经阐述过了，注意propagateWeights是没有太大意义的操作，我直接忽略了。</p>
+</div>
+<hr>
+<h2 id="v.-效果">V. 效果</h2>
+<p>​ 2007啊！他们太强了。不过也不能说完美，有如下几个问题：</p>
+<ul>
+<li>5cm grid 精度可以适应大多数的需求，所以2D SLAM方向做的人越来越少了（基本满足需求了），而我尝试使用更高精度grid的时候（比如2.5cm），配准将发生错误（我猜是grid太小了，导致了激光器模型的稀疏性问题）</li>
+<li>同时，grid变小将会占用过多的内存（1cm大小的格子跑Intel数据集貌似可以跑到10GB内存占用，真的无法想象当年他们那个条件怎么做实验的）</li>
+<li>丢帧将会导致非常严重的问题，当点云频率很高的时候，丢帧将直接导致配飞（很奇怪，里程计不是用上了吗？）</li>
+<li><strong><u>貌似没有实现2007年论文的improved proposal思想</u></strong>。</li>
+</ul>
+<p>​ 以下测试的地图均为5cm大小grid，intel数据包由于点云帧率低，我的i5上可以开8倍速播放包，而我自己做的仿真数据集只能2倍速（否则丢帧直接死掉），粒子个数均为15个，其他参数都是默认参数。</p>
+<p><img src="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-55-33.png"></p>
+<center>
+Figure 3. Intel 实验室数据集
+</center>
+<p><img src="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-57-36.png"></p>
+<center>
+Figure 4. hqy仿真数据集【1】
+</center>
+<p><img src="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-59-28.png"></p>
+<center>
+Figure 5. hqy仿真数据集【2】
+</center>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/" title="特龙智慧-GMapping">https://enigmatisms.github.io/2021/10/22/特龙智慧-GMapping/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
+              <a href="/tags/SLAM/" rel="tag"><i class="fa fa-tag"></i> SLAM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/" rel="prev" title="CUDA踩坑实录【2】">
+                  <i class="fa fa-chevron-left"></i> CUDA踩坑实录【2】
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/" rel="next" title="骷髅融合者-CVPR2021">
+                  骷髅融合者-CVPR2021 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

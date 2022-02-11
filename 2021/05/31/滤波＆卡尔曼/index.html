@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Filtering &amp; Kalman  I. 引入 ​ 2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。   Figure 1. 单方向ARKF滤波预测  ​ 本文是对近段时间使用的滤波方法进行的一个比较肤浅的总结，包括：  AR">
+<meta property="og:type" content="website">
+<meta property="og:title" content="滤波＆卡尔曼">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Filtering &amp; Kalman  I. 引入 ​ 2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。   Figure 1. 单方向ARKF滤波预测  ​ 本文是对近段时间使用的滤波方法进行的一个比较肤浅的总结，包括：  AR">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/disp-1622393689154.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/huber.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/eskf.jpg">
+<meta property="article:published_time" content="2021-05-30T16:48:14.000Z">
+<meta property="article:modified_time" content="2021-08-02T17:18:26.552Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="控制理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/disp-1622393689154.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/","path":"2021/05/31/滤波＆卡尔曼/","title":"滤波＆卡尔曼"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>滤波＆卡尔曼 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#filtering-kalman"><span class="nav-text">Filtering &amp; Kalman</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-%E5%BC%95%E5%85%A5"><span class="nav-text">I. 引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-arkf"><span class="nav-text">II. ARKF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90"><span class="nav-text">2.1 理论分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%97%E5%B7%AE"><span class="nav-text">2.1.1 抗差</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94"><span class="nav-text">2.1.2 自适应</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">2.2 代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-mee-cmee"><span class="nav-text">III. MEE &amp; CMEE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error-entropy-kernel"><span class="nav-text">3.1 Error Entropy &amp; Kernel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-text">3.1.1 简单介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#parzen%E7%AA%97%E4%B8%8Erenyi-entropy"><span class="nav-text">3.1.2 Parzen窗与Renyi Entropy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F%E4%B8%8E%E9%97%AD%E5%BC%8F%E8%A7%A3"><span class="nav-text">3.2 约束与闭式解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-eskf"><span class="nav-text">IV. ESKF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          滤波＆卡尔曼
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-31 00:48:14" itemprop="dateCreated datePublished" datetime="2021-05-31T00:48:14+08:00">2021-05-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-08-03 01:18:26" itemprop="dateModified" datetime="2021-08-03T01:18:26+08:00">2021-08-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="filtering-kalman">Filtering &amp; Kalman</h1>
+<hr>
+<h2 id="i.-引入">I. 引入</h2>
+<p>​ 2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。</p>
+<p><img src="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/disp-1622393689154.png"></p>
+<center>
+Figure 1. 单方向ARKF滤波预测
+</center>
+<p>​ 本文是对近段时间使用的滤波方法进行的一个比较肤浅的总结，包括：</p>
+<ul>
+<li>ARKF（自适应抗差KF）</li>
+<li>MEE &amp; CMEE（约束最小误差熵KF）</li>
+<li>ESKF（Error State KF）</li>
+</ul>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-arkf">II. ARKF</h2>
+<h3 id="理论分析">2.1 理论分析</h3>
+<h4 id="抗差">2.1.1 抗差</h4>
+<p>​ ARKF[1]是很老的工作了，大创答辩的时候老师还特地问我为什么要引那么老的文献（1999，比我还大）（小声：但人家简单有效啊）。我已经在<a href="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/">[优雅线代与美妙优化]</a>一文中说了，卡尔曼滤波是怎么与最小二乘联系起来的。这里简单回顾一下： <span class="math display">\[
+\begin{equation}\label{lsp}
+W(k){x}(k)+\xi(k)=Y(k)
+\end{equation}
+\]</span> ​ 其中<span class="math inline">\(W(k)\)</span>（实际是上面那篇博客中提到的<span class="math inline">\(X(k)\)</span>，但是<span class="math inline">\(X\)</span>用于表示非状态矩阵，容易与<span class="math inline">\(x\)</span>发生冲突）以及<span class="math inline">\(Y(k)\)</span>的意义直接看上面提到的博文吧。<span class="math inline">\(\xi(k)\)</span>则是状态转移噪声 / 观测噪声concatenation的白化变换。我们提到，KF实际上是根据<span class="math inline">\(\eqref{lsp}\)</span>进行MSE最小化的过程。</p>
+<p>​ 但是MSE在很多问题下的表现并不好，特别是外点很多的时候。想想在最小二乘直线拟合的时候，一个外点就能让直线拟合出来的参数变得比原来离谱很多，这是由于误差函数的性质决定的：MSE对偏差大的数据产生的cost是平方级别的cost，而Huber则是线性的cost。</p>
+<center>
+<img src="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/huber.png" style="zoom:72%;">
+</center>
+<center>
+Figure 2. Huber函数和MSE
+</center>
+<p>​ 这就决定了Huber函数存在一定的外点鲁棒性，对于外点多的数据，Huber函数的KF将会更加稳定。但是很可惜，由于Huber函数的表达式比MSE复杂，并且原始Huber函数是存在非线性的（if判定，虽然导数以及原函数是连续的），我个人没有推出其解析解（我也没推，我也不会Mathematica），所以对于公式<span class="math inline">\(\eqref{lsp}\)</span>定义的“状态转移”，由于公式<span class="math inline">\(\eqref{lsp}\)</span>展开是： <span class="math display">\[
+\begin{equation}\label{optim}
+\begin{pmatrix}
+I\\
+H
+\end{pmatrix}\breve{x}(k)=
+\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} +
+\begin{pmatrix}
+w(k)\\
+v(k)
+\end{pmatrix}=
+\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} + E(k)
+\end{equation}
+\]</span> ​ 其中'<span class="math inline">\(\breve{}\)</span>'表示先验，'<span class="math inline">\(\hat{}\)</span>'表示后验，我们需要估计的是公式<span class="math inline">\(\eqref{optim}\)</span>中的<span class="math inline">\(\breve{x}(k)\)</span>（也就是KF需要估计的当前状态，实际就是公式<span class="math inline">\(\eqref{lsp}\)</span>的<span class="math inline">\(x(k)\)</span>），那么<span class="math inline">\(x(k)\)</span>可以写为： <span class="math display">\[
+\begin{equation}\label{optim2}
+x(k)^*=\mathop{\arg \min}_{x(k)}\sum \Phi(y_i-w_i^Tx(k))
+\end{equation}
+\]</span></p>
+<p>​ 此处，<span class="math inline">\(w_i^T\)</span>是公式<span class="math inline">\(\eqref{lsp}\)</span>中提到的矩阵<span class="math inline">\(W(k)\)</span>的第i行。<span class="math inline">\(\Phi(·)\)</span>是鲁棒核函数，此处可以为Huber。普通卡尔曼滤波则此处为<span class="math inline">\((·)^2\)</span>函数，平方则是存在闭式解的，甚至可以不用化为求和式，只需要简单用pseudo逆就可求出。</p>
+<p>​ 而由于<span class="math inline">\(y_i,w_i\)</span>都是已知的，具有具体的意义，只剩下未知的待估计位姿<span class="math inline">\(x(k)\)</span>，那么只需要求解公式<span class="math inline">\(\eqref{optim2}\)</span>定义的优化问题即可。这步在Kalman滤波中称为：抗差（Robust）化，因为解抗差最小二乘问题得到的解将更加稳定。</p>
+<h4 id="自适应">2.1.2 自适应</h4>
+<p>​ 朴素KF的噪声协方差不是自适应的，而是开始就设置好的。Q和R两个矩阵，一个代表状态转移噪声协方差，另一个代表观测噪声协方差，都是固定的（非自适应，固定就意味着高斯噪声假设）。这两个矩阵的意义比较明确：反映了不同的物理过程的噪声大小。比如：</p>
+<ul>
+<li>若要让结果倾向于数学模型（状态转移模型），那么状态转移噪声应该显著小于观测噪声。</li>
+<li>如果要让结果倾向于观测（观测模型），那么观测噪声应该显著小于状态转移噪声。</li>
+</ul>
+<p>​ 但是实际使用中，关于【状态转移 / 观测两者谁更可靠】的问题是非常不好回答的。我可以凭借先验知识来判定，状态转移更好还是观测更好，但是这也仅限于“定性判定”，此后的KF甚至还需要进行调参，才能得到较好的收敛结果。此外，两个噪声协方差的固定性限制了我们可以处理的噪声种类（只能是高斯噪声），显然限制了KF在某些问题下的泛化。自适应的过程可以认为是：</p>
+<div class="note info"><p>使得KF可以处理的噪声类型摆脱高斯噪声限制</p>
+</div>
+<p>​ 作者使用的是中值偏差（median deviation）。说实在的，这个median deviation公式可以说是很奇怪了： <span class="math display">\[
+\begin{equation}\label{med}
+\hat{d}(k)=\text{median}\vert \frac{r(i)-\text{median}(r(i))}{0.6745}\vert
+\end{equation}
+\]</span> ​ 其中，<span class="math inline">\(r(i)\)</span>是滑动窗口内的一个新息（innovation），其实就是偏差：<span class="math inline">\(z(i)-Hx(i)\)</span>。所以这做的是什么？相当于是：计算误差协方差时（尤其是方差计算），本身是可以通过标准差（standard deviation）计算出来的，但是可以计算标准差的替代品（别的deviation）。而此处，新息的最优估计也使用了鲁棒核函数： <span class="math display">\[
+\begin{equation}\label{innov}
+r^*(k)=\mathop{\arg\min}_{\hat{r}(k)}\sum^{k}_{i=k-N+1}\Psi\left(\frac{r(i)-\hat{r}(k)}{\hat d(k)}\right)
+\end{equation}
+\]</span> ​ 即，已知一个滑动窗口内的所有新息的信息<span class="math inline">\(r(i)\)</span>，根据中值偏差进行的re-scale操作加权 + Huber鲁棒核函数，优化这个问题，得到新息的最优估计，根据新息计算噪声水平。</p>
+<h3 id="代码">2.2 代码</h3>
+<p>​ 代码可见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/tree/master/cpp/KF">[Github🔗:Algorithm-Plus/KF]</a>。其中<code>KFTest.cc</code>是对一个带有运动噪声的小球进行的仿真，使用的就是ARKF。当前效果已经比传统KF稳定了很多（不过同时也结合了很多简单滤波器）。</p>
+<video src="arkf_simulation.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<hr>
+<h2 id="iii.-mee-cmee">III. MEE &amp; CMEE</h2>
+<p>​ [2]。这是KF最近的工作，使用EE（Error Entropy）替换原来的MSE / Robust MSE准则。实际上，这些人关于KF的想法就是：</p>
+<ul>
+<li>粒子滤波太慢了，但是它很棒，可以处理任意的分布</li>
+<li>KF不太行，因为其噪声要求是高斯的，而且不自适应</li>
+</ul>
+<p>​ 理解此论文的内容需要有一定的理论储备。</p>
+<h3 id="error-entropy-kernel">3.1 Error Entropy &amp; Kernel</h3>
+<h4 id="简单介绍">3.1.1 简单介绍</h4>
+<p>​ 这篇论文[3]详细地介绍了MEE的思想以及其与M-estimation的关系，我结合这篇论文简单说一下吧（这篇论文做的modification就不说了）。</p>
+<p>​ 此处使用的Entropy有别于通常说的香农熵（Shannon），这个熵被称为Renyi entropy，与香农熵的区别如下： <span class="math display">\[
+\begin{align}
+&amp; H_s(X)=-\sum\log(P_i(x))P_i(x)\label{shannon} \\ 
+&amp; H_a(X)=\frac{1}{1-a}\log(\sum P^a(x))\label{renyi}
+\end{align}
+\]</span> ​ 公式<span class="math inline">\(\eqref{shannon}\)</span>是香农熵，而公式<span class="math inline">\(\eqref{renyi}\)</span>是Renyi熵。这两个式子让我想到了在DIP课上学到的两个滤波器，一个是普通的均值滤波器，另一个则是逆谐波均值滤波器（阶数可变那种）。香农熵就是Renyi熵在a趋近于1的一个特例。MEE中常用的是a=2（称为quadratic Renyi entropy）。论文[3]做作者提到的EE做的事实际上是：</p>
+<blockquote class="blockquote-center">
+<p>The concept of ‘close’, implicitly or explicitly employs a distance function or similarity measure.</p>
+
+</blockquote>
+<p>​ 也即，EE定义的是一种相似 / 接近的度量。而由于EE在计算时引入了概率，普通的<strong><u>误差（或者说是偏差）</u></strong>是没有概率的归一、范围性质的，不能直接参与运算。核函数就起到了一个映射为概率的作用，我们可以理解为这是一个sigmoid / softmax： <span class="math display">\[
+\begin{align}
+&amp; H_2(e)=-\log V(e) \label{h2}\\
+&amp; V(e)=\frac 1 {L^2} \sum_{j=1}^N\sum_{i=1}^Nk_{\sigma}(e_i-e_j) \label{kernel}\\
+&amp; k_{\sigma}(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{x^2}{2\sigma^2}\right)
+\end{align}
+\]</span> ​ 最后的Renyi EE就如公式<span class="math inline">\(\eqref{h2}\)</span>所定义。最小化Renyi EE就是要最大化公式<span class="math inline">\(\eqref{kernel}\)</span>定义的<span class="math inline">\(V(e)\)</span>，也即误差的QIP（quadratic information potential）。KF本质求解的加权最小二乘问题，ARKF为自适应加权鲁棒最小二乘问题。而其中的e，以我个人对论文的理解，应该表示的是新息。但是论文[2]里面实际说的是，<span class="math inline">\(e\)</span>是滤波器输出与“期望输出”的偏差。嗯？期望输出是什么东西？其实是最优滤波器的输出，<span class="math inline">\(e\)</span>是最优滤波器与当前参数滤波器输出的差异。</p>
+<p>​ 所以可以知道：</p>
+<div class="note info"><p>​ MEE准则是在优化最优滤波器和当前参数滤波器输出之间误差的误差熵。</p>
+</div>
+<p>​ 然后我发现了有趣的东西：论文[4]是人机所老师们的文章，完全介绍了MEE-KF。而论文[2]对MEE-KF的介绍并不透彻，甚至看完之后我还不是很清楚如何实现。论文[4]则说得将一些细节说的更加清楚。</p>
+<h4 id="parzen窗与renyi-entropy">3.1.2 Parzen窗与Renyi Entropy</h4>
+<p>​ 没想到还能和Parzen窗联系起来，当时没往这方面想。Parzen窗是一种核密度估计方法（非参数地估计概率密度函数，在我大三下学期的《模式识别与机器学习》课程中学了）。实际上公式<span class="math inline">\(\eqref{kernel}\)</span>定义的就是一个Parzen窗操作，怎么理解？</p>
+<ul>
+<li>首先，进行Renyi entropy计算需要计算IP（information potential）</li>
+<li>IP的计算需要依赖概率密度函数，这可以用Parzen窗估计出来</li>
+</ul>
+<p>​ 首先，Parzen窗法是这样的： <span class="math display">\[
+\begin{equation}\label{parzen}
+\hat{p}(x)=\frac 1N \sum_{i=1}^N G_{\sigma}(x-e_i)
+\end{equation}
+\]</span> ​ 相当于在一堆<span class="math inline">\(\{e_i\}\)</span>（已经采样得到的error）上放一个Gauss分布函数，再进行归一化，得到密度估计。通过采样得到的<span class="math inline">\(\{e_i\}\)</span>可以估计出error的分布，从而计算信息势<span class="math inline">\(V_a(e)\)</span>。二阶离散情况下计算为： <span class="math display">\[
+\begin{equation}\label{potential}
+\hat{V}_2(e)=\frac 1N \sum_{i=1}^N\hat{p}(e_i)=\frac 1{N^2} \sum_{i=1}^N \sum_{j=1}^N G_{\sigma}(e_i-e_j)
+\end{equation}
+\]</span> ​ 但上述公式还存在一些奇怪的地方，比如说<span class="math inline">\(\hat{V}_2(e)=\frac 1N \sum_{i=1}^N\hat{p}(e_i)\)</span>。明明正常情况下，二阶信息势应该是： <span class="math display">\[
+\begin{equation}\label{v2}
+V_2(x)=\int p^2(x)dx\rightarrow\sum_{i=1}^N p^2(x)
+\end{equation}
+\]</span> ​ 此处直接把二次项去掉了，相当于对<span class="math inline">\(p(x)\)</span>按其自身的加权平均变成了直接平均。可能是一种近似计算方法吧，因为平方确实会麻烦一些，将会写成以下形式： <span class="math display">\[
+\begin{equation}\label{right}
+V_2(x)=\sum_{i=1}^N p^2(x)=\frac 1{N^2}\sum_{i=1}^N
+\left(\sum_{j=1}^NG_{\sigma}(e_i-e_j)\right)
+\left(\sum_{j=1}^NG_{\sigma}(e_i-e_j)\right)
+\end{equation}
+\]</span> ​ 这显然是与公式<span class="math inline">\(\eqref{potential}\)</span>有一定差别的。相当于公式<span class="math inline">\(\eqref{right}\)</span>是将其中一个内求和式近似为了1（这合理吗？虽然论文说的就是：<code>one can obtain an estimate of the second order (α = 2) information potential</code>），感觉Parzen窗（一次近似）+ 均匀分布（第二次近似）是两次近似啊？还是我理解错了？但是确实这样的近似会让Renyi Entropy更方便计算。之后的推导就<strong><u>非常复杂</u></strong>了。之后开单独的一篇进行分析，我可能自己也会尝试实现一下，既然有闭式解那么可能实现起来并不会太复杂吧（？飘了）。</p>
+<h3 id="约束与闭式解">3.2 约束与闭式解</h3>
+<p>​ 说实在的，我觉得这个略有点“强行创新”的感觉。不知道怎么说这个比较好，可能是我太菜了没看明白。论文[2]做的事情是增加了一个约束（还是等式约束）： <span class="math display">\[
+\begin{equation}\label{const}
+\mathop{\arg\max}_{\pmb{w}}\hat{V}_2(e_n)\text{ subject to }\mathbf{C}^T\pmb{w}_n=\mathbf{f}
+\end{equation}
+\]</span> ​ 后面这个约束是用来干什么的呢？什么实际问题下会有这样的约束呢？就抓住这样一点小的改动就可以有一篇论文嘛？虽然后序的推导还是很有意思的，作者通过约束 + 变换求出了对应的拉格朗日乘子的取值。其中需要设置的是约束参数<span class="math inline">\(\mathbf{C}\)</span>以及<span class="math inline">\(\mathbf{f}\)</span>。</p>
+<p>​ 仔细一看，还是我们学校的老师（陈霸东教授）作为其中一位作者。当然也有可能是因为，论文长度只有5页（因为是篇brief），有些推导不是特别的详细。但可能我还是觉得，就多讨论了一个约束的情况，没什么太大的意思吧。</p>
+<hr>
+<h2 id="iv.-eskf">IV. ESKF</h2>
+<p>​ 我在做机队的某项定位任务的时候用到了ESKF（Error-State KF）[5]，对机器人的轮速 / IMU / UWB（定位信号）进行融合。ESKF与普通KF最根本的区别在于：</p>
+<ul>
+<li>普通KF的状态就是可以直接使用的，具有明确物理含义的状态，比如速度 / 位置 / 角度。</li>
+<li>ESKF的状态是误差，状态转移 / 观测都是有关误差的（比如位置误差 / 速度误差），相当于是一个对误差进行滤波得到结果，每次使用滤波估计出的系统误差进行原状态的计算。</li>
+<li>可以理解为：KF是位置式的控制（每次滤波得到的都是最终结果），而ESKF都是增量式的控制（每次滤波得到的是状态应有的变化值）。</li>
+</ul>
+<div class="note primary"><p>​ 状态总是由两部分组成：实际状态（true state）= <strong>理想状态（nominal state）</strong>+ <strong>噪声状态（error state）</strong></p>
+</div>
+<p>​ KF对实际状态进行滤波，ESKF对噪声状态进行滤波，而理想状态进行无误差假设，直接更新。关于ESKF的使用，这里就不赘述了，因为我也赘述不出来：</p>
+<p><img src="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/eskf.jpg"></p>
+<center>
+Figure 3. ESKF 95页论文中的 状态变量截图
+</center>
+<p>​ 涉及到大量的四元数 / 运动学 / 机器人学知识，常用于定位，因为它有很显著的优点：</p>
+<ul>
+<li>error-state很小（因为是误差），相当于使用相对量进行计算，一般不会出现奇异 / 万向锁之类的问题。</li>
+<li>另一方面，由于其很小（一般都在0附近，并且范围不太大），对于复杂的运动学问题（特别是非线性系统），Taylor展开后高阶项一般都是可以忽略的，性质很好。</li>
+</ul>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] Durovic Z M, Kovacevic B D. Robust estimation with unknown noise statistics[J]. IEEE Transactions on Automatic Control, 1999, 44(6): 1292-1296.</p>
+<p>[2] Peng S, Ser W, Chen B, et al. Robust constrained adaptive filtering under minimum error entropy criterion[J]. IEEE Transactions on Circuits and Systems II: Express Briefs, 2018, 65(8): 1119-1123.</p>
+<p>[3] Liu W, Pokharel P P, Principe J C. Error entropy, correntropy and m-estimation[C]//2006 16th IEEE Signal Processing Society Workshop on Machine Learning for Signal Processing. IEEE, 2006: 179-184.</p>
+<p>[4] Chen B, Dang L, Gu Y, et al. Minimum error entropy Kalman filter[J]. IEEE Transactions on Systems, Man, and Cybernetics: Systems, 2019.</p>
+<p>[5] Sola J. Quaternion kinematics for the error-state Kalman filter[J]. arXiv preprint arXiv:1711.02508, 2017.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/" title="滤波＆卡尔曼">https://enigmatisms.github.io/2021/05/31/滤波＆卡尔曼/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" rel="tag"><i class="fa fa-tag"></i> 线性代数</a>
+              <a href="/tags/%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 控制理论</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/" rel="prev" title="CNN Style Transfer论文复现">
+                  <i class="fa fa-chevron-left"></i> CNN Style Transfer论文复现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/16/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%B0%8F%E7%9F%A5%E8%AF%86/" rel="next" title="编译原理小知识">
+                  编译原理小知识 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

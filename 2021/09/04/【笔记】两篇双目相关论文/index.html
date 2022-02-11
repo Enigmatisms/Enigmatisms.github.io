@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应">
+<meta property="og:type" content="website">
+<meta property="og:title" content="【笔记】两篇双目相关论文">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/arch.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/conv3d.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part1.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part2.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/smd.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/flow.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/nets.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/agg.PNG">
+<meta property="article:published_time" content="2021-09-04T06:00:53.000Z">
+<meta property="article:modified_time" content="2021-09-07T17:01:48.210Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="stereo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/arch.PNG">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/","path":"2021/09/04/【笔记】两篇双目相关论文/","title":"【笔记】两篇双目相关论文"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【笔记】两篇双目相关论文 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#stereo"><span class="nav-text">Stereo!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-a-decomposition-model-for-stereo-matching1"><span class="nav-text">II. A Decomposition Model for Stereo Matching[1]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3"><span class="nav-text">2.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradient-flow"><span class="nav-text">2.2 Gradient Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-text">2.3 一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#detailed-loss-detection"><span class="nav-text">2.3.1 Detailed Loss Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sparse-matching"><span class="nav-text">2.3.2 Sparse Matching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#supervised-loss"><span class="nav-text">2.3.3 Supervised Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-smd-nets-stereo-mixture-density-networks3"><span class="nav-text">III. SMD-Nets: Stereo Mixture Density Networks[3]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3-1"><span class="nav-text">3.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-points"><span class="nav-text">3.2 Some points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-dl%E7%AB%8B%E4%BD%93%E5%8C%B9%E9%85%8D"><span class="nav-text">IV. DL立体匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-text">4.1 Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cost-volume-regularization"><span class="nav-text">4.2 Cost Volume Regularization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【笔记】两篇双目相关论文
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-04 14:00:53" itemprop="dateCreated datePublished" datetime="2021-09-04T14:00:53+08:00">2021-09-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-09-08 01:01:48" itemprop="dateModified" datetime="2021-09-08T01:01:48+08:00">2021-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="stereo">Stereo!</h1>
+<hr>
+<p>​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
+<p>​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-a-decomposition-model-for-stereo-matching1">II. <strong>A Decomposition Model for Stereo Matching</strong>[1]</h2>
+<p>​ 加速了。作者能加速10-100倍，并且把复杂度降得很低，使用的思想我之前思考过，但是我之前并不知道怎么做，只是有个类似的想法：</p>
+<div class="note primary"><p>​ 如果我只需要在一个较小的图像上进行双目匹配（下采样图像），在上采样的过程中使用另一个网络进行refine，只需要对部分像素进行refine，是不是能提速？</p>
+</div>
+<p>​ 产生这个想法的原因很简单，之前在尝试孙剑老师的“上古”论文（BP）时，对于无纹理区域的匹配效果不太好。大面积无纹理区域在下采样图像中就应该被解决。</p>
+<h3 id="主要思想">2.1 主要思想</h3>
+<p>​ 首先把网络总结构放一下：</p>
+<p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/arch.PNG"></p>
+<center>
+Figure 2. Decomposition model 网络架构
+</center>
+<p>​ 读完还是觉得这篇文章里有些<strong><u>很魔法</u></strong>的东西，但是也有很不错的思想。文章的方法主要可以分为以下四步：</p>
+<div class="note danger"><ol type="1">
+<li>最底层使用full cost volume（可以认为是双目匹配里面的内存暴力法）以及cost regularization（文中使用了一个如Figure 3所示的网络，对cost volume又重新映射了一边）。文章称cost regularization的作用是“rectify cost volume”，但是我半天没看明白这和rectify的关系（双目就有rectification操作，难不成是用Conv3d做了一个深度rectification？）。在这样固定大小的左右视图上进行full cost volume匹配的开销是完全可以接受的。</li>
+</ol>
+</div>
+<div class="note warning"><ol start="2" type="1">
+<li>【稀疏的【损失细节】】检测。也就是使用一个无监督的网络，输入是：特征金字塔上一层（经过下采样的一层）的特征图的上采样结果，和特征金字塔本层特征图。无监督地学出可能因为下采样操作而丢失的特征（对应的position）。无监督学习，就是nice。</li>
+</ol>
+</div>
+<div class="note info"><ol start="3" type="1">
+<li>稀疏匹配。既然在上一步操作中，我们已经清楚有些地方就是没有匹配好，那么这一步我可以对那些没有匹配好的【损失细节】进行稀疏的匹配。由于稀疏匹配对应的特征们分布不规则并且大小不固定，使用cost volume搜索对应的方法是不好的。论文使用了一种agreement思想，使用cross correlation（相当于找到最大“卷积”响应点），转换结果为softmax，再求期望，这个想法不错。</li>
+</ol>
+</div>
+<div class="note success"><ol start="4" type="1">
+<li>视差融合。也就是稀疏视差图融合到稠密视差图上的操作。这个操作又分为两步：</li>
+</ol>
+<ul>
+<li>视差图上采样。要把上一层视差金字塔的结果用上我总要上采样吧，但是做固定上采样不好玩，我们来搞一个CARAFE[2] ，一种更骚的上采样方法，具有【content-aware】能力，很玄乎吧，这个还好。最玄乎的是它做了一个大concatenation（我很讨厌无端的concat操作，把不相关的信息拼接在一起会让信息失去其原有的物理意义，这是个人粗浅的见解，会在稍后进行说明），对concat的结果进行了几次卷积，得到一个mask（也就是content-aware的权重），通过这个pixel-wise的权重将上一层上采样视差和本层融合。</li>
+</ul>
+</div>
+<p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/conv3d.PNG"></p>
+<center>
+Figure 3. cost regularization
+</center>
+<h3 id="gradient-flow">2.2 Gradient Flow</h3>
+<p>​ 我们需要考虑梯度流的问题，也就是说：我到底需要优化谁？我的loss最终作用在哪些单元？在没有看附录之前，就应该思考这样的问题。</p>
+<p>​ 首先我们发现，这篇文章不是pixel2pixel的匹配，而是特征到特征的匹配（可能深度学习上了就是这样的），特征提取在文章中说的是：</p>
+<blockquote>
+<p>As shown in Figure 2, we first use <strong><u>U-Net</u></strong> to obtain deep features Fl on each level l for the stereo matching.</p>
+</blockquote>
+<p>​ 我当时反应了一下，之前读过一篇做风格迁移的文章（对应博客<a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer论文复现/">【CNN Style Transfer论文复现】</a>，截止到9.5我都还没有填坑），文章直接使用了一个预训练好的VGG-19，固定参数不优化，提取特征。本文是这样吗？并不是，特征提取网络是需要进行优化的。那么与loss直接相关的待优化参数最后除了特征提取网络之外，还有什么吗？</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part1.PNG"></th>
+<th style="text-align: center;"><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part2.PNG"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">步骤II</td>
+<td style="text-align: center;">步骤I</td>
+</tr>
+</tbody>
+</table>
+<p>​ 这两个步骤虽然在网络中，但是其参数并不直接根据整个架构对应的输出以及loss进行优化。毕竟：</p>
+<ul>
+<li>步骤II对应的操作是自监督的，应该完全可以独立训练</li>
+<li>步骤I也是可以独立的（看实现），假如使用的方法是独立于输入的传统cost volume法，那完全可以。否则的话可能会收到U-Net输出的影响，内部的参数也需要参与优化。</li>
+</ul>
+<p>​ 在附录中，作者主要讨论的是U-Net生成的特征图作为自变量时的求导。</p>
+<h3 id="一些问题">2.3 一些问题</h3>
+<h4 id="detailed-loss-detection">2.3.1 Detailed Loss Detection</h4>
+<p>​ 无监督的loss听起来很棒，但是我总感觉作者用学习的方式解决了一个NP-hard的问题（应该是NP-hard），我甚至有点怀疑可行性（虽然我在RM灯条检测里面也这么干过）。</p>
+<p>​ 如果需要人工标注lost detail mask的话，那工作量太大了，作者希望使用这样一个无监督loss，使得两个集合的差异最大：<strong><u>属于lost detail的特征点集合（A） 与 不属于前一个集合的特征点集合（B）</u></strong>（是一个覆盖）</p>
+<p>​ 差异体现在：集合A的平均特征误差应该较大（低精度上采样后无法恢复的区域），集合B的平均特征误差小。那么作者使用了这个loss： <span class="math display">\[
+\begin{equation}\label{dld}
+\mathcal{L}^{DLD}=|FA_l|-\alpha\frac{\sum_{(h,w)\in FA_l}\Vert F_l(h, w)-F_{l-1}&#39;(h,w)\Vert_2}{\vert FA_l \vert}
+\end{equation}
+\]</span> ​ 其中<span class="math inline">\(FA_l\)</span>为特征金字塔第l层的fine-grained（细粒度）特征，<span class="math inline">\(F_{l-1}&#39;\)</span>则是上采样的上一层特征。这个式子非常容易理解，但是... 从一个集合中挑选一个子集使得对于这个集合和子集定义的某个损失最小，感觉就是一个NP-hard的问题，毕竟暴力穷举之外貌似没有别的方法。并且，在这里优化问题遇到的是 <u><strong>分支的处理</strong></u>，我优化的是一个决策？（应不应该认为这个特征属于<span class="math inline">\(FA_l\)</span>），我记得好像TF由于是静态图的缘故不方便设置分支？另一方面，我又觉得解决方案可能类似分类问题，输出是模拟的，但是计算cross entropy loss的时候转换成了long型（硬的）的index。</p>
+<h4 id="sparse-matching">2.3.2 Sparse Matching</h4>
+<p>​ 这个想法我觉得还挺不错的。我得到左右视图的lost details，现在要进行匹配了。由于occlusion存在一定一致性（并且由于存在对极约束），还是可以将lost details在一个方向左右滑动。那么对于这样的：两个信号滑动求最大匹配的问题，显然可以使用cross correlation。作者由此产生了一个三维空间的概率volume（注意不是分布，因为这是按照第三个维度也就是disparity归一化的）。 <span class="math display">\[
+\begin{align}
+&amp; P_l(h,w,d)=\frac{e^{C_l(h,w,d)-C_l^{max}(h,w)}}{\sum_{d=0}e^{C_l(h,w,d)-C_l^{max}(h,w)}}\\
+&amp; C_l(h,w,d)=\text{cross correlation}(F_{\text{left}}(h,w),F_{\text{right}}(h,w-d))\\
+&amp; C_l^{max}(h,w)=\max_d C_l(h,w,d)
+\end{align}
+\]</span> ​ 最后，每个稀疏点的视差就由期望决定了（作者为什么把这个叫做regress？） <span class="math display">\[
+\begin{equation}\label{reg}
+\hat{D}_l(h,w)=\sum_{d=0}P_l(h,w,d)\times d
+\end{equation}
+\]</span></p>
+<h4 id="supervised-loss">2.3.3 Supervised Loss</h4>
+<p>​ 简单地提一下论文使用的有监督loss。无监督loss在lost detail detection阶段使用了，用于判定哪些是丢失细节，见公式<span class="math inline">\(\eqref{dld}\)</span>。而计算视差图的过程中，我们有特征提取网络，Fusion网络，底层full cost volume对应的网络需要训练，这些都是基于disparity真值训练的。</p>
+<p>​ 多层的disparity就需要用到多层的真值，那么多层真值可以使用降采样来得到。然后作者使用了一系列的smooth L1 Loss。好玄乎哦，实际上就是Huber Loss。</p>
+<hr>
+<h2 id="iii.-smd-nets-stereo-mixture-density-networks3">III. SMD-Nets: Stereo Mixture Density Networks[3]</h2>
+<p>​ 个人认为这篇文章没有那么魔法，读起来觉得还挺有道理的。最主要的思想就是：使用双模态描述结果。之前读的对比学习相关的文章，里面就提到过不同的模态数的优缺点：</p>
+<ul>
+<li>单模态：计算十分方便，建模简单，并且也具有广泛的应用范围，但表征能力有限。</li>
+<li>完全生成式模型（终极多模态）：表征能力极其强，但是计算量一般都很大（比如对抗网络）</li>
+<li>模态数少一些的多模表征：折衷。</li>
+</ul>
+<p>​ 本文使用双模态描述前景和背景，并且网络结构 / 输入不那么魔法，也具有一定的超分辨率能力（虽然感觉方法有点普通？）。</p>
+<p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/smd.PNG"></p>
+<center>
+Figure 4. SMD-Nets的网络结构
+</center>
+<h3 id="主要思想-1">3.1 主要思想</h3>
+<p>​ 主要可以分为以下三步：</p>
+<p><span id="quest"></span></p>
+<div class="note danger"><ol type="1">
+<li>前端使用了一个经典的双目视觉网络作为骨架，用于提取特征。就如Figure 4最左边，先下采样再上采样的典型结构（常用于Semantic/Detection/Mono/Stereo）。我不是特别了解这个网络提取出来的特征是否与原输入图像保持了空间一致性，虽然卷积可能可以做到这一点，但具体是如何保证的【一个特定区域】对应的【特征图元素】一定在特征图对应的位置上？而且看起来，深度学习的引入产生了很多特征-特征匹配的方法。</li>
+</ol>
+</div>
+<p></p>
+<div class="note warning"><ol start="2" type="1">
+<li>超分辨率：插值操作，插值操作只是为了能够得到任意精度位置的特征向量。个人对于第二步的理解是，作者对于每一个点都计算了双模态分布的参数，形成了一个双模态分布的二维结构（图像）。对每一个特征向量，都过一遍MLP，最后得到五个参数:</li>
+</ol>
+<ul>
+<li><span class="math inline">\((\mu_1,b_1),(\mu_2,b_2)\)</span>是分布的均值（期望）与不确定度</li>
+<li><span class="math inline">\(\pi\)</span>是两个模态的选择参数（相当于前景背景mask）</li>
+</ul>
+</div>
+<div class="note info"><ol start="3" type="1">
+<li>输出：根据模态选择参数，从两个模态中的均值中选择对应的视差值。</li>
+</ol>
+</div>
+<h3 id="some-points">3.2 Some points</h3>
+<p>​ 这篇论文我倒是没有什么特别想说的，感觉想法倒是挺简单的（简单不代表我能一下想到）。虽然我个人存在一些疑问，感觉作者也没有解释清楚（要怪就怪神经网络不可解释？）：</p>
+<ul>
+<li>前景(foreground)与背景(background)的区别在哪？disparity明显很大的叫foreground（虽然我感觉作者就是叫着玩的）？作者更被没有说两个mode的生成方式有何不同。为什么能恰好产生这种，在关键区域有互补性的两个模态呢？又为什么只使用两个模态呢？</li>
+<li>当然，这确实可以用不可解释性来说。毕竟像<span class="math inline">\(\pi\)</span>这种学出来的东西，真的就说不清楚其深层次的原理...</li>
+</ul>
+<p>​ 另外，我不知道别的网络是否进行稠密的训练，本文中，网络并不进行稠密的disparity训练（可以说是半稠密？）。首先对生成好的特征图进行采样，对采样得到的（稍微稀疏一些）点进行训练。由于作者需要更多地聚焦于边缘点的处理，所以作者使用了一种不同的采样方法：</p>
+<ul>
+<li>生成边缘点mask，具体的方式也就是：首先检测深度不连续点（根据4-连通性），对检测结果进行膨胀
+<ul>
+<li>在边缘点mask内采样一半的稀疏训练点样本</li>
+</ul></li>
+<li>在全图的非边缘点区域进行均匀的采样，采样得到另一半样本。</li>
+</ul>
+<p>​ 整个框架是有监督的，并且没有金字塔结构。其使用的backbone模型，PSM内部也是有一个大的cost volume的。</p>
+<hr>
+<h2 id="iv.-dl立体匹配">IV. DL立体匹配</h2>
+<p>​ 深度学习用在立体匹配中？知道能用，但是具体的实现是什么样的呢？基于特征向量的匹配的流程具体是什么呢？完全不知道了。所以我在这里补充一篇综述性论文[4]，帮自己补一补领域知识。只不过，这篇文章包含了很多方法，我在此只讨论基础的DL-based方法。</p>
+<h3 id="pipeline">4.1 Pipeline</h3>
+<p>​ 主要流程仍然大体相同：</p>
+<p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/flow.PNG"></p>
+<center>
+Figure 5. 双目配准网络一般的流程
+</center>
+<p>​ 那么典型的几个网络结构，论文也贴心地列了出来（这篇论文真的很适合入门了解行业啊）：</p>
+<p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/nets.PNG"></p>
+<center>
+Figure 6. 双目配准网络的一些典型结构
+</center>
+<p>​ 视差图生成网络的训练输入可以通过采样而来，也可以通过直接卷积而来。</p>
+<ul>
+<li>采样的方法是：在输入图像中均匀“播撒”一些点（对应于一种稀疏的训练方式），切取点以及其领域的信息作为对应视图的输入。如果是有监督的结构，那么就在另一个视图中查找：
+<ul>
+<li>disparity图真值对应位置的patch（作为正样本）</li>
+<li>其他disparity值对应的patch作为负样本</li>
+</ul></li>
+<li>直接卷积：每个点对应的卷积输出就已经是特征了。但是这种方法如何保证左右特征一致？一种简单的想法就是直接共用完全相同的encoder（孪生网络）。</li>
+<li>当然也可以直接跳过特征描述，直接端到端生成一个cost出来</li>
+</ul>
+<p>​ 这种基于DL特征的描述，实际上是对人工描述子的升级，卷积操作对每个点都会有个特异的表征输出，假设我们的卷积就是奇数大小的kernel并且以其中心为anchor，那么在(x,y)位置的卷积显然就会得到以(x,y)为中心的领域特征描述，能保证<a href="#quest">[3.1中(1)里提出问题的解决]</a>。这一环节，我们的目的不是只得到特征（然后神奇海螺：什么也不做），而是使用特征来衡量两个像素位置是否存在关系，比如使用L1或者L2距离来判定特征的相似度，越相似说明两个位置匹配度越高。</p>
+<p>​ 根据loss函数可以计算出一个cost volume，为了方便起见，我只讨论3D cost volume。3D cost volume每一个(x, y)位置都对应了一串可能匹配的cost，我们需要根据我们选定的策略来计算一个最好的disparity。方法有很多。我确实是开了眼了，学到了，见下一小节。</p>
+<h3 id="cost-volume-regularization">4.2 Cost Volume Regularization</h3>
+<p>​ 有了cost volume之后，紧接着就要进行<strong><u>cost volume regularization</u></strong>。但是这是个什么操作，与regularization又是什么关系？</p>
+<p>​ 我们知道，正则化（regularization）在深度学习中是被用来防止过拟合的，因为引入正则化惩罚之后，原本起伏不平的超平面，会变得平滑。这是因为正则化项要么限制了描述超平面的参数个数，要么限制了其取值，使之描述力下降（不那么活跃）。也就可以认为，正则化项<span class="math inline">\(\approx\)</span>平滑项。</p>
+<p>​ 巧了，双目视觉通常也有平滑项（虽然我感觉SMD-Nets一定程度上在鄙视平滑假设）。我们希望网络的输出不要那么起伏不平的，一个深度差不多的平面就不要因为噪声而有太大的小范围波动了吧。所以需要施加平滑项，当然还存在一些其他的约束项，比如：</p>
+<ul>
+<li>(x, y)已知与(x+d, y)完美配上了，那么(x+1, y) 对应的视差必定不可能小于d-1（右视图匹配不交叉）</li>
+<li>保证深度不连续边缘锐利性的一些约束项</li>
+</ul>
+<p>​ 那么施加约束项/平滑项就是在做正则化！目的就是优化输出图像，所以叫regularization。一般来说，cost volume regularization伴随最终视差图的产生，这是因为regularization之后，full cost就求出来了啊。当然是选full cost最小的。故可以将cost volume regularization看作是视差图求解。</p>
+<p>​ <img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/agg.PNG"></p>
+<center>
+Figure 7. 最终disparity的计算
+</center>
+<p>​ 论文贴心地把几种常用的regularization方法可视化了出来：</p>
+<ul>
+<li>滢者通吃！（误，在这里简单地cue一下我的女朋友）。谁小选谁。</li>
+<li>考虑空域特性：2D卷积，综合空域信息。</li>
+<li>考虑不同的disparity上的信息：基于RNN的正则化</li>
+<li>3D卷积：全域正则化（这个结构在两篇论文的regularization中都有）</li>
+</ul>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] Yao C, Jia Y, Di H, et al. A Decomposition Model for Stereo Matching[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 6091-6100.</p>
+<p>[2] Wang. Carafe: Content-aware reassembly of features. In Proceedings of the IEEE International Conference on Computer Vision (ICCV), 2019</p>
+<p>[3] Tosi F, Liao Y, Schmitt C, et al. SMD-Nets: Stereo Mixture Density Networks[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 8942-8952.</p>
+<p>[4] Laga H, Jospin L V, Boussaid F, et al. A survey on deep learning techniques for stereo-based depth estimation[J]. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2020.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/" title="【笔记】两篇双目相关论文">https://enigmatisms.github.io/2021/09/04/【笔记】两篇双目相关论文/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/stereo/" rel="tag"><i class="fa fa-tag"></i> stereo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/03/GPU-Architecture-Intros/" rel="prev" title="GPU Architecture Intros">
+                  <i class="fa fa-chevron-left"></i> GPU Architecture Intros
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/" rel="next" title="CUDA踩坑实录【1】">
+                  CUDA踩坑实录【1】 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

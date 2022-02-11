@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Front-End  I. Intros ​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上">
+<meta property="og:type" content="website">
+<meta property="og:title" content="前端小学习">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Front-End  I. Intros ​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/home.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/joke.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/log5.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/div.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/css.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/rel.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/abs.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/error.png">
+<meta property="article:published_time" content="2021-12-26T12:18:03.000Z">
+<meta property="article:modified_time" content="2022-01-13T14:08:49.469Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="前端开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/","path":"2021/12/26/前端小学习/","title":"前端小学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>前端小学习 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#front-end"><span class="nav-text">Front-End</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-html%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86"><span class="nav-text">II. HTML碎片知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E4%BB%B6%E5%85%83%E7%B4%A0"><span class="nav-text">2.1 控件元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#name-class-id"><span class="nav-text">2.2 name &#x2F; class &#x2F; id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#span-div"><span class="nav-text">2.3 span &amp; div</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-css%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86"><span class="nav-text">III. CSS碎片知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D"><span class="nav-text">3.1 定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA"><span class="nav-text">3.2 显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9"><span class="nav-text">3.3 子元素选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-js%E7%A2%8E%E7%89%87%E7%9F%A5%E8%AF%86"><span class="nav-text">IV. JS碎片知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFjs%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AFjs"><span class="nav-text">4.1 浏览器端js与服务器端js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B0%8F%E5%9D%91"><span class="nav-text">4.2 本地服务器小坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#export-import"><span class="nav-text">4.3 export &amp; import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端小学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-26 20:18:03" itemprop="dateCreated datePublished" datetime="2021-12-26T20:18:03+08:00">2021-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-13 22:08:49" itemprop="dateModified" datetime="2022-01-13T22:08:49+08:00">2022-01-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="front-end">Front-End</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上）完全不一样的语言去做这件事，最后确定用前端写网页游戏。前端说有趣，也还挺有趣的（毕竟我之前一直想当建筑设计师，搞设计的热情还是有的），但总感觉少了点深度思考（可能因为我接触的太简单）。为了在实践中学习前端，我将之前用Pygame实现的用户登录界面用JS升级了一下（只是功能升级，并没有更好看，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/JSen">Github:Enigmatisms/JSen</a>），本文记录在做这个小小项目过程中遇到的一些问题。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png" style="zoom: 40%;"></th>
+<th style="text-align: center;"><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/home.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Ethians Alpha 1.0 主菜单</td>
+<td style="text-align: center;">一个（个人认为的）人性化的登录/注册网页</td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. 目标 与 现阶段 发展不平衡之间的矛盾
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-html碎片知识">II. HTML碎片知识</h2>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/joke.png"></p>
+<center>
+Figure 2. href="html是编程语言!!!.com"
+</center>
+<p>​ 众所周知，HTML是编程语言（误）。作为一种标记语言，当然要去记其中的标记以及js中如何调用这些元素。这里只举一些简单的例子：</p>
+<h3 id="控件元素">2.1 控件元素</h3>
+<p>​ html5中有一些很有趣的"控件"，比如<code>button</code> （按键），<code>input</code> 文本输入框，<code>file</code>文件上传框等等。这些元素有共性，也有特殊的用法。比如button和input都可以 <code>focus</code> 以及 <code>blur</code>：</p>
+<ul>
+<li>focus：聚焦。对于input来说，focus函数会使得文本输入框像是被选中了一样（如果网页中存在focus之后的text输入框，那么键盘输入会直接出现在这个输入框中）。button的focus... 可能就是单纯的定位吧（使得网页翻页到button所在位置）。举个例子：可以写一个这样的功能，使得用户输入用户名后按<code>enter</code>键可以直接跳转到密码输入框上 ---&gt; 密码输入框.focus()</li>
+<li>blur：focus的反义。举个例子：用户填写信息之后希望放弃本次填写，第一次<code>ESC</code>使得输入框不再被选中，第二次直接返回上一级。</li>
+</ul>
+<p>​ 对应的，有一些事件驱动的函数，比如<code>onkeyup</code>（用户按键抬起时的行为），<code>onclick</code>（点击时的行为），<code>onblur</code>（用户取消选中时的行为）。当然这很多都是和JS相关的。</p>
+<p>​ 不同之处比如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;Username&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;Password&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ text可以指定自己的类型，指定为password可以自动回显成:black_circle:，好，很有精神。</p>
+<h3 id="name-class-id">2.2 name / class / id</h3>
+<p>​ 怎么说呢，只能简单区分一下，因为我还没有遇到这三个的坑（触及本质的那种）。</p>
+<ul>
+<li>name：重名是完全可以的，一个html中可以有多个name属性为同一个值的元素。可以在js中使用：<code>getElementsByName</code>，注意element用了复数形式，返回的是一个NodeList（可以下标索引）。name方便了同种类型元素的类似操作。比如我写的那个 <strong><u>自动评教脚本</u></strong>。</li>
+<li>id: 这玩意貌似是每个html文件唯一的，毕竟js方法是：<code>getElementById</code>：唯一表示了一个元素的存在（特化元素的好方法）。</li>
+<li>class: 为什么要用class呢？感觉name处理了重复性，id处理了唯一性，class好像没事干。同一class可以有不同的name，同一name也可以有不同的class，class属性目前我在css中遇到过，css不方便定义一个name的样式，但是可以定义一个id的样式，而如果需要多元素统一样式，可以使用class。</li>
+</ul>
+<h3 id="span-div">2.3 span &amp; div</h3>
+<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">span</a></li><li class="tab"><a href="#span-unique-name-2">div</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ &lt;span&gt;是内联元素，内部可以填充文本。内联元素的好处就是：我不换行显示。这样可以创建一些有name/id/class的文本而不换行（注意&lt;p&gt;也是换行的块级元素）。我把它用在了用户名或密码输入不符合要求时的提示信息显示上：</p>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/log5.png"></p>
+<center>
+Figure 3. span的应用（红色字体只会在输入不符要求时出现）
+</center></div><div class="tab-pane" id="span-unique-name-2"><p>​ &lt;div&gt;元素是一个容器，非常常用，常见于网页的组织（相同功能的放一起，可以认为就是花括号了）。它是块级元素（这意味着它通常都是另起一行，并且结束后会换行的），所以不引入一些魔法（比如CSS组织）可能没办法让其不换行显示（可能只是我不知道而已）:</p>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/div.png"></p>
+<center>
+Figure 3. 很多div
+</center></div></div></div>
+<h2 id="iii.-css碎片知识">III. CSS碎片知识</h2>
+<p>​ 我从来没有系统学过CSS（或者是HMTL，都是要用的时候学一点算一点）。虽然如此，我觉得其中有些内容还是有必要搞清楚的，毕竟也不能只会而不知道为什么。</p>
+<center>
+<img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/css.jpg" style="zoom:80%;">
+</center>
+<center>
+Figure 4. Game of Front-end Thrones
+</center>
+<h3 id="定位">3.1 定位</h3>
+<p>​ css每个元素可以指定<code>position</code>，我接触过的只有其中三个（准确来说是四个，第四个<code>static</code>没有显式用过）：</p>
+<ul>
+<li><code>relative</code>：relative会保持正常的文档flow，比如写如下的代码：</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">span</span><span class="selector-class">.relative</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">3px</span> solid blue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">span</span><span class="selector-class">.test</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">3px</span> solid blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 根据以上的CSS代码在body中放置两个同级的span：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;relative&quot;</span>&gt;</span>This div element has position: relative;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;test&quot;</span>&gt;</span>This div element has position: relative;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 结果是这样的：</p>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/rel.png"></p>
+<center>
+Figure 5. 双relative
+</center>
+<p>​ 说明文档flow（元素的先后位置关系）没有被破坏。</p>
+<ul>
+<li><code>absolute</code>则是绝对定位：它会将元素从文档flow中取出，比如将上面<code>span.text</code>的position属性改为<code>absolute</code>会得到这样的结果：</li>
+</ul>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/abs.png"></p>
+<p>​ 本来<code>span.test</code>这个inline元素应该跟随在<code>span.relative</code>的后面，但是由于<code>test</code>从flow中单独提取出来了，它相对于其最邻近的relative父级元素（本例子中就是&lt;body&gt;）定位。</p>
+<p>​ 注意，如果需要使用absolute定位，其定位方式是相对于 <strong><u>最邻近的relative 父级元素</u></strong>。</p>
+<h3 id="显示">3.2 显示</h3>
+<p>​ <code>display</code>可以有这样四种常用的选项：<code>none</code>, <code>inline-block</code>，<code>inline</code>, <code>block</code></p>
+<ul>
+<li><code>none</code>：元素不被渲染，不占空间。不像<code>visibility: hidden</code>一样，<code>hidden</code>的元素虽然看不见，但是也占位置</li>
+<li><code>inline-block</code>:
+<ul>
+<li>与<code>inline</code>不同之处在于：它可以设置行内元素的width height以及margin（相当于一个不添加换行符的小block）</li>
+<li>与<code>block</code>不同之处在于：已经说了，它不会换行显示</li>
+</ul></li>
+</ul>
+<h3 id="子元素选择">3.3 子元素选择</h3>
+<p>​ 这里只简单记录使用到的一些语法（我其实也并没有仔细去学的打算，前端学习工作的优先级很低）</p>
+<ul>
+<li><code>#</code> 可以直接指定id，比如<code>#first</code> 将会指定<code>id = first</code>元素的样式</li>
+<li><code>.</code>是class selector，可以不指定元素：比如下代码块第一行，也可以指定元素：比如第二行</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.classname</span> &#123;...&#125;		<span class="comment">/* 表示所有 class = &quot;classname&quot;的元素*/</span></span><br><span class="line"><span class="selector-tag">span</span><span class="selector-class">.classname</span> &#123;...&#125;		<span class="comment">/* 表示 span的class = &quot;classname&quot;的元素*/</span></span><br></pre></td></tr></table></figure>
+<p>​ 有些有趣的例子可以看这篇文章说的: <a target="_blank" rel="noopener" href="https://css-tricks.com/multiple-class-id-selectors/">Difference between "#header .class" &amp; "#header.class"</a></p>
+<h2 id="iv.-js碎片知识">IV. JS碎片知识</h2>
+<h3 id="浏览器端js与服务器端js">4.1 浏览器端js与服务器端js</h3>
+<p>​ 本人还并没有开始Node.js的学习，只是了解了以下浏览器端JS的写法。开始时我还不知道这两者有什么区别，直到遇上了这么一个问题：</p>
+<blockquote>
+<ul>
+<li>Log 5.0希望可以从本地加载用户数据，以便sign in时可以比对用户。</li>
+<li>Sign up时可以写出到本地文件</li>
+</ul>
+</blockquote>
+<p>​ 查了好久，都没有发现有什么接口可以帮我读出或者写入到本地文件的。最后面向Google，有人说：浏览器上运行的JS出于安全性考虑，是不允许写入和读取本地数据的，如果需要实现文件操作，最好使用一个服务器host的文件。实际上这就不是很前端了。</p>
+<p>​ 而Node.js 本质上是后端语言（只不过可以使用JS这个前端语言编辑），Node.js常用于服务器端，它没有：</p>
+<ul>
+<li>BOM（Browser Object Model）：对浏览器进行访问和操作的模型。也就是说，<code>window</code>这个没有了</li>
+<li>DOM （Document Object Model）： <code>document</code>以及其下属元素也没有了</li>
+</ul>
+<p>​ 原来本人上手用浏览器端js，但想做一些后端的事情。</p>
+<div class="note danger"><p>学习语言这样的东西时，我延续了Python/C++的学习方式：上手就是自行设计项目并通过实践来学习。这种学习方式有的时候可能并不好，特别是在其前驱知识不牢固的情况下。不看理论、教程、文档可能只能让我们明白 <strong><u>如何解决问题</u></strong> 而不是 <strong><u>如何分析问题并设计方法</u></strong>。</p>
+</div>
+<h3 id="本地服务器小坑">4.2 本地服务器小坑</h3>
+<p>​ 我们已知浏览器出于安全考虑，不能随便加载本地文件这一事实。加载本地文件不一定要是进行数据的读入或者写出，比如最基本的 <strong><u>跨模块调（引）用</u></strong> 都属于一种加载本地文件的行为。比如我有两个文件：<code>a.js</code> 以及<code>b.js</code>，其中：</p>
+<ul>
+<li><code>a.js</code>相当于一个utility模块，定义了很多有趣的常用函数</li>
+<li><code>b.js</code>相当于一个客户模块，需要使用<code>a.js</code>的函数</li>
+<li><code>c.html</code>调用了<code>b.js</code>模块（作为网页的行为）</li>
+</ul>
+<p>​ 那么这涉及到import与export。但是由于基于本地文件的import, export是不允许的（本质是加载本地文件），如果直接在本地使用文件打开，会报如下的错误：</p>
+<p><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/error.png"></p>
+<center>
+Figure x. CORS错误 无法加载特定的本地文件
+</center>
+<p>​ 但是如果我使用服务器，将<code>c.html</code>定义的网站挂在上面，再使用服务器对应的url访问网页时并不会有文件访问限制。这实际上涉及到两个协议以及一个policy：</p>
+<div class="note info"><p>​ 双击html文件可以直接打开为网页，此处使用的是file protocol，打开网页时浏览器url显示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///&lt;path to your file&gt;</span><br></pre></td></tr></table></figure>
+</div>
+<div class="note success"><p>​ 使用服务器也可以加载网页，此时使用http(s)协议，按照个人的理解，一次http请求访问大概是这样的流程：</p>
+<ul>
+<li>域名解析：用户输入url，url经过DNS服务转为IP返回给用户</li>
+<li>三次握手：由于http（是应用层的）在传输层上使用TCP/IP协议，故需要握手建立连接</li>
+<li>网站服务器通过http协议回传html、css、javascript等文件到本地</li>
+<li>本地浏览器解析html等文件，渲染网页</li>
+</ul>
+</div>
+<p>​ 虽然乍一看，两种方式并没有本质上的区别，都是通过某种方式获得网页文件，在本地进行渲染，那么对于文件访问这种事情，本来不应该有区别的。但本地访问却受到如上图所说的 CORS policy限制：</p>
+<blockquote>
+<p><strong><u>C</u></strong>ross-<strong><u>O</u></strong>rigin <strong><u>R</u></strong>esource <strong><u>S</u></strong>haring (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.[1]</p>
+</blockquote>
+<p>​ 与之相对的一个概念叫做：Same-origin policy，关于same origin policy，这篇文章讲得很清楚: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">MDN Web Docs: Same Origin Policy</a>. 这个policy的大概意思是说，【协议（比如同http或者同https）】【端口】【host】三者必须相同。而本地打开的文件，并没有host，也没办法做到host相同。并且有人这么说：</p>
+<blockquote>
+<p>Chrome doesn't believe that there's any common relationship between any two local files.[2]</p>
+</blockquote>
+<p>​ 除了在浏览器中直接disable此安全设置，否则没办法直接绕开（事实上，我觉得绕开也非常不优雅）。假如不绕开，那就只有一个选择了，使用服务器host我们的网页。于是我写了一个http server：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Use to create local host</span></span><br><span class="line"><span class="keyword">import</span> http.server</span><br><span class="line"><span class="keyword">import</span> socketserver</span><br><span class="line">PORT = <span class="number">8080</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NoCacheHTTPRequestHandler</span>(</span><br><span class="line">    http.server.SimpleHTTPRequestHandler</span><br><span class="line">):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">send_response_only</span>(<span class="params">self, code, message=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().send_response_only(code, message)</span><br><span class="line">        self.send_header(<span class="string">&#x27;Cache-Control&#x27;</span>, <span class="string">&#x27;no-store, must-revalidate&#x27;</span>)</span><br><span class="line">        self.send_header(<span class="string">&#x27;Expires&#x27;</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    NoCacheHTTPRequestHandler.extensions_map.update(&#123;<span class="string">&quot;.js&quot;</span>: <span class="string">&quot;application/javascript&quot;</span>,&#125;)</span><br><span class="line">    httpd = socketserver.TCPServer((<span class="string">&quot;&quot;</span>, PORT), NoCacheHTTPRequestHandler)</span><br><span class="line">    httpd.timeout = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            httpd.handle_request()</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            httpd.server_close()</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>​ 实际上代码并不是我写的，代码是我从两个Stackoverflow回答中整理出来的（非常抱歉，这两个回答我也不记得来源了，太久远了）。其中第一个回答只是python3的http request server（stackoverflow上有人回答了用python2设置的本地http服务器，下面就有个哥们把他代码改成python3了）。然而我发现初版代码有个很大的问题：这tm打开服务器就关不掉了，我记得当时作者调用了个这玩意：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpd.serve_forever()</span><br></pre></td></tr></table></figure>
+<p>​ <code>Ctrl + C</code>根本关不掉，而平台又是windows，没办法<code>Ctrl + Z</code>再<code>kill %1</code>，非常烦。于是我google（如何才能让http server不阻塞呢？（因为我发现server每次<code>Ctrl + C</code>没有反应是因为阻塞在一个奇怪的循环里）），最后找到别人写的<code>NoCacheHTTPRequestHandler</code>，再设置一下timeout就可以很方便关闭了。</p>
+<p>​ 为什么要关闭呢？这里有个我没明白原理的坑：每次我不关闭server，或者没有完全关闭（可能只是挂起了），在修改js代码后刷新网页或者重新访问是不会更新行为的。我怀疑是它端口一直开着，使用的是cache过的网页，故js代码更新并不会引起网页行为的更新。</p>
+<h3 id="export-import">4.3 export &amp; import</h3>
+<p>​ 我一开始以为export以及import的使用就会像我每天早上起床一样简单（确实很简单），但实际上export与import只在解决完http服务器问题之后才开始用（本地file协议根本是不允许的，两个js文件origin都是null，没办法互相访问，除非在html中使用丑陋的全局变量）。</p>
+<p>​ 但是export与import我遇到了default 以及non-default (name imports) 问题。</p>
+<p>​ 首先，import export必须要在 <code>module</code>中使用。module与一般的js文件不同，在引入html时，需要定义（<strong><u>type=</u></strong>）：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span> <span class="attr">src</span>=<span class="string">&quot;xxx.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 比如在我的练手小项目里：<code>common.js</code>定义了一些多个js文件可以共用的函数，其中一个js文件如<code>signin_modules.js</code>调用了<code>common.js</code>中的一些函数或类，html文件直接加载的是<code>signin_modules.js</code>，那么<code>signin_modules.js</code>就必须是一个module。我开始觉得很疑惑，为什么<code>signin_modules.js</code>是module？不应该是<code>common.js</code>是一个 <strong><u>模块</u></strong> 才对么？实际上，<code>signin_modules.js</code>（使用import的js）是top level module，其他的被引用文件都是底层module。import处定义了module，被引用的文件会自动变为lower level modules。如果不加<code>type=module</code>将会报错：</p>
+<blockquote>
+<p>SyntaxError: import declarations may only appear at top level of a module.</p>
+</blockquote>
+<p>​ 其次，是named以及default的区别。</p>
+<div class="tabs" id="onetab-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#onetab-unique-name-1">named import/export</a></li><li class="tab"><a href="#onetab-unique-name-2">default import/export</a></li></ul><div class="tab-content"><div class="tab-pane active" id="onetab-unique-name-1"><p>​ named import因为带有变量（或者自定义类型）名，故可以同时调入/调出多个元素。但要记住，named一定需要使用花括号包住！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;bar, fool&#125; <span class="keyword">from</span> <span class="string">&quot;module name&quot;</span></span><br></pre></td></tr></table></figure>
+<p>​ 不管是引入一个还是多个，都需要使用花括号包住。</p></div><div class="tab-pane" id="onetab-unique-name-2"><p>​ default import/export 的好处就是不需要提供名字，但这也导致了每个module只能有一个default import/export。default情况下不要使用花括号。当然，也可以把default写出来：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> some_value;			<span class="comment">// default可有可无，但花括号一定无</span></span><br></pre></td></tr></table></figure></div></div></div>
+<p>​ 搞错了default/named的结果（并且还不知道这个机制），就是会找不到模块中的错误（之前搞错了一直以为模块中定义有问题）。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">MDN Web Docs: Cross-Origin Resource Sharing (CORS)</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://coderedirect.com/questions/104753/origin-null-is-not-allowed-by-access-control-allow-origin-in-chrome-why">Code Redirect: "Origin null is not allowed by Access-Control-Allow-Origin" in Chrome. Why?</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/" title="前端小学习">https://enigmatisms.github.io/2021/12/26/前端小学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/JavaScript/" rel="tag"><i class="fa fa-tag"></i> JavaScript</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"><i class="fa fa-tag"></i> 前端开发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/28/Vision-Transformers/" rel="prev" title="Vision Transformers">
+                  <i class="fa fa-chevron-left"></i> Vision Transformers
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/" rel="next" title="Swin Transformer 复现">
+                  Swin Transformer 复现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

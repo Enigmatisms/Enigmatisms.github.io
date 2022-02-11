@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="BFGSAM  I. Intros ​ 很长一段时间没有静下心来看过有很强理论性的内容了，我十分担心自己会丧失理论上的思考能力以及数学计算能力。正好之前在看某篇论文时，看到其中提到一种叫做SAM（sharpness aware minimization）的方法，说是效果还行，此前保存了SAM论文，但没去细读。最近寒假由于电脑故障没办法工作，很闲，便重新了解了一些数值优化方面的知识（比如拟牛顿">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我贫瘠的数学世界【1】- SAM与优化方法">
+<meta property="og:url" content="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="BFGSAM  I. Intros ​ 很长一段时间没有静下心来看过有很强理论性的内容了，我十分担心自己会丧失理论上的思考能力以及数学计算能力。正好之前在看某篇论文时，看到其中提到一种叫做SAM（sharpness aware minimization）的方法，说是效果还行，此前保存了SAM论文，但没去细读。最近寒假由于电脑故障没办法工作，很闲，便重新了解了一些数值优化方面的知识（比如拟牛顿">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/sam.png">
+<meta property="article:published_time" content="2022-01-30T03:04:30.000Z">
+<meta property="article:modified_time" content="2022-02-03T18:18:41.342Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="优化理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/sam.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/","path":"2022/01/30/我贫瘠的数学世界【1】-SAM与优化方法/","title":"我贫瘠的数学世界【1】- SAM与优化方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>我贫瘠的数学世界【1】- SAM与优化方法 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bfgsam"><span class="nav-text">BFGSAM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-%E6%9D%A1%E4%BB%B6%E6%95%B0%E4%B8%8Equasi-newton"><span class="nav-text">II. 条件数与quasi-Newton</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%95%B0%E4%B8%8E%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-text">2.1 条件数与稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#preconditioning"><span class="nav-text">2.2 Preconditioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quasi-newton%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="nav-text">2.3 Quasi-Newton法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bfgs%E6%B3%95%E6%8E%A8%E5%AF%BC"><span class="nav-text">2.4 BFGS法推导</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.sam"><span class="nav-text">III.SAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我贫瘠的数学世界【1】- SAM与优化方法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-30 11:04:30" itemprop="dateCreated datePublished" datetime="2022-01-30T11:04:30+08:00">2022-01-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-04 02:18:41" itemprop="dateModified" datetime="2022-02-04T02:18:41+08:00">2022-02-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="bfgsam">BFGSAM</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ 很长一段时间没有静下心来看过有很强理论性的内容了，我十分担心自己会丧失理论上的思考能力以及数学计算能力。正好之前在看某篇论文时，看到其中提到一种叫做SAM（sharpness aware minimization）的方法，说是效果还行，此前保存了SAM论文，但没去细读。最近寒假由于电脑故障没办法工作，很闲，便重新了解了一些数值优化方面的知识（比如拟牛顿族），并读了读SAM（虽然读完感觉？？？这怎么这么魔法）</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.01412.pdf">ICLR 2021: Foret, Pierre, et al. "Sharpness-aware minimization for efficiently improving generalization." <em>arXiv preprint arXiv:2010.01412</em> (2020).</a></li>
+<li><strong><u>《我这种菜鸡哪有资格觉得DL顶会论文魔法》系列</u></strong>（下图图源论文）</li>
+</ul>
+<p><img src="/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/sam.png"></p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-条件数与quasi-newton">II. 条件数与quasi-Newton</h2>
+<h3 id="条件数与稳定性">2.1 条件数与稳定性</h3>
+<p>​ 条件数（condition number）：</p>
+<blockquote>
+<p>The <strong>condition number</strong> of a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Function_(mathematics)">function</a> measures how much the output value of the function can change for a small change in the input argument.</p>
+</blockquote>
+<p>​ 这个概念也就是一个衡量输入输出关系的指标：输入发生小的改变是否会使得输出发生大的改变？如果会，那么优化结果将有很大的抖动。比如在深度学习中，观察loss曲线，loss波动非常大，可能因为条件数太大，需要使得输入的变化在合理范围内减小（控制学习率）。</p>
+<p>​ 这里我们不对一般的优化问题进行讨论，只讨论矩阵情况。矩阵中，条件数是： <span class="math display">\[
+\begin{equation}
+\kappa(A)=\frac {\sigma_{\max}(A)}{\sigma_{\min}(A)}
+\end{equation}
+\]</span> ​ 其中<span class="math inline">\(\sigma_{\max}\)</span>代表矩阵A的最大奇异值（如果是非奇异矩阵，就是最大特征值），<span class="math inline">\(\sigma_{\min}\)</span>是最小特征值。经常我们在奇异值分解时，取出其对角值，判定最大特征值与最小特征值之比，如果过大就进行一些保护操作，实际上就是在保护大条件数时的解情况。</p>
+<p>​ 条件数确定了一个问题的前后向稳定性：</p>
+<blockquote>
+<p>算法的“前向误差”是结果与真解之间的差别，即<span class="math inline">\(\Delta y=y^{*}-y\)</span>。“后向误差”是满足<span class="math inline">\(f(x+\Delta x)=y^{*}\)</span>的最小<span class="math inline">\(\Delta x\)</span>，也就是说后向误差说明算法的所解决的问题。前向误差和后向误差通过条件数发生关系：前向误差的幅度最多是条件数乘以后向误差的幅度。[2]</p>
+</blockquote>
+<h3 id="preconditioning">2.2 Preconditioning</h3>
+<p>​ 假设我们已经知道，某个问题的条件数很大（ill-conditioned），但我们又不得不解这个问题，应该怎么办？使用preconditioner（怎么翻译，不知道，日语翻译是“前処理行列”，好吧人家都是中文）</p>
+<blockquote>
+<p>In mathematics, <strong><u>preconditioning</u></strong> is the application of a transformation, called the <strong><u>preconditioner</u></strong>, that conditions a given problem into a form that is more suitable for numerical solving methods.[3]</p>
+</blockquote>
+<p>​ 此处简单翻译一下英文维基（因为没有中文，而英文讲得挺清楚的）：</p>
+<ul>
+<li>首先假设我们有一个病态线性问题：</li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+Ax=b
+\end{equation}
+\]</span></p>
+<ul>
+<li>可以用一个 <strong><u>preconditioner矩阵</u></strong> <span class="math inline">\(P\)</span> 使得<span class="math inline">\(P^{-1}A\)</span>使得条件数小于A：</li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+AP^{-1}(Px)=b
+\end{equation}
+\]</span></p>
+<ul>
+<li>我们认为：<span class="math inline">\(AP^{-1}\)</span>是一个新的矩阵<span class="math inline">\(Q\)</span>，也就得到：<span class="math inline">\(Qy=b\)</span>这个问题，首先解这个问题得到<span class="math inline">\(y\)</span>后再根据<span class="math inline">\(Px=y\)</span>解出<span class="math inline">\(x\)</span></li>
+</ul>
+<p>​ 很巧妙的方法。进一步了解这种方法的应用以及其work的机制，参见reference。</p>
+<h3 id="quasi-newton法简介">2.3 Quasi-Newton法简介</h3>
+<p>​ 拟牛顿（quasi-Newton）法，顾名思义就是牛顿法的近似。牛顿法需要用到二阶导，在更加一般的情况下---海森（Hessian）阵。但并不是所有函数都容易求二阶导，要么是因为其解析表达式太复杂，要么是因为维度太高，二阶导的时空开销都是至少<span class="math inline">\(O(n^2)\)</span>的。此时我们可以使用一些方法来近似海森矩阵，用近似的海森矩阵计算更新方向。在此我将简介一些更为熟知的拟牛顿迭代方法（的好处）：BFGS（族），DFP，SR1。</p>
+<p>​ BFGS（四个人名字貌似）是一种很好用的拟牛顿迭代算法，相比于DFP以及SR1，这个算法可能有一定优势（要不然为什么Google ceres solver里的线搜索只提供LBFGS以及BFGS？难不成因为写起来简单？），并且其存在一种对内存以及算力更加友好的实现（Limited-BFGS），这个更友好的实现可以摆脱普通BFGS的<span class="math inline">\(O(n^2)\)</span>时间复杂度，使得时间复杂度变为<span class="math inline">\(O(mn)\)</span>，一般来说m都小于n。</p>
+<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">BFGS</a></li><li class="tab"><a href="#span-unique-name-2">DFP</a></li><li class="tab"><a href="#span-unique-name-3">SR1</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><ol type="1">
+<li>维持对称正定性。(2) 一种奇妙的自我矫正能力。(3) 对于大型稀疏问题非常有效</li>
+</ol>
+<blockquote>
+<p>BFGS is the most effective quasi-Newton correction... Also, BFGS has self-correcting properties: if <span class="math inline">\(H_k\)</span> incorrectly approximates the curvature of the objective function and this estimate slows down the iteration, then the (inverse) Hessian approximation will tend to correct itself in the next few steps. [4]</p>
+</blockquote></div><div class="tab-pane" id="span-unique-name-2"><ol type="1">
+<li>第一个提出的quasi-Newton方法，是BFGS update的对偶。（2）在解决二次问题时，迭代产生共轭方向（与共轭梯度法重合）。(3) 对于大型问题，效率非常低。</li>
+</ol>
+<blockquote>
+<p>This formula, like BFGS, is a rank 2 formula update and it has nice properties as well, however it is not as fast. It is less effective than BFGS at self-correcting of the Hessians. Likewise, DFP could fail for general nonlinear problems, it can stop at a saddle point, it is sensitive to inaccurate line searches and it’s Hessian updates are sensitive to round-off errors and other inaccuracies. [4]</p>
+</blockquote></div><div class="tab-pane" id="span-unique-name-3"><p>​ SR1如其名（Symmetric Rank-1），DFP与BFGS都是秩-2算法。</p>
+<blockquote>
+<ul>
+<li>The matrices generated are very good approximations to the (inverse) Hessian matrices, often better than BFGS.</li>
+<li>The drawback of the method is that sometimes <span class="math inline">\((s_k − H_ky_k)^Ty_k\approx0\)</span> and there may not be a symmetric rank one formula that satisfies the secant condition. Hence instabilities and breakdown may occur.</li>
+</ul>
+</blockquote></div></div></div>
+<p>​ 秩-1算法（SR-1）得到的海森矩阵可能比秩-2算法的海森矩阵更好，但是它无法保证更新矩阵的正定性，线搜索将是非精确线搜索[5]（来自台湾一个叫做，国立中正大学的课件，这大学名字感觉一看就知道在纪念谁）。</p>
+<h4 id="bfgs法推导">2.4 BFGS法推导</h4>
+<p>​ 中文维基的话呢，就是简单告诉你：算法就是这样，至于推导，自己推去吧。英文维基则没有过程。推导并不难（别在开始时抄错公式就行，我因为抄错公式而花了一个半小时用各种方法推而没有结果，果然努力是不值钱的，方向错了一点用都没有）。</p>
+<p>​ 首先，拟牛顿法都基于这一个假设：更新方向<span class="math inline">\(\pmb{p}_k\)</span>与海森近似阵<span class="math inline">\(B_k\)</span>，梯度的关系正如牛顿法中海森梯度与更新方向的关系如下，当然，我们也可以将这里视为对梯度的preconditioning： <span class="math display">\[
+\begin{equation}
+B_k\pmb{p}_k=-\nabla f(x_k)
+\end{equation}
+\]</span> ​ 由于<span class="math inline">\(\pmb{p}_k\)</span>只是一个方向，可将其写为<span class="math inline">\(\pmb{p}_k=\alpha(x_{k+1}-x_k)\)</span>。注意拟牛顿条件： <span class="math display">\[
+\begin{align}\label{quasi}
+&amp;f(x_k+\Delta x)\approx f(x_k)+\nabla f(x_k)\Delta x + \frac 12\Delta x^TB\Delta x\rightarrow\\
+&amp;\text{Approx linearity: }\nabla f(x_k+\Delta x) \approx \nabla f(x_k)+ B\Delta x\rightarrow\\
+&amp;B_{k+1}(x_{k+1}-x_k)=\nabla f(x_{k+1})-\nabla{f(x_k)}\\
+&amp;\text{let: } y_k=\nabla f(x_{k+1})-\nabla{f(x_k)}, s_k=x_{k+1}-x_k\\
+&amp;\text{thus, }B_{k+1}s_k=y_k\label{update}
+\end{align}
+\]</span> ​ 则更新<span class="math inline">\(B_k\)</span>（或者称为correction），<strong><u>必须要使得<span class="math inline">\(B_{k+1}\)</span>满足公式<span class="math inline">\(\eqref{update}\)</span></u></strong>。在BFGS中，为了满足对称且正定（positive definiteness），人为使得更新公式如下： <span class="math display">\[
+\begin{equation}\label{new}
+B_{k+1}=B_k+\alpha u_ku_k^T+\beta v_kv_k^T
+\end{equation}
+\]</span> ​ 注意其中<span class="math inline">\(u,v\)</span>均是列向量。只要公式<span class="math inline">\(\eqref{new}\)</span>满足更新公式<span class="math inline">\(\eqref{update}\)</span>即可。注意公式<span class="math inline">\(\eqref{new}\)</span>后有两个更新项，只有一个时将是秩1算法。在这里，我们就地取材，使得<span class="math inline">\(u_k=y_k,v_k=B_ks_k\)</span>。求<span class="math inline">\(\alpha,\beta\)</span>。</p>
+<p>​ 则带入公式<span class="math inline">\(\eqref{update}\)</span>，整理后可以得到： <span class="math display">\[
+\begin{align}
+&amp;(B_k+\alpha u_ku_k^T+\beta v_kv_k^T)s_k=y_k\rightarrow\\
+&amp;(\alpha u_ku_k^T+\beta v_kv_k^T)s_k=y_k-B_ks_k\rightarrow\\
+&amp;(\alpha u_k^Ts_k)u_k+(\beta v_k^Ts_k)v_k=y_k-B_ks_k\rightarrow\\
+&amp;\text{for: }u_k=y_k,v_k=B_ks_k\\
+&amp;\text{let: }\alpha u_k^Ts_k=1,\beta v_k^Ts_k=-1\\
+&amp;\alpha=\frac 1{y_k^Ts_k},\beta=-\frac{1}{s^T_kB_k^Ts_k}=-\frac{1}{s^T_kB_ks_k}
+\end{align}
+\]</span> ​ 则可以得到更新公式。</p>
+<hr>
+<h2 id="iii.sam">III.SAM</h2>
+<p>​ 这篇论文我也不是很想细讲，不知道是因为我没有深入理解还是这篇论文本身就有那么一点魔法，个人感觉此文最后得出的算法貌似很trivial。SAM（sharpness aware minimization）是一种新的误差函数，此误差函数可以提升网络的泛化能力（<strong><u>使得最优值附近较为平滑</u></strong>）。</p>
+<p>​ 一般的提升泛化能力方法可以分为这么几种：</p>
+<ul>
+<li><p>限制活动参数数量：weight decay（限制部分参数的存在）、Dropout（参数随机存在）以及比较新的stochastic depth（随机扔层，多用在attention结构中）</p></li>
+<li><p>loss方面：比如分类问题中的label smoothing loss，使得one-hot变成了 0.9或者0.8 hot，label不再是硬的，或者说是从分类问题转化为回归问题，从“数字信号学习”变为“模拟信号学习”。</p></li>
+<li><p>数据处理方面：数据增强（传统），Random Erase，mixup/cutmix（现代数据增强）。</p></li>
+</ul>
+<p>​ 在loss方面，如果说label smooth算是杰出的一个泛化能力增强尝试的话，个人觉得这还是不够的。毕竟这就不优雅。本来人家猫就是猫，我能很明确告诉你这就是猫，100%概率，但label smooth偏要说这是90%的置信度，强行软化。</p>
+<p>​ SAM则着重于优化网络学习结果计算的loss形状。假设我们把loss值函数看作是： <span class="math display">\[
+\begin{equation}
+l=L(x;\theta)
+\end{equation}
+\]</span> ​ 其中x是输入数据，<span class="math inline">\(\theta\)</span>是网络参数。我们大可以将上式看作是关于<span class="math inline">\(\theta\)</span>的函数（可以认为输入给定），那么我们希望对于任意给定输入，loss都能保持一定的平滑性，正如我们希望 <strong><u>超平面是存在平滑性的</u></strong>，以免发生过拟合。那么如何保证此“平滑性”？</p>
+<p>​ <del>首先，我们知道，根据某个xx理论 显然 不难得到 易于证明 QED</del>。首先，作者将问题写成了这样（这里我跳过了作者抛出的一个theorem），假设我们现在已经有了一个参数<span class="math inline">\(w\)</span>（这是个向量但我不想打<code>\pmb&#123;&#125;</code>，为了方便），我们需要找一个有更强泛化能力的参数<span class="math inline">\(w^*\)</span>，那么<span class="math inline">\(w\)</span>局部最大loss可以写为： <span class="math display">\[
+\begin{align}
+&amp;[\mathop{\max}_{|\epsilon|_2\leq\rho}L_s(w+\epsilon)-L_s(w)]+L_s(w)+\lambda\Vert w\Vert^2\label{div}\\
+&amp; L_s^{SAM}:=\mathop{\max}_{|\epsilon|_2\leq\rho}L_s(w+\epsilon)
+\end{align}
+\]</span> ​ 其中<span class="math inline">\(\rho\)</span>是个超参数。作者将局部最大loss拆分为<span class="math inline">\(\eqref{div}\)</span>就是为了说明：方括号里的项实际上包含了局部变化率信息（越大说明sharpness越高），剩余部分就是plain loss with regularizer。</p>
+<p>​ 作者进一步认为： <span class="math display">\[
+\begin{align}
+\epsilon^*(w)=\mathop{\arg\max\;}_{|\epsilon|_2\leq\rho}L_s(w+\epsilon)\mathop{\approx}^{Taylor}\mathop{\arg\max\;}_{|\epsilon|_2\leq\rho}L_s(w)+\epsilon^T\nabla_wL_s(w)=\mathop{\arg\max\;}_{|\epsilon|_2\leq\rho}\epsilon^T(w)\nabla_wL_s(w)
+\end{align}
+\]</span></p>
+<p>​ 感觉如果直接求解<span class="math inline">\(\arg\max\epsilon^T(w)\nabla_wL_s(w)\)</span> 只是求解在对应参数点<span class="math inline">\(w\)</span>，与<span class="math inline">\(L_s\)</span>梯度内积最大的参数偏移值。这么看来，貌似<span class="math inline">\(\epsilon\)</span>的方向与<span class="math inline">\(\nabla L_s(w)\)</span>一致，范数取最大值（<span class="math inline">\(\rho\)</span>）即可？作者最后确实也是这么解的： <span class="math display">\[
+\begin{equation}\label{max}
+\epsilon^*(w)=\rho\text{ sign}(\nabla_wL_s(w))|\nabla_wL_s(w)|^{q-1}/\left(\Vert\nabla_wL_s(w) \Vert^q_q\right)^{1/p}
+\end{equation}
+\]</span> ​ 作者说p=q=2是最优参数。但... 为什么要用 sgn函数？这里... 作者写复杂了。<span class="math inline">\(|...|\)</span>是 element-wise absolute操作，sgn + |...| 相当于是先取每个元素的值，归一化后再将原来的方向加上。</p>
+<p>​ 由于公式<span class="math inline">\(\eqref{max}\)</span>求出了最终的<span class="math inline">\(\epsilon\)</span>，那么我们的<span class="math inline">\(L_s^{SAM}(w)\)</span>梯度可以求出如下，由于<span class="math inline">\(L_s^{SAM}(w)\approx L_s(w+\epsilon^*(w))\)</span>: <span class="math display">\[
+\begin{align}
+&amp;\nabla_wL_s^{SAM}(w)\approx \nabla_wL_s(w+\epsilon^*(w))=\frac{d(w+\epsilon^*(w))}{dw}\nabla_w{L_s(w)}|_{w=w+\epsilon^*(w)}\rightarrow\\
+=&amp;\nabla_w{L_s(w)}|_{w=w+\epsilon^*(w)}+\left[\frac{d(\epsilon^*(w))}{dw}\nabla_w{L_s(w)}|_{w=w+\epsilon^*(w)}\right]
+\end{align}
+\]</span> ​ 最后，作者甚至将上式方括号内的项省略掉，直接一步： <span class="math display">\[
+\begin{equation}
+\nabla_wL_s^{SAM}(w)\approx \nabla_w{L_s(w)}|_{w=w+\epsilon^*(w)}
+\end{equation}
+\]</span> ​ 个人感觉很暴力。因为假设这样，假设在SGD背景下进行迭代，每一次将直接取负梯度方向优化，而SAM则是首先计算本参数所在位置的梯度，之后设置一临时向量，其值是梯度归一化结果乘以ρ，计算实际更新方向时，当前参数加临时向量位置evaluate得到梯度后当作方向。而ρ是个魔法参数，也不自适应，甚至我都不知道ρ是否鲁棒，是否会出现ρ“条件数大”的情况。作者相当于在此处：</p>
+<div class="note warning"><p>​ 每次不在参数位置获得梯度，而在参数附近的一个魔法位置获得梯度。作者的理论也很魔法，核心部分竟然是一个一阶泰勒展开的极值（内积最大值结果），作者将其说成是 <strong><u>dual norm problem</u></strong>，好家伙，一下成了泛函分析问题了，逼格++。</p>
+</div>
+<p>​ 虽然本文引用量100+，但个人始终感觉<strong><u>不太对劲</u></strong>（很魔法），有机会将尝试一下本算法。不过按道理来说，如果这个方法很成功，就像AdamW &gt; Adam这样，SAM一定会被Pytorch进行官方实现的，引用量比肩ResNet、transformer也说不定，<strong><u>可惜并没有</u></strong>。</p>
+<p>​ 个人水平实在有限，没办法读出本文的深意，也没办法从中获得启发，如果有读者对此文产生兴趣并有自己的深入理解，笔者愿意深入探讨。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Condition_number">Wikipedia: Condition number</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Numerical_stability">Wikipedia: Numerical stability</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Preconditioner">Wikipedia: Preconditioner</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="http://people.math.sfu.ca/~elushi/project_833.pdf">Yang D., Enkeleida L., Qingguo L., Investigation of quasi-Newton methods for unconstrained optimization</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://www.cs.ccu.edu.tw/~wtchu/courses/2012s_OPT/Lectures/Chapter%2011%20Quasi-Newton%20Methods.pdf">Chapter 11 Quasi-Newton Methods</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="我贫瘠的数学世界【1】- SAM与优化方法">https://enigmatisms.github.io/2022/01/30/我贫瘠的数学世界【1】-SAM与优化方法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 优化理论</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/23/Instant-Neural-Graphics-Primitives/" rel="prev" title="Instant Neural Graphics Primitives">
+                  <i class="fa fa-chevron-left"></i> Instant Neural Graphics Primitives
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/06/3D-Reconstruction-with-Posed-Mono-cam-Images/" rel="next" title="3D Reconstruction with Posed Mono-cam Images">
+                  3D Reconstruction with Posed Mono-cam Images <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

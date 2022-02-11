@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="纯理论分析  Preface ​ 周志华老师的《机器学习》看到了第五章，可总感觉看得太快了（可惜起步太晚了，大三下才系统地学ML）。个人认为走马观花地看完全没有用处，最好是能自己将所有碰到的轮子都写一遍（理想情况），但人的精力毕竟有限，开学了时间也比较紧张，实现这一步就先跳过吧，而细致的理论分析与理解是完全必要的。LDA之前实现过Github Algorithm-Plus🔗，决策树倒是连理">
+<meta property="og:type" content="website">
+<meta property="og:title" content="线性&#x2F;树型分类器的纯理论分析">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="纯理论分析  Preface ​ 周志华老师的《机器学习》看到了第五章，可总感觉看得太快了（可惜起步太晚了，大三下才系统地学ML）。个人认为走马观花地看完全没有用处，最好是能自己将所有碰到的轮子都写一遍（理想情况），但人的精力毕竟有限，开学了时间也比较紧张，实现这一步就先跳过吧，而细致的理论分析与理解是完全必要的。LDA之前实现过Github Algorithm-Plus🔗，决策树倒是连理">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/melon.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/lda.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/tree.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/clf.JPG">
+<meta property="article:published_time" content="2021-03-02T15:49:54.000Z">
+<meta property="article:modified_time" content="2021-03-07T05:24:30.611Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/melon.jpg">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/","path":"2021/03/02/线性-树型分类器的纯理论分析/","title":"线性/树型分类器的纯理论分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>线性/树型分类器的纯理论分析 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90"><span class="nav-text">纯理论分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#preface"><span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lda%E7%9A%84%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC"><span class="nav-text">LDA的数学推导</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E7%B1%BB"><span class="nav-text">二分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%8A%95%E5%BD%B1%E5%88%B0%E4%B8%80%E6%9D%A1%E7%9B%B4%E7%BA%BF%E4%B8%8A"><span class="nav-text">为什么要投影到一条直线上？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E7%B1%BB"><span class="nav-text">多分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E5%9E%8B---%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-text">树型 - 决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E8%AE%BA%E7%9B%B8%E5%85%B3"><span class="nav-text">信息论相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%92%E4%BF%A1%E6%81%AF"><span class="nav-text">互信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E7%9B%8A%E7%8E%87"><span class="nav-text">增益率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E5%B0%BC%E6%8C%87%E6%95%B0"><span class="nav-text">基尼指数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%BC%BA%E5%A4%B1%E5%A4%84%E7%90%86%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">变量缺失处理的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kernelization"><span class="nav-text">Kernelization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          线性/树型分类器的纯理论分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-02 23:49:54" itemprop="dateCreated datePublished" datetime="2021-03-02T23:49:54+08:00">2021-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-07 13:24:30" itemprop="dateModified" datetime="2021-03-07T13:24:30+08:00">2021-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="纯理论分析">纯理论分析</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ 周志华老师的《机器学习》看到了第五章，可总感觉看得太快了（可惜起步太晚了，大三下才系统地学ML）。个人认为走马观花地看完全没有用处，最好是能自己将所有碰到的轮子都写一遍（理想情况），但人的精力毕竟有限，开学了时间也比较紧张，实现这一步就先跳过吧，而细致的理论分析与理解是完全必要的。LDA之前实现过<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/blob/master/py/LDA/lda_learn.py">Github Algorithm-Plus🔗</a>，决策树倒是连理论都没怎么细看，只调过库。为了不当调库侠，有写轮子的能力，个人将对这两章进行一下梳理，写一下自己的理解。</p>
+<p><img src="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/melon.jpg"></p>
+<center>
+Figure 1. 西瓜
+</center>
+<p>​ LDA（消歧义：Linear Discriminant Analysis，不是Latent Dirichlet Allocation）和决策树都是两个非常简单但是又很优雅的分类器。</p>
+<span id="more"></span>
+<hr>
+<h2 id="lda的数学推导">LDA的数学推导</h2>
+<p>​ <blockquote class="blockquote-center">
+<p>同类样本的类内方差最小，而不同类样本的类间方差最大</p>
+
+</blockquote></p>
+<p>​ LDA是给定标签下的有监督降维方式，希望找到更低维度上的投影，可以满足上述属性。而对于高维而言，协方差是描述样本关系的指标。协方差的定义如下（大二下学的，回忆一下）：描述n维随机变量<span class="math inline">\(X=(X_1,X_2,...X_n)\)</span>每个分量之间存在的关系，协方差可以定义为： <span class="math display">\[
+\begin{equation}
+C = \begin{pmatrix}
+c_{11} &amp; c_{12} &amp; ... &amp; c_{1n} \\
+c_{11} &amp; c_{12} &amp; ... &amp; c_{1n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+c_{n1} &amp; c_{n2} &amp; ... &amp; c_{nn} \\
+\end{pmatrix}
+\end{equation}
+\]</span> ​ 其中，<span class="math inline">\(c_{ij}\)</span>是两个分量<span class="math inline">\(X_i,X_j\)</span>的协方差<span class="math inline">\(Cov(X_i, X_j) = E[(X_i-E_i)(X_j-E_j)]\)</span>。协方差存在一些性质，比如说： <span class="math display">\[
+\text{let }Cov(X)=\Sigma\\
+Cov(AX+b)=A\Sigma A^T
+\]</span> ​ 证明就省略了，根据期望的性质，推导还是比较简单的。</p>
+<h3 id="二分类">二分类</h3>
+<p>​ 假设有两类样本，<span class="math inline">\(D_1\)</span>以及<span class="math inline">\(D_2\)</span>，<span class="math inline">\(D_1\)</span>的样本中心（根据矩法可以求出来）为<span class="math inline">\(\mu_1\)</span>，对应地<span class="math inline">\(D_2\)</span>有<span class="math inline">\(\mu_2\)</span>，那么假设存在一个低维过原点的超平面（由于是平行投影，是否过原点不影响结果，但原点较好讨论），这个超平面方程为：<span class="math inline">\(w^Tx=0\)</span>，那么投影在这个超平面上的数据点应该有什么形式？中心点应该有什么形式？协方差是否改变？<span class="math inline">\(w^Tx=0\)</span>确实是降了1维（因为有一个约束方程），但如何使用<span class="math inline">\(w\)</span>进行投影？</p>
+<p>​ 实际上，每个样本点<span class="math inline">\(x_i\)</span>都在：<span class="math inline">\(w^Tx+b_i=0\)</span> 这个超平面上，去掉这个相对原点的偏移，就可以得到每一个样本点在低维上的投影。实际是这样操作的：设<span class="math inline">\(x_i\)</span>是超平面<span class="math inline">\(w^Tx = 0\)</span>外一点，那么显然，<span class="math inline">\(x_i\)</span>可以表示为超平面上的投影点<span class="math inline">\(x_i&#39;\)</span>与法向量<span class="math inline">\(w\)</span>的加权组合（因为已经构成基了），比如： <span class="math display">\[
+\begin{equation}
+x_i=x_i&#39;+\lambda_iw
+\end{equation}
+\]</span> ​ 那么<span class="math inline">\(\lambda_i\)</span>显然就是<span class="math inline">\(x_i\)</span>在单位法向量<span class="math inline">\(w_e\)</span>上的投影，那么可以知道： <span class="math display">\[
+x_i&#39;=x_i-\frac{w^Tx_iw}{\Vert w\Vert^2}
+\]</span> ​ 但这是个什么呢？样本中心间的距离又是什么？可以求出样本中心应该在： <span class="math display">\[
+\begin{equation}\label{proj}
+x_c&#39;=\frac 1N\sum_{i=1}^N\left(x_i-\frac{w^Tx_iw}{\Vert w\Vert^2}\right)
+\end{equation}
+\]</span> ​ 显然公式<span class="math inline">\(\eqref{proj}\)</span>是可以进行化简的，对于内积部分（后半部分），需要将内积展开为累加，进行累加次序交换： <span class="math display">\[
+\begin{array}{l}
+\frac 1N\sum_{i=1}^N\frac{w^Tx_iw}{\Vert w\Vert^2}=
+\frac 1{N{\Vert w\Vert^2}}\sum_{i=1}^N \left(\sum_{j=1}^nw_jx_{ij} \right)w\\
+=\frac 1{\Vert w\Vert^2}\sum_{j=1}^n\frac 1n\sum_{i=1}^N w_jx_{ij}w\\
+=\frac w{\Vert w\Vert^2}\sum_{j=1}^nw_j\mu_i
+=\frac{w^T\mu w}{\Vert w\Vert^2}
+\end{array}
+\]</span> ​ 前半部分的化简十分简单。那么投影后的两个集合中心的差向量应该是： <span class="math display">\[
+\begin{equation}\label{diff}
+\pmb{d}=\mu_1-\mu_2-\frac{w^T(\mu_1-\mu_2)w}{\Vert w\Vert^2}
+\end{equation}
+\]</span> ​ 实际上，Fisher的处理方法与我的处理方法完全不同，我是真的求了一个这样的投影，但不管是Fisher还是西瓜书上的推导，均值全部都是：<span class="math inline">\(w^T\mu\)</span>，这让我觉得很奇怪，如果是这样的话，均值的维度不就是1了吗？但实际上维度只应该减1啊？以上都是我看了第一部分产生的想法，但实际上二分类LDA并不是投影到n-1维空间中（特征分量数为n），二分类的LDA直接投影到一维空间上。二分类只需要在一条直线上找到数据的投影即可，在这条直线上判定投影后的新数据离哪一类数据中心最近。</p>
+<p>​ 由于这是一下从n维降到1维，所以几何直观上并不好理解。个人觉得这样的降维跨度太大了。</p>
+<h4 id="为什么要投影到一条直线上">为什么要投影到一条直线上？</h4>
+<p>​ 由于二分类输出的指示结果为 <span class="math inline">\(p_1,p_2,\text{ where } p_1+p_2=1\)</span>，也就是说分为两个类，落在两个类内的概率满足一个归一约束，那么输出就相当是在一条直线上。也就是说，LDA认为：<strong><u>输出在不同类上的概率实际上是所有输入特征经过<span class="math inline">\(w\)</span>映射的线性组合</u></strong>，二分类问题只需要得到直线上的一个值，就能根据归一约束求出分属于两个类的概率。那么：</p>
+<ul>
+<li>三分类问题只需要求得在二维空间上的一个点，就能求出一个样本分属于三个类的概率。也即线性组合输出了一个二维的点</li>
+<li>四分类问题只需求出三维空间中的一个点，就能求出一个样本分属于四个类的概率...</li>
+<li>M分类问题只需要求出M-1为空间中的一个点，就能求出一个样本分属于M个类的概率。</li>
+</ul>
+<p>​ 要注意特征空间（n维）和概率空间（M维）的不同。LDA实际上就是在正态分布以及同方差的假设下，认为只要线性组合n个特征，就能求出M维空间中的一个概率解。这也就解释了，为什么我一开始的理解是有问题的。问题的关键就在于：输出分类的概率是输入特征的线性组合。<strong><u>不能简单地想着投影，而要想为什么要这样投影，这样投影如何帮助求得分类概率。</u></strong></p>
+<p>​ 那么数学上就比较好理解了：给定一条直线<span class="math inline">\(y=w^Tx\)</span>，说是要投影到直线上，实际上要做的是根据<span class="math inline">\(w\)</span>对样本的不同属性进行线性组合：<span class="math inline">\(w^Tx\)</span>。那么也就有： <span class="math display">\[
+\begin{align}\label{class2}
+&amp; \mu_1&#39;=w^T\mu_1 \tag{center of projected class 1} \\
+&amp; \mu_2&#39;=w^T\mu_2 \tag{center of projected class 2} \\
+&amp; \sigma_1=w^T\Sigma_1 w \tag{projected within-class cov 1}\\
+&amp; \sigma_2=w^T\Sigma_2 w \tag{projected within-class cov 2}
+\end{align}
+\]</span> ​ 那么根据类内方差最小，类间方差最大的思想： <span class="math display">\[
+\begin{equation}\label{obj1}
+\text{max } \frac{\Vert {w^T\mu_1 - w^T\mu_2} \Vert^2}{w^T(\Sigma_1+\Sigma_2)w}
+\end{equation}
+\]</span> ​ 分子展开维转置乘积之后，可以定义两个散度矩阵： <span class="math display">\[
+\begin{align}
+&amp; S_b=(\mu_1-\mu_2)(\mu_1-\mu_2)^T &amp; \tag{within-class scatter matrix} \\
+&amp; S_w=\Sigma_1+\Sigma_2 &amp; \tag{between scatter matrix}
+\end{align}
+\]</span> ​ 使用这两个散度矩阵，定义问题<span class="math inline">\(\eqref{obj1}\)</span>带有广义瑞利商的形式。解问题<span class="math inline">\(\eqref{obj1}\)</span>就可以得到最优的<span class="math inline">\(w\)</span>。由于<span class="math inline">\(w\)</span>的长度是不影响结果的（看的就是方向），不妨令分母为1，最大化分子，进一步化简为： <span class="math display">\[
+\begin{equation}\label{obj2}
+\begin{array}{ll}
+\text{min } -w^TS_bw \\
+\text{s.t. } w^TS_ww=1
+\end{array}
+\end{equation}
+\]</span> ​ 请Lagrange坐到主席台上来。根据增加了一项乘子项的优化问题<span class="math inline">\(\eqref{obj2}\)</span>，KKT条件梯度为0，得到： <span class="math display">\[
+\begin{equation}\label{kkt1}
+S_bw=\lambda S_ww \rightarrow(\mu_1-\mu_2)=S_ww
+\end{equation}
+\]</span> ​ 等式<span class="math inline">\(\eqref{kkt1}\)</span>可以化简得原因是：<span class="math inline">\(S_b=(\mu_1-\mu_2)(\mu_1-\mu_2)^T\)</span>，也就是说，<span class="math inline">\(S_bw\)</span>实际方向就是<span class="math inline">\(\mu_1-\mu_2\)</span>，根据<span class="math inline">\(w\)</span>尺度任意性，直接令<span class="math inline">\(S_bw=\lambda(\mu_1-\mu_2)\)</span>省事。根据<span class="math inline">\(\eqref{kkt1}\)</span>，进行SVD分解（数值上会比较稳定）就可以得到<span class="math inline">\(w\)</span></p>
+<h3 id="多分类">多分类</h3>
+<p>​ 从上述理解中已经可以知道LDA的“降维分类”方式，实际上是通过原特征的线性组合，将特征空间直接变换到“概率空间”（或者是可以被变换为概率的空间）。当分类数量为M时，只需要知道M-1个类上的概率或者等价概率值就可以求出所有类上的“概率输出”值。</p>
+<p>​ 也就是说：LDA的降维过程实际上是由n维特征空间变换为M-1维分类空间的过程。回顾二分类的情况，M = 2，也就是将所有样本投影到一维（直线）上：<span class="math inline">\(y=w^Tx\)</span>，直线上的值显然是一维的。这是由于参与线性组合的函数实际上是一个标量值函数（<span class="math inline">\(w^Tx\)</span>映射），要想输出高维的向量，只需要更改<span class="math inline">\(w\)</span>为一个矩阵<span class="math inline">\(W\)</span>即可。对于需要优化得到的结果，推导有些不同： <span class="math display">\[
+\begin{equation}\label{div1}
+S_t=\sum_{i=1}^m(x_i-\mu_t)(x_i-\mu_t)^T
+\end{equation}
+\]</span> ​ 定义公式<span class="math inline">\(\eqref{div1}\)</span>为全局散度，也就是每个样本点到所有样本的平均点的散度和。个人认为，由于类间差异在大多数情况下都会大于类内差异，所以<span class="math inline">\(S_t\)</span>相当于就是一个类间方差的表征（不同类的均值点到整体均值点的散度）。由于不同于二分类问题，类内散度需要重新定义了。显然类内的散度可以用类内样本与本类均值的差异来衡量： <span class="math display">\[
+\begin{equation}\label{div2}
+S_w=\sum_{j=1}^N(x_{ij}-\mu_i)(x_{ij}-\mu_i)^T
+\end{equation}
+\]</span> ​ 但是至于为什么西瓜书上要使用<span class="math inline">\(\eqref{div2}-\eqref{div1}\)</span>作为最后的类间散度矩阵，我不是很清楚。甚至我觉得，<span class="math inline">\(\eqref{div2}\)</span>的定义是多余的。类间散度实际上可以根据：</p>
+<div class="note info"><p>​ 类内散度通常小于类间散度，在最优投影取得的情况下就更是这样了。所以每个样本，在类间散度很大的情况下，可以看作一个十分接近类内均值的点（如下图所示）。那么每个样本点都可以近似地被类内均值取代。</p>
+</div>
+<p><img src="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/lda.JPG"></p>
+<center>
+Figure 2. 样本与均值的近似性
+</center>
+<p>​ 那么很自然，类间散度可以定义为（每个样本（近似）与全局均值的散度和） <span class="math display">\[
+\begin{equation}\label{div3}
+S_b=\sum_{i=1}^Mm_i(\mu_i-\mu)(\mu_i-\mu)^T
+\end{equation}
+\]</span> ​ 优化目标也需要更改，因为实际的输出式已经变成了如下式所示的多维线性组合矩阵<span class="math inline">\(W\)</span>，输出是多维的，那么可以简单地使用迹进行实现。 <span class="math display">\[
+\begin{equation}\label{obj3}
+\frac{W^TS_bW}{W^TS_bW}\rightarrow\text{ max }\frac{tr(W^TS_bW)}{tr(W^TS_bW)}
+\end{equation}
+\]</span> ​ 对于上式，继续根据拉格朗日乘子法可以得到： <span class="math display">\[
+\begin{equation}\label{solve}
+S_bW=\lambda S_wW\rightarrow {S_w}^{-1}S_bW=\lambda W
+\end{equation}
+\]</span> ​ 可知，<span class="math inline">\(W\)</span>是一个(n * M-1)维矩阵，而显然<span class="math inline">\(\eqref{solve}\)</span>中<span class="math inline">\(W\)</span>的每个列向量分量都是矩阵<span class="math inline">\({S_w}^{-1}S_b\)</span>的一个特征向量（符合特征向量定义，当然可能是广义特征向量），那么<span class="math inline">\(\begin{pmatrix}N-1\\n\end{pmatrix}\)</span>种不同的情况，究竟是哪N-1个特征向量组合成了最终的解<span class="math inline">\(W\)</span>？从公式<span class="math inline">\(\eqref{solve}\)</span>种可以看出，<span class="math inline">\(\lambda\)</span>越大越好（对应最大化<span class="math inline">\(\eqref{obj3}\)</span>）。那么只需要选择<span class="math inline">\({S_w}^{-1}S_b\)</span>最大的N-1个特征值（或者广义特征值）的特征向量组成解即可。</p>
+<hr>
+<h2 id="树型---决策树">树型 - 决策树</h2>
+<blockquote class="blockquote-center">
+<p>树越是向往高处的光亮,它的根就越要向下,向泥土,向黑暗的深处。—尼采</p>
+
+</blockquote>
+<p>​ emmm。这句话只因为有个“树”字就被我拿出来镇一镇文章了。决策树，利用一个个不相互影响的特征（或者我们认为影响不太大的特征，实际上有影响也是可以通过某些操作进行转化的）进行层层分类。正如猜物游戏，每次只能问一个答案只有“是”和“否”的问题，通过答案产生的分支进行推测。通过对待分类样本的层层分解可以获得最终的分类推测。本节只讨论其相关的数学原理，对于具体的生成 / 剪枝算法将不会涉及（因为这没有吸引到我）。</p>
+<h3 id="信息论相关">信息论相关</h3>
+<p>​ 回顾一下信息熵的两个定义： <span class="math display">\[
+\begin{equation}\label{ent}
+Ent(x)=-\sum_{i=1}^np_ilog(p_i)\text{ or }Ent(x)=-\int p(x)log(p(x))dx
+\end{equation}
+\]</span> ​ 左边为常见的离散型随机变量熵的定义，而右边则为连续变量在其PDF意义下的熵。在讲KL散度的时候已经说过了，熵是用于衡量信息编码的一个概念。一个随机事件的不确定性越大，代表信息量越大，编码这个事件所需要的二进制位数也相应越大。</p>
+<p>​ 在决策树一章中，《西瓜书》提到：</p>
+<blockquote class="blockquote-center">
+<p>"信息熵" (information entropy) 是度量样本集合纯度最常用的一种指标。</p>
+
+</blockquote>
+<p>​ 为什么这么说呢？集合样本纯度又是指什么？纯度在此处指：同一个划分中，由于划分集合内的元素都存在相应的label，如果集合内的label越趋于一致，那么这个集合的纯度也就越高。如果用比例<span class="math inline">\(p_k\)</span>表示划分集合中，第k类样本所占的比例，那么这个集合的信息熵（纯度）表示如下： <span class="math display">\[
+\begin{equation}\label{purity}
+Ent(D) = -\sum_{i=1}^np_ilog(p_i)
+\end{equation}
+\]</span> ​ 可以看出，公式<span class="math inline">\(\eqref{purity}\)</span>定义的纯度，当某一类完全占据整个集合时熵取得最小值0。为什么要讨论信息熵或者是纯度？处于决策树的生成考虑，我们使用很多特征生成一棵决策树，但在决策树中，不同的特征地位也是不相同的，naive的情况下，每次分支只选择其中一个特征，那么要选哪一个特征作为本结点向下分支的特征？需要进行优选，优选的指标就是纯度。</p>
+<p>​ 显然，如果一种划分模式可以划分出纯度较高的子结点（样本子集合），那么：</p>
+<ul>
+<li>全纯结点（只有一类）可以避免进一步分支，减小树结构复杂度</li>
+<li>子集合越纯，说明分类效果越好（因为原集合是无序的，熵大，分类可以看作熵减过程）</li>
+</ul>
+<p>​ 由此我们定义信息增益：对于公式<span class="math inline">\(\eqref{purity}\)</span>定义的“纯度”，个人认为应该叫做“杂度”更好，实际上我看Wikipedia称这个为“impurity”，很显然嘛，值越大杂度越高。那么原集合的杂度为<span class="math inline">\(Ent(D)\)</span>，如何选取划分才能使得系统的杂度下降最大呢？假设我们选取的属性<span class="math inline">\(a\)</span>存在<span class="math inline">\(v\)</span>个不同的值（也就是<span class="math inline">\(v\)</span>分支），那么每个分支（a属性的每种可能取值）都会有一定样本（可以为0），记为<span class="math inline">\(D^v\)</span>。对应地，<span class="math inline">\(Ent(D^v)\)</span>指的是总体为<span class="math inline">\(D^v\)</span>时，分类的杂度。那么根据<span class="math inline">\(\vert D^v\vert / \vert D\vert\)</span> 也即每个属性样本的占比对杂度进行加权，划分后的系统杂度为： <span class="math display">\[
+\begin{equation}\label{impurity}
+G(D,a)=Ent(D)-\sum_{j = 1}^v\frac{|D^j|}{|D|}Ent(D^j)
+\end{equation}
+\]</span> ​ 公式<span class="math inline">\(\eqref{impurity}\)</span>是原系统的杂度 减去 划分后的系统杂度。这也就是<strong><u>分类，这个熵减过程到底让系统的熵减了多少</u></strong>。这被称为<strong><u>信息增益</u></strong>（information gain），实际上衡量的就是分类使系统熵减少的量。显然我们希望，熵减越大越好。那么每次从属性集合中计算 / 选择信息增益最大的属性进行分支即可。</p>
+<h4 id="互信息">互信息</h4>
+<p>​ 信息论中，如果需要衡量两个随机变量之间的关系，可以计算 一个随机变量携带的信息包含另一个随机变量信息的量大小，这被定义为互信息（mutual information）。可以这样认为：两个有关联的变量，给定其中一个变量的信息，另一个变量的不确定性随之减小： <span class="math display">\[
+\begin{equation}\label{mut}
+I(X;Y)=D_{KL}(P_{XY}||P_X \otimes P_Y),\text{ where } x\in\mathcal{X},y\in\mathcal{Y}
+\end{equation}
+\]</span> ​ 上式说的是：x是空间<span class="math inline">\(\mathcal{X}\)</span>中的随机变量，y是空间<span class="math inline">\(\mathcal{Y}\)</span>中的随机变量，那么互信息是联合分布<span class="math inline">\(P_{XY}\)</span>与边缘分布<span class="math inline">\(P_X\text{ and }P_Y\)</span>的外积的KL散度。多维空间不好理解的话，讨论一维变量： <span class="math display">\[
+\begin{equation}\label{mut1}
+I(X;Y)=\int_y\int_xp(x, y)log\left(\frac{p(x, y)}{p(x)p(y)}\right)dxdy
+\end{equation}
+\]</span> ​ 为什么这样可以描述相关程度呢？因为显然，X与Y独立时的联合分布为<span class="math inline">\(p(x)p(y)\)</span>，此处衡量的即是真实联合分布<span class="math inline">\(p(x, y)\)</span>与独立时的联合分布的差别。</p>
+<p>​ 互信息和信息增益是存在关系的[1]。在划分时，如果对属性集合A（也就是<span class="math inline">\(a\)</span>所在的集合）取上一个期望，那么会有什么发现？也即对公式<span class="math inline">\(\eqref{impurity}\)</span>定义的信息增益取A的期望，为了方便数学变换，我们将<span class="math inline">\(\eqref{impurity}\)</span>展开： <span class="math display">\[
+\begin{equation}\label{expand}
+G(D,a)=-\sum_{k=1}^Jp_klog_2p_k-\sum_{v=1}^V\frac{|D^v|}{|D|}\left(-\sum_{k=1}^Jp_{D^v,k}log_2p_{D^v,k}\right)
+\end{equation}
+\]</span> ​ 显然公式<span class="math inline">\(\eqref{expand}\)</span>可以被表示为（原系统熵 - 给定划分下的新集合熵） <span class="math display">\[
+\begin{equation}\label{ent1}
+G(D,a)=Ent(D)-Ent(D|a)
+\end{equation}
+\]</span> ​ 进行期望的求取可以得到： <span class="math display">\[
+E_A(G(D,a))=Ent(D)-Ent(D|A)
+\]</span> ​ 下面证明一个有关互信息的简单结论： <span class="math display">\[
+\begin{equation}\label{lemma}
+I(X;Y)=Ent(X)-Ent(X|Y)
+\end{equation}
+\]</span> ​ 怎么说呢。推了好长时间没有推出来的原因就是：<strong><u>没有学过信息论，概念不清楚。</u></strong>比如<span class="math inline">\(\eqref{lemma}\)</span>右边的第二项，条件信息熵，定义为： <span class="math display">\[
+\begin{equation}\label{cond}
+Ent(X|Y)=\sum_{x\in\mathcal{X},y\in\mathcal{Y}}p(x,y)log(p(x|y)),\text{ but not }\sum_{x\in\mathcal{X}}p(x|y)log(p(x|y))
+\end{equation}
+\]</span> ​ 那么<span class="math inline">\(\eqref{lemma}\)</span>可以展开为： <span class="math display">\[
+I(X;Y)=-\sum_{y\in\mathcal{Y}}\sum_{x\in\mathcal{X}}p(x,y)log(p(x))+\sum_{y\in\mathcal{Y}}\sum_{x\in\mathcal{X}}p(x,y)log\left( \frac{p(x,y)}{p(y)}\right)
+\]</span> ​ 化简可以得到公式<span class="math inline">\(\eqref{lemma}\)</span>成立。那么可以知道，增益率对于A的期望（也就是对于属性集的概率平均）就是决策树结点与属性集的互信息。</p>
+<h4 id="增益率">增益率</h4>
+<p>​ 实际上，纯使用信息增益并不太好。假设某个分支结点只有一个样本，那么显然分支纯度最大（杂度最小），那么假如有一个属性分支极多，可能一下就将所有的样本分到不同结点上了（比如《西瓜书》上提到的，样本序号），这样容易产生过拟合的分支属性是没有意义的，但是只用信息增益的话实际就会选择这个分支方法。所以使用一个因子来限定分支数的影响： <span class="math display">\[
+\begin{equation}\label{int}
+IV(a)=-\sum_{v=1}^V\frac{|D^v|}{|D|}log\left( \frac{|D^v|}{|D|}\right)
+\end{equation}
+\]</span> ​ 可以发现，当分支数越多，这个值越大（不会出现单分支）。这个值称为：固有值（intrinsic value），只需要使用这个值对增益进行惩罚即可（除以此值）。</p>
+<h4 id="基尼指数">基尼指数</h4>
+<p>​ 针对CART决策树的，而以上所说的决策树使用信息增益作为划分属性选择的度量。基尼指数（Gini impurity）指的是：</p>
+<blockquote class="blockquote-center">
+<p>Gini impurity is a measure of how often a randomly chosen element from the set would be incorrectly labeled if it was randomly labeled according to the distribution of labels in the subset.[1]</p>
+
+</blockquote>
+<p>​ 翻译很简单：从集合中随机选择一个元素，再根据这个集合中的类别概率分布随机给这个元素进行分类，分类的错误概率就是基尼指数。 <span class="math display">\[
+\begin{equation}\label{gini}
+Gini(D)=\sum_{i=1}^{|\mathcal Y|}p_i\sum_{k\neq i}p_k=1-\sum_{k=1}^{|\mathcal Y|}p_k^2
+\end{equation}
+\]</span> ​ 显然，纯度越高的集合，内部随机取元素随机分类错误的概率（期望）越小。</p>
+<h3 id="变量缺失处理的理解">变量缺失处理的理解</h3>
+<p>​ 在贝叶斯决策论中提到：</p>
+<ul>
+<li>某一属性组合的变量可能根本不在样本中出现，但是不能直接认为这样的样本不存在。</li>
+</ul>
+<p>​ 而在决策树中，我们更多针对的问题是：当某一个样本某个属性值是未知的，如何处理这样的样本？丢弃是显然不可取的，这样可能损失太多的有效信息。而直接使用确实也不是办法，少掉一个属性要如何继续分支？《西瓜书》上将问题总结地很不错：</p>
+<blockquote class="blockquote-center">
+<p>我们需解决两个问题: (1) 如何在属性值缺失的情况进行划分属性选择 ? (2) 给定划分属性，若样本在该属性上的值缺失，如何对样本进行划分 ?</p>
+
+</blockquote>
+<p>​ 第一个问题我开始并没有什么很好的想法。而对于第二个问题，个人开始认为，假设已经知道了划分属性，可以根据其他完好样本来估计本样本在这个缺失属性上的分布，进行分布加权（事实上，这个想法类似《西瓜书》上提供的方法）。</p>
+<p>​ 问题一实际上比较容易，我想得太复杂了。由于划分属性只考虑<strong><u>一个属性与分类结果的关系</u></strong>，那么完全用不着考虑多属性关系，只需要取出这个属性下对应没有缺失的样本，利用这些样本估计【属性】对【分类结果】的影响即可。以信息增益法为例，考虑<span class="math inline">\(\eqref{impurity}\)</span>定义的信息增益。假设我们讨论属性<span class="math inline">\(a\)</span>，由于有些样本属性是缺失的，在计算时将这些样本剔除再计算新集合<span class="math inline">\(\tilde{D}\)</span>的信息增益<span class="math inline">\(\tilde{G}(\tilde{D},a)\)</span>。注意，此信息增益计算出来后需要加权： <span class="math display">\[
+\begin{equation}\label{weigh}
+\tilde{G}(\tilde{D},a)\times\rho,\text{ what is ρ?}
+\end{equation}
+\]</span> ​ 其中的<span class="math inline">\(\rho\)</span>是加权因子，是什么权重呢？假设属性a在集合中有<span class="math inline">\(|\tilde{D}|\)</span>个未缺失样本，那么<span class="math inline">\(\rho=|\tilde D|/|D|\)</span>，也就是说，样本缺失越少，信息增益计算越可信。</p>
+<p>​ 问题2实际上是将“让同一个样本以不同的概率划入到不同的子结点中去”（《西瓜书》言）。也可以使用没有缺失属性a的样本信息，假设某一分支分到属性a的v取值<span class="math inline">\(a^v\)</span>上： <span class="math display">\[
+\tilde{r_v}=\frac{\sum_{x\in\tilde{D}_v}w_x}{\sum_{x\in {\tilde{D}}}w_x}
+\]</span> ​ 也就是没有缺失属性a的样本中，有<span class="math inline">\(\tilde{r_v}\)</span>比例样本在本属性上取值为v，那么当每个样本权重为<span class="math inline">\(w_x\)</span>时，可以按照比例将缺失样本分配给不同分支（相当于按照概率（比例）割裂一个缺失样本）。</p>
+<h3 id="kernelization">Kernelization</h3>
+<p>​ 普通决策树的分类边界都是垂直于某个轴的（因为决策树是一种“非黑即白”的分类方法）。在某个属性（某个维度）上，只有固定的几种分法：</p>
+<p><img src="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/tree.jpg"></p>
+<center>
+<p>Figure 3. 决策树在单一维度上的分类边界总是垂直于轴的</p>
+<p>​ 啊这？太过于“一维”了，甚至连简单的线性可分分类都需要经过如下的艰难操作：</p>
+<p><img src="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/clf.JPG"></p>
+<center>
+<p>Figure 4. 决策树扭来扭去</p>
+<p>​ 一个简单的想法就是：不适用原属性进行分类，我们可以像PCA那样，使用属性的线性组合形成抽象属性，在这个抽象属性对应的新空间中，虽然分类边界仍然垂直于新的空间轴，但在原空间看起来，就成为一般线性分类器了。而进一步地，如果使用其他的非线性特征组合方法，也就是引入某些 <strong><u>kernel</u></strong>，甚至可以通过决策树达到任意分类边界生成的效果。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] Wikipedia, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity">Decision tree learning</a></p>
+</center></center>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/" title="线性&#x2F;树型分类器的纯理论分析">https://enigmatisms.github.io/2021/03/02/线性-树型分类器的纯理论分析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
+              <a href="/tags/ML/" rel="tag"><i class="fa fa-tag"></i> ML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="SVM算法与实现">
+                  <i class="fa fa-chevron-left"></i> SVM算法与实现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/" rel="next" title="贝叶斯学习的理解">
+                  贝叶斯学习的理解 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

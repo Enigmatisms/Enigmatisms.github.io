@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Event Horizon</title>
+  <icon>https://enigmatisms.github.io/icon.png</icon>
+  <subtitle>Technical &amp; Personal Docs.</subtitle>
+  <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://enigmatisms.github.io/"/>
+  <updated>2022-02-11T18:02:18.015Z</updated>
+  <id>https://enigmatisms.github.io/</id>
+  
+  <author>
+    <name>Enigmatisms</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于卷积的一些思考</title>
+    <link href="https://enigmatisms.github.io/2022/02/11/%E5%85%B3%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    <id>https://enigmatisms.github.io/2022/02/11/%E5%85%B3%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/</id>
+    <published>2022-02-11T14:27:13.000Z</published>
+    <updated>2022-02-11T18:02:18.015Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe src=&quot;//www.slideshare.net/slideshow/embed_code/key/EeH6ZygZvj9G5m&quot; width=&quot;750&quot; height=&quot;420&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>3D Reconstruction with Posed Mono-cam Images</title>
+    <link href="https://enigmatisms.github.io/2022/02/06/3D-Reconstruction-with-Posed-Mono-cam-Images/"/>
+    <id>https://enigmatisms.github.io/2022/02/06/3D-Reconstruction-with-Posed-Mono-cam-Images/</id>
+    <published>2022-02-06T07:05:50.000Z</published>
+    <updated>2022-02-08T16:04:04.327Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;re3d&quot;&gt;Re3D&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 电脑还没到，我[#]。不得不说京东有些店是真的脑瘫，买RTX发AMD，AMD yes也别这样啊。没办法工作的情况下只能看论文，继续3D重建。3D重建有些部分与我当前工作有重合之处，我也想从中获得一些启发。本文是两篇小论文以及一本书（这本书的其中一卷）的一个小理解：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2003.10432.pdf?ref=https://githubhelp.com&quot;&gt;Murez, Zak, et al. &quot;Atlas: End-to-end 3d scene reconstruction from posed images.&quot; &lt;em&gt;European Conference on Computer Vision&lt;/em&gt;. Springer, Cham, 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://proceedings.neurips.cc/paper/2021/file/0a87257e5308197df43230edf4ad1dae-Paper.pdf&quot;&gt;Bozic, Aljaz, et al. &quot;Transformerfusion: Monocular rgb scene reconstruction using transformers.&quot; &lt;em&gt;Advances in Neural Information Processing Systems&lt;/em&gt; 34 (2021)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;书（不得不说这本... 期刊？写得真不错，CV方向的基础以及前瞻，不过是当时的前瞻了，可能也比较老）: &lt;a href=&quot;https://www.nowpublishers.com/CGV&quot;&gt;Foundations and Trends® in Computer Graphics and Vision&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 附注：不让我工作我就打原神。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="3D重建" scheme="https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我贫瘠的数学世界【1】- SAM与优化方法</title>
+    <link href="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/"/>
+    <id>https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</id>
+    <published>2022-01-30T03:04:30.000Z</published>
+    <updated>2022-02-03T18:18:41.342Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;bfgsam&quot;&gt;BFGSAM&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 很长一段时间没有静下心来看过有很强理论性的内容了，我十分担心自己会丧失理论上的思考能力以及数学计算能力。正好之前在看某篇论文时，看到其中提到一种叫做SAM（sharpness aware minimization）的方法，说是效果还行，此前保存了SAM论文，但没去细读。最近寒假由于电脑故障没办法工作，很闲，便重新了解了一些数值优化方面的知识（比如拟牛顿族），并读了读SAM（虽然读完感觉？？？这怎么这么魔法）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2010.01412.pdf&quot;&gt;ICLR 2021: Foret, Pierre, et al. &quot;Sharpness-aware minimization for efficiently improving generalization.&quot; &lt;em&gt;arXiv preprint arXiv:2010.01412&lt;/em&gt; (2020).&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;u&gt;《我这种菜鸡哪有资格觉得DL顶会论文魔法》系列&lt;/u&gt;&lt;/strong&gt;（下图图源论文）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/sam.png&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="优化理论" scheme="https://enigmatisms.github.io/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Instant Neural Graphics Primitives</title>
+    <link href="https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/"/>
+    <id>https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/</id>
+    <published>2022-01-23T14:29:53.000Z</published>
+    <updated>2022-01-26T16:15:50.936Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;instant-ngp&quot;&gt;Instant NGP&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf&quot;&gt;&lt;strong&gt;Instant Neural Graphics Primitives with a Multiresolution Hash Encoding&lt;/strong&gt; Thomas Müller, Alex Evans, Christoph Schied, Alexander Keller arXiv:2201.05989 [cs.CV], Jan 2022&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 文章很有趣，对我现有工作有一定的启发价值，当然结果也很nice：&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2022/01/23/Instant-Neural-Graphics-Primitives/robot5.gif&quot; style=&quot;zoom:125%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. Hoho. Da. Nice.
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="3D重建" scheme="https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Depth Completion论文三篇</title>
+    <link href="https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/"/>
+    <id>https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/</id>
+    <published>2022-01-22T16:31:47.000Z</published>
+    <updated>2022-01-22T16:43:28.427Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;depth-completion&quot;&gt;Depth Completion&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了其中三篇关于 guided深度补全的文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ICCV 2019: &lt;a href=&quot;https://openaccess.thecvf.com/content_ICCV_2019/papers/Xu_Depth_Completion_From_Sparse_LiDAR_Data_With_Depth-Normal_Constraints_ICCV_2019_paper.pdf&quot;&gt;Xu, Yan, et al. &quot;Depth completion from sparse lidar data with depth-normal constraints.&quot; &lt;em&gt;Proceedings of the IEEE/CVF International Conference on Computer Vision&lt;/em&gt;. 2019.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;ICRA 2020 (可能写得不行 才6引): &lt;a href=&quot;https://arxiv.org/abs/2103.00783&quot;&gt;Hu, Mu, et al. &quot;Towards Precise and Efficient Image Guided Depth Completion.&quot; &lt;em&gt;arXiv e-prints&lt;/em&gt; (2021): arXiv-2103.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AAAI 2020: &lt;a href=&quot;https://ojs.aaai.org/index.php/AAAI/article/view/6635&quot;&gt;Cheng, Xinjing, et al. &quot;Cspn++: Learning context and resource aware convolutional spatial propagation networks for depth completion.&quot; &lt;em&gt;Proceedings of the AAAI Conference on Artificial Intelligence&lt;/em&gt;. Vol. 34. No. 07. 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 本文可能写得&lt;strong&gt;&lt;u&gt;很烂&lt;/u&gt;&lt;/strong&gt;，笔者在看这三篇论文以及写博客时，由于返乡安排太紧，只睡了3.25小时。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="深度补全" scheme="https://enigmatisms.github.io/tags/%E6%B7%B1%E5%BA%A6%E8%A1%A5%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swin Transformer 复现</title>
+    <link href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-01-10T14:45:34.000Z</published>
+    <updated>2022-01-22T16:37:54.284Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;swin-transformer&quot;&gt;Swin Transformer&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：&lt;strong&gt;&lt;u&gt;一个公式都没有&lt;/u&gt;&lt;/strong&gt;（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：&lt;a href=&quot;https://github.com/Enigmatisms/Maevit/tree/master/swin&quot;&gt;Github/Maevit(这实际是ViT的复现repo)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​ 论文原文：&lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Liu, Ze, et al. &quot;Swin transformer: Hierarchical vision transformer using shifted windows.&quot; &lt;em&gt;arXiv preprint arXiv:2103.14030&lt;/em&gt; (2021).&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="transformer" scheme="https://enigmatisms.github.io/tags/transformer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前端小学习</title>
+    <link href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/</id>
+    <published>2021-12-26T12:18:03.000Z</published>
+    <updated>2022-01-13T14:08:49.469Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;front-end&quot;&gt;Front-End&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上）完全不一样的语言去做这件事，最后确定用前端写网页游戏。前端说有趣，也还挺有趣的（毕竟我之前一直想当建筑设计师，搞设计的热情还是有的），但总感觉少了点深度思考（可能因为我接触的太简单）。为了在实践中学习前端，我将之前用Pygame实现的用户登录界面用JS升级了一下（只是功能升级，并没有更好看，见&lt;a href=&quot;https://github.com/Enigmatisms/JSen&quot;&gt;Github:Enigmatisms/JSen&lt;/a&gt;），本文记录在做这个小小项目过程中遇到的一些问题。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png&quot; style=&quot;zoom: 40%;&quot;&gt;&lt;/th&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/home.png&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;Ethians Alpha 1.0 主菜单&lt;/td&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;一个（个人认为的）人性化的登录/注册网页&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt;
+Figure 1. 目标 与 现阶段 发展不平衡之间的矛盾
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="JavaScript" scheme="https://enigmatisms.github.io/tags/JavaScript/"/>
+    
+    <category term="前端开发" scheme="https://enigmatisms.github.io/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vision Transformers</title>
+    <link href="https://enigmatisms.github.io/2021/11/28/Vision-Transformers/"/>
+    <id>https://enigmatisms.github.io/2021/11/28/Vision-Transformers/</id>
+    <published>2021-11-27T23:22:16.000Z</published>
+    <updated>2022-01-10T15:06:30.909Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;vit&quot;&gt;ViT&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 去年的一个工作&lt;a href=&quot;#refs&quot;&gt;[1]&lt;/a&gt;，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文&lt;a href=&quot;#refs&quot;&gt;[2]&lt;/a&gt;（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive bias的方法。论文提出的网络复现起来很简单，毕竟不是什么大型网络以及复杂架构，但是要复现其结果感觉还是挺吃经验的。复现见：&lt;a href=&quot;https://github.com/Enigmatisms/Maevit&quot;&gt;[Github🔗:Enigmatisms/Maevit]&lt;/a&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/11/28/Vision-Transformers/train.png&quot;&gt;&lt;/th&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/11/28/Vision-Transformers/test.png&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;最终（无mixup）训练集准确率（约99.8%）&lt;/td&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;最终（无mixup）测试集准确率（约94.5%）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt;
+Figure 1. CIFAR-10实验，官方实现显示的最终acc约为94.7%
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="transformer" scheme="https://enigmatisms.github.io/tags/transformer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nvidia 简单环境工程</title>
+    <link href="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
+    <id>https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</id>
+    <published>2021-11-21T07:33:34.000Z</published>
+    <updated>2021-11-21T08:29:53.397Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ampere-pytorch&quot;&gt;Ampere Pytorch&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;​ 近日训练神经网络花了五六十块钱，在&lt;a href=&quot;http://www.ai-galaxy.cn/&quot;&gt;智星云&lt;/a&gt;平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子&lt;/li&gt;
+&lt;li&gt;环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch 1.4.0，直接没办法跑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX 3060，对应架构为安培（Ampere sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png&quot; style=&quot;zoom:67%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. 看起来很便宜 黄仁勋Yes
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="环境工程" scheme="https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>A Duality Problem of Representations</title>
+    <link href="https://enigmatisms.github.io/2021/11/14/A-Duality-Problem-of-Representations/"/>
+    <id>https://enigmatisms.github.io/2021/11/14/A-Duality-Problem-of-Representations/</id>
+    <published>2021-11-14T13:19:26.000Z</published>
+    <updated>2021-11-14T16:27:29.974Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;duality&quot;&gt;Duality&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;In a slide talking about 3D geometry and deep learning, I found something interesting: one question, of which I can not get rid. This is a duality question about representations:&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2021/11/14/A-Duality-Problem-of-Representations/dual.png&quot; style=&quot;zoom:60%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. Duality problem formulation
+&lt;/center&gt;
+&lt;p&gt;These problems lingered in my head:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Why and how we can regard probability distribution and particle filters as dual counterparts to each other?&lt;/li&gt;
+&lt;li&gt;Same question for occupancy map and point clouds, as they seem to be, according to the figure above, the representations under different specifications?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So I took some time to sink in this problem. This post is therefore the summarization of my thoughts.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Philosophy" scheme="https://enigmatisms.github.io/categories/Philosophy/"/>
+    
+    
+    <category term="English" scheme="https://enigmatisms.github.io/tags/English/"/>
+    
+    <category term="Methodology" scheme="https://enigmatisms.github.io/tags/Methodology/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Distance Metrics on Point Clouds</title>
+    <link href="https://enigmatisms.github.io/2021/11/14/Distance-Metrics-on-Point-Clouds/"/>
+    <id>https://enigmatisms.github.io/2021/11/14/Distance-Metrics-on-Point-Clouds/</id>
+    <published>2021-11-14T12:41:04.000Z</published>
+    <updated>2021-11-14T17:11:45.368Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;distance-metrics&quot;&gt;Distance Metrics&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;​ 近期的研究有探究一个好的尺度的需求：判断配准是否完成。针对这个问题，我脑子里想的第一件事就是：判定两个点云在某个尺度上是否相近。带着这个目的，我结合之前看过的文献，在解决这个问题的方案中补充了一些新的内容。本文主要包括一下几个内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;三种传统点云尺度的简介（Hausdorff，Chamfer，Earth Mover&#39;s）&lt;/li&gt;
+&lt;li&gt;一种基于深度学习的距离尺度（ECCV 2020）&lt;a href=&quot;https://link.springer.com/content/pdf/10.1007/978-3-030-58621-8_32.pdf&quot;&gt;DPDist: Comparing Point Clouds Using Deep Point Cloud Distance&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;低维的最邻近点并不意味着结果能很好地适用于任务，高维的最邻近才是最终的追求。就像你和你异地的（男）女朋友，你们地理上不是最邻近，但是在某个高维空间中，确实是最邻近的，这就是为什么我们需要变换尺度与维度看问题。--- 哲♂学家 千越 · 让 · 德 · 叠buff · 何&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="PointCloud" scheme="https://enigmatisms.github.io/tags/PointCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>概率图模型</title>
+    <link href="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</id>
+    <published>2021-11-10T02:33:59.000Z</published>
+    <updated>2021-11-14T16:51:41.365Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;crf-mrf&quot;&gt;CRF &amp;amp; MRF&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;​ 本文是早期被挂在&lt;a href=&quot;https://github.com/Enigmatisms/Algorithms-Plus&quot;&gt;Github🔗: Enigmatisms/Algorithm Plus&lt;/a&gt;上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。&lt;/p&gt;
+&lt;p&gt;​ 可能我最近还是要重新学一下概率图模型:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​ 之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>位姿变换与六轴仿真</title>
+    <link href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/"/>
+    <id>https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/</id>
+    <published>2021-10-31T13:55:36.000Z</published>
+    <updated>2021-11-01T15:43:27.037Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;axis6&quot;&gt;Axis6&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: &lt;code&gt;ɡəˈziːboʊ&lt;/code&gt;，重音在前），代码放在了&lt;a href=&quot;https://github.com/Enigmatisms/Axis6&quot;&gt;[Github🔗:Enigmatisms/Axis6]&lt;/a&gt;。本文包含如下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;位姿变换/正逆运动学的一些基本知识&lt;/li&gt;
+&lt;li&gt;Gazebo的配置使用&lt;/li&gt;
+&lt;li&gt;仿真效果视频（&lt;del&gt;高清无码&lt;/del&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 这里放两张图：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png&quot; style=&quot;zoom:85%;&quot;&gt;&lt;/th&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png&quot;&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;rviz仿真结果&lt;/td&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;Gazebo仿真结果&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt;
+Figure 1. 仿真效果图
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="运动学" scheme="https://enigmatisms.github.io/tags/%E8%BF%90%E5%8A%A8%E5%AD%A6/"/>
+    
+    <category term="Gazebo" scheme="https://enigmatisms.github.io/tags/Gazebo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>骷髅融合者-CVPR2021</title>
+    <link href="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/"/>
+    <id>https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/</id>
+    <published>2021-10-23T17:44:06.000Z</published>
+    <updated>2021-10-31T14:55:08.461Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;骷髅融合者&quot;&gt;骷髅融合者&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 想看看CVPR2021上都有关于点云配准或者点云处理都有什么样的文章，网上搜刮了几篇，骷髅融合者就是其中一篇。这篇论文的作者貌似是上海交大的本科生，嗯 本科CVPR一作，卢策吾老师团队，可以说是很nb了。本论文提出的思想，个人认为比较简单（可能是因为比较复杂的部分被PointNet++掩盖了，文中也没有使用时下最为流行的【变形金刚】）。并且看完Introduction之后，我就觉得这个思想好像在哪里见过：嗷，原来是我的灯条检测中含有这个方法的弱弱化版。&lt;/p&gt;
+&lt;p&gt;​ 本短篇博客只做该论文的一个简单分析，并不附带复现（如果要带复现的话，一是需要时间，二是需要了解PointNet++）。论文的地址是：&lt;a href=&quot;https://arxiv.org/abs/2103.10814&quot;&gt;arXiv: Skeleton Merger: an Unsupervised Aligned Keypoint Detector&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-24%2001-40-07-16350111328661.png&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. Skeleton Merger 论文效果
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="点云" scheme="https://enigmatisms.github.io/tags/%E7%82%B9%E4%BA%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>特龙智慧-GMapping</title>
+    <link href="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/"/>
+    <id>https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/</id>
+    <published>2021-10-21T17:03:49.000Z</published>
+    <updated>2021-10-22T12:19:23.355Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;特龙智慧&quot;&gt;特龙智慧&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 我在大二上学期购买了《概率机器人》一书，当时还没有学概率论，所以我看不懂（但是我大受震撼）。大二下的暑假曾经学了一段时间，但是没有深入，到第五章就结束了。直到现在，大四了，项目有这方面的需求了，才重新开始看特龙(Sebstian Thrun)这本口碑很好的书。尽管这本书是2006年出版的，其中的很多思想在现在的我看来，都还很有指导意义。非常后悔，自己没能在之前花精力啃下这本SLAM以及移动机器人著作。&lt;/p&gt;
+&lt;p&gt;​ GMapping（以及相关的粒子滤波SLAM方法）或多或少都有他的参与，最近也刚好读了相关的论文，并且仔细研读了其代码（OpenSLAM上的💩山，literally），故我把这些笔记整理成了一篇文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本文作者并没有特龙，但是估计是相关团队的文章：&lt;a href=&quot;https://ieeexplore.ieee.org/abstract/document/4084563/&quot;&gt;Improved Techniques for Grid Mapping with Rao-Blackwellized Particle Filters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;上面这篇论文可以说是：&lt;a href=&quot;https://ieeexplore.ieee.org/abstract/document/1250629/&quot;&gt;IROS2003:An Efficient FastSLAM Algorithm for Generating Maps of Large-Scale Cyclic Environments from Raw Laser Range Measurements&lt;/a&gt;的升级版（这篇论文的建议分布是“学”出来的）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%202021-10-22%20194809.png&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. 这人有一个以自己名字命名的实验室，还曾拒绝过出任Google副总裁...
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
+    
+    <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CUDA踩坑实录【2】</title>
+    <link href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/"/>
+    <id>https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/</id>
+    <published>2021-10-15T14:20:52.000Z</published>
+    <updated>2021-11-24T07:43:52.726Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;cuda-ii&quot;&gt;CUDA II&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用... 等等。&lt;/p&gt;
+&lt;p&gt;​ 为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的&lt;a href=&quot;https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/&quot;&gt;【Particle Filter Simulation】&lt;/a&gt;这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为 &lt;strong&gt;&lt;u&gt;激光雷达仿真器LiDARSim2D&lt;/u&gt;&lt;/strong&gt;的一个补充模块，现在更新在了&lt;a href=&quot;https://github.com/Enigmatisms/LiDARSim2D&quot;&gt;[仿真器repo：LiDARSim2D]&lt;/a&gt;下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. 粒子广场
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
+    
+    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Correspondence Problem Papers</title>
+    <link href="https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/"/>
+    <id>https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/</id>
+    <published>2021-10-14T16:54:54.000Z</published>
+    <updated>2021-10-14T17:28:07.645Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;correspondence-problem&quot;&gt;Correspondence Problem&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The &lt;strong&gt;correspondence problem&lt;/strong&gt; refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due to movement of the camera, the elapse of time, and/or movement of objects in the photos. ---Wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​ 最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。&lt;/p&gt;
+&lt;p&gt;​ 我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV 2005的尤其简单，看完就能写出代码来）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf&quot;&gt;ICCV 2005: A Spectral Technique for Correspondence Problems Using Pairwise Constraints&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/abs/2103.05465&quot;&gt;CVPR 2021: PointDSC: Robust Point Cloud Registration using Deep Spatial Consistency&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 我将本人论文分享时做的PPT贴在本文内。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CUDA踩坑实录【1】</title>
+    <link href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/"/>
+    <id>https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/</id>
+    <published>2021-09-22T16:06:38.000Z</published>
+    <updated>2021-09-24T01:52:46.588Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;cuda-i&quot;&gt;CUDA I&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
+&lt;p&gt;​ 在复现&lt;a href=&quot;https://arxiv.org/abs/2104.07516&quot;&gt;&lt;strong&gt;A Decomposition Model for Stereo Matching&lt;/strong&gt;&lt;/a&gt;这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA extension。出于以下目的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;复习CUDA（特别是在学习完GPU存储结构与计算之后，急需实践）&lt;/li&gt;
+&lt;li&gt;学习setuptools的使用以及torch的CUDA extension写法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 我给自己定了一个小型的CUDA任务，与SDF以及marching cubes算法十分相关。项目见&lt;a href=&quot;https://github.com/Enigmatisms/CuTorch&quot;&gt;[🔗Enigmatisms/CuTorch]&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
+    
+    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【笔记】两篇双目相关论文</title>
+    <link href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/"/>
+    <id>https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/</id>
+    <published>2021-09-04T06:00:53.000Z</published>
+    <updated>2021-09-07T17:01:48.210Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;stereo&quot;&gt;Stereo!&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。&lt;/p&gt;
+&lt;p&gt;​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="stereo" scheme="https://enigmatisms.github.io/tags/stereo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GPU Architecture Intros</title>
+    <link href="https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/"/>
+    <id>https://enigmatisms.github.io/2021/09/03/GPU-Architecture-Intros/</id>
+    <published>2021-09-03T12:30:44.000Z</published>
+    <updated>2021-09-09T03:40:03.167Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;gpu&quot;&gt;GPU&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2021/09/03/GPU-Architecture-Intros/amd.gif&quot; style=&quot;zoom:120%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. 什么？CUDA是Nvidia的？
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
+    
+  </entry>
+  
+</feed>

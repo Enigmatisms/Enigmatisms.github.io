@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Swin Transformer  I. Intros ​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Swin Transformer 复现">
+<meta property="og:url" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Swin Transformer  I. Intros ​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/shift.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/mask.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/new.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/rel.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/1.JPEG">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/2.JPEG">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/3.JPEG">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/trainacc.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/testacc.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/trainloss.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/testloss.png">
+<meta property="article:published_time" content="2022-01-10T14:45:34.000Z">
+<meta property="article:modified_time" content="2022-01-22T16:37:54.284Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/","path":"2022/01/10/Swin-Transformer复现/","title":"Swin Transformer 复现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Swin Transformer 复现 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#swin-transformer"><span class="nav-text">Swin Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-some-points"><span class="nav-text">II. Some Points</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">2.1 复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#masked-attention"><span class="nav-text">2.2 Masked Attention</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-relative-position-bias"><span class="nav-text">III. Relative Position Bias</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#positional-embeddings"><span class="nav-text">3.1 Positional Embeddings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpe%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2 RPE的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#music-transformer"><span class="nav-text">3.2.1 Music Transformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E8%A7%89%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2.2 感觉正确的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E5%A4%8D%E7%8E%B0%E7%BB%93%E6%9E%9C"><span class="nav-text">IV. 复现结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-%E4%B8%80%E4%BA%9Btorch%E5%87%BD%E6%95%B0"><span class="nav-text">V. 一些torch函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#torch.triu"><span class="nav-text">torch.triu</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#torch.masked_fill"><span class="nav-text">torch.masked_fill</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#torch.gather"><span class="nav-text">torch.gather</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#torch.register_buffer"><span class="nav-text">torch.register_buffer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#torch.view-torch.reshape-torch.contiguous"><span class="nav-text">torch.view &#x2F; torch.reshape &#x2F; torch.contiguous</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swin Transformer 复现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-10 22:45:34" itemprop="dateCreated datePublished" datetime="2022-01-10T22:45:34+08:00">2022-01-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-23 00:37:54" itemprop="dateModified" datetime="2022-01-23T00:37:54+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>12 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="swin-transformer">Swin Transformer</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：<strong><u>一个公式都没有</u></strong>（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/tree/master/swin">Github/Maevit(这实际是ViT的复现repo)</a></p>
+<p>​ 论文原文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14030">Liu, Ze, et al. "Swin transformer: Hierarchical vision transformer using shifted windows." <em>arXiv preprint arXiv:2103.14030</em> (2021).</a></p>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png"></p>
+<center>
+Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
+</center>
+<span id="more"></span>
+<h2 id="ii.-some-points">II. Some Points</h2>
+<h3 id="复杂度">2.1 复杂度</h3>
+<p>​ 复杂度计算（二次部分）：图像大小为<span class="math inline">\(h\times w\)</span>，那么由分块大小为M，可以得到<span class="math inline">\(h\times w/M^2\)</span>个patch，每个pacth的大小是<span class="math inline">\(M^2\)</span>。而对于一个patch，相当于是用一个小ViT，对<span class="math inline">\(M^2\)</span> patch token进行 “global” attention，复杂度<span class="math inline">\(O({(M^2)}^2)=O(M^4)\)</span>故总复杂度：<span class="math inline">\(O(M^2hw)\)</span>，对于通道数为2C的embedding而言，就如论文所说的：<span class="math inline">\(O(2M^2hwC)\)</span></p>
+<p>​ 这么说Set transformer中的induced point 机制，可能也可以应用到这里来？</p>
+<h3 id="masked-attention">2.2 Masked Attention</h3>
+<p>​ Masking 很好理解，由于原图是物理上连续的，经过了一次循环移动操作之后，循环移动的分界面是物理上不连续的区域，故在进行注意力机制处理时不能包括分界面两边的区域。比如：</p>
+<center>
+<img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/shift.png" style="zoom:100%;">
+</center>
+<center>
+Figure 2. 循环移动示意图
+</center>
+<p>​ 右边是循环移动前的图，左边是循环移动后的图。我们希望，能够分块进行attention。个人的理解大概是这样的，其实这个很简单：我使用官方实现做了一个小实验之后，大概明白了其包含的思想（但是这个矩阵操作我可能做不来，有点妙，我顶多自己在这循环）：</p>
+<p>​ 这个小实验的设置大概是这样的：图像大小为 4 * 4，window大小为 2 * 2，偏移为1 * 1，得到的四个mask长这样(其中，黄色为0，紫色为-100）：</p>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/mask.png"></p>
+<center>
+Figure 3. attention mask
+</center>
+<p>​ なんで？可以看下面这个可视化：我们将16个块编号，并进行循环移动，循环移动后的图和原图：</p>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/new.png" style="zoom:50%;"></p>
+<center>
+Figure 4. 循环移动illustration
+</center>
+<p>​ 注意力操作将把一个window内的元素flatten，比如第一个window内的 ((6, 7), (10, 11)) -&gt; (6, 7, 10, 11)。flatten操作是行优先的。故对于第一个window而言，由于内部的所有元素都是原图中的元素，可以直接进行attention操作，故attention mask值全为0。</p>
+<ul>
+<li>第二个window：((8, 5), (12, 9)) -&gt; (8, 5, 12, 9)。由于(8, 5) 以及 (12, 9)两两不能做attention操作，故mask应该就是figure 2中的第二个图。比如图中4 * 4矩阵的(0, 1)位置是-100，代表了块8与块5之间的attention logit值应该加一个很大的负偏置，也就是消去了两个块之间的关联。</li>
+<li>此后的两个window都能很快以这个思想推出。</li>
+</ul>
+<p>​ 代码中则是这么实现的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">H, W = input_resolution</span><br><span class="line">img_mask = torch.zeros((<span class="number">1</span>, H, W, <span class="number">1</span>))  <span class="comment"># 1 H W 1</span></span><br><span class="line">h_slices = (<span class="built_in">slice</span>(<span class="number">0</span>, -self.window_size),</span><br><span class="line">            <span class="built_in">slice</span>(-self.window_size, -self.shift_size),</span><br><span class="line">            <span class="built_in">slice</span>(-self.shift_size, <span class="literal">None</span>))</span><br><span class="line">w_slices = (<span class="built_in">slice</span>(<span class="number">0</span>, -self.window_size),</span><br><span class="line">            <span class="built_in">slice</span>(-self.window_size, -self.shift_size),</span><br><span class="line">            <span class="built_in">slice</span>(-self.shift_size, <span class="literal">None</span>))</span><br><span class="line">cnt = <span class="number">0</span></span><br><span class="line"><span class="comment"># 分块赋值操作 经过分块赋值之后，一个window内可以进行attention操作的块为同一个id</span></span><br><span class="line"><span class="keyword">for</span> h <span class="keyword">in</span> h_slices:			</span><br><span class="line">    <span class="comment"># 比如cnt = 0，根据h_slices与w_slices的第一个元素，赋值给[0:-win_size, 0:-win_size] 这样是没有问题的</span></span><br><span class="line">    <span class="keyword">for</span> w <span class="keyword">in</span> w_slices:							 </span><br><span class="line">        img_mask[:, h, w, :] = cnt</span><br><span class="line">        cnt += <span class="number">1</span></span><br><span class="line">mask_windows = window_partition(img_mask, self.window_size)  <span class="comment"># nW, window_size, window_size, 1 --&gt; 分window操作</span></span><br><span class="line">mask_windows = mask_windows.view(-<span class="number">1</span>, self.window_size * self.window_size)	<span class="comment"># flatten操作：（所有batch的所有window，window内所有块）</span></span><br><span class="line"><span class="comment"># 此处魔法：unsqueeze(1) 导致 mw 为 (B, 1, N), unsqueeze(2) 导致 mw 为 (B, N, 1)</span></span><br><span class="line"><span class="comment"># 相当于计算时，一个按行repeat（前者） 一个按列repeat（后者），相当于自己减自己的转置 就可以得到：相同id的位置是0，不同的是一个非0值</span></span><br><span class="line">attn_mask = mask_windows.unsqueeze(<span class="number">1</span>) - mask_windows.unsqueeze(<span class="number">2</span>)		   </span><br><span class="line"><span class="comment"># 所有非零值变为-100</span></span><br><span class="line">attn_mask = attn_mask.masked_fill(attn_mask != <span class="number">0</span>, <span class="built_in">float</span>(-<span class="number">100.0</span>)).masked_fill(attn_mask == <span class="number">0</span>, <span class="built_in">float</span>(<span class="number">0.0</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="iii.-relative-position-bias">III. Relative Position Bias</h2>
+<h3 id="positional-embeddings">3.1 Positional Embeddings</h3>
+<p>​ 实际上，我对position embeddings（特别是non-learnable PE）到底是如何工作的还并不是特别清楚。position embeddings 如何表示位置 是否有直观的理解？</p>
+<blockquote>
+<p>Moreover, positional embeddings are trainable as opposed to encodings that are fixed.</p>
+</blockquote>
+<p>​ 意思大概是这样的，一个简单的positional embeddings（只在初始时加入的那种）可以被如下公式表示： <span class="math display">\[
+\begin{equation}\label{pos}
+\epsilon_{ij}=\frac{\text{lin}_q(x_i)(\text{lin}_k(x_j))^T+\text{lin}_q(x_i)(\text{lin}_k(p_{j}))^T}{\sqrt d_k}
+\end{equation}
+\]</span> ​ 个人认为更加合理的表示应该是（如果对于初始就加到embedding上的position embeddings来说）： <span class="math display">\[
+\begin{equation}
+\epsilon_{ij}=\frac{\text{lin}_q(x_i + p_i)(\text{lin}_k(x_j + p_j))^T}{\sqrt d_k}
+\end{equation}
+\]</span> ​ 在某篇博客中的表述是这样的：对于公式<span class="math inline">\(\eqref{pos}\)</span>中的<span class="math inline">\(\text{lin}_k(p_{j})\)</span> 我们将其改为<span class="math inline">\(p_{ij}\)</span>，此处<span class="math inline">\(p_{ij}\)</span>是整个positional embeddings的(i, j)元素，表示了处于位置i的query相对于处于j位置的key的位置关系，可以理解成是与位置有关系的相关性。比如，在CV应用中，常见的inductive bias就是：临近关联性，即使经过分块，相邻的块与块（或者位置相近的）之间也是有关联性的。一般的positional embeddings，临近的两个位置，positional embeddings的某个metrics（比如差值、点乘）可能比较小（大）。</p>
+<p>​ 本节的重点是讨论相对位置嵌入，因为绝对位置嵌入之前已经实现过了（就很简单），特别是learnable positional embeddings，就没有什么好讨论的。我们已经说了，相对位置嵌入是为了解决绝对位置嵌入无法编码任意多的位置的缺点。这里我讨论一下music transformer中的relative positional embeddings（计算比较简单）： <span class="math display">\[
+\begin{equation}
+\text{Attn}_{rel}=\text{softmax}(\frac{QK^T+S_{rel}}{\sqrt{d_k}})V,\text{ where }S_{rel}=QR^T
+\end{equation}
+\]</span> ​ 我感觉上面的公式怪怪的，因为：</p>
+<ul>
+<li><span class="math inline">\(Q\)</span>（query）不仅与映射<span class="math inline">\(W_q\)</span>有关，与数据本身也是有关系的，不同的图像<span class="math inline">\(Q\)</span>差别很大，那么一个<span class="math inline">\(R\)</span>怎么能很好捕获到不同query向量之间的关联性？举一个具体的例子：</li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+A=\begin{pmatrix}
+1 &amp; 2 &amp; 3 &amp; 4 \\
+5 &amp; 6 &amp; 7 &amp; 8 \\
+9 &amp; 10 &amp; 11 &amp; 12 \\
+13 &amp; 14 &amp; 15 &amp; 16 \\
+\end{pmatrix}\xrightarrow{\text{flatten}}(1,...,16)
+\end{equation}
+\]</span></p>
+<p>​ 上例子中（CV二维），元素1在位置上应与（2，5）有着最紧密的关系，那么应该<span class="math inline">\(QR^T\)</span>计算的结果在(0,1)(1,0)位置都较大（softmax之后也会较大），但是<span class="math inline">\(QR^T\)</span>的计算中，对任何<span class="math inline">\(Q\)</span>而言<span class="math inline">\(R\)</span>是相同的，不同的矩阵<span class="math inline">\(A\)</span>，元素1与元素2、5均应该有此关系，那么在<span class="math inline">\(Q\)</span>改变的情况下，什么机制保证了<span class="math inline">\(QR^T\)</span>的稳定性呢？这已经是人类难以理解的魔法了，例如：相邻两patch，由于位置临近可能确实存在一定关系，对于不同的数据都有这样的共性，<span class="math inline">\(R\)</span>也只能去学可以泛化的共性了。</p>
+<h3 id="rpe的实现">3.2 RPE的实现</h3>
+<h4 id="music-transformer">3.2.1 Music Transformer</h4>
+<p>​ 不同的relative positional embeddings实现有一些差别。最早期的relative positional embeddings 有这样的问题：空间复杂度是<span class="math inline">\(O(L^2D)\)</span>。因为：</p>
+<p>​ 求解relative positional embeddings带来的距离logit，需要得到query与PE之间的点乘。考虑一个head的情况，Q的形状应该是：<span class="math inline">\((L,D_h)\)</span>，其中L是序列长度，<span class="math inline">\(D_h\)</span>是对应head的embedding dimension。我们希望知道，query的每个向量（embedding）与不同距离位置的相关程度，比如，<span class="math inline">\(Q\)</span>的第i行（序列中第i个token的embedding），需要计算其与各个位置的分数，那么就需要： <span class="math display">\[
+\begin{equation}
+\text{logit}(q_i)=q_iE_r^T,\text{ where }E_r=(\text{PE}_0,...,\text{PE}_{L-1}) ,\text{PE.shape}=(1,D_h)
+\end{equation}
+\]</span> ​</p>
+<p>​ 而直接计算<span class="math inline">\(QE_r^T\)</span>的结果并不是我们想要的：它算出来的矩阵和我们需要的矩阵分别是这样的,其中<span class="math inline">\(v_{i,j}\)</span>表示的是第 i 个query向量和 与其距离为j的位置的logit bias。 <span class="math display">\[
+\begin{equation}
+A=\begin{pmatrix}
+v_{0,0} &amp; v_{0,1} &amp; ... &amp; v_{0, L-1}\\
+v_{1,0} &amp; v_{1,1} &amp; ... &amp; v_{1, L-1}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{L-1,0} &amp; v_{L-1,1} &amp; ... &amp; v_{L-1, L-1}\\
+\end{pmatrix},B=\begin{pmatrix}
+v_{0,0} &amp; v_{0,1} &amp; ... &amp; v_{0, L-1}\\
+v_{1,1} &amp; v_{1,0} &amp; ... &amp; v_{1, L-2}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{L-1,L-1} &amp; v_{L-1,L-2} &amp; ... &amp; v_{L-1, 0}\\
+\end{pmatrix}
+\end{equation}
+\]</span> ​ 以A的最后一个行的首尾两个元素为例。<span class="math inline">\(v_{L-1,0}\)</span>表示的是最后一个embedding与自身的位置偏移logit偏置，而最后一个元素<span class="math inline">\(v_{L-1,L-1}\)</span>表示的则是：最后一个embedding与相距L-1距离位置的logit偏置。而我们反过来看最后一行的self attention，最后一行的self attention的结果logit中，最后一个元素表示的才是自己与自身的attention值。</p>
+<p>​ 也就是说，直接计算<span class="math inline">\(QE_r^T\)</span>是不行的，这样计算会导致self attention 与 positional attention求出的logit在逻辑意义上的错位。B才是我们需要的：从对角线元素的下标就能看出。</p>
+<p>​ 那么如果要进行直接的矩阵运算，一个简单的想法就是：我可以直接计算一个中间矩阵R，R包含了（旋转过的）<span class="math inline">\(E_r\)</span>，这样，对于每一个query向量，其计算都应该是正确的，再直接矩阵相乘（<u><strong>毕竟能直接矩阵运算的，CPU上可以SIMD，GPU上并行度好</strong></u>）。那么可以将<span class="math inline">\(Q\)</span>与<span class="math inline">\(E_r\)</span>处理成这样： <span class="math display">\[
+\begin{equation}
+Q.\text{shape}=(L,1,D_h),R.\text{shape}=(L,L,D_h),S_{rel}=QR^T
+\end{equation}
+\]</span> ​ 其中，R第一维度下每一个元素都是一个<span class="math inline">\(E_r\)</span>。这种实现简单直观，但是，内存开销很大，长序列不友好。既然相对位置嵌入是为了解决长序列建模问题，那么自然其时间复杂度以及空间复杂度不能因为序列长度增长而变得难以接受。于是，music transformer的作者提出了一种空间复杂度为<span class="math inline">\(O(LD)\)</span>的方法。</p>
+<p>​ 很显然，直接计算<span class="math inline">\(QE_r^T\)</span>已经包含了所有需要<span class="math inline">\(S_{rel}\)</span>的信息，只不过对应关系错了（位置有误）。如何通过<span class="math inline">\(QE_r^T\)</span>的结果计算<span class="math inline">\(S_{rel}\)</span>？</p>
+<p>​ 作者用了一个巧妙的矩阵操作：pad + reshape：图示一下：</p>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/rel.png" style="zoom: 67%;"></p>
+<center>
+Figure 5. skewing操作图示
+</center>
+<p>​ 作者在文章中说到：</p>
+<blockquote>
+<p>Pad a dummy column vector of length L before the leftmost column.</p>
+</blockquote>
+<p>​ 这样再reshape之后，导致了一个问题，原有的有效元素丢失，引入的矩阵中出现了一些dummy elements。并且感觉出现了：第i行元素被挤到第j行的情况。举个例子，正常情况下，一个长度为5的序列，<span class="math inline">\(S_{rel}\)</span>的index 2行应该是（循环右移2）： <span class="math display">\[
+\begin{equation}
+(1,2,3,4,5)\rightarrow(4,5,1,2,3)
+\end{equation}
+\]</span> ​ 所以个人感觉padding是有点问题的，应该直接进行一些变换：线性变换是不可能的（不存在一个矩阵R，可以将第一行旋转0，第二行旋转1，第三行旋转2,...，因为如果存在这样的矩阵，则对于矩阵A，A只有第一列全是1，其他全是0，这样显然没有逆的矩阵，R成了它的逆）。个人觉得，一个简单的实现应该是：计算一个循环移动过的索引矩阵，比如我知道本次需要计算的seq length为N，那么我首先计算一个大小为<span class="math inline">\(N * N\)</span>的索引矩阵，根据此索引矩阵取<span class="math inline">\(QE_r^T\)</span>元素，但这样又引入了一个<span class="math inline">\(O(N^2)\)</span>复杂度的存储开销（比<span class="math inline">\(O(N^2D)\)</span>小了很多，16位一般就够用，相当于几张大型双通道图像）。</p>
+<div class="note info"><p>可能这是优雅的实现，毕竟我发现swin也是这么求的。music transformer在干啥？是我没看懂还是本身就是错的？不应该错了啊。</p>
+</div>
+<h4 id="感觉正确的实现">3.2.2 感觉正确的实现</h4>
+<p>​ 所以，我带着怀疑态度看了一下music transformer以及swin transformer的实现。music transformer还真是这样写的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> self.relative_pos:</span><br><span class="line">    <span class="comment">#apply same position embeddings across the batch</span></span><br><span class="line">    <span class="comment">#Is it possible to apply positional self-attention over</span></span><br><span class="line">    <span class="comment">#only half of all relative distances?</span></span><br><span class="line">    Er  = self.Er[:, embedding_start:, :].unsqueeze(<span class="number">0</span>)</span><br><span class="line">    QEr = torch.matmul(queries, Er.transpose(-<span class="number">1</span>,-<span class="number">2</span>))</span><br><span class="line">    QEr = self._mask_positions(QEr)</span><br><span class="line">    <span class="comment">#Get relative position attention scores</span></span><br><span class="line">    <span class="comment">#combine batch with head dimension</span></span><br><span class="line">    SRel = self._skew(QEr).contiguous().view(b*h, t, t)</span><br></pre></td></tr></table></figure>
+<p>​ 其中的skew毫无保留地实现了论文的思想，个人感觉非常诡异。个人觉得原因可能是：它是music transformer，只保留一个方向的attention，故可能有所不同？</p>
+<p>​ 个人思考后出来的实现与这篇博客：<a target="_blank" rel="noopener" href="https://theaisummer.com/positional-embeddings/">AI Summer:How Positional Embeddings work in Self-Attention (code in Pytorch)</a>给出的实现方法很相似。但在swin transformer中，我还是忽略了一个很重要的问题：普通的序列一般是一维的，所以展开之后的相对距离实际上是一维度量： <span class="math display">\[
+\begin{equation}\label{rm}
+\begin{pmatrix}
+0 &amp; 1 &amp; 2 &amp; ... &amp; L-1\\
+-1 &amp; 0 &amp; 1 &amp; ... &amp; L-2\\
+-2 &amp; -1 &amp; 0 &amp; ... &amp; L-3\\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 
+-L+1 &amp; -L+2 &amp; -L+3 &amp; ... &amp; 0\\
+\end{pmatrix}
+\end{equation}
+\]</span> ​ 而对于二维图像中的embeddings，注意两点：</p>
+<ul>
+<li>相对位置编码以及绝对位置编码解决的是同一个问题，所以实际上是可以相互转化的</li>
+<li>正负方向有别，x+1以及x-1是不一样的，但是x，y方向也是不一样的</li>
+</ul>
+<p>​ 我们以 window size = 2 的情况来说明swin transformer中的“相对位置 <strong><u>bias</u></strong>（至于为什么要 <strong><u>加粗</u></strong>以及“双引号”，之后会说到）”的实现：对于以下A，B，C，D四个位置的像素每个位置相对于其他不同位置像素的二维距离分别是（注意有方向） <span class="math display">\[
+\begin{align}
+&amp;\text{image}=\begin{pmatrix}
+A &amp; B\\
+C &amp; D
+\end{pmatrix}\\
+&amp;A:\begin{pmatrix}
+(0,0) &amp; (0,1)\\
+(1,0)  &amp; (1, 1)
+\end{pmatrix}\\
+&amp;B:\begin{pmatrix}
+(0,-1) &amp; (0,0)\\
+(1,-1)  &amp; (1, 0)
+\end{pmatrix}\\
+&amp;C:\begin{pmatrix}
+(-1,0) &amp; (-1,1)\\
+(0,0)  &amp; (0, 1)
+\end{pmatrix}\\
+&amp;D:\begin{pmatrix}
+(-1,-1) &amp; (-1,0)\\
+(0,-1)  &amp; (0, 0)
+\end{pmatrix}\\
+\end{align}
+\]</span> ​ 随便说明一个元素的意义，以D的第一行第二列元素(-1, 0)为例：这里说明的是：<span class="math inline">\(D\)</span>与<span class="math inline">\(B\)</span>的相对位置差别：B相对于D是行-1，列不变，故为(-1, 0)。那么将每个元素战平可以得到： <span class="math display">\[
+\begin{equation}\label{flat}
+\begin{pmatrix}
+(0,0) &amp; (0,1) &amp; (1,0)  &amp; (1, 1)     \\
+(0,-1) &amp; (0,0) &amp; (1,-1)  &amp; (1, 0)   \\
+(-1,0) &amp; (-1,1) &amp; (0,0)  &amp; (0, 1)   \\
+(-1,-1) &amp; (-1,0) &amp; (0,-1)  &amp; (0, 0) \\
+\end{pmatrix}\\
+\end{equation}
+\]</span> ​ 我在公式<span class="math inline">\(\eqref{rm}\)</span>下面的无序列表中说到：x、y方向是等价的，故实际上公式<span class="math inline">\(\eqref{flat}\)</span>中不同的相对坐标值可以简化：比如我们从左下角开始标记id，相同的相对坐标值id相同，可以将公式<span class="math inline">\(\eqref{flat}\)</span>标记为（标记不唯一）： <span class="math display">\[
+\begin{equation}\label{id}
+\begin{pmatrix}
+4 &amp; 5 &amp; 7  &amp; 8  \\
+2 &amp; 4 &amp; 6  &amp; 7  \\
+1 &amp; 3 &amp; 4  &amp; 5  \\
+0 &amp; 1 &amp; 2  &amp; 4 \\
+\end{pmatrix}\\
+\end{equation}
+\]</span> ​ 我们可以：</p>
+<ul>
+<li>在一个表中预存不同id对应的bias</li>
+<li>将这个表变成learnable的，每次索引就好了，让网络自己学值</li>
+</ul>
+<p>​ 公式<span class="math inline">\(\eqref{id}\)</span>看起来真的很像绝对位置编码的样子，事实上这里就体现了绝对位置编码和相对位置编码的共同性以及相互转化。就像相对位姿一样，只要与一个global项（绝对量）结合，相对就会转化成绝对，反之亦然。</p>
+<p>​ 值得一提的是：对于window size为L的window来说，因为每个像素点在不同方向上最多有<span class="math inline">\(2L-1\)</span>个不同位置，那么(x, y)的相对位置组合也就有<span class="math inline">\((2L-1)^2\)</span>种情况。比如，公式<span class="math inline">\(\eqref{id}\)</span>对应L=2的情况，就有9种不同的位置，L=3时为49种... 等等，都是可以验证的。理解了这个，indexing机制就只剩一个问题了：怎么实现。这个... 也不能完全说是问题吧。</p>
+<div class="note warning"><p>​ 我在某天午夜思考实现方法，想了一小时没有头绪，遂睡觉。第二天早上醒来在床上花了三分钟想到了实现方法，这告诉我们睡眠非常重要。实现思想非常简单，所有其他位置的index，都可以复用(0, 0)位置的index，并在(0, 0)位置的index表元素中加上相同的偏置就可以了。</p>
+</div>
+<p>​ 关于2D relative positional bias，还有一个问题就是：positional bias的shape应该如何？</p>
+<blockquote>
+<p>当然是<span class="math inline">\((\text{head num}, 2L-1,2L-1)\)</span></p>
+</blockquote>
+<p>​ 但是为什么是这样呢？</p>
+<p>​ 首先，relative positional bias之所以与embedding dimension一点关系都没有，是因为人家叫 <strong><u>bias</u></strong>，学的内容并不是一个什么向量，它就是一个在计算softmax时加入的偏置，是一维的，并且每个head是不一样的。</p>
+<p>​ 其次，为什么是一个大小为<span class="math inline">\(2L-1\)</span>的方阵呢？因为两个方向都有<span class="math inline">\(2L-1\)</span>种不同的位置。</p>
+<hr>
+<h2 id="iv.-复现结果">IV. 复现结果</h2>
+<p>​ swin transformer针对的是大型数据集（ImageNet），显然，这是我电脑没办法带动的（实验室的单3060也没办法跑）。所以我找了一些"compact ImageNet"，最后选定的是imagenette2-320（与timm docs使用同一个数据集）。数据集中图像的高固定为320。数据集共有十个分类，每个分类大约1000张图片（很小了）。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/1.JPEG"></th>
+<th style="text-align: center;"><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/2.JPEG"></th>
+<th style="text-align: center;"><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/3.JPEG"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">收音机</td>
+<td style="text-align: center;">卡车</td>
+<td style="text-align: center;">鱼</td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 6. 一些分类图片（相比之下CIFAR-10就是高糊）
+</center>
+<p>​ 不得不说，224 * 224的图像确实非常吃显存。batch size为50时显存占用是10GB，再高就炸我显卡了，故最后batch size取了一个保险的40（约8GB占用）。复现结果如下：</p>
+<p>​ 首先得说明的是，我使用的参数基本与CCT一致，并没有调过，也不想费事去调，只是想理解一下本文的思想。文中使用的现代CV训练方法，比如cutmix等等这些操作，我一概没有使用，scheduler曾经使用过timm实现的余弦退火，但是最大最小学习率设置不合适，导致训练结果直接崩了（从70%调到10%），笔者也并不想花时间调。最终的结果大概是（存在过拟合，同样笔者也懒得调优了）：</p>
+<ul>
+<li>训练集83.5% 测试集78% (imagenette2-320)</li>
+<li>除了第一次使用160 epochs之外，其余均是250 epochs，学习率固定分别固定(1e-5, 5e-6以及4e-6)</li>
+</ul>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/trainacc.png"></p>
+<center>
+Figure 7. train set accuracy
+</center>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/testacc.png"></p>
+<center>
+Figure 8. test set accuracy
+</center>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/trainloss.png"></p>
+<center>
+Figure 9. train set loss
+</center>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/testloss.png"></p>
+<center>
+Figure 10. test set loss
+</center>
+<hr>
+<h2 id="v.-一些torch函数">V. 一些torch函数</h2>
+<h5 id="torch.triu">torch.triu</h5>
+<blockquote>
+<p>triu(input, diagonal=0, *, out=None) -&gt; Tensor Returns the upper triangular part of a matrix (2-D tensor) or batch of matrices</p>
+</blockquote>
+<p>​ 也即可以通过这个函数获得某个矩阵的上三角部分。对应的下三角是<code>torch.tril</code>。其中的diagonal参数指示了：相对于真正的对角线的偏移量，默认为0，也即对角线下方的所有元素设为0。如果是正数，比如1，将会使得0元素分界线向右上方偏移（1），反之往左下方。不是很常用。</p>
+<h5 id="torch.masked_fill">torch.masked_fill</h5>
+<p>​ 本实现中使用了此函数：在attention mask中，将所有为负数的区域变为-100（使得logit很小）。传入的第一个参数相当于条件张量（一般会转化成true false的bool张量），第二个参数是需要fill的值。</p>
+<h5 id="torch.gather">torch.gather</h5>
+<p>​ 本实现中，relative positional bias一开始的实现使用过。gather实际上在没有view改变形状的情况下，直接根据提供的index，在原始矩阵中进行索引，得到的值组成一个新的矩阵：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpe = torch.gather(s, -<span class="number">1</span>, self.relp_indices.repeat(batch_size, win_num, self.head_num, <span class="number">1</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>​ 上公式可以直接在最后一维度选择（第二个参数，dim = -1），直接根据索引(self.relp_indices)，从一个（最后两个维度）shape为(2L - 1, 2L-1)的矩阵中直接取出一个大小为(L, L)的矩阵。</p>
+<h5 id="torch.register_buffer">torch.register_buffer</h5>
+<p>​ torch有两个常用的 与 "register" 有关的函数：<code>register_buffer</code>以及<code>register_parameter</code></p>
+<ul>
+<li>register_buffer会将对应的张量加入到model.state_dict中，但是它不会参与反向传播计算。这给我们保存模型中一些无关参数（或者常数）提供了便利，这样加入model.state_dict中的参数可以直接被torch.save保存</li>
+</ul>
+<h5 id="torch.view-torch.reshape-torch.contiguous">torch.view / torch.reshape / torch.contiguous</h5>
+<blockquote>
+<p>help(torch.reshape): Contiguous inputs and inputs with compatible strides can be reshaped without copying, but you should not depend on the copying vs. viewing behavior.</p>
+</blockquote>
+<p>​ view只能针对contiguous的数据进行操作，是在底层数据内存组织基础上，返回一种以不同于底层数据内存组织方式的视角（view，或认为是步长）来查看数据的tensor。比如：底层是矩阵<span class="math inline">\(A_{2\times2}\)</span>，transpose之后是<span class="math inline">\(B_{2\times2}\)</span> <span class="math display">\[
+\begin{equation}
+A=\begin{pmatrix}
+1 &amp; 2\\
+3 &amp; 4
+\end{pmatrix},
+B=\begin{pmatrix}
+1 &amp; 3\\
+2 &amp; 4
+\end{pmatrix}
+\end{equation}
+\]</span> ​ A在内存中实际上是按照行优先进行一维存储的：实际上保存的数据是(1, 2, 3, 4)并且按照stride = (2, 1)进行访问。而B作为A的transpose，实际上没有修改内存组织（transpose后的数据与A共用内存（<strong><u>如果不小心可能会导致不想要的修改</u></strong>）），但是是以stride = (1, 2) 访问数据。这里的stride = (i, j)可以认为是：</p>
+<ul>
+<li>行方向上的索引增加1，在物理地址的寻址中需要移动i个位置</li>
+<li>列方向上索引增加1，物理地址寻址需要移动j个位置</li>
+</ul>
+<p>​ 故由于B是(1, 2)，那么B[0, 1] = (B基地址 + 1 * 2偏移).value = 3。B[1, 0] = (B基地址 + 1 * 1偏移).value = 2。</p>
+<p>​ 上示例中，A是contiguous的，但B并不是，因为其访问数据的方式在内存中不是线性连续的。故B这样的矩阵，<strong><u>不能直接view</u></strong></p>
+<ul>
+<li>直接view操作不改变内存组织方式，view前后数据共享内存</li>
+<li>reshape相当于是 X.contiguous().view。如果一个矩阵不是contiguous的，contiguous操作将会开辟新的内存空间并复制原来的tensor，以新的view进行数据存储</li>
+<li>值得一提的是，<code>permute</code>, <code>narrow</code>, <code>expand</code>, <code>transpose</code>操作之后，均会使得contiguous不成立。但是<code>view</code>操作过后，虽然stride可能发生改变，但其并不影响contiguous性。</li>
+</ul>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://github.com/microsoft/Swin-Transformer">Github: microsoft/Swin-Transformer</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1809.04281">Huang, Cheng-Zhi Anna, et al. "Music transformer." <em>arXiv preprint arXiv:1809.04281</em> (2018).</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://theaisummer.com/positional-embeddings/">AI Summer:How Positional Embeddings work in Self-Attention (code in Pytorch)</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/" title="Swin Transformer 复现">https://enigmatisms.github.io/2022/01/10/Swin-Transformer复现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/transformer/" rel="tag"><i class="fa fa-tag"></i> transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/" rel="prev" title="前端小学习">
+                  <i class="fa fa-chevron-left"></i> 前端小学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/" rel="next" title="Depth Completion论文三篇">
+                  Depth Completion论文三篇 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

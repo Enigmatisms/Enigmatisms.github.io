@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="矩阵分析 &amp; 优化 ​ 最近接触了一些有趣的 机器学习 &#x2F; 控制算法，其中的数学原理非常有意思，大多数都涉及到了矩阵分解以及线性代数解析解的求取。推导这些理论可以帮助深入理解矩阵分解（以及分解后子矩阵的数学意义）以及 矩阵分析和优化理论的数学联系，这些理论都非常优雅而且美妙。   Figure 1. 矩阵分解的真谛：图为 上三角分解  ​ 本文将包括以下四个部分：  卡尔曼">
+<meta property="og:type" content="website">
+<meta property="og:title" content="优雅线代与美妙优化">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="矩阵分析 &amp; 优化 ​ 最近接触了一些有趣的 机器学习 &#x2F; 控制算法，其中的数学原理非常有意思，大多数都涉及到了矩阵分解以及线性代数解析解的求取。推导这些理论可以帮助深入理解矩阵分解（以及分解后子矩阵的数学意义）以及 矩阵分析和优化理论的数学联系，这些理论都非常优雅而且美妙。   Figure 1. 矩阵分解的真谛：图为 上三角分解  ​ 本文将包括以下四个部分：  卡尔曼">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/decomp.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/proj.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/err.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/gauss.JPG">
+<meta property="article:published_time" content="2021-04-03T15:17:19.000Z">
+<meta property="article:modified_time" content="2021-05-30T17:05:17.153Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/decomp.jpg">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/","path":"2021/04/03/优雅线代与美妙优化/","title":"优雅线代与美妙优化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>优雅线代与美妙优化 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90-%E4%BC%98%E5%8C%96"><span class="nav-text">矩阵分析 &amp; 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#kf%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E8%A7%A3%E9%87%8A"><span class="nav-text">KF最小二乘解释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kf%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%80%A7"><span class="nav-text">KF最小二乘性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kf%E8%BF%AD%E4%BB%A3%E6%80%A7%E8%B4%A8"><span class="nav-text">KF迭代性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E7%9A%84%E5%87%A0%E4%BD%95%E8%A7%A3%E9%87%8A"><span class="nav-text">最小二乘的几何解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%B1%E8%81%9A%E7%B1%BB%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90"><span class="nav-text">谱聚类矩阵分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#laplace%E7%AE%97%E5%AD%90"><span class="nav-text">Laplace算子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%A7%E8%B4%A81-%E5%90%91%E9%87%8F%E5%B7%AE%E5%BC%82"><span class="nav-text">性质1 向量“差异”</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%A7%E8%B4%A82-%E6%A0%87%E9%87%8F%E8%BE%93%E5%87%BA"><span class="nav-text">性质2 标量输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8Fx%E6%84%8F%E4%B9%89%E7%9A%84%E8%AE%A8%E8%AE%BA"><span class="nav-text">向量x意义的讨论</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E7%B1%BBcut"><span class="nav-text">二类Cut</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pca%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90"><span class="nav-text">PCA矩阵分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3"><span class="nav-text">直观理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%88%86%E9%87%8F%E5%B7%AE%E5%BC%82%E6%9C%9F%E6%9C%9B%E6%9C%80%E5%A4%A7"><span class="nav-text">特征分量差异期望最大</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          优雅线代与美妙优化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-03 23:17:19" itemprop="dateCreated datePublished" datetime="2021-04-03T23:17:19+08:00">2021-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-31 01:05:17" itemprop="dateModified" datetime="2021-05-31T01:05:17+08:00">2021-05-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>11 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="矩阵分析-优化">矩阵分析 &amp; 优化</h1>
+<p>​ 最近接触了一些有趣的 机器学习 / 控制算法，其中的数学原理非常有意思，大多数都涉及到了矩阵分解以及线性代数解析解的求取。推导这些理论可以帮助深入理解矩阵分解（以及分解后子矩阵的数学意义）以及 矩阵分析和优化理论的数学联系，这些理论都非常优雅而且美妙。</p>
+<p><img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/decomp.jpg"></p>
+<center>
+Figure 1. 矩阵分解的真谛：图为 上三角分解
+</center>
+<p>​ 本文将包括以下四个部分：</p>
+<ul>
+<li>卡尔曼滤波的最小二乘解释</li>
+<li>最小二乘的几何解释</li>
+<li>谱聚类的矩阵分析</li>
+<li>PCA的矩阵分析</li>
+</ul>
+<span id="more"></span>
+<hr>
+<h2 id="kf最小二乘解释">KF最小二乘解释</h2>
+<p>​ Kalman Filter，作为一种“最小二乘”滤波器，其应用极其广泛。个人使用KF设计过：</p>
+<ul>
+<li>目标跟踪算法（Adaptive Robust KF）<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/tree/master/cpp/KF">[Github🔗：Algorithm_Plus/KF]</a></li>
+<li>语音信号处理（白噪声滤波）：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/AudioDSP">[Github🔗: AudioDSP]</a></li>
+</ul>
+<p>​ 虽然说，KF是“最小二乘”的迭代式滤波器，但自己从来没有里结果其中的数学原理，也即：<strong>(1) 最小二乘最优性是如何得到的</strong>？<strong>(2)为什么KF是迭代式的</strong>？而关于KF的深入分析（包括参数整定，自适应化，收敛性谈，将会在另一篇博文中细讲<a href="https://enigmatisms.github.io/2021/03/07/%E5%8D%A1%E5%B0%94%E6%9B%BC%E8%BF%9B%E9%98%B6%E4%B8%8E%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E5%AE%9E%E7%8E%B0/">【卡尔曼进阶与粒子滤波实现】</a>）。</p>
+<h3 id="kf最小二乘性">KF最小二乘性</h3>
+<p>​ 我们将最为一般的KF迭代公式重写如下（实际上个人认为实现KF最难的地方就是记公式）： <span class="math display">\[
+\begin{align}
+&amp; \breve{x}(k)=A\hat{x}(k-1)+Bu(k)+w(k) \label{transit}\\
+&amp; \breve{P}(k)=A\hat{P}(k-1)A^T+Q       \label{covup}\\
+&amp; z(k)=H\breve{x}(k)+v(k) \label{obs}\\
+&amp; K=\breve{P}(k)H^T(H\breve{P}(k)H^T+R)^{-1}\label{gain}\\
+&amp; \hat{x}(k)=\breve{x}(k)+K(z(k)-H\breve{x}(k)) \label{xcor}\\
+&amp; \hat{P}(k)=\breve{P}(k)-KH\breve{P}(k)\label{covcor}
+\end{align}
+\]</span> ​ 其中，“<span class="math inline">\(\breve{ }\)</span>”表示先验，“<span class="math inline">\(\hat{ }\)</span>”表示后验。也就是说：</p>
+<table>
+<thead>
+<tr class="header">
+<th>先验（前两行）</th>
+<th>后验（前两行）</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\breve{x}(k)\)</span> 迭代k的状态（先验均值）</td>
+<td><span class="math inline">\(\hat{x}\)</span>(k) 后验均值</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\breve{P}\)</span>(k) 状态k的协方差（先验协方差）</td>
+<td><span class="math inline">\(\hat{P}\)</span>(k) 后验协方差</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Q 状态转移噪声协方差</td>
+<td>R 观测噪声协方差</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>A 状态转移矩阵，H观测矩阵</td>
+<td>B 控制矩阵 <span class="math inline">\(u(k)\)</span>系统控制量（外界输入）</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(w(k),v(k)\)</span> 噪声（一般讨论白噪声）</td>
+<td>K 卡尔曼增益</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>​ 光看这个迭代式根本不知道为什么KF会得出最小二乘最优来，在《概率机器人》一书上，作者使用的是概率分布的转移以及推导来看待KF的迭代优化过程，并没有从最小二乘的角度看待这个问题。下面我们尝试从最小二乘角度来分析KF。</p>
+<p>​ 考虑一个拟合问题，拟合曲线时，数据点都是给定的（而且一般有噪声）。个人认为这是个平滑问题（因为使用者有unlimited access to all the data【随便写段英文】），根据<a target="_blank" rel="noopener" href="https://www.intechopen.com/books/smoothing-filtering-and-prediction-estimating-the-past-present-and-future">Smoothing, Filtering and Prediction</a>所说，平滑 / 滤波 / 预测是针对三个不同的时间点：处理过去的数据（已经接收并且存储），处理当下的数据（比如确定更准确的测量值），处理未来的可能数据（预测）。而KF的一种常用领域-控制，是有实时性要求的，要求至少需要达到【滤波】的标准，最好能进行【预测】。而一般的拟合，基本都是一次性计算所有的点，所以着导致了一般的拟合问题 <strong><u>不是增量性的（也即有新的数据点，需要全部重新计算，比如loss与梯度）</u></strong>。</p>
+<p>​ KF显然并不是这样的，KF需要实时更新，并且不能依赖太久远的历史信息（低阶的马尔可夫性）。KF的预测输出期望能与观测贴合（但这也不完全一定，由于观测是存在一定的噪声的）。根据论文"<strong><em>Robust Estimation with Unknown Noise Statistics</em></strong>"，我们可以把KF问题重写成如下形式： <span class="math display">\[
+\begin{equation}\label{optim}
+\begin{pmatrix}
+I\\
+H
+\end{pmatrix}\breve{x}(k)=
+\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} +
+\begin{pmatrix}
+w(k)\\
+v(k)
+\end{pmatrix}=
+\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} + E(k)
+\end{equation}
+\]</span></p>
+<p>​ 假设我们求解噪声矩阵<span class="math inline">\(E(k)\)</span>的协方差，那么它应该是这样的： <span class="math display">\[
+\begin{equation}\label{ecov}
+\mathbb{E}(E(k)E(k)^T)=\begin{pmatrix}
+\breve{P}(k) &amp; \mathbf{0}   \\
+\mathbf{0} &amp; R(k)
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 协方差为什么长成这样呢？很显然：<span class="math inline">\(w(x)\)</span>自己的协方差就是状态转移协方差（注意不是噪声协方差Q，因为Q需要进行状态转移），而<span class="math inline">\(v(x)\)</span>的协方差是噪声协方差。而<span class="math inline">\(w(x),v(x)\)</span>默认是相互独立的，故非对角线矩阵块为0。接下来，对这个协方差进行矩阵分解： <span class="math display">\[
+\begin{equation}
+Cholesky(\mathbb{E}(E(k)E(k)^T))=SS^T
+\end{equation}
+\]</span></p>
+<p>​ 此后所做的事情有点奇怪，矩阵<span class="math inline">\(S\)</span>被单独使用了（协方差矩阵的矩阵LU分解代表了什么意义？）。实际上，这里是要使linear transform之后的噪声协方差为单位阵（也就是说，此处做了一个白化变换）。我们看公式<span class="math inline">\(\eqref{optim}\)</span>，<span class="math inline">\(E(k)\)</span>是系统的噪声，而系统高斯噪声并不为单位阵，问题并非标准问题，也可以说是：输入没有进行标准化。那么对于<span class="math inline">\(\eqref{optim}\)</span>而言，等号左右乘以<span class="math inline">\(S^{-1}\)</span>实际上就是在做白化变换： <span class="math display">\[
+\begin{align}
+&amp;S^{-1}\begin{pmatrix}
+I\\
+H
+\end{pmatrix}\breve{x}(k)=
+S^{-1}\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} +
+S^{-1}\begin{pmatrix}
+w(k)\\
+v(k)
+\end{pmatrix}=
+S^{-1}\begin{pmatrix}
+A\hat{x}(k-1)\\
+z(k)
+\end{pmatrix} + S^{-1}E(k)\label{optim2}
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\begin{equation}\label{lsp}
+X(k){x}(k)+\xi(k)=Y(k)
+\end{equation}
+\]</span></p>
+<p>​ 这就是个标准的最小二乘问题，由于此处<span class="math inline">\(\mathbb{E}\{\xi(k)\xi(k)^T\}\)</span>是单位阵。有没有发现此处我们已经不写<span class="math inline">\(\breve{x}\)</span>了？虽然从推导式<span class="math inline">\(\eqref{optim}\)</span>来说，此处确实应该是先验<span class="math inline">\(\breve{x}\)</span>，但是此问题的解（由于涉及到本次观测<span class="math inline">\(z(k)\)</span>进行的后验修正）已经是后验了，那么可以根据pseudo逆理论求得<span class="math inline">\(x(k)\)</span>的解： <span class="math display">\[
+\begin{align}
+&amp;\hat{x}(k)=\mathop{\text{arg min}}_{x}\Vert Y(k)-X(k)x(k)\Vert^2 \\
+&amp;x^*(k)=(X^T(k)X(k))^{-1}X^T(k)Y(k)\label{optim3}
+\end{align}
+\]</span> ​ 从而得到了后验估计。这就是KF的优化表达式，而我们能从中推出KF的迭代性质吗？</p>
+<h3 id="kf迭代性质">KF迭代性质</h3>
+<p>​ 分析不难得到如下关系： <span class="math display">\[
+\begin{equation}
+X^T(k)X(k)=
+(I\quad H^T)(S^{-1})^T(S^{-1})
+\begin{pmatrix}
+I\\
+H
+\end{pmatrix}=(I\quad H^T)(SS^T)^{-1}
+\begin{pmatrix}
+I\\
+H
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 而<span class="math inline">\(SS^T\)</span>是公式<span class="math inline">\(\eqref{ecov}\)</span>中的协方差矩阵，那么可以进一步得到： <span class="math display">\[
+\begin{equation}
+X^T(k)X(k)=
+(I\quad H)
+\begin{pmatrix}
+P^{-1}(k) &amp; \mathbf{0} \\
+\mathbf{0} &amp; R^{-1}(k)
+\end{pmatrix}
+\begin{pmatrix}
+I\\
+H
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 展开以上式子可以得到： <span class="math display">\[
+\begin{equation}
+(X^T(k)X(k))^{-1}=(P^{-1}+H^TR^{-1}H)^{-1}=P+H^{-1}R(H^{-1})^{T}
+\end{equation}
+\]</span></p>
+<p>​ 诶，只需要顺着这样的分解下去，不难发现（真的不难，所以费篇幅在这推公式了），优化结果<span class="math inline">\(\eqref{optim3}\)</span>与之前的后验更新式<span class="math inline">\(\eqref{xcor}\)</span>是完全一致的。而协方差的先验后验更新实际上是类似的，这里就不再详细推导了。妙啊兄弟们，这样我们就推出了最小二乘与KF的关系。</p>
+<hr>
+<h2 id="最小二乘的几何解释">最小二乘的几何解释</h2>
+<p>​ 上DIP（数字图像处理）的时候，老师突然抛出一个问题来：</p>
+<p>​ <img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/proj.JPG"></p>
+<center>
+Figure 2. 观测 误差 与真值的空间表示
+</center>
+<div class="note default"><p>​ 为什么说，观测平面需要和误差正交？（也就是说观测平面的法向量和误差的方向是重合的？）</p>
+</div>
+<p>​ 惊讶，竟然没有人说上来为什么（可能大家都比较谦虚吧）。</p>
+<p>​ 从几何<strong>直观</strong>上非常好理解为什么。显然，观测<span class="math inline">\(\hat{x}\)</span>是由真值的投影<span class="math inline">\(\breve{x}\)</span>与误差<span class="math inline">\(e\)</span>投影的结合，而如果投影平面（观测面）正好与误差是正交的，那么误差的投影将会是0。而在最小二乘意义下，误差的平均投影长度是最小的。</p>
+<p><img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/err.JPG"></p>
+<center>
+Figure 3. 误差投影 投影后影响观测（实际观测是绿色 + 紫色）
+</center>
+<p>​ 那么要求最优的投影面，实际上是要优化这个问题： <span class="math display">\[
+\begin{equation}\label{f17}
+\left\{
+\begin{array}{ll}
+\text{min }\Vert \pmb{e}-(\pmb{a}^T\pmb{e})\pmb{a}\Vert^2\\
+\text{s.t. }\pmb{a}^T\pmb{a}=1
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>​ 什么意思？意思就是，假设<span class="math inline">\(\pmb{a}\)</span>是投影平面的单位法向量，那么<span class="math inline">\(\pmb{a}^T\pmb{e}\)</span>就是误差在单位法向量上的投影，而<span class="math inline">\(\pmb{e}-(\pmb{a}^T\pmb{e})\pmb{a}\)</span>就是误差在观测平面上的投影。需要使得这个投影最短。</p>
+<p>​ 那么解这个问题，实际上最后会求出：需要对误差的协方差<span class="math inline">\(\pmb{e}\pmb{e}^T=\Sigma\)</span>进行矩阵分解，求最大特征值对应的特征向量，就是<span class="math inline">\(\pmb{a}\)</span>。而这个特征向量实际上对应了误差的主方向（PCA部分中会提到这个思想），如果只有一个观测的话，则就是误差的方向。至于为什么，<strong><u>很简单</u></strong>，公式<span class="math inline">\(\eqref{f17}\)</span>留给读者作为练习。</p>
+<hr>
+<h2 id="谱聚类矩阵分析">谱聚类矩阵分析</h2>
+<p>​ 谱聚类（spectrum clustering）是一种很美妙的聚类理论，它包含了<strong><u>图论</u></strong>， <strong><u>矩阵分析</u></strong>，<strong><u>优化理论</u></strong>以及<strong><u>机器学习理论</u></strong>，综合性的一个算法，理解这个算法可以帮助对以上四个方面的理论都有进一步的认识。</p>
+<h3 id="laplace算子">Laplace算子</h3>
+<p>​ 这是我DIP课程中刚讲的空域滤波器kernel，虽然之前就知道Laplace长什么样，但是从来没有从DSP的角度去思考，也没有思考其数学原理。Laplace算子用 <strong><u>求二阶导</u></strong>，这是为什么呢？小编也不知道，小编也觉得很有趣。一个典型的Laplace kernel长这样： <span class="math display">\[
+\begin{equation}
+\begin{pmatrix}
+0 &amp; -1 &amp; 0 \\
+-1 &amp; 4 &amp; -1 \\
+0 &amp; -1 &amp; 0
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 从DSP的角度考虑Laplace算子的设计，这也就是一个高通滤波器嘛（求边缘使用），而对于直流分量这种显然是低频的信号成分来说，它是要被高通滤波器滤除的。于是高通滤波器不能保留任何直流的能量，需要保证对于平滑区域（比如ones），卷积结果为0。而图分析（graph）中，对于离散的图而言也有Laplace算子，并且其物理意义非常明确：<strong><u>求图上的最小割</u></strong>。首先推一下离散的二阶导，使用一个简单的一阶导表达式： <span class="math display">\[
+\begin{equation}\label{de_1}
+\frac{df}{dx}=f&#39;(x)=f(x)-f(x-1)
+\end{equation}
+\]</span></p>
+<p>​ 而需要求二阶导，也就需要在本函数的基础上再求一阶导： <span class="math display">\[
+\begin{equation}\label{de_2}
+\frac{d^2f}{dx^2}=f&#39;&#39;(x)=f&#39;(x)-f&#39;(x-1)=f(x)-2f(x-1)+f(x-2)
+\end{equation}
+\]</span></p>
+<p>​ 接下来分析无向带权图上的Laplace矩阵。</p>
+<p>​ 首先定义<span class="math inline">\(W\)</span>为权重矩阵（无向带权图的邻接矩阵，注意<span class="math inline">\(w_{i,i}=0\)</span>），<span class="math inline">\(W\)</span>就刻画了节点之间的联系程度（或者cost）。在聚类问题中，我们设定，假设两个样本点之间的关系越紧密，特征越类似，对应节点之间的边权也就越大。那么聚类实际上就是在这样的图上寻找一个最小割（最小权的边集合），使得经过这个cut之后可以分为k个指定类。</p>
+<p>​ 此外，定义<span class="math inline">\(D\)</span>为度矩阵，与普通的度定义不同（这个度是有权的），<span class="math inline">\(D\)</span>为对角矩阵，元素<span class="math inline">\(d_{i,j}\)</span>的意义是： <span class="math display">\[
+\begin{equation}
+d_{i,j}=\left\{
+\begin{array}{l}
+\sum_{j=1}^nw(i,j),\text{ if }i=j \\
+0,\text{ otherwise}
+\end{array}
+\right.{}
+\end{equation}
+\]</span></p>
+<p>​ D衡量的实际是一个节点与其他所有节点的联系紧密程度。则有了这两个矩阵，我们接下来定义<span class="math inline">\(L=D-W\)</span></p>
+<p>​ 也就是度矩阵减去邻接矩阵，看起来非常抽象？直接看L是难以得到其物理意义的，需要有其他向量的帮助</p>
+<h5 id="性质1-向量差异">性质1 向量“差异”</h5>
+<p><span class="math display">\[
+\begin{equation}
+\text{Given vector }x,\text{ }Lx=
+\begin{pmatrix}
+\sum_{j\neq1}w_{1j} &amp; -w_{12} &amp; ... &amp; -w_{1n}\\
+-w_{21} &amp; \sum_{j\neq2}w_{2j} &amp; ... &amp; -w_{2n}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+-w_{n1} &amp; -w_{n,2} &amp; ... &amp; \sum_{j\neq n}w_{nj}
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 将上式展开可以得到： <span class="math display">\[
+\begin{equation}\label{diff1}
+\begin{pmatrix}
+\sum_{j\neq1}w_{1j} &amp; -w_{12} &amp; ... &amp; -w_{1n}\\
+-w_{21} &amp; \sum_{j\neq2}w_{2j} &amp; ... &amp; -w_{2n}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+-w_{n1} &amp; -w_{n,2} &amp; ... &amp; \sum_{j\neq n}w_{nj}
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{pmatrix}=
+\begin{pmatrix}
+\sum_{j\neq 1}w_{1j}(x_1-x_j)\\
+\sum_{j\neq 1}w_{2j}(x_1-x_j)\\
+\vdots\\
+\sum_{j\neq 1}w_{nj}(x_n-x_j)\\
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 证明就是暴力展开。可以发现一个x时，对x做线性变换实际上求了x各个元素之间的差异。</p>
+<h5 id="性质2-标量输出">性质2 标量输出</h5>
+<p><span class="math display">\[
+\begin{equation}\label{diff2}
+x^TLx=\sum_{i=1}^n\sum_{j=1}^nw_{ij}(x_i-x_j)^2
+\end{equation}
+\]</span></p>
+<p>​ 根据矩阵乘法，对公式<span class="math inline">\(\eqref{diff1}\)</span>进行左乘x操作再展开很容易就能得到。此处，<span class="math inline">\(x^TLx\)</span>的意义实际上就是：根据每个节点的关联关系 <strong><u>加权</u></strong> 的向量内部差异。但是这个向量<span class="math inline">\(x\)</span>到底是什么？</p>
+<h5 id="向量x意义的讨论">向量x意义的讨论</h5>
+<p>​ 我们讨论问题的背景是聚类，聚类中除了每对节点之间的特征差异之外，最显著的差异就是 <strong><u>聚类对应的类别差异</u></strong>了。那么x恰好可以作为一个指示向量，给定一个k=2簇的聚类问题，设： <span class="math display">\[
+\begin{equation}\label{indicate}
+x_i=\left\{
+\begin{array}{ll}
+1, \text{ if }\pmb{x}\in\mathbb{C}_1\\
+-1,\text{ if }\pmb{x}\in\mathbb{C}_2
+\end{array}
+\right.
+\end{equation}
+\]</span></p>
+<p>​ 那么<span class="math inline">\(Lx\)</span>实际上就是不同节点之间label的差异，比如两个点为同一个簇，则<span class="math inline">\(Lx\)</span>对应分量为0，否则为一个非0的值（正数）。现在要找一种方式割开这个点集（也就是找一个x），使得两个类之间的联系是最小的。那么实际上，切开两类的割对应的值就是两类之间被丢弃的（割开）类间联系，实际可以对应于<span class="math inline">\(x^TLx\)</span>。在不同的formulation下，<span class="math inline">\(x\)</span>可以有不同形式，但是其意义基本一致：割。</p>
+<p>​ k=2时，完全可以使用一个向量进行运算（<span class="math inline">\(\pm1\)</span>），而涉及到多类时，可能<span class="math inline">\(x\)</span>就会是一个矩阵了（因为不存在一种赋值方式使得任意两类不同的结点的cost相减是相同的，举个例子：0为A，1为B，2为C，虽然AB，BC之间相差1，但是AC之间差2）。</p>
+<h4 id="二类cut">二类Cut</h4>
+<p>​ k=2聚类直接使用如<span class="math inline">\(\eqref{indicate}\)</span>所定义的向量x即可。</p>
+<div class="note info"><p><strong>说了这么久矩阵分析，还没正经地开始分析呢。</strong></p>
+<p>可以看一下<span class="math inline">\(x^TLx\)</span>的取值范围应该是什么？与矩阵L的特征值有什么关系？</p>
+</div>
+<p>​ 由于矩阵的特征向量是相互正交的，它们实际上张成了一个与x所在线性空间等价的一个空间。从而可以知道，由于x存在于特征向量张成的线性空间中，x可在以特征向量为基时被特征向量的线性组合表示： <span class="math display">\[
+\begin{equation}
+x^TLx=(\sum_{i=1}^na_i\pmb{v}_i)^TL(\sum_{i=1}^na_i\pmb{v}_i),\text{ where }\pmb{v}_i\text{ is the eigen vec of }L
+\end{equation}
+\]</span></p>
+<p>​ 由于特征向量的定义，那么上式实际上就等于： <span class="math display">\[
+\begin{equation}
+x^TLx=\sum_{i=1}^na_i^2\lambda_i,\text{ where }\lambda_i\text{ is the eigen value of }L
+\end{equation}
+\]</span></p>
+<p>​ <span class="math inline">\(x^TLx\)</span>中的x并非是没有约束的，在二分类问题中，x是正负1的向量，而<span class="math inline">\(\pmb{v}_i\)</span>为归一化之后的特征向量，故<span class="math inline">\(a_i\)</span>的最大值不可能小于<span class="math inline">\(1/\sqrt{n}\)</span>，既然如此，设<span class="math inline">\(\max(a_i)=a_m\)</span>，<span class="math inline">\(a_m\)</span>必然会作用到其中一个特征值上。那么可以发现，如果要求最小的话，显然让<span class="math inline">\(a_m\)</span>作用到最小特征值上就可以让<span class="math inline">\(x^TLx\)</span>等价地最小。那么求第j小也就相当于使用第j小特征值，那么对应的解向量也就是<span class="math inline">\(v_{\text{min jth}}\)</span>。其实特征值最大最小性在之前就已经提过：</p>
+<p>​ 最大化类间方差时，就需要使用到协方差矩阵最大特征值对应的特征向量。而求平面 / 线段的normal时，就需要使用到最小特征值，不过这里的最小特征值可以有两种方法解释，以求线段的法线为例：</p>
+<ul>
+<li>最小二乘得到线段的最优估计过程也就等价得到了法线的最优估计，那么最小二乘问题本身对应着最小特征值 以及其对应的特征向量</li>
+<li>以矩阵特征向量的方向性来说，线段对应的方向向量就是最大特征值对应的特征向量（元素主方向），而与之正交的（次要方向，特征向量也是相互正交的，就跟方向向量与法线向量正交一样）法向量就是最小特征值对应的特征向量。</li>
+</ul>
+<p>​ 那么此处需要选择最小的几个特征向量作为“割”。取多少个（k）特征向量，相当于割出多少个簇，相当于割上k-1次，每一次可以得到新的簇。比如，举个例子： <span class="math display">\[
+\begin{equation}
+\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; \sqrt{\frac{1}{2}} &amp; \sqrt{\frac{1}{2}} &amp; 0 \\
+0 &amp; -\sqrt{\frac{1}{2}} &amp; \sqrt{\frac{1}{2}} &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{pmatrix}
+\end{equation}
+\]</span></p>
+<p>​ 这是四个特征向量，已经按照从左到右特征值逐渐减小的顺序排列了。假设我们最终需要得到簇k = 3，那么可以知道需要选择两个最小特征值对应的特征向量进行cut。</p>
+<ul>
+<li>首先自然选取的是最后一个，这说的意义是：需要把最后一个结点单独割开，其他的结点暂时不管。</li>
+<li>倒数第二个特征向量，两个正数，说明第二，第三个点是同一类的，割为一类。那么最后得到：<span class="math inline">\(\{1,\{2,3\},4\}\)</span></li>
+</ul>
+<hr>
+<h2 id="pca矩阵分析">PCA矩阵分析</h2>
+<h3 id="直观理解">直观理解</h3>
+<p>​ 仿佛在之前从来没有认真想过，PCA为什么要选取k个最大特征值对应的特征向量进行降维？之前对于PCA的理解只是停留在：</p>
+<div class="note warning"><p>​ 矩阵分解可以得到其主方向，主方向的保留可以保留矩阵的更多信息。</p>
+</div>
+<p>​ 但是这只是直观上的理解，“信息”保留的多少并没有得到数学上的推导，只能算作对PCA理论的通俗理解。所以PCA为什么要选取最大k个特征值对应的特征向量？</p>
+<p>​ 首先，PCA分解的是什么？经过【去中心化】【标准差归一化的】数据，数据在经过如上的白化处理之后，需要进行<span class="math inline">\(\pmb{x}\pmb{x}^T\)</span>操作，得到其协方差矩阵，维度 d * d，d为特征空间的维数，降维实际上就是要组合特征。那么协方差矩阵<span class="math inline">\(\Sigma\)</span>有什么特殊之处？ <span class="math display">\[
+\begin{equation}\label{svd}
+\text{SVD}(\Sigma)=USU^T
+\end{equation}
+\]</span></p>
+<p>​ 直接进行SVD分解，由于<span class="math inline">\(\Sigma\)</span>的对称性，可以得到如公式<span class="math inline">\(\eqref{svd}\)</span>所示的分解式，其中S是对角矩阵。如果说其他矩阵的分解结果没有那么直观的物理意义的话，PCA则完全不一样。对协方差的矩阵分解有非常清晰的物理意义：<span class="math inline">\(S\)</span>是“标准”的协方差，也就是在没有经过旋转的方差。可以给一个简单的高斯函数的例子。</p>
+<p><img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/gauss.JPG"></p>
+<center>
+Figure 4. 独立情况下的协方差与一般协方差 高斯
+</center>
+<p>​ 而<span class="math inline">\(U\)</span>的意义则是：对方差进行旋转。那么也就是说，分解得到了：独立时的协方差矩阵<span class="math inline">\(S\)</span>以及协方差矩阵<span class="math inline">\(S\)</span>如何旋转得到当前的<span class="math inline">\(\Sigma\)</span>。而恰好，<span class="math inline">\(S\)</span>对角元素对应了特征值。特征值大等价于独立时的方差大，而<span class="math inline">\(U\)</span>特征向量则是：<strong><u>对于d个特征的线性组合向量</u></strong>（比如<span class="math inline">\((1\;\;3\;-2)^T\)</span>，其意义就是新的组合特征：一份特征一 加 三份特征二再减去两份的特征三），在对应特征向量也就是独立情况下，按照特征向量组合的特征在这个空间下的方差就是特征值。</p>
+<hr>
+<h3 id="特征分量差异期望最大">特征分量差异期望最大</h3>
+<p>​ 那么我们希望投影之后，数据之间还能有比较好的区分度（如果全部投影到一个点上了，那么就说明投影后的大部分信息都损失了），于是要选择方差大的方向投影。可以这样具体地看：对于一个特征（特征空间的一个分量），假设有两个样本<span class="math inline">\(\pmb{x}_1\)</span>与<span class="math inline">\(\pmb{x}_2\)</span>，样本(1 * d)在经过一个一维的线性变换之后变成了一个标量（也就是求新特征的一个维度，综合（线性组合）原来所有维度的信息），设为<span class="math inline">\(z_1,z_2\)</span>，那么为了使得任意两个样本产生的新特征差异期望尽可能大 <span class="math display">\[
+\begin{align}
+&amp;z_1=F^T\pmb{x}_1\\
+&amp;z_2=F^T\pmb{x}_2\\
+&amp;\text{max } \mathbb E((z_1-z_2)^2)=\mathbb E(F^T(\pmb{x}_1-\pmb{x}_2)(\pmb{x}_1-\pmb{x}_2)^TF)\label{obj}\\
+&amp;\text{s.t. }\Vert F\Vert=1
+\end{align}
+\]</span></p>
+<p>​ 由于F是确定性的变换，所以实际只需要对内部的<span class="math inline">\((\pmb{x}_1-\pmb{x}_2)((\pmb{x}_1-\pmb{x}_2))^T\)</span>进行期望求取即可，可知这个实际上就是协方差矩阵<span class="math inline">\(\Sigma\)</span>。那么公式<span class="math inline">\(\eqref{obj}\)</span>实际上变成了下式（注意F有约束） <span class="math display">\[
+\begin{equation}
+\text{max } \mathbb{E}(F^T\Sigma F)
+\end{equation}
+\]</span></p>
+<p>​ 也就是求这个二次型（标量结果）的最大。由特征向量构成等价线性空间基的性质以及特征值存在一定取值范围，可知差异最大就是要选取最大的特征值。也就是说，选取前k个最大的特征值是完全能够保证新特征在特征空间下，样本间两两差异的期望最大。</p>
+<p>​ 啊，其实这个解释多么接近正确答案啊。我在4.17晚上复习LDA的时候，突然想到了如何正确地从数学角度而非直观角度解释为什么需要选择最大特征值对应的特征向量。LDA中（可见于博文<a href="https://enigmatisms.github.io/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/">[线性/树型分类器的纯理论分析]</a>），LDA巧妙变换了类间方差和类内方差的表示形式。而PCA中，实际上也是相求方差最大！并且还是<strong><u>类内方差</u></strong>，因为我们希望降维后的数据能够有最好的区分度，保留的信息量最大，也就对应着方差最大，个体差异大代表了丰富性。假设降维到1维，也即需要寻找一个线性组合向量<span class="math inline">\(w_{k\times 1}\)</span>，使得投影后（线性组合后）的特征向量<span class="math inline">\(y=w^T\pmb{x}_{k\times 1}\)</span>方差最大，也即： <span class="math display">\[
+\begin{equation}\label{max2}
+\text{max }\sum^{n}(y_i-\overline y)^2\rightarrow \text{max }\sum^{n}(w^T\pmb{x}_i-w^T\overline {\pmb{x}})^2
+\end{equation}
+\]</span></p>
+<p>​ 那么把非随机变量<span class="math inline">\(w\)</span>提出来有： <span class="math display">\[
+\begin{align}
+\label{max3}
+&amp;\text{max }\sum^{n}(y_i-\overline y)^2\rightarrow \text{max }\sum^{n}w^T(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^Tw\rightarrow \\
+&amp;\text{max }w^T\sum^{n}(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^Tw
+\end{align}
+\]</span></p>
+<p>​ 像LDA一样，把<span class="math inline">\(\sum^{n}(\pmb{x}_i-\overline {\pmb{x}})(\pmb{x}_i-\overline {\pmb{x}})^T\)</span>设为类内散度矩阵<span class="math inline">\(S_w\)</span>，其意义就是对原空间下方差的一种度量。这样我们可以求<span class="math inline">\(\eqref{max3}\)</span>定义的最大化问题了，但是还有个小小的问题：<span class="math inline">\(w\)</span>的模长可以无限大，导致<span class="math inline">\(\eqref{max3}\)</span>无限大。那么我们只需要限定<span class="math inline">\(w\)</span>是单位向量，模长为1即可（实际上，这恰好符合之后矩阵分解<span class="math inline">\(w\)</span>为特征向量的特性）： <span class="math display">\[
+\begin{equation}\label{max4}
+\text{max }w^TS_bw\\
+\text{s.t. } \Vert w\Vert=1
+\end{equation}
+\]</span></p>
+<p>​ 则根据Lagrange乘子，可以写为： <span class="math display">\[
+\begin{equation}\label{lag}
+\text{max }w^TS_bw - \lambda (w^Tw-1)\\
+\end{equation}
+\]</span></p>
+<p>​ KKT条件，对<span class="math inline">\(w\)</span>求导，使用分子布局（结果转置，那分子布局和分母布局没有什么不同）： <span class="math display">\[
+\begin{equation}\label{res}
+S_bw=\lambda w
+\end{equation}
+\]</span></p>
+<p>​ 也就是说，<span class="math inline">\(w\)</span>为一个特征向量（我们的线性组合是个特征向量，<span class="math inline">\(S_b\)</span>的特征向量，<strong><u><span class="math inline">\(S_b\)</span>恰好是原来样本的协方差矩阵</u></strong>）。而根据<span class="math inline">\(\eqref{res}\)</span>，等式左右左乘以<span class="math inline">\(w^T\)</span>，得到：<span class="math inline">\(w^TS_bw=\lambda w^Tw\)</span>，根据<span class="math inline">\(w^Tw=1\)</span>，可知，<span class="math inline">\(w^TS_bw=\lambda\)</span>。又由于需要让<span class="math inline">\(w^TS_bw\)</span>最大，那么<span class="math inline">\(\lambda\)</span>作为特征值需要选择最大的。在多维的情况下，最大的被选走了，就按照特征值大小排序，依次选取次大的特征值对应的特征向量即可。</p>
+<p>​ 这样就可以明白，为什么PCA要选择最大的特征值对应的特征向量作为降维组合方式了。很可惜的是，在<span class="math inline">\(\eqref{obj}\)</span>式分析时，并没有这样去思考，但是原来的想法已经非常接近这个我认为最有解释力的答案了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/" title="优雅线代与美妙优化">https://enigmatisms.github.io/2021/04/03/优雅线代与美妙优化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" rel="tag"><i class="fa fa-tag"></i> 线性代数</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/" rel="prev" title="协方差 & 特征值的交集">
+                  <i class="fa fa-chevron-left"></i> 协方差 & 特征值的交集
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/" rel="next" title="CNN Style Transfer论文复现">
+                  CNN Style Transfer论文复现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

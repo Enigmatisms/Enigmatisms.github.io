@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Transformer  I. 引入 ​ 在NLP（Natural Language Processing 而不是 Non-Linear Programming）问题中，经常涉及到sequence to sequence的问题，在这种问题上最广为人知的应用就是【机器翻译】：  Watch out everybody, the potato is really hot. Nice. 大家">
+<meta property="og:type" content="website">
+<meta property="og:title" content="关于变形金刚的一些思考">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Transformer  I. 引入 ​ 在NLP（Natural Language Processing 而不是 Non-Linear Programming）问题中，经常涉及到sequence to sequence的问题，在这种问题上最广为人知的应用就是【机器翻译】：  Watch out everybody, the potato is really hot. Nice. 大家">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/single.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/multi.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/isab.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/4.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/5.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a1.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a3.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a2.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a4.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a5.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a6.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a7.PNG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a8.PNG">
+<meta property="article:published_time" content="2021-08-20T14:45:18.000Z">
+<meta property="article:modified_time" content="2021-08-27T19:01:44.904Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/1.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/","path":"2021/08/20/关于变形金刚的一些思考/","title":"关于变形金刚的一些思考"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于变形金刚的一些思考 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#transformer"><span class="nav-text">Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-%E5%BC%95%E5%85%A5"><span class="nav-text">I. 引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-attention%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">II. Attention机制的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8Ernn%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">2.1 与RNN的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%A4%B4%E7%BB%86%E8%8A%82"><span class="nav-text">2.2 单头细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%A4%B4%E7%90%86%E8%A7%A3-%E5%A4%9A%E5%A4%B4%E5%8C%96"><span class="nav-text">2.3 单头理解 &amp; 多头化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-set-transformer"><span class="nav-text">III. Set Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inducing-point-isab"><span class="nav-text">3.1 Inducing Point &amp; ISAB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82%E7%BB%B4%E5%BA%A6"><span class="nav-text">3.2 实现细节：维度？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.3 多头注意力的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E5%A4%8D%E7%8E%B0%E7%BB%93%E6%9E%9C"><span class="nav-text">IV. 复现结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87"><span class="nav-text">4.1 学习率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-funny-thing-about-transformer"><span class="nav-text">V. Funny Thing about Transformer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于变形金刚的一些思考
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-20 22:45:18" itemprop="dateCreated datePublished" datetime="2021-08-20T22:45:18+08:00">2021-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-08-28 03:01:44" itemprop="dateModified" datetime="2021-08-28T03:01:44+08:00">2021-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="transformer">Transformer</h1>
+<hr>
+<h2 id="i.-引入">I. 引入</h2>
+<p>​ 在NLP（Natural Language Processing 而不是 Non-Linear Programming）问题中，经常涉及到sequence to sequence的问题，在这种问题上最广为人知的应用就是【机器翻译】：</p>
+<blockquote>
+<p>Watch out everybody, the potato is really hot. Nice.</p>
+<p>大家快看外面有一个特别性感的土豆。好棒啊。</p>
+</blockquote>
+<p>​ 而RNN及其变体如GRU/LSTM，既然属于RNN范畴，那就免不了<strong><u>串行</u></strong>以及自递归（auto-regression）。在数字信号处理课程中学的知识：自递归对应了IIR，时域上比FIR复杂一些。由于这两个显著的弱点，导致其慢并且长距离下的语义解析能力差，Vaswani等人提出了一种新的 基于注意力机制的可并行处理框架 - the 变形金刚。在此基础上，Juho-Lee等人构建了一种对集合数据具有置换不变性的网络（集合无序，输入顺序不影响输出）。因为从小就是看变形金刚系列电影长大的（？），我实现了这两篇论文中提到的神经网络结构，用在了Set Transformer论文中的Toy Problem - Max regression 上。结果如下图，本文是对Transformer相关理论以及实现的总结，实现已经挂在Github上了，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Set-Transformer">Github🔗：Enigmatisms/Set-Transformer</a>。</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/1.png" style="zoom:75%;"></p>
+<center>
+Figure 1. Set Transformer Max Regression Problem实验结果
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-attention机制的理解">II. Attention机制的理解</h2>
+<h3 id="与rnn的关系">2.1 与RNN的关系</h3>
+<p>​ RNN中的典型结构（我也不记得叫什么了），总之是一个有记忆能力的Gate。神经元的上一个输出，可以作为本次输入的一部分，那么这可以被简单地表示成： <span class="math display">\[
+\begin{equation}\label{rnn}
+y[n]=a\times h[n]+b\times x[n],\text{ where }h[n]=y[n-1]
+\end{equation}
+\]</span> ​ 显然，一个简单的记忆单元可以被表示成一个<strong><u>离散一阶系统</u></strong>，那就是一个惯性环节嘛。这也就是一个自递归单元。很可惜，这样的系统阶数越高，表示力才越强，但作为代价的是，需要系统提供存储单元，并且对于一个k阶系统，前k个值如果没有完全计算完成，那么第k+1个值是无法得到的，这也就阻止了并行，这太不优雅了，虽然可能 一定程度上模仿了人类的理解方式：顺序读，再处理顺序输入的信息。</p>
+<p>​ 我个人不是很了解RNN，因为个人觉得这个网络结构就是不是特别优雅（虽然看起来很有道理），加上我偏CV，一般也用不到RNN。我在想，RNN能做到以下的事情吗？</p>
+<blockquote>
+<p>另外，在常规接当种中我也们发现，免疫相对功能较低人的群，以及60岁上以的人群，他们接踵产生后的免效疫没有果18-59岁的好，但是这类人群又是恰恰感的染后高危人群</p>
+</blockquote>
+<p>​ 上面这段话的内容，存在一些颠倒的字词，人可能没有太大的阅读障碍，但是依赖顺序输入的网络表现会如何？</p>
+<p>​ 与之相比，Transformer是一种FIR，它无需依赖记忆单元，在输入时也没有顺序要求（Attention is All You Need一文中使用三角函数Position encoding），于是可以很方便地进行并行。并且Transformer使用的注意力机制，就是模仿人类理解信息时，有所侧重的特性。</p>
+<h3 id="单头细节">2.2 单头细节</h3>
+<p>​ Query，Key，Value（Q K V）的物理含义应该如何理解？假设问题的背景是机器翻译，那么有两种情况：</p>
+<ul>
+<li>Q是输入语言，(K,V)是目标语言对应的信息。输入的每一个token，变为Q之后查应该对应目标语言中的哪一个词。</li>
+<li>Q是目标语言，(K,V)是输入语言信息。目标语言查自己应该如何选择目标token才能使得最类似输入</li>
+</ul>
+<p>​ 个人认为在Transformer中，应该是用第一种方式来处理问题。那么Q，K，V在其中的作用个人认为分别是：</p>
+<ul>
+<li>Q：输入embedding信息，用于与目标语言的信息进行比较</li>
+<li>K：<strong><u>目标语言</u></strong>构建的，<strong><u>方便源语言（Q）进行比较</u></strong>的，包含目标embedding信息的张量</li>
+<li>V：用于输出的目标embedding信息部分</li>
+</ul>
+<p>​ 考虑batch的情况下，一般的张量shape（以Q为例），大概是这样的：<span class="math inline">\((N_{\text{batch}},M_{\text{seq-len}},K_{\text{embedding-dim}})\)</span>​​。也就是，三维张量已经足够表示：batch size，序列长度，以及embedding维度。有的时候，Q与K的shape会相同，以下以QK处于同一个线性空间为例，那么Q/K所在的空间内可以形成Gram矩阵：</p>
+<blockquote>
+<p>在线性代数中，内积空间中一族向量的格拉姆矩阵（Gramian matrix 或 Gram matrix, Gramian）是<strong><u>内积的对称矩阵</u></strong>，其元素由<span class="math inline">\(G_{ij}=(v_j|v_i)\)</span>​​给出。</p>
+</blockquote>
+<p>​ 之前在CNN style transfer中接触过，这个矩阵用于衡量两组向量的相似程度。因为内积可以用于衡量相似度。使用内积就会有一种使用agreement概念的感觉。最后的输出是： <span class="math display">\[
+\begin{equation}\label{qkv}
+Att(Q,K,V,\omega)=\omega(\frac{QK^T}{\sqrt{k}})V
+\end{equation}
+\]</span> ​ <span class="math inline">\(QK^T\)</span>就是Gram矩阵，要注意KV的对应性。可以这么说：假如<span class="math inline">\(Q_i\)</span>与<span class="math inline">\(K_j\)</span>的相似度高，那么<span class="math inline">\(V_j\)</span>​应该有更大的权值。<span class="math inline">\(\omega\)</span>​是非线性函数，论文中使用的是softmax，变换为多元素的概率，进行概率加权。</p>
+<p>Softmax沿着哪一个维度做？已知QK的计算是：<span class="math inline">\(QK^T\)</span>也就是<span class="math inline">\((n\times k)\times(k\times n)\)</span>，最后生成<span class="math inline">\((n\times n)\)</span>​​矩阵</p>
+<details class="note primary"><summary><p>每一个Query token与key匹配的关系有两个选择：</p>
+</summary>
+<ul>
+<li>一个query可以选择多个key，也就是选择不同key的概率是归一的，那么就是行和为一（）</li>
+<li>一个key对应了多个query，那么就是列和为1（列方向求和）（这个在2.2节开头就已经说过了，属于方式2，应该是不对的）。</li>
+</ul>
+
+</details>
+<p>​ 个人更加倾向于，一个query可以对应多个key，也就是一个query可以找到多个value？也就是每一个query字，与所有value字的注意力，对应的概率应该和为1。</p>
+<h3 id="单头理解-多头化">2.3 单头理解 &amp; 多头化</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/single.PNG" style="zoom:60%;"></th>
+<th style="text-align: center;"><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/multi.PNG" style="zoom:50%;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">单头QKV注意力块</td>
+<td style="text-align: center;">多头QKV注意力块</td>
+</tr>
+</tbody>
+</table>
+<p>​ 单头QKV可以理解成：源数据经过特征提取得到Q，目标空间由V对应的元素展成（span），并且提供一个与Q中元素相同维度的比较信息（K）。源信息（Q）与部分目标信息（K）元素两两求相似，通过相似度转化为的概率对V进行加权输出。</p>
+<p>​ 多头则是指：Q K V并不直接进行内积运算。一是因为可能是大矩阵，直接内积计算时间长，二是因为这样学习得出的内容太单一。多头注意力就是希望通过多重低维度映射的方法，使得不同的head能够学习到不同的源 / 目的数据关系，<strong><u>这是产生多重语义理解的一步。</u></strong></p>
+<hr>
+<h2 id="iii.-set-transformer">III. Set Transformer</h2>
+<h3 id="inducing-point-isab">3.1 Inducing Point &amp; ISAB</h3>
+<p>​ ISAB中的Inducing Points与PMA中的seeds实际上是一回事，叫法不同。从论文中摘录的框图说明了ISAB的实现结构。它的提出是为了解决SAB平方复杂度导致的问题。比如当集合特别大的时候，会因为平方级别的复杂度计算很长时间。</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/isab.PNG"></p>
+<center>
+Figure 2. Attention Blocks
+</center>
+<p>​ SAB的时间复杂度为什么是<span class="math inline">\(O(n^2)\)</span>？SAB作为自注意力网络块，Multi-head attention输入的Q K V都是X，也就是说：对于一个输入X，不考虑其batch大小，假设其为（<span class="math inline">\(n\times k\)</span>），n为集合大小（或者在NLP中，token的数量），k为embedding的大小。那么根据内积： <span class="math display">\[
+\begin{equation}\label{self_att}
+Att(X,X,X,\omega)=\omega(\frac{XX^T}{\sqrt{k}})X
+\end{equation}
+\]</span> ​ 过程大概是：<span class="math inline">\((n\times k)\times(k\times n)\times(n\times k)\)</span>​。第一个QK阶段就已经需要n平方次计算了。这个就是<span class="math inline">\(O(n^2)\)</span>复杂度的。所以作者希望，可以固定某一维度的大小，以降低复杂度。</p>
+<p>​ MAB是<span class="math inline">\(Att(X,Y,Y,\omega)\)</span>形式的，那么当MAB的输入是：<span class="math inline">\((I,X,X)\)</span>，最终的计算会成为：<span class="math inline">\((m\times k)\times(k\times n)\times(n\times k)\)</span>。在QK阶段，内积运算只进行<span class="math inline">\((mn)\)</span>次，复杂度是<span class="math inline">\(O(mn)\)</span>，当输入为大集合时，可能可以显著减小计算负担。所以两层MAB的交替输入，第一层输出<span class="math inline">\((m\times k)\)</span>作为第二层MAB的Y，X本身作为第二层的X，可以最后重新映射回到<span class="math inline">\((n\times k)\)</span>维度。</p>
+<p>​ 作者自己也说（我觉得作者这个类比很不错，很直观），ISAB就像一个编码器，或者说常见的Detection / Segmentation的两头大中间小结构：</p>
+<blockquote>
+<p>This is analogous to low-rank projection or autoencoder models, where inputs (X) are first projected onto a low-dimensional object (H) and then reconstructed to produce outputs.</p>
+</blockquote>
+<h3 id="实现细节维度">3.2 实现细节：维度？</h3>
+<p>​ 开始时，我实现了一版这一样的MAB，请看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MAB</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, batch_size, head_num, dk_model, dv_model, use_layer_norm</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.att = Multihead(batch_size, head_num, dk_model, dv_model, use_layer_norm)</span><br><span class="line">        self.ff = nn.Sequential(</span><br><span class="line">            nn.Linear(dv_mode, dv_model),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.layer_norm = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> use_layer_norm == <span class="literal">True</span>:</span><br><span class="line">            self.layer_norm = nn.LayerNorm(dv_model)</span><br><span class="line">        self.remap = nn.Linear(dk_model, dv_model)</span><br></pre></td></tr></table></figure>
+<p>​ Multihead这个模块就是根据<em>Attention is All You Need</em>这篇文章来的（至少我觉得我是这么实现的）。但是发现，这没办法实现维度变换。为什么？我发现我在解决中位数问题时，遇到了这样的难题：</p>
+<ul>
+<li>一个训练用例，显然是<span class="math inline">\(\{x_1,x_2,...,x_n\}\)</span>​​，x是标量，使用SAB时，内积还是标量，用处不大。</li>
+<li>低维数据能向高维转移吗？自己实现的这一版SAB，输出就是：(batch_size, token_num_Q, embedding_dim_V)，如果内部不对数据做变换，那么输出的embedding维度就是1</li>
+</ul>
+<p>​ 不管是在Transformer论文还是在Set Transformer论文中，提到Multi-head一定做的是这个事情：首先将Q K V变换到低维度上（以Q为例） <span class="math display">\[
+\begin{equation}
+Q_i=QW_q^i,\text{ where } W_q^i\text{ has shape }(N_{batch},d_q,d_q/M)
+\end{equation}
+\]</span> ​ 将变换后的Q K V输入到single-head attention模块中。巧了，我就是这么做的，只不过感觉会引起维度问题。所以我们需要：</p>
+<ul>
+<li>可以设置输入输出维度（设置输出维度极为重要，就像我们用CNN输出多少个Channel一样，应该是可调的）</li>
+<li>输入时对较小的维度进行升维，以便进行Multi-head操作、</li>
+</ul>
+<div class="note warning"><p>​ 所以Transformer在实现时，到底应该如何操作？Q K V看起来很简单的三个维度设置，需要统一维度吗？</p>
+</div>
+<p>​ 个人认为，在Set transformer中，多头注意力机制模块应当完全不需要对输入进行变换，直接使用。这样才可以模块独立。而不同的Block之间的连接，有赖于Feed forward层，或者说，有些Block的输出（比如MAB），就会经过FFN。</p>
+<p>​ row-wise feed forward 层，一般来说也就是一个单层的线性网络（不过要记得激活，<strong><u>开始时忘记</u></strong>加ReLU了，既然是层，那就要有激活，除非是输出）。可以认为，此处就是一个类似残差块的东西。虽然在Attention is All You Need中，FFN是这样定义的： <span class="math display">\[
+\text{FFN}(x)=\max(0,xW_1+b_1)W_2+b_2
+\]</span> ​ 相当于nn.Linear + nn.ReLU + nn.Linear。但是在Set transformer中，实现的貌似叫做 row-wise（all you need中叫做position-wise）。但是为什么要这么做？作者没有给出明确的答案，而是说：</p>
+<blockquote>
+<p>It could reduce to applying a residual block on X. In practice, it learns more complicated functions due to linear projections of X inside attention heads.</p>
+</blockquote>
+<p>​ 感觉挺无力的，这些深度学习新的网络架构看起来好像确实没什么可以解释的，数学上也不好说。残差连接在这似乎也与其被提出时所要解决的问题对应的目的不同，因为不会有什么梯度爆炸。</p>
+<h3 id="多头注意力的实现">3.3 多头注意力的实现</h3>
+<p>​ 多头注意力是我在本文中最觉得困惑的部分。因为官方的实现与自己的论文 / All you need是不一样的。不管是在Transformer 还是 Set Transformer论文中，提到的多头的实现方式时，总会将以下公式列出来： <span class="math display">\[
+\begin{align}
+&amp;\text{output}=\text{cat}[O_1,O_2,...,O_h]\cdot W_o,\text{ where }O_i \label{out}\\
+&amp;O_i=Att(Q_i,K_i,V_i,w)\\
+&amp;Q_i=QW_Q^i,K_i=KW_K^i,V_i=VW_V^i,
+\end{align}
+\]</span> ​ 也就是：对Q K V 每一项分别使用多个权重<span class="math inline">\(W\)</span>​​，从原来的embedding dimension k映射到一个更低的维度（实现低维多输入，低维上的注意力）。​公式<span class="math inline">\(\eqref{out}\)</span>​​​​是两篇论文中都有的，但是作者并没有这样实现。作者直接使用了split（fron Github juho-lee/set_transformer）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Q_ = torch.cat(Q.split(dim_split, <span class="number">2</span>), <span class="number">0</span>)</span><br><span class="line">K_ = torch.cat(K.split(dim_split, <span class="number">2</span>), <span class="number">0</span>)</span><br><span class="line">V_ = torch.cat(V.split(dim_split, <span class="number">2</span>), <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>​ 相当于，本来应该使用线性映射到低维的Q K V，直接在embedding dimension维度切开，成为head number份。这和你的论文里写的也不一样啊，为什么呀大哥。此后，官方实现有些更迷惑的操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = torch.softmax(Q_.bmm(K_.transpose(<span class="number">1</span>,<span class="number">2</span>))/math.sqrt(self.dim_V), <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>​ 连起来就是：首先embedding直接split成块，拼接到第一个维度上（一般来说是batch维度），相当于原来batch size为n现在变成了<span class="math inline">\(h\times n\)</span>，batch之间不会有相互作用。计算内积之后，再拆分回到原来的shape。所以我也不是很懂为什么不按部就班实现。。。可能这就是强者吧。我的实现，只能说按着论文来的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Qs = Q.split(self.dk, dim = -<span class="number">1</span>)</span><br><span class="line">Ks = K.split(self.dk, dim = -<span class="number">1</span>)</span><br><span class="line">Vs = V.split(self.dv, dim = -<span class="number">1</span>)</span><br><span class="line">heads = [self.singleHeadQKVAtt(Qs[i], Ks[i], Vs[i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.head_num)]</span><br><span class="line"><span class="comment"># 或者不使用split</span></span><br><span class="line">Qs = [Q @ self.Wqs[i].repeat(batch_size, <span class="number">1</span>, <span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.head_num)]</span><br><span class="line">Ks = [K @ self.Wqs[i].repeat(batch_size, <span class="number">1</span>, <span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.head_num)]</span><br><span class="line">Vs = [V @ self.Wvs[i].repeat(batch_size, <span class="number">1</span>, <span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.head_num)]</span><br><span class="line"><span class="comment"># each head outputs (n, token_num, token_num) @ (n, token_num, dv_model / head)</span></span><br><span class="line">heads = [self.singleHeadQKVAtt(Qs[i], Ks[i], Vs[i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.head_num)]</span><br></pre></td></tr></table></figure>
+<p>​ split本质上与线性映射没有什么区别，甚至split实现会简单很多，并且少一些参数。</p>
+<hr>
+<h2 id="iv.-复现结果">IV. 复现结果</h2>
+<ul>
+<li>学习率设置</li>
+</ul>
+<h3 id="学习率">4.1 学习率</h3>
+<p>​ 测试的问题是Set Transformer中的Max Regression问题，找一个集合的最大数，本来想实现中位数的，但是发现中位数简直没办法直接训练出东西来。训练参数：batch size = 64，一个集合32个数，也就是每次的X是<span class="math inline">\(64 \times 32\)</span>​矩阵。模型非常难训练，主要体现在：</p>
+<ul>
+<li><p>我使用exponential learning rate scheduler，初始学习率1e-3，gamma大概为0.9999（衰减慢），正常情况下，在初始的几百个样本，loss下降非常快。到loss约等于2时，可能一直卡在这直到结束，最后的acc也就20%。</p></li>
+<li><p>有很小的概率，学习率减到很小时，跳出局部最优解。acc继续上升，但是由于ExpoLR让学习率变得很小了，训练很慢，训练完也只能让模型acc到50%。</p></li>
+<li><p>官方实现可以在较大学习率时跳出局部最优。所以最后学得很快，训练结束时到了90%。</p></li>
+</ul>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/2.png"></p>
+<center>
+Figure 3. 测试用例acc（每次测试10个集合）
+</center>
+<p>​ 上图中，在15k个epoch突然飙起来的橙色曲线是官方实现思路的MAB，很快就收敛了。深蓝色曲线则是我说的那个exponential LR训练结果。</p>
+<p>​ 之后我换成Multi Step LR，开始200个epoch学习率很大，loss下降很快，[200,1000]内的学习率是上一阶段的1/10，此后则是1/100。看起来真的是学习率过大。此后其他的曲线都是学习率精调得到的结果。</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/4.png"></p>
+<center>
+Figure 4. 测试用例loss（每次测试10个集合）
+</center>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/5.png"></p>
+<center>
+Figure 5. 训练用例loss
+</center>
+<p>​ 可以看到，灰色的曲线是最后一次的训练结果。也就是说，我的实现比官方实现训练次数多了好几倍，达到的acc之比官方高了个4%。</p>
+<hr>
+<h2 id="v.-funny-thing-about-transformer">V. Funny Thing about Transformer</h2>
+<p>​ 谁让Vaswani起了一个倍具争议的名字呢？</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a1.PNG"></p>
+<p>​ 实名赞同楼上：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a3.PNG"></p>
+<p>​ 赞同，但是我要提方案：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a2.PNG"></p>
+<p>​ 我有些疑问：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a4.PNG"></p>
+<p>​ 实名反对楼主：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a5.PNG"></p>
+<p>​ 反对反对（nm啊，这名字真的很踢馆）</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a6.PNG"></p>
+<p>​ 我来折衷：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a7.PNG"></p>
+<p>​ 注意力？小马宝莉（My Little Pony简称MLP）最强：</p>
+<p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/a8.PNG"></p>
+<p>​ 你们搞NLP的还挺有意思的。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[C]//Advances in neural information processing systems. 2017: 5998-6008.</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v97/lee19d.html">Lee J, Lee Y, Kim J, et al. Set transformer: A framework for attention-based permutation-invariant neural networks[C]//International Conference on Machine Learning. PMLR, 2019: 3744-3753.</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/juho-lee/set_transformer">Github: juho-lee/set_transformer</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/4765/comment-page-1#Attention%E5%AE%9A%E4%B9%89">苏剑林的科学空间:《Attention is All You Need》浅读（简介+代码）</a></p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" title="关于变形金刚的一些思考">https://enigmatisms.github.io/2021/08/20/关于变形金刚的一些思考/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/transformer/" rel="tag"><i class="fa fa-tag"></i> transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/07/Particle-Filter-Simulation/" rel="prev" title="Particle Filter Simulation">
+                  <i class="fa fa-chevron-left"></i> Particle Filter Simulation
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/28/%E8%AF%A1%E5%BC%82bug%E8%83%8C%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" rel="next" title="诡异bug背后的一些知识">
+                  诡异bug背后的一些知识 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

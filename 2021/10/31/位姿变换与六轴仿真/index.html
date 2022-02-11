@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;Axis">
+<meta property="og:type" content="website">
+<meta property="og:title" content="位姿变换与六轴仿真">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;Axis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/transform.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/two.png">
+<meta property="article:published_time" content="2021-10-31T13:55:36.000Z">
+<meta property="article:modified_time" content="2021-11-01T15:43:27.037Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="运动学">
+<meta property="article:tag" content="Gazebo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/","path":"2021/10/31/位姿变换与六轴仿真/","title":"位姿变换与六轴仿真"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>位姿变换与六轴仿真 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#axis6"><span class="nav-text">Axis6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-text">II. 前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E5%B7%A6%E5%8F%B3%E4%B9%98"><span class="nav-text">2.1 位姿变换左右乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E5%8F%B3%E4%B9%98%E8%AE%A8%E8%AE%BA%E7%9A%84%E8%A1%8D%E7%94%9F"><span class="nav-text">2.2 左右乘讨论的衍生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E9%80%86%E8%BF%90%E5%8A%A8%E5%AD%A6"><span class="nav-text">2.3 正逆运动学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%A7%A3%E9%97%AE%E9%A2%98%E5%8F%AF%E8%A1%8C%E5%9F%9F"><span class="nav-text">2.4 多解问题&amp;可行域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-gazebo%E4%BB%BF%E7%9C%9F"><span class="nav-text">III. Gazebo仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="nav-text">3.1 描述机器人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6"><span class="nav-text">3.2 传输控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%8F%82"><span class="nav-text">3.3 调参</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-text">IV. 效果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          位姿变换与六轴仿真
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-31 21:55:36" itemprop="dateCreated datePublished" datetime="2021-10-31T21:55:36+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-11-01 23:43:27" itemprop="dateModified" datetime="2021-11-01T23:43:27+08:00">2021-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="axis6">Axis6</h1>
+<hr>
+<p>​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn't know how to pronounce: <code>ɡəˈziːboʊ</code>，重音在前），代码放在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Axis6">[Github🔗:Enigmatisms/Axis6]</a>。本文包含如下内容：</p>
+<ul>
+<li>位姿变换/正逆运动学的一些基本知识</li>
+<li>Gazebo的配置使用</li>
+<li>仿真效果视频（<del>高清无码</del>）</li>
+</ul>
+<p>​ 这里放两张图：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png" style="zoom:85%;"></th>
+<th style="text-align: center;"><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">rviz仿真结果</td>
+<td style="text-align: center;">Gazebo仿真结果</td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. 仿真效果图
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-前置知识">II. 前置知识</h2>
+<h3 id="位姿变换左右乘">2.1 位姿变换左右乘</h3>
+<p>​ 这个问题个人之前一直没有搞清楚，也没有静下心来推过。</p>
+<p>​ 给定空间中一个点p以及一个位姿变换<span class="math inline">\(T=[R\quad t]\)</span>（非齐次），点p经过位姿变换的结果应该是： <span class="math display">\[
+\begin{equation}\label{basic}
+p&#39;=Rp+t
+\end{equation}
+\]</span> ​ 那么现在有这样一个问题，如果我想对点p进行多次变换？或者是进行一次<strong><u>两个位姿变换合成</u></strong>对应的变换？应该怎么做？假设我们有两个位姿变换：<span class="math inline">\(T_1 = [R_1\quad t_1]\)</span>以及<span class="math inline">\(T_2 = [R_2\quad t_2]\)</span>，乍一看应该这么做： <span class="math display">\[
+\begin{equation}\label{composite}
+p&#39;=R_2(R_1p+t_1)+t_2=R_2R_1p+R_2t_1+t_2
+\end{equation}
+\]</span> ​ 上面这个公式，思想非常直白。不是要多次变换吗？不是要合成吗？那就直接先变换一次，再对结果变换一次就行了。但是<strong><u>实际上，对于位姿变换合成问题而言，这是错的结果</u></strong>。首先，我在这里给出结论： <span class="math display">\[
+\begin{align}
+&amp;p&#39;=R_1(R_2p+t_2)+t_1=R_1R_2p+(R_1t_2+t_1)\tag{合成变换}\\
+&amp;p&#39;=R_2(R_1p+t_1)+t_2=R_1R_2p+R_2t_1+t_2\tag{变换的复合}
+\end{align}
+\]</span> <div class="note danger"><center>
+合成变换，与变换的复合是两回事。
+</center>
+</div></p>
+<p>​ 很多时候，我们接触的都会是合成变换。举一个例子：点云配准。假设点云A到点云B的位姿变换为T（点云A对应的激光器坐标系 需要经过变换T才能变换到点云B对应的激光器坐标系位置），已经存在一个粗糙的初始位姿变换：<span class="math inline">\(T_0\)</span>，这个变换可以是里程计或者一些算法给出的，需要 <strong><u>精配准</u></strong> 来修正这个位姿变换，使之更符合实际观测，那么假设这个精配准模块求出，点云在位姿<span class="math inline">\(T_0\)</span>下，还需要进行的变换<span class="math inline">\(\Delta T\)</span>，最后合成<span class="math inline">\(T_0\)</span>与<span class="math inline">\(\Delta T\)</span>得到最终的变换。 ​ 合成变换与变换复合的本质区别是：<strong>讨论的坐标系不同</strong>。变换的复合具有非常简单的思想，正如函数的复合，对输出进行一次新的变换。<strong><u>两次变换都是在同一个坐标系下讨论的</u></strong>，可以认为：</p>
+<div class="note info"><p>参与变换复合的两个变换，是两个互不相关的，在同一个坐标系下讨论的绝对位姿变换，之间没有相对性。</p>
+</div>
+<p>​ 而合成变换，则具有相对性。仍然以上面的点云配准为例子，<span class="math inline">\(\Delta T\)</span>变换是在<span class="math inline">\(T_0\)</span>变换的基础上进行的，是在<span class="math inline">\(T_0\)</span>对应的坐标系下的一个变换，而<span class="math inline">\(T_0\)</span>是相对于另一个坐标系（比如全局坐标系或者子地图坐标系而言）。也就是说：</p>
+<div class="note info"><p>参与合成变换的两个变换，具有关联关系，其中的一个变换是基于另一个变换确定的坐标系来讨论的。</p>
+</div>
+<p>​ 既然如此，那么在两种情况下的【合成的】变换分别是什么？ <span class="math display">\[
+\begin{align}
+&amp;T=T_1T_2\tag{合成变换}\\
+&amp;T=T_2T_1\tag{变换的复合}
+\end{align}
+\]</span> ​ 只简单说一下合成变换为什么是右乘：显然，因为<span class="math inline">\(T_2\)</span>是在<span class="math inline">\(T_1\)</span>变换后的坐标系下的一个相对变换，其中的平移量相当于直接被<span class="math inline">\(T_1\)</span>预先变换了一次（平移就相当于是一个点）。整个式子可以看成是：<span class="math inline">\(T_2\)</span>变换被<span class="math inline">\(T_1\)</span>预先变换了一次，由于是<span class="math inline">\(T_1\)</span>来变换（动词）<span class="math inline">\(T_2\)</span>，则显然<span class="math inline">\(T_1\)</span>应该放在左边。</p>
+<p>​ 所以要回答左右乘问题，其中一个角度应该是：</p>
+<ul>
+<li>左乘对应了绝对变换，右乘对应了追加变换，是在前一变换对应坐标系下讨论的。</li>
+</ul>
+<h3 id="左右乘讨论的衍生">2.2 左右乘讨论的衍生</h3>
+<p>​ 为了方便理解，我画了一个图：</p>
+<p><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/transform.png"></p>
+<center>
+Figure 2. 位姿变换示意图
+</center>
+<p>​ 坐标系1经过位姿变换T变换到坐标系2，那么对于两个系中定义的一些点，其坐标变换公式是什么？假设点p在坐标系i下的坐标是<span class="math inline">\(p_i\)</span>：（为了方便起见，这两个坐标都是齐次坐标） <span class="math display">\[
+\begin{align}
+&amp;p_1=Tp_2\label{p1}\\
+&amp;p_2=T^{-1}p_1\label{p2}
+\end{align}
+\]</span> ​ 从坐标系1变到坐标系2是变换T，而坐标系1点变换到坐标系2就是<span class="math inline">\(T^{-1}\)</span>。这也可以用左右乘推出的公式来讨论：假设两个坐标系都是相对于一个绝对的坐标系，两个坐标系相对绝对坐标系的变换分别为<span class="math inline">\(T_1, T_2\)</span>，那么对于点p，两个坐标系对应的坐标转换到绝对坐标系下应该是相等的，因为描述的都是绝对坐标系下的点<span class="math inline">\(p^{*}\)</span> <span class="math display">\[
+\begin{equation}
+T_1T_{1-p}p^*=T_2T_{2-p}p^*
+\end{equation}
+\]</span> ​ 因为<span class="math inline">\(T_{1-p}p^*=p_1\)</span>且<span class="math inline">\(T_{2-p}p^*=p_2\)</span>，而上式是由右乘（相对变换）得到的，可以推出公式<span class="math inline">\(\eqref{p1}\)</span>，<span class="math inline">\(\eqref{p2}\)</span>来。</p>
+<h3 id="正逆运动学">2.3 正逆运动学</h3>
+<p>​ 关于D-H坐标与正逆运动学，这个人的博客讲得很清楚（非常推荐，他的博客写得不错，上一个我觉得写得不错的博客是苏剑林的）：</p>
+<div class="note success"><center>
+<a target="_blank" rel="noopener" href="http://gaoyichao.com/Xiaotu/?book=math_physics_for_robotics&title=inverse_kinematics">无处不在的小土</a>
+</center>
+</div>
+<p>​ 关于正逆运动学的原理以及D-H坐标表示，我就不赘述了，上面链接的博客已经有了。我实现的六轴机器人，正逆运动学的思想是从以上博客以及Wikipedia中学来的，使用的是一个类似PUMA 560的简单带球腕六轴机器人，但是所有的关节中，link twist都与常见模型相反，所以运动学不得不自己推。</p>
+<p>​ 在此我只简述一下正逆运动学的思想：</p>
+<div class="tabs" id="class"><ul class="nav-tabs"><li class="tab active"><a href="#class-1">正运动学</a></li><li class="tab"><a href="#class-2">逆运动学</a></li></ul><div class="tab-content"><div class="tab-pane active" id="class-1"><p>实际上就是，给定各个关节的位姿，求解机器人手臂末端的位姿。这是个很容易的任务，就是疯狂地进行位姿变换合成。由于使用D-H坐标描述，使得描述机器人的参数最简，并且也描述了两个关节确定的坐标系之间的相对变换，所以可以轻易地使用位姿变换合成： <span class="math display">\[
+\begin{equation}
+T_6^0=T_1^0T_2^1T_3^2T_4^3T_5^4T_6^5
+\end{equation}
+\]</span> 每个关节相对于下一个关节的位姿变换，在正运动学篇已经进行了详细的讨论，在简单的问题中，也不过就是使用link length, link offset, link twist, link angle计算变换矩阵。</p></div><div class="tab-pane" id="class-2"><p>可以把这个问题看作是解方程：已知期望的末端位置，需要求解出每个关节的位姿（比如角度，平移）。复杂问题下，是需要引入优化的方式来求解的（可能没有简单的闭式解），而在一些简单的情形下，可以进行 <strong><u>解耦</u></strong>，也就是找到前后不相关联的位姿变换，分解问题为子问题，子问题下就有可能求解出闭式解。带有球腕的问题就是一个典型的简化情形。</p></div></div></div>
+<p>​ 我所使用的六轴机器人模型，参数定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// link offset / link length / link twist / link angle</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;LinkInfo&gt; init_links = &#123;</span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.5</span>, <span class="number">0</span>, M_PI_2,  <span class="number">0.134140</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.1</span>, <span class="number">0.8</span>, <span class="number">0</span>, <span class="number">0.012189</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.1</span>, <span class="number">0</span>, M_PI_2, <span class="number">-0.036790</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.8</span>, <span class="number">0</span>, M_PI_2, <span class="number">1.596749</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0</span>, <span class="number">0</span>, M_PI_2, <span class="number">-0.222030</span>),</span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1.459867</span>)  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​ 小土的博客中，使用的是<span class="math inline">\(-\pi / 2\)</span>的link twist，而我这里使用的是<span class="math inline">\(\pi/2\)</span>。开始我的底部三个关节的求解，完全按照<span class="math inline">\(-\pi/2\)</span>去推的，这当然会有问题，之后手推了一下<span class="math inline">\(\pi/2\)</span>的情况。</p>
+<p>​ 顶部三个关节如何求解，小土的博客并没有说，但是思想大致还是一样的：将末端点变换到第四个关节对应的坐标系下，使用投影法求解。</p>
+<h3 id="多解问题可行域">2.4 多解问题&amp;可行域</h3>
+<p>​ 以底部的三个关节以及对应机械臂为例：</p>
+<p><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/two.png"></p>
+<center>
+Figure 3. 位姿变换示意图
+</center>
+<p>​ 黑色和蓝色分别表示了两种不同解下的机械臂情形。对于同一个球腕位置（也就是右上角的交汇点），可能有两个解，两个解都是需要求出来的，不同的关节会形成解组。比如<span class="math inline">\(\theta_1\)</span>以及<span class="math inline">\(\theta_2\)</span>分别对应joint 2的两个相差<span class="math inline">\(\pi\)</span>的解角度。选取谁？需要根据“能耗最小原则”：哪个解与上一时刻对应的角度最接近，说明运动到对应的状态所需能量损耗最小，机器人应该更倾向于选取这个解。多解问题存在于球腕与底部角度上。</p>
+<p>​ 给定末端姿态以及末端的位置，机械臂各个关节也不一定有解，比如：超出长度范围，或是没办法同时满足姿态和位置等等，这些都可能会使得求解结果成NaN，只需要限制在解为NaN时放弃本次控制。</p>
+<hr>
+<h2 id="iii.-gazebo仿真">III. Gazebo仿真</h2>
+<p>​ 我想尝试一下除了rviz之外的可视化方法，rviz版本也已经在Axis6这个库里实现了，这个版本的可视化核心就在tf的使用，也没什么困难的，可视化时碰到的大多数问题实际上都是坐标系或者变换求解错误的问题。除了rviz之外，我能想到也就只有寥寥几个可视化工具：OpenGL以及其封装的Pangolin，Gazebo。由于我从来没有用过Gazebo，故想尝试一下这个新东西。</p>
+<p>​ 构建Gazebo机械臂主要有以下三步：</p>
+<ul>
+<li>编写urdf（或者xacro）描述机器人，以及相应的gazebo文件（.sdf或者.gazebo以及.world）</li>
+<li>构建机器人控制器（transmission），使用gazebo_ros以及gazebo_ros_control进行控制</li>
+<li>调参。这一步都能放进来确实是我没想到的。</li>
+</ul>
+<h3 id="描述机器人">3.1 描述机器人</h3>
+<p>​ ROS wiki上对于描述机器人以及模型的文件是这么说的：</p>
+<blockquote>
+<p>Xacro (XML Macros) Xacro is an XML macro language. With xacro, you can construct shorter and more readable XML files by using macros that expand to larger XML expressions.[1]</p>
+</blockquote>
+<blockquote>
+<p>Xacro is just a scripting mechanism that allows more modularity and code re-use when defining a URDF model. When using it, what is actually uploaded to the parameter servers (per default as the "robot_description" parameter) actually is a URDF, as that gets generated from the xacro file in the launch file (by expanding the xacro macros used).[2]</p>
+</blockquote>
+<p>​ 这里主要给出四个部分的例子，主要看注释：以下两个部分来自于<code>src/axis6/urdf/axis6.xacro</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--        此处定义的是机械臂          --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;world&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--上面这个link（机械臂）是一个固定的轴，每个urdf都需要带，相当于世界坐标系--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--定义一个机械臂，这里是六轴机器人的底座--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--collision属性没有写上来，其定义方式与visual类似，定义的是碰撞箱--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">visual</span>&gt;</span> <span class="comment">&lt;!--视觉效果，定义的是我们能观察到的样子--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.75&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span> <span class="comment">&lt;!--rpy对应轴是xyz--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">geometry</span>&gt;</span> <span class="comment">&lt;!--定义基础模型：一个长方体，width depth height是xyz--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">box</span> <span class="attr">size</span>=<span class="string">&quot;0.4 0.4 1.5&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">material</span> <span class="attr">name</span>=<span class="string">&quot;grey&quot;</span>/&gt;</span> <span class="comment">&lt;!--调用material.xacro中定义的颜色--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">inertial</span>&gt;</span>	<span class="comment">&lt;!--惯性力学信息--&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--可以认为，此处定义了一个等效几何体，位置与姿态都给出了，并且给了多轴方向上的质量分布--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.75&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mass&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--一种遵循shell类似语法的变量调用--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertia</span></span></span><br><span class="line"><span class="tag">      <span class="attr">ixx</span>=<span class="string">&quot;1.0041666666666669&quot;</span> <span class="attr">ixy</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">ixz</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">iyy</span>=<span class="string">&quot;1.0041666666666669&quot;</span> <span class="attr">iyz</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">izz</span>=<span class="string">&quot;0.13333333333333336&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--此处定义的是关节信息，关节是连接机械臂（以及两个不同坐标系）的结构--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;joint0&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--joint是机器人机械臂位姿变换的基础，可以认为joint定义的是child link的坐标系--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;world&quot;</span>/&gt;</span>		<span class="comment">&lt;!--父系，或者上一个机械臂--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;link1&quot;</span>/&gt;</span>		<span class="comment">&lt;!--子系，连接的下一个机械臂--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--关节相对于上一个坐标系，其原点平移偏置以及z轴的相对旋转--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1.5&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span>  	</span><br><span class="line">    <span class="comment">&lt;!--使用child link的哪一个轴或者哪一个方向作为关节转轴--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--电机的力矩以及速度限制（不超过以下两个设置值，这两个参数在【3.3调参】中很重要）--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">limit</span> <span class="attr">effort</span>=<span class="string">&quot;50&quot;</span> <span class="attr">velocity</span>=<span class="string">&quot;50&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 以下部分来自于<code>src/axis6/urdf/axis6.sdf</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- URDF需要转为gazebo能理解的sdf类型 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;link1&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--设置重力为0，注意此处有Gazebo的bug[3]--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gravity</span>&gt;</span>0<span class="tag">&lt;/<span class="name">gravity</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--关闭内部碰撞检测，也有bug[3]--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">self_collide</span>&gt;</span>0<span class="tag">&lt;/<span class="name">self_collide</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--两个摩擦系数--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mu1</span>&gt;</span>0.0<span class="tag">&lt;/<span class="name">mu1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mu2</span>&gt;</span>0.0<span class="tag">&lt;/<span class="name">mu2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--还有kp,kd两个参数，用于定义模型的硬度，之前好像是这样的</span></span><br><span class="line"><span class="comment">	假如kp与kd很接近，那么模型会变软，可能陷到地里，kp&gt;&gt;kd时很硬。</span></span><br><span class="line"><span class="comment">	不过我也没有深究过--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Black<span class="tag">&lt;/<span class="name">material</span>&gt;</span> <span class="comment">&lt;!--颜色--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 定义机械臂的重力为0经常出现bug，一会儿说你有 <code>multiple conflicting &lt;gravity&gt; tag</code> 然后给你强制设为<code>&lt;gravity&gt;true&lt;/gravity&gt;</code>，又存在这个bug[3]，导致gravity以及self_collide两个标签都不能被正确设置。</p>
+<p>​ 以下部分来自于<code>src/axis6/world/axis6.world</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">world</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--引入外部的模型（如果找不到，有些可能会在加载时在网上下载）--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://ground_plane<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--...省略部分--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Global light source --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://sun<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--最后的我的消重力方式：直接让世界没有重力，嗯，很暴力--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gravity</span>&gt;</span>0 0 0<span class="tag">&lt;/<span class="name">gravity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">world</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="传输控制">3.2 传输控制</h3>
+<p>​ 定义好这些文件后，写一个launch文件，如果编写正确，就能在Gazebo中生成出定义的机器人。但此时机器人是死的，没办法控制。使用gazebo_ros以及相关模块进行控制，这几个包都是需要自己下的，建议直接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-version-gazebo-ros*</span><br></pre></td></tr></table></figure>
+<p>​ transmission定义的实际上是一个个电机：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transmission</span> <span class="attr">name</span>=<span class="string">&quot;tran5&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>transmission_interface/SimpleTransmission<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--定义在关节5上的电机--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;joint5&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/EffortJointInterface</span><br><span class="line">      <span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--电机--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">actuator</span> <span class="attr">name</span>=<span class="string">&quot;motor5&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/EffortJointInterface</span><br><span class="line">      <span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mechanicalReduction</span>&gt;</span>1<span class="tag">&lt;/<span class="name">mechanicalReduction</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">actuator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">transmission</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 需要配置一个相应的电机config文件(<code>src/axis6/config/axis6_control.yaml</code>)：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">axis6:</span></span><br><span class="line">  <span class="comment"># Publish all joint states -----------------------------------</span></span><br><span class="line">  <span class="attr">joint_state_controller:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">joint_state_controller/JointStateController</span></span><br><span class="line">    <span class="attr">publish_rate:</span> <span class="number">50</span>  </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Position Controllers ---------------------------------------</span></span><br><span class="line">  <span class="attr">joint0_position_controller:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">effort_controllers/JointPositionController</span></span><br><span class="line">    <span class="attr">joint:</span> <span class="string">joint0</span></span><br><span class="line">    <span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">15.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">1.2</span>&#125;</span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+<p>​ 2-5行是不可少的，此项配置了整个关节状态发布器。剩余的就一个个配置，配置其类型（位置控制电机，速度控制电机）以及pid参数（<strong>很难调</strong>）。</p>
+<p>​ 在加入这些信息之后，再生成Gazebo仿真，使用rostopic list命令可以看到一些新的topic（实际上是gazebo模型subscribe的，但因为没有配置ros端，暂时无publisher），可以直接使用如下命令进行简单测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rostopic pub &lt;topic_name：比如/axis6/joint1_state_controllers/command&gt; &lt;topic_type:一般是std_msgs::Float64&gt; &quot;data: &lt;控制量，比如:1.0&gt;&quot; </span><br></pre></td></tr></table></figure>
+<p>​ 剩下的事情就是写一个控制节点，发布对应消息就能进行控制了，这里就不赘述了。</p>
+<h3 id="调参">3.3 调参</h3>
+<p>​ 仿真，顾名思义，一定要真。即使我把摩擦关了，碰撞检测关了，重力关了，控制也并没有想象的那么简单。问题主要是：</p>
+<ul>
+<li>机械臂的质量以及质量分布设计得不合理（比如末端很重）</li>
+<li>PID参数 + 电机limit（见xacro文件按）设置的不合理。</li>
+</ul>
+<p>​ 导致以下三个问题（折磨了我一下午）：</p>
+<ul>
+<li>电机驱动力不够 + pid参数过小时，又慢又超调</li>
+<li>电机驱动力充足 + pid参数较大时，机械臂抖动严重（末端尤为严重）</li>
+<li>电机驱动力充足 + pid参数过大时，可能会炸开。。。机械臂直接飞了，这也太真实了</li>
+</ul>
+<p>​ 解决方案当然就是一个个电机调：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">joint0_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">15.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">1.2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint1_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">10.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.8</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint2_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">5.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint3_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">1.5</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.04</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint4_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">1.1</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.08</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint5_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">0.25</span>, <span class="attr">i:</span> <span class="number">0.0001</span>, <span class="attr">d:</span> <span class="number">0.0002</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 从最底部的关节开始（它应有的驱动能力最大，因为负载最大），关节号越高，其后的机械臂越少（载荷越小），那么显然，limit中的effort以及velocity应该越小，PID参数越小，机械臂也尽可能在末端变轻。</p>
+<hr>
+<h2 id="iv.-效果展示">IV. 效果展示</h2>
+<p>​ 最后的效果也就是：末端可以三轴方向平移，以及绕某一轴旋转。我复用了之前写的键盘控制函数（在LiDARSim2D库内）（多按键触发），故运动是可以合成的：</p>
+<p>​ rviz：使用tf以及visualization_msg::Marker进行可视化：</p>
+<video src="rviz.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 1. rviz仿真结果
+</center>
+<p>​ Gazebo：花了好几个穿模的长方体（随便画的，没必要搞机械设计了）:</p>
+<video src="gazebo.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 2. Gazebo仿真结果
+</center>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="http://wiki.ros.org/xacro">ROS wiki: xacro</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://answers.ros.org/question/202162/urdf-or-xacro/">URDF or Xacro?</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://github.com/ignitionrobotics/sdformat/issues/71">Incorrect URDF to SDF conversion of gravity and self_collide tags #71</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/" title="位姿变换与六轴仿真">https://enigmatisms.github.io/2021/10/31/位姿变换与六轴仿真/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E8%BF%90%E5%8A%A8%E5%AD%A6/" rel="tag"><i class="fa fa-tag"></i> 运动学</a>
+              <a href="/tags/Gazebo/" rel="tag"><i class="fa fa-tag"></i> Gazebo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/" rel="prev" title="骷髅融合者-CVPR2021">
+                  <i class="fa fa-chevron-left"></i> 骷髅融合者-CVPR2021
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/" rel="next" title="概率图模型">
+                  概率图模型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

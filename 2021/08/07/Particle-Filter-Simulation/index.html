@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Particle Filter Simulation">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/ray2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/img1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/img3.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/img9.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/img16.png">
+<meta property="article:published_time" content="2021-08-07T14:13:02.000Z">
+<meta property="article:modified_time" content="2021-08-11T15:58:14.282Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="SLAM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/ray2.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/","path":"2021/08/07/Particle-Filter-Simulation/","title":"Particle Filter Simulation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Particle Filter Simulation | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#particle-filter"><span class="nav-text">Particle Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-introduction"><span class="nav-text">I. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-%E7%90%86%E8%AE%BA%E6%8E%A8%E5%AF%BC"><span class="nav-text">II. 理论推导</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-text">2.1 目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%92%E5%AD%90%E4%B8%8E%E9%87%87%E6%A0%B7"><span class="nav-text">2.2 粒子与采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%8F%98%E6%8D%A2"><span class="nav-text">2.3 分布变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%9D%83-%E9%87%8D%E9%87%87%E6%A0%B7"><span class="nav-text">2.4 加权 重采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%BB%BA%E6%A8%A1"><span class="nav-text">2.5 简单建模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E7%BB%93%E6%9E%9C"><span class="nav-text">III. 结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Particle Filter Simulation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-07 22:13:02" itemprop="dateCreated datePublished" datetime="2021-08-07T22:13:02+08:00">2021-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-08-11 23:58:14" itemprop="dateModified" datetime="2021-08-11T23:58:14+08:00">2021-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="particle-filter">Particle Filter</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 大二买了一本 <em>Probability Robotics(of Sebastian Thrun, et al)</em>，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法可以应用粒子滤波，于是实现了一版。半天写完，效果不错，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/ParticleFilter">[Github Repo🔗:Enigmatisms/ParticleFilter]</a>：</p>
+<p><img src="/2021/08/07/Particle-Filter-Simulation/ray2.png"></p>
+<center>
+Figure 1. Particle Filter 中使用Volume2D Shader进行的激光雷达scan仿真
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-理论推导">II. 理论推导</h2>
+<h3 id="目标">2.1 目标</h3>
+<p>​ 我仅仅讨论粒子滤波在localization中的作用，虽然localization只是PF理论应用的一个小方向。如果没有给定初值，也没有很好地利用观测信息，localization基本就是在乱猜其在空间中的位置。并且，通常情况下，只使用当前scan也无法准确获得定位，因为可能存在大量的重复地图特征。</p>
+<p>​ 好在我们有连续的观测以及连续的控制，假设控制与观测序列：</p>
+<ul>
+<li>控制序列: <span class="math inline">\(U_t:\{u_1,u_2,...u_{t}\}\)</span>​​，<span class="math inline">\(u_t\)</span>​表示从状态<span class="math inline">\(x_{t-1}\)</span>​过渡到<span class="math inline">\(x_t\)</span>​的控制​</li>
+<li>观测序列：<span class="math inline">\(Z_t:\{z_0,z_1,....z_{t}\}\)</span>​​，<span class="math inline">\(z_t\)</span>​表示在状态<span class="math inline">\(x_t\)</span>​​下的观测​</li>
+</ul>
+<p>​ 我们不希求通过<span class="math inline">\(z_t\)</span>​来求使得<span class="math inline">\(P(x_t|z_t)\)</span>​​最大的<span class="math inline">\(x_t\)</span>，而是需要求： <span class="math display">\[
+\begin{equation}\label{post}
+x_t^* = \mathop{\arg \max}_{x_t}P(x_t|Z_t,U_t)
+\end{equation}
+\]</span> ​ 实际上，可以说公式<span class="math inline">\(\eqref{post}\)</span>定义的是一个后验概率。也就是最大化一个后验概率了，啊这不就是 贝叶斯滤波吗？确实，粒子滤波就是贝叶斯滤波的一个非参数实现。</p>
+<p>​ 但是一般来说，没有马尔可夫假设，事情会变得很复杂，如果我们需要对一大串控制 / 状态序列进行处理，应该怎么做？</p>
+<h3 id="粒子与采样">2.2 粒子与采样</h3>
+<p>​ 这是不是自然计算？粒子是一个个的可能状态：<span class="math inline">\(x_{t,1},x_{t,2},...x_{t,k}\)</span>​，假设我们有k个假设的状态。此时我们应该运用贝叶斯学派知识，首先由信息包含关系（之前的观测与控制包含在状态<span class="math inline">\(x_{t-1,i}\)</span>中） <span class="math display">\[
+\begin{equation}\label{info}
+P(x_{t,i}|Z_t,U_t,x_{0,i})=P(x_{t,i}|z_t,u_t,x_{t-1,i})
+\end{equation}
+\]</span> ​ 接下来的贝叶斯滤波变换可以说很妙了： <span class="math display">\[
+\begin{equation}
+P(x_{t,i}|z_t,u_t,x_{t-1,i}) = \frac{P(x_{t,i}, z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}
+\end{equation}
+\]</span> ​ 既然是要使用贝叶斯，那么就要想办法把观测和状态互换位置： <span class="math display">\[
+\begin{equation}\label{eqn4}
+\frac{P(x_{t,i}, z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}=\frac{P(z_t|x_{t,i},u_t,x_{t-1,i})P(x_{t,i},u_t,x_{t-1,i})}{P(z_t|u_t,x_{t-1,i})P(x_{t-1,i},u_t)}
+=\frac{P(z_t|x_{t,i},u_t,x_{t-1,i})P(x_{t,i}|u_t,x_{t-1,i})}{P(z_t|u_t,x_{t-1,i})}
+\end{equation}
+\]</span> ​ 注意，我们有如下两个论断成立： <span class="math display">\[
+\begin{align}
+&amp; P(z_t|x_{t,i},u_t,x_{t-1,i}) = P(z_t|x_{t,i})\label{within} \\
+&amp; P(x_{t,i}|u_t,x_{t-1,i}) \text{ is a known prior}\label{prior}
+\end{align}
+\]</span> ​ 公式<span class="math inline">\(\eqref{within}\)</span>​说的是：观测<span class="math inline">\(z_t\)</span>​只与当前状态<span class="math inline">\(x_t\)</span>​有关。论断<span class="math inline">\(\eqref{prior}\)</span>​指的是，由控制引起的状态转移误差分布是已知的（比如本实现中，我假设我的控制噪声是白噪声，那么此处就是一个高斯项）。​</p>
+<p>​ 那么公式<span class="math inline">\(\eqref{eqn4}\)</span>​可以被进一步化简为下式，其中<span class="math inline">\(\eta\)</span>是我们不关心的归一化因子。 <span class="math display">\[
+\begin{equation}\label{eqn7}
+\eta P(z_t|x_{t,i})P(x_{t,i}|u_t,x_{t-1,i})
+\end{equation}
+\]</span> ​ 那么可以这么理解：状态粒子i在第t时刻的观测<span class="math inline">\(z_t\)</span>​​下，拥有状态<span class="math inline">\(x_{t,i}\)</span>​的概率为<span class="math inline">\(\eqref{eqn7}\)</span>，包含两个组份：</p>
+<ul>
+<li>状态粒子与观测的契合程度（给定状态能生成对应观测吗）<span class="math inline">\(P(z_t|x_{t,i})\)</span></li>
+<li>控制状态转移噪声先验<span class="math inline">\(P(x_{t,i}|u_t,x_{t-1,i})\)</span>​</li>
+</ul>
+<p>​ 在2.5小节里，我简单地说一下我是如何对这个问题进行建模的。</p>
+<h3 id="分布变换">2.3 分布变换</h3>
+<p>​ 粒子滤波实际上是用粒子与采样来近似任意分布，在公式<span class="math inline">\(\eqref{eqn7}\)</span>​​​中，已经说明了<span class="math inline">\(P(x_{t,i}|x_{t-1,i},z_t,u_t)\)</span>​的组成成分。粒子滤波实际上还做了一个这样的事情，我们知道概率论中，概率是需要归一化的，而归一化因子在连续PDF中一般都涉及到积分。很多时候，积分是很难的，不一定能积出来。要获取目标分布，就存在一定难度了。这个时候，粒子滤波可以通过一个简单的建议分布，去推导一个复杂的目标分布。</p>
+<p>​ 我们重新定义一下问题。<span class="math inline">\(P(x_{t,i}|x_{t-1,i},z_t,u_t)\)</span>是当前点的存在置信度，而我们希望，算法可以是迭代式（马尔可夫）的，也就是要从上一个迭代的粒子对应的置信度，计算本次迭代对应粒子的置信度。于是根据控制状态转移分布，可以得到建议分布： <span class="math display">\[
+P(x_{t,i}|x_{t-1,i},z_t,u_t)=P(x_{t,i}|x_{t-1,i},u_t)P(x_{t-1,i}|x_{t-2,i},z_{t-1},u_{t-1})
+\]</span> ​ 可以发现，等号右边第二项就是上一次迭代对应粒子的分布。根据状态转移进行了分布变换，得到了新的建议分布。<strong><u>但是我们并非直接接受新的建议分布，</u></strong>为什么？</p>
+<blockquote>
+<p>状态的转移带来新的信息。通俗地说，到一个新的地点，就可以从不同的角度观察环境。</p>
+</blockquote>
+<p>​ 我们可以通过新的观测，来衡量，这些新的点是否适合？原来的粒子，是分布的采样。那么，符合新的观测的粒子，自然可以给一个大权重，而不符合新观测的粒子，自然也就不那么重视。这就涉及到对粒子进行加权以及重采样。</p>
+<h3 id="加权-重采样">2.4 加权 重采样</h3>
+<p>​ 我们希望给粒子impose一个权重。但是粒子已经是分布的一个例化了（采样），这个时候有两种方案：</p>
+<ul>
+<li>每个粒子维护一个权重，每次更新权重</li>
+<li>每次重新生成一群粒子，根据权重进行生成</li>
+</ul>
+<p>​ 第一种思想很好理解。比如在localization问题中，我在位姿空间中有很多位姿的估计粒子，那么最后粒子求加权平均应该就是结果。</p>
+<p>​ 而第二种思想，则是把权重隐含在粒子数量中，这种思想是真正符合“粒子是对应分布的采样”的。显然，在N维空间中某个区域粒子数多，自然此处分布就应该比较大。</p>
+<p>​ 直接进行随机的Metropolis-Hasting采样，需要的时间开销比较大？为什么？根据这篇文章[2]，里面说：</p>
+<blockquote>
+<p>简单随机重采样：（1）生成N个均匀分布随机数（2）随机数数列排序（3）根据随机数数列以及粒子的权重进行重采样。</p>
+</blockquote>
+<p>​ 这个步骤是：设点i的权重是<span class="math inline">\(w_i\)</span>，生成的随机数数列是<span class="math inline">\(y_i\)</span>。则对于所有的<span class="math inline">\(y_i\)</span>，如果<span class="math inline">\(y_i\)</span>落在<span class="math inline">\(\left(\sum_{k=1}^iw_k,\sum_{k=1}^{i+1}w_k\right]\)</span>中，那么对应粒子的采样数+1。可知这样的采样方法，复杂度是<span class="math inline">\(O(NlogN)\)</span>，毕竟需要排序，但是这是完全随机的。完全随机的两个坏处就体现出来了：</p>
+<ul>
+<li>不能保证数据集的遍历性，有些数据可能根本没有办法被采样到</li>
+<li>计算复杂度大，大型采样时间消耗大。</li>
+</ul>
+<p>​ 更好的算法，这里就不再赘述了，详见《概率机器人》第四章。我的实现中，使用的就是《概率机器人》中的“低方差采样”，时间复杂度为O(N)，并且是遍历性的。</p>
+<p>​ 重采样的目的就是使得建议分布转化为目标分布。对于粒子滤波，如果我们这样理解问题：滤波的完整迭代过程（从0到收敛有t个迭代），那么希望最大化： <span class="math display">\[
+\begin{equation}\label{new_obj}
+P(x_{0:t,i}|z_{1:t},u_{1:t})
+\end{equation}
+\]</span> ​ 以localization任务来说。如果一个状态是比较正确的，那么不管如何迭代，其置信度在不同的迭代中都应该比较大。那么根据公式<span class="math inline">\(\eqref{eqn7}\)</span>​​，可以展开为类似的结构（这是目标分布）： <span class="math display">\[
+\begin{equation}\label{eqn11}
+\eta P(z_t|x_{0:t,i}, z_{1:t},u_{1:t})P(x_{0:t,i}|u_t,z_{1:t-1,i})
+\end{equation}
+\]</span> ​ 进一步根据贝叶斯和马尔可夫性，可以作进一步展开，可得到建议分布与目标分布之比与<span class="math inline">\(P(z_t|x_{t_i})\)</span>​成正比。</p>
+<h3 id="简单建模">2.5 简单建模</h3>
+<p>​ 此部分，我简要介绍一下在基于Volume2D Shader的激光雷达模拟器中，如何建模一些分布。最为重要的首先就是似然<span class="math inline">\(P(z_t|x_t)\)</span>，也即，给定状态下，产生观测<span class="math inline">\(z_t\)</span>的可能性。此处我将其建模为：</p>
+<ul>
+<li>给定<span class="math inline">\(x_t\)</span>（状态，也即粒子对应的位姿），我在此处模拟一个激光点云（因为已知地图），与实际的观测<span class="math inline">\(z_t\)</span>进行比较。相似则对应的概率大，不相似则概率小。</li>
+<li>那么相似性的比较，则是基于模拟激光点云对应角度上的range差值。其实只要理解似然在此处的作用，这个模型很好建立。</li>
+</ul>
+<p>​ 另一方面，是状态转移模型。此处直接使用了一个方差与移动大小相关的高斯噪声。</p>
+<hr>
+<h2 id="iii.-结果">III. 结果</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img1.png"></th>
+<th style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img3.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">长走廊问题 初始化</td>
+<td style="text-align: center;">长走廊问题 第三次迭代（移动3次）</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img9.png"></td>
+<td style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img16.png"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">长走廊问题 第九次迭代（移动9次）</td>
+<td style="text-align: center;">长走廊问题 第十六次迭代（移动16次）</td>
+</tr>
+</tbody>
+</table>
+<p>​ 对于不完全的长走廊问题（虽然相似但是还有一定区别的环境），粒子滤波还是可以应对的。（2000个粒子）。</p>
+<video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 1. 长走廊问题迭代过程（慢速）
+</center>
+<video src="cv_output2.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 2. 随机地图定位问题（慢速）
+</center>
+<hr>
+<h3 id="reference">Reference</h3>
+<p>[1] Probability Robotics (Sebastian Thrun, et al)</p>
+<p>[2] 粒子滤波常用重采样算法分析比较，范澎湃等</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/" title="Particle Filter Simulation">https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
+              <a href="/tags/SLAM/" rel="tag"><i class="fa fa-tag"></i> SLAM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/02/Volume2D-Shader-Pro/" rel="prev" title="Volume2D Shader Pro">
+                  <i class="fa fa-chevron-left"></i> Volume2D Shader Pro
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" rel="next" title="关于变形金刚的一些思考">
+                  关于变形金刚的一些思考 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

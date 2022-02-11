@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Capsule  Preface ​ Geoffrey Hinton (他的团队 ? 挂名论文 ? ) 在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文 Dynamic Routing Betwe">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CNN - Capsule Neural Networks">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Capsule  Preface ​ Geoffrey Hinton (他的团队 ? 挂名论文 ? ) 在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文 Dynamic Routing Betwe">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/lena.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/comp.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/vote.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/routing.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/fc.JPG">
+<meta property="article:published_time" content="2021-02-20T13:48:51.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:48:28.924Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/lena.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/","path":"2021/02/20/CNN-Capsule-Neural-Networks/","title":"CNN - Capsule Neural Networks"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CNN - Capsule Neural Networks | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#capsule"><span class="nav-text">Capsule</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#preface"><span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3"><span class="nav-text">问题理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8capsule"><span class="nav-text">为什么要使用Capsule</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#capsule%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">Capsule解决的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#capsule%E7%9A%84%E5%A4%84%E7%90%86%E5%8E%9F%E7%90%86"><span class="nav-text">Capsule的处理原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E8%AE%A1%E7%AE%97%E7%BB%86%E8%8A%82"><span class="nav-text">网络结构与计算细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%A4%84%E7%90%86---%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86"><span class="nav-text">向量处理 - 路由原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E8%BF%87%E7%A8%8B"><span class="nav-text">动态路由过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%A7%AF---%E6%8A%95%E7%A5%A8agreement"><span class="nav-text">内积 - 投票（Agreement）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%E7%90%86%E8%A7%A3"><span class="nav-text">算法流程理解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loss%E8%AE%BE%E8%AE%A1"><span class="nav-text">loss设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0-%E9%97%AE%E9%A2%98"><span class="nav-text">复现 &amp; 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%8A%E7%9A%84%E4%B8%80%E4%BA%9B%E7%82%B9"><span class="nav-text">实现上的一些点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%9C%8B%E6%B3%95"><span class="nav-text">个人看法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#appendix-a---pytorch"><span class="nav-text">Appendix A - Pytorch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#torch%E7%9F%A9%E9%98%B5%E5%A4%84%E7%90%86"><span class="nav-text">torch矩阵处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#torch%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-text">torch矩阵乘法的规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.sum"><span class="nav-text">torch.sum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.transpose"><span class="nav-text">torch.transpose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.cat"><span class="nav-text">torch.cat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.norm"><span class="nav-text">torch.norm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.max-min"><span class="nav-text">torch.max &#x2F; min</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.argmax-argmin"><span class="nav-text">torch.argmax &#x2F; argmin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.index_select"><span class="nav-text">torch.index_select</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch.squeeze-unsqueeze"><span class="nav-text">torch.squeeze &#x2F; unsqueeze</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">“-1”的作用</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CNN - Capsule Neural Networks
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-20 21:48:51" itemprop="dateCreated datePublished" datetime="2021-02-20T21:48:51+08:00">2021-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-07-18 17:48:28" itemprop="dateModified" datetime="2021-07-18T17:48:28+08:00">2021-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="capsule">Capsule</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ Geoffrey Hinton (他的团队 ? 挂名论文 ? ) 在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文 <strong><em>Dynamic Routing Between Capsules</em></strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.09829.pdf">【arxiv链接🔗】</a> 的总结，也包含了复现论文中遇到过的问题的分析。</p>
+<span id="more"></span>
+<hr>
+<h2 id="问题理解">问题理解</h2>
+<p>​ Capsule网络与普通网络的区别在哪里？普通卷积网络（Convolution）最突出的特点就是，自动特征的提取。但是由于卷积操作的空间对称性，并且在多层卷积后，特征的空间位置信息发生损失，对于需要明确位置信息的特征无法很好地提取。比如说：给定一张人脸照片，如果人脸照片被PS了，五官的空间位置十分奇怪：</p>
+<p><img src="/2021/02/20/CNN-Capsule-Neural-Networks/lena.png"></p>
+<center>
+Figure 1. 惊悚的Lena照片
+</center>
+<p>​ 对于第二张图像，网络有可能将其分类为“人”，但是实际上这是怪物。而第三章图像，只不过经过了一个旋转，最后的分类结果也可能并不是“人”。我们希望在卷积的处理过程中，仍然保留相对位置信息，但又不想让整个网络变成R-CNN一样的复杂object detection结构。</p>
+<p>​ Capsule结构就是为了解决空间位置信息问题提出的。其基本思想是：Capsule结构可以将图像中的一个物体分解，分解成不同的子结构，而子结构又可以由更加低级的子特征通过空间变换组合得到。</p>
+<p><img src="/2021/02/20/CNN-Capsule-Neural-Networks/comp.JPG"></p>
+<center>
+Figure 2. 特征组合
+</center>
+<p>​ 乍一看，和卷积网络貌似很类似，卷积也是低级特征融合到高级特征图中。但Capsule 特征组合依靠的并不是activation函数进行特征融合，其依靠的是“动态路由”方法。</p>
+<hr>
+<h2 id="为什么要使用capsule">为什么要使用Capsule</h2>
+<h3 id="capsule解决的问题">Capsule解决的问题</h3>
+<p>​ 作者在文章中提到：基于HMM-GMM的语音识别方法在神经网络普适之前一直是SOTA方法，但是其致命缺陷是需要的内存空间太大（内存开销是平方级别的复杂度）。RNN网络对于内存的开销则是线性增长级别的，结果会好很多。</p>
+<p>​ CNN相对于全连接层也存在这样的内存开销优势：不同位置的参数是共享的。但是在处理存在有特征的空间变换（平移旋转）时，CNN需要有参数的平移副本，才能实现对不同位置的同一特征进行识别。这让我想起了KCF的平移样本生成。KCF在训练时，会将选中目标的部分进行大量平移，以获得足够的多的训练样本。也就是用内存换取训练结果了，也许这在训练样本极其多时不利于训练，并且随着问题规模的变大，这种方法也并不好。并且CNN这种采用参数平移副本识别不同位置的特征的方式，非常不符合生物视觉原理。作者在文中开始就提到：</p>
+<blockquote>
+<p>Human vision ignores irrelevant details by using a carefully determined sequence of fifixation points to ensure that only a tiny fraction of the optic array is ever processed at the highest resolution.</p>
+</blockquote>
+<p>​ 处理视觉特征的时候，应该使用一定的Attention机制，使用非复制的参数，获得图上的特征，并使用简单的位置表示，应该是<strong><u>获取特征的移动位置</u></strong>而非<strong><u>移动（式）获取特征的位置</u></strong>。这种复制方法，必然导致参数占用内存的增加。CNN能够很好地处理平移特征（因为卷积的滑动窗口特性），但是对于其他的Affine Transformation（仿射变换），处理能力较差。Capsule本身就是带有空间位姿表征的，这样可以防止指数性的参数内存消耗。</p>
+<h3 id="capsule的处理原理">Capsule的处理原理</h3>
+<p>​ 在Preface种说到，Capsule网络实际上是向量神经网络。与一般的标量网络不同，Capsule网络每个输出都是向量，并且向量存在其特定的意义：</p>
+<ul>
+<li>向量的方向代表了其属性。可以将属性空间每个单独的维度理解为一个坐标轴，在某个方向的分量大小代表了此属性的强度（比如反射率 / intensity / 斜度等等）。也即此向量代表了其在参数空间中的位置。</li>
+<li>向量的模长代表了概率。反映的是沿着某一方向的特征向量存在的概率。一个Capsule层上的所有胶囊可能对某个特征产生不同的意见，组合特征时希望能让意见一致的概率最大（Routing by agreement）。</li>
+</ul>
+<p>​ 每个Capsule表示的向量都是一个个的“instantiated parameter”，表征了一个个小组件（也许这样的小组件没有CNN抽取出来的特征那么抽象）。由于特征是不断融合的，底层特征抽取将会抽取出极其多的小型特征。每一层Capsule网络都是对上一层capsule的融合，第k层的capsule输出需要经过一个投票机制，才能被融合到1第k+1层的网络中去。当第k+1层网络存在输出后，从第k层网络选取出与第k+1层某个capsule输出最类似的一个低层capsule，增大其对应权重。</p>
+<hr>
+<h2 id="网络结构与计算细节">网络结构与计算细节</h2>
+<h3 id="向量处理---路由原理">向量处理 - 路由原理</h3>
+<p>​ 激活函数并没有被大量使用在Capsule网络中，由于向量网络并不方便使用activation，而且一般激活函数并不能满足上一节提到的：模长的概率表征特性。在此处，作者设计了一个这样的归一化函数，被称作 “<strong><em>squash</em></strong>”： <span class="math display">\[
+\begin{equation}\label{equ:squash}
+\mathbf{v}_{j} = \frac{\Vert \mathbf{s}_j\Vert^2}{1 +\Vert \mathbf{s}_j\Vert^2}\frac{\mathbf{s}_j}{\Vert \mathbf{s}_j\Vert}
+\end{equation}
+\]</span> ​ 使用此归一化方法，不仅可以进行长度归一，实际对模长很短的向量存在更大的非线性惩罚。假设第k层网络存在n个capsule filter，第k+1层存在m个capsule filter。那么<span class="math inline">\(\mathbb{u_{i}}\)</span>就是第k层中第i个filter的输出向量，从第k层第i个结构到第k+1层第j个结构的输出可以使用weight matrix映射： <span class="math display">\[
+\mathbf{\hat{u}}_{j|i}=\mathbf{W}_{ij}\mathbf{u}_i
+\]</span> ​ <span class="math inline">\(\mathbf{W}_{ij}\)</span>用于维数变换，并且需要综合不同的输入得到下一层某个capsule的输入。比如本文中，<span class="math inline">\(\mathbf{W}_{ij}\)</span>就是8 * 16的矩阵。<span class="math inline">\(\mathbf{\hat{u}}_{j|i}\)</span>相当于计算出的先验（上层i送到本层j的一个特征向量）。那么： <span class="math display">\[
+\begin{equation}\label{equ:possi}
+\mathbf{s}_{j}=\sum_{i=1}^{n}c_{ij}\mathbf{\hat{u}}_{j|i}
+\end{equation}
+\]</span> ​ 就是综合所有上一层的输出，得到本层第j个capsule的输入，使用<span class="math inline">\(\eqref{equ:squash}\)</span>进行非线性归一化得到<span class="math inline">\(\mathbf{v}_{j}\)</span>。<span class="math inline">\(c_{ij}\)</span>是概率加权因子，是由<span class="math inline">\(b_{ij}\)</span>（一个logit值）经过softmax得到的概率。</p>
+<h3 id="动态路由过程">动态路由过程</h3>
+<h4 id="内积---投票agreement">内积 - 投票（Agreement）</h4>
+<p>​ 动态路由部分包含了激活函数的作用，并且在此处取代了normalization的作用。动态路由主要是为了计算<span class="math inline">\(\mathbf{v}_{j}\)</span>，通过迭代的方式求出概率加权因子，本质上是一个数学性的投票过程。开始生成的<span class="math inline">\(b_{ij}\)</span>都是0，softmax后，所有的输出路径概率都是相同的（均匀分布）。每一个胶囊的输出都相当于是一个带概率（模长）的特征向量prediction。所有的（weight matrix映射的）的组合（概率加权）就是某个高层capsule的输入，高层输出一个归一化后的向量。这个向量只需要与低层的输出向量进行内积即可，内积结果大，表示低层的输出与高层的输出较为符合（两个输出向量的方向较为一致），将会响应增强对应的路由路径。</p>
+<p><img src="/2021/02/20/CNN-Capsule-Neural-Networks/vote.JPG"></p>
+<center>
+Figure 3. 基于内积的投票
+</center>
+<p>​ 根据几次迭代就可以确定低层/高层的输出一致性关系。</p>
+<h4 id="算法流程理解">算法流程理解</h4>
+<p>​ 整个动态路由算法流程如下：</p>
+<p><img src="/2021/02/20/CNN-Capsule-Neural-Networks/routing.JPG"></p>
+<center>
+Figure 4. 动态路由算法流程
+</center>
+<p><strong>翻译与理解：</strong></p>
+<ul>
+<li>初始化logit值 为0，使得初始的routing路径概率分布为均匀分布。默认已经获得了经过weight matrix变换的先验输出向量。</li>
+<li>开始迭代（迭代次数为r，论文中r = 3）
+<ul>
+<li>softmax 将logit变换为：<span class="math inline">\(c_{i}\)</span>，转换成符合概率定义的值。</li>
+<li>计算本层的加权输入：也就是公式<span class="math inline">\(\eqref{equ:possi}\)</span>。计算所有低层prediction对应的高层prediction。</li>
+<li>squash操作，非线性归一化。由于内积需要转换成概率，需要squash让模长小于1。</li>
+<li>根据两层的输出计算内积，得到logits更新值。</li>
+</ul></li>
+</ul>
+<p>​ 注意，只有两个连续的capsule层才会存在动态路由。由于动态路由是对低层 / 高层capsule连接特性的建模，低层prediction与高层prediction相符时，低层capsule更有可能与相应高层capsule相连。</p>
+<h3 id="loss设计">loss设计</h3>
+<p>​ Capsule网络在设计时，设计者为了让其拥有同时区分图上多个数字的能力，数字label使用一个长度为10的向量表示（类似one-hot），prediction中，每个位置存分类为对应值的概率。使用的是margin loss（SVM多分类问题使用的就是margin loss），由于鼓励图像多分类输出，margin loss 鼓励输出在0.9（正类）以及0.1（负类）附近，分类使用的margin loss objective为： <span class="math display">\[
+\begin{equation}\label{equ:margin}
+L_k=T_k\;max(0, m^{+} - \Vert\mathbf{v}_k\Vert)^2+\lambda(1-T_k)min(0, m^{-} - \Vert\mathbf{v}_k\Vert)^2
+\end{equation}
+\]</span> ​ 提供label时，如果图像中的数字是对应class k，那么<span class="math inline">\(T_k = 1\)</span>，否则为0。可以看出，<span class="math inline">\(T_k\)</span>不同情况下：</p>
+<ul>
+<li><span class="math inline">\(T_k\)</span>为1时，<span class="math inline">\(L_k=T_k\;max(0, m^{+} - \Vert\mathbf{v}_k\Vert)^2\)</span>，需要让输出的概率大概为0.9（<span class="math inline">\(m^+\)</span>=0.9）</li>
+<li>反之，<span class="math inline">\(L_k=\lambda(1-T_k)min(0, m^{-} - \Vert\mathbf{v}_k\Vert)^2\)</span>，负类并不要求概率完全为0。为了多数字判定。(<span class="math inline">\(m^{-}\)</span>=0.1)，λ=0.5（影响削弱）</li>
+</ul>
+<p>​ 由于这是一个特殊的分类问题，输出会用一个向量表征（长度为16）。那么作者希望，通过16维的特征向量可以重建出原来的数字。作者使用了全连接网络作为decoder：</p>
+<p><img src="/2021/02/20/CNN-Capsule-Neural-Networks/fc.JPG"></p>
+<center>
+Figure 5. 文中使用的全连接decoder
+</center>
+<p>​ 输入层是160维的，但我对这个的理解是：digitCaps存在mask，非预测值的数字将会被乘以0。那么160维的输入意义在哪？为什么不使用16维作为输入呢？</p>
+<p>​ 不讨论这个设计问题的情况下，reconstruction会引入loss（需要让），相当于capsuleNN提取了图像的主要特征（PCA类似，只用几个主要特征值恢复图像），但结果与原图应该尽量接近。（这在CycleGAN中也有类似的操作，不过对应的是Cycle Consistency Loss）。Full objective: <span class="math display">\[
+L_{full}=\sum L_k+0.0005 \times L_{reconstruct}
+\]</span> ​ 为了不让reconstruction loss造成的优化影响过大，需要将其scale到一个较小的值上。</p>
+<hr>
+<h2 id="复现-问题">复现 &amp; 问题</h2>
+<p>​ 实现CapsNet遇到了比较大的困难，发现自己之前实现的那些网络都比较简单，不需要用到太多的Pytorch tensor特性或是torch的API。于是在本次复现论文时，发现在minibatch情形（高维矩阵计算）下，自己明白逻辑，但是不知如何使用Pytorch完成矩阵计算。显然，将sample一个个计算 / 一维一维计算是可以完成算法的逻辑的，但是这样存在问题：</p>
+<ul>
+<li>slice / index操作 / 分维度计算（小块矩阵运算）容易导致低下的效率以及内存的消耗</li>
+<li>代码变得臃肿，不符合多维矩阵的API设计初衷</li>
+</ul>
+<p>​ 复现尝试了实现网络结构，但是比较失败（我太菜了）。最后我学习了一下别人的实现，对代码进行了细致的注释：<a target="_blank" rel="noopener" href="https://github.com/gram-ai/capsule-networks">[Github Repository🔗:gram-ai/ capsule-networks]</a></p>
+<h3 id="实现上的一些点">实现上的一些点</h3>
+<p>​ 在实现过程中，主要是Capsule Layer的实现比较困难：</p>
+<ul>
+<li>nn.ModuleList保存胶囊层的结构，比如保存8个相同的Conv2d Filter。对同一输入处理8次，再使用cat方法连接，产生向量输出。</li>
+<li>nn.Parameter 用于 weight matrix的实现。但我对这个环节产生了<a href="#thinking">一些看法</a>。
+<ul>
+<li>以上这两种方法都可以自动将参数加入继承了nn.Module的类的<code>.parameter()</code>中</li>
+</ul></li>
+<li>高维矩阵运算 不知如何进行（开始练运算规则都不知道）
+<ul>
+<li>输入卷积层的输出结果为：(n, 256, 20, 20)，n为batch size</li>
+<li>PrimaryCaps每个胶囊输出的结果应该是：(n, 32, 6, 6, 1)。每个输出需要进行ravel（不同的通道，每个通道内的6 * 6输出），得到(n, 1152, 1) cat之后得到(n, 1152, 8)</li>
+<li>PrimaryCaps 经过weight matrix之后，输出的prior应该是（shape）:(10, n, 1152, 1, 16):
+<ul>
+<li><code>x[None, :, :, None, :] @ self.route_weights[:, None, :, :, :]</code></li>
+<li>x由(n, 1152, 8) 变为(<strong><u>10</u></strong>, n, 1152, <strong><u>1</u></strong>, 8)，weights(10, 1152, 8, 16)变为：(10, <strong><u>n</u></strong>, 1152, 1, 16)</li>
+</ul></li>
+</ul></li>
+<li>剩下的主要问题就是：
+<ul>
+<li>一些基本API的使用不够熟练，不知道如何进行sum / transpose / max等等。</li>
+<li>矩阵维度应该如何进行变换，才能让一个batch不被index / slice操作分割处理。何时加入一个维度，何时squeeze？应该是经验不足，API使用不熟练的问题。</li>
+</ul></li>
+</ul>
+<hr>
+<h2 id="个人看法">个人看法</h2>
+<p><span id="thinking"></span></p>
+<p>​ 关于CapsuleNet，个人有以下看法：</p>
+<ul>
+<li>MNIST数据集未免太简单了，这样的实验（虽然作者说，关于Capsule网络只进行浅层的分析）：</li>
+</ul>
+<blockquote>
+<p>The aim of this paper is not to explore this whole space but simply to show that one fairly straightforward implementation works well and that dynamic routing helps.</p>
+</blockquote>
+<ul>
+<li>我感觉好像Capsule没有太过跳脱出Convolution以及BP结构，算是一种网络结构 / 思想方法上的大（great）创新，但是不能算作（radical）的创新</li>
+<li>CNN baseline是否太菜了一点？太浅了吧才三层？（可能是MNIST数据集不需要太花的结构）</li>
+</ul>
+<p></p>
+<hr>
+<h2 id="appendix-a---pytorch">Appendix A - Pytorch</h2>
+<p>​ 记录一下实现过程中的一些基础但是没有重视的点。希望不要做调库侠。</p>
+<h3 id="torch矩阵处理">torch矩阵处理</h3>
+<h4 id="torch矩阵乘法的规则">torch矩阵乘法的规则</h4>
+<ul>
+<li>如果只有2D（size长度为2），需要符合矩阵乘法的尺寸对应要求（(m,n) (n, k) -&gt; (m, k)）</li>
+<li>高维矩阵，除了最后两个维度之外，矩阵乘法需要满足：其他维度完全对应 条件。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = torch.ones((<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = torch.ones(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = torch.ones((<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>)) </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = a @ b</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.shape</span><br><span class="line">torch.Size([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<p>​ 也即，高维为矩阵乘法不变，最后两维满足矩阵乘法条件。在Pytorch矩阵运算的时候，可能出现矩阵维度不对应的情况，可能需要通过添加维度的方式来进行维度对应。比如本论文中，两层capsule层中，weight matrix的乘法操作：</p>
+<p>​ 在本实现中，训练集batch <span class="math inline">\(x\)</span>卷积 / PrimaryCaps输出为(n, 32 * 36, 8) （进行了一个ravel操作），<span class="math inline">\(W\)</span> weight matrix是 8 * 16（右乘）的。那么<span class="math inline">\(xW\)</span>导致维度不对应（输出需要到(n, 10, 16)），那么需要增加维度。如果将<span class="math inline">\(x\)</span> 变为(<strong><u>10</u></strong>, n, 32 * 36, <strong><u>1</u></strong>, 8)，<span class="math inline">\(W\)</span>变为(10, <strong><u>n</u></strong>, 32 * 36, 8, 16) (下划线加粗的是增加的对应维度)，就可以让输出为(10, n, 32 * 36, 1, 16)。这恰好符合论文中<span class="math inline">\(\hat u_{i|j}=W_{ij}u_{ij}\)</span>的定义。在Pytorch中，维度增加使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = x[<span class="literal">None</span>, :, :, <span class="literal">None</span>, :] @ W[:, <span class="literal">None</span>, :, :, :]</span><br></pre></td></tr></table></figure>
+<p>​ None用于增加维度。</p>
+<h4 id="torch.sum">torch.sum</h4>
+<p>​ sum其实是带有两个参数的：</p>
+<ul>
+<li><code>dim</code> 指定对矩阵第dim维进行sum操作</li>
+<li><code>keepdim=False</code> keepdim将会使矩阵尽可能使用原来的维度进行表示。很显然，sum操作会降维（比如一个二维数组求sum之后，就成了一个一维数组）</li>
+</ul>
+<p>​ 实例：对于<code>torch.FloatTensor(range(16)).view((1, 1, 4, 4))</code>的四个维求sum，输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Only <span class="built_in">sum</span>:  tensor(<span class="number">120.</span>)</span><br><span class="line">Sum dim = <span class="number">0</span>: tensor([[[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">         [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">         [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>],</span><br><span class="line">         [<span class="number">12.</span>, <span class="number">13.</span>, <span class="number">14.</span>, <span class="number">15.</span>]]])</span><br><span class="line">Sum dim = <span class="number">1</span>: tensor([[[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">         [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">         [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>],</span><br><span class="line">         [<span class="number">12.</span>, <span class="number">13.</span>, <span class="number">14.</span>, <span class="number">15.</span>]]])</span><br><span class="line">Sum dim = <span class="number">2</span>: tensor([[[<span class="number">24.</span>, <span class="number">28.</span>, <span class="number">32.</span>, <span class="number">36.</span>]]])</span><br><span class="line">Sum dim = <span class="number">3</span>: tensor([[[ <span class="number">6.</span>, <span class="number">22.</span>, <span class="number">38.</span>, <span class="number">54.</span>]]])</span><br></pre></td></tr></table></figure>
+<p>​ 关于sum，使用时需要搞清楚其作用维度。得到作用维度之后可以进行一系列操作，如：</p>
+<ul>
+<li>平方后sum，求最后一维的和得到模的平方</li>
+<li>对应元素相乘后sum，求对应维度的和得到点积结果</li>
+</ul>
+<h4 id="torch.transpose">torch.transpose</h4>
+<p>​ 参数很好理解：直接transpose针对一般的二维矩阵，只需要<code>a.transpose()</code>即可。但是高维矩阵，transpose提供了两个可选参数：</p>
+<ul>
+<li><code>dim0</code> and <code>dim1</code> 表示，这两个dim进行互换（实际上可以不理解为transpose，理解为swap）</li>
+</ul>
+<h4 id="torch.cat">torch.cat</h4>
+<p>​ 简单的concatenate函数。存在两个参数：</p>
+<ul>
+<li>需要concat的矩阵，不可变时使用tuple，可变可以使用list。</li>
+<li>dim（进行concat的维度），要么dim是指定的维度，-1显然表示的是最后一维。比如二维矩阵时，dim = 0表示按行方向进行cat，为1时按列方向进行cat。</li>
+</ul>
+<h4 id="torch.norm">torch.norm</h4>
+<p>​ 求范数。对于向量而言，设<code>a</code>为一个tensor。那么<code>a.norm()</code>直接调用输出2-范数。可以带参数：</p>
+<ul>
+<li>p = order，其实就是p-范数。1就是绝对值，2就是欧几里得。</li>
+<li>dim（可以是int或者tuple）。torch的维度操作确实容易让人困惑。个人的理解是：传入的dim用于组织元素，对需要组织的维度进行范数计算。比如：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = torch.arange(<span class="number">16</span>).view(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">tensor([[[[ <span class="number">0.</span>,  <span class="number">1.</span>],</span><br><span class="line">          [ <span class="number">2.</span>,  <span class="number">3.</span>]],</span><br><span class="line">         [[ <span class="number">4.</span>,  <span class="number">5.</span>],</span><br><span class="line">          [ <span class="number">6.</span>,  <span class="number">7.</span>]]],</span><br><span class="line">        [[[ <span class="number">8.</span>,  <span class="number">9.</span>],</span><br><span class="line">          [<span class="number">10.</span>, <span class="number">11.</span>]],</span><br><span class="line">         [[<span class="number">12.</span>, <span class="number">13.</span>],</span><br><span class="line">          [<span class="number">14.</span>, <span class="number">15.</span>]]]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.norm(p = <span class="number">1</span>, dim = (<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">tensor([[ <span class="number">6.</span>, <span class="number">22.</span>],</span><br><span class="line">        [<span class="number">38.</span>, <span class="number">54.</span>]])</span><br></pre></td></tr></table></figure>
+<p>​ 可以看出，torch将tensor a的2 / 3维度进行合并，相当于[[a, b], [c, d]]，其中a为元素[[0, 1], [2, 3]]。求1-范数即求绝对值之和。需要组织（整合成一个元素）的维度为(2, 3)。二维的例子会更加容易明白。</p>
+<ul>
+<li>keepdim 和sum一样，norm操作也是降维的。</li>
+</ul>
+<h4 id="torch.max-min">torch.max / min</h4>
+<p>​ max/min是存在参数的：<code>dim</code>以及<code>keepdim</code>。dim参数会指定：max/min操作进行的维度。比如一个二维矩阵： <span class="math display">\[
+A=
+\begin{pmatrix}
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
+7 &amp; 8 &amp; 9
+\end{pmatrix}
+\]</span> ​ 如果指定A.max(dim = 0)，指定在0维度（行）方向上求最大值，也就是每一列（沿着行变化方向）求最大。输出是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.return_types.<span class="built_in">max</span>(values=tensor([<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]), indices=tensor([<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>]))</span><br></pre></td></tr></table></figure>
+<p>​ 可以使用解包的方式，左值使用逗号分割。默认情况下会求全局最大值。</p>
+<h4 id="torch.argmax-argmin">torch.argmax / argmin</h4>
+<p>​ 其实max已经可以输出最大值最小值对应的位置了。arg系列可能稍微快一些，因为不用返回值。dim / keepdim用法与max/min是一致的。</p>
+<h4 id="torch.index_select">torch.index_select</h4>
+<p>​ 相当于切片的集成。help中说得很清楚，index_select就是用于取出矩阵中某些元素 / 行列 / 维度的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = torch.randn(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x</span><br><span class="line">tensor([[ <span class="number">0.1427</span>,  <span class="number">0.0231</span>, -<span class="number">0.5414</span>, -<span class="number">1.0009</span>],</span><br><span class="line">        [-<span class="number">0.4664</span>,  <span class="number">0.2647</span>, -<span class="number">0.1228</span>, -<span class="number">1.1068</span>],</span><br><span class="line">        [-<span class="number">1.1734</span>, -<span class="number">0.6571</span>,  <span class="number">0.7230</span>, -<span class="number">0.6004</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>indices = torch.tensor([<span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.index_select(x, <span class="number">0</span>, indices)</span><br><span class="line">tensor([[ <span class="number">0.1427</span>,  <span class="number">0.0231</span>, -<span class="number">0.5414</span>, -<span class="number">1.0009</span>],</span><br><span class="line">        [-<span class="number">1.1734</span>, -<span class="number">0.6571</span>,  <span class="number">0.7230</span>, -<span class="number">0.6004</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.index_select(x, <span class="number">1</span>, indices)</span><br><span class="line">tensor([[ <span class="number">0.1427</span>, -<span class="number">0.5414</span>],</span><br><span class="line">        [-<span class="number">0.4664</span>, -<span class="number">0.1228</span>],</span><br><span class="line">        [-<span class="number">1.1734</span>,  <span class="number">0.7230</span>]])</span><br></pre></td></tr></table></figure>
+<p>​ dim 用于视角选择。dim = 0时，说明当前index是基于行的，一次取出n行。dim = 1则相对于列进行讨论。</p>
+<h4 id="torch.squeeze-unsqueeze">torch.squeeze / unsqueeze</h4>
+<ul>
+<li><code>squeeze</code> 去除所有维度为1的多于维度。dim用于指定哪些维度可以被操作。
+<ul>
+<li>squeeze返回一个与原矩阵共享内存的矩阵（相当于一个ref）</li>
+<li>squeeze可能会在batch训练中，将batch_size = 1造成的第四维将为三维。</li>
+</ul></li>
+<li><code>unsqueeze</code> 就是增加一个维度（为1）。参数与squeeze一致。</li>
+</ul>
+<h4 id="的作用">“-1”的作用</h4>
+<p>​ 与矩阵乘法中使用None做索引类似，-1在torch中也有很多作用。比如最常用的：</p>
+<ul>
+<li>a.view(1, -1)与a.view(-1, 1)。此处-1表示，由系统自主确定此处的值，-1称为推测。但是只有一维可以被推测，高于1维没办法确定性推测。但-1还是有一些奇怪的使用：</li>
+<li>sum(dim = -1) 此处是什么意思？这与-1作为索引一致。-1为最后一个，则选择最后一维进行sum操作。通常为列操作。</li>
+</ul>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/" title="CNN - Capsule Neural Networks">https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/" rel="prev" title="2D体积光绘制算法设计">
+                  <i class="fa fa-chevron-left"></i> 2D体积光绘制算法设计
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="next" title="SVM算法与实现">
+                  SVM算法与实现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

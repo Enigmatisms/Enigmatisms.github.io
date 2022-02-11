@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="CUDA II  I. Introduction ​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CUDA踩坑实录【2】">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="CUDA II  I. Introduction ​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/zbuf.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/para.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/flow.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/nvvp.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/cuda.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-24-07.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-26-17.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-28-26.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic0.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic3.png">
+<meta property="article:published_time" content="2021-10-15T14:20:52.000Z">
+<meta property="article:modified_time" content="2021-11-24T07:43:52.726Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="CUDA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/","path":"2021/10/15/CUDA踩坑实录【2】/","title":"CUDA踩坑实录【2】"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CUDA踩坑实录【2】 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cuda-ii"><span class="nav-text">CUDA II</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-introduction"><span class="nav-text">I. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-pf-gpu%E7%AE%A1%E7%BA%BF"><span class="nav-text">II. PF-GPU管线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-text">2.1 之前的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF"><span class="nav-text">2.2 渲染管线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">III. 算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%BB%A3"><span class="nav-text">3.1 第一代</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E9%9D%A2%E5%89%94%E9%99%A4"><span class="nav-text">3.1.1 背面剔除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E7%BA%BF%E6%AE%B5z-buffer"><span class="nav-text">3.1.2 单线段Z buffer*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%9D%83%E9%87%8D"><span class="nav-text">3.1.3 相似度权重</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%8B%E5%90%8E%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-text">3.2 之后的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stream-concurrency"><span class="nav-text">3.3 Stream Concurrency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E5%8A%A0%E9%80%9F%E5%B0%9D%E8%AF%95"><span class="nav-text">3.4 一些其他的加速尝试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E6%A0%B7%E7%82%B9%E4%B8%8D%E8%B6%B3"><span class="nav-text">3.5 采样点不足</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9D%91"><span class="nav-text">3.6 一些坑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-text">IV. 实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B2%92%E5%AD%90%E6%BB%A4%E6%B3%A2%E6%95%88%E6%9E%9C%E4%B8%80%E8%A7%88"><span class="nav-text">4.1 粒子滤波效果一览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#profile%E7%BB%93%E6%9E%9C"><span class="nav-text">4.2 Profile结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9F%E5%BA%A6%E8%AF%B4%E6%98%8E"><span class="nav-text">4.3 速度说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E5%BC%A0%E5%9B%BE"><span class="nav-text">4.4 四张图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CUDA踩坑实录【2】
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-15 22:20:52" itemprop="dateCreated datePublished" datetime="2021-10-15T22:20:52+08:00">2021-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-11-24 15:43:52" itemprop="dateModified" datetime="2021-11-24T15:43:52+08:00">2021-11-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="cuda-ii">CUDA II</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用... 等等。</p>
+<p>​ 为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的<a href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">【Particle Filter Simulation】</a>这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为 <strong><u>激光雷达仿真器LiDARSim2D</u></strong>的一个补充模块，现在更新在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">[仿真器repo：LiDARSim2D]</a>下。</p>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png"></p>
+<center>
+Figure 1. 粒子广场
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-pf-gpu管线">II. PF-GPU管线</h2>
+<h3 id="之前的算法">2.1 之前的算法</h3>
+<p>​ 之前的粒子滤波基于Volume2D算法，主要问题有两个：</p>
+<div class="tabs" id="algos"><ul class="nav-tabs"><li class="tab active"><a href="#algos-1">速度慢</a></li><li class="tab"><a href="#algos-2">二维定位</a></li></ul><div class="tab-content"><div class="tab-pane active" id="algos-1"><p>不是说Volume2D算法慢，Volume2D算法虽然是性能瓶颈，但是单次也能只花0.2ms就算出结果来。而问题是，粒子滤波需要计算成千上万次，0.2ms在2000粒子的情况下，经过8线程加速，也就大概6fps的样子，远远达不到实时性要求。</p></div><div class="tab-pane" id="algos-2"><p>前一版算法，只对2D（x,y）进行了定位，这存在两个问题：</p>
+<ul>
+<li>旋转这个维度，虽然相对平移来说只有一维，但是其对结果的影响一般来说都更大。（旋转导致视角变化，视角变化导致观测可以发生巨大改变）。此外，不做角度维度的滤波使得这个粒子滤波直接失去了当2D建图中的一个附加算法模块的可能。</li>
+<li>为了保证采样充分，三个维度比两个维度需要更多的采样点（比如之前如果是1600=40*40，那么直觉上来说，三维应该需要40*40*40=64000），这就引回到第一个“计算慢”的问题上了（20000点，0.6fps）。</li>
+</ul></div></div></div>
+<p>​ 两个问题都是无法接受的！！！！不过！<strong><u>解决这两个问题的关键，是解决速度问题</u></strong>。速度上去了，那么可以接受更多点的采样，也就能解决维度问题。于是我开始思考如何加速Volume2D计算，Volume2D见<a href="https://enigmatisms.github.io/2021/08/02/Volume2D-Shader-Pro/">[我的博文]</a>。其中最有并行加速希望的地方在这：</p>
+<details class="note warning"><summary><p>长代码段</p>
+</summary>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ParticleFilter::edgeIntersect</span><span class="params">(<span class="type">const</span> Edge&amp; eg, <span class="type">const</span> Eigen::Vector2d&amp; obs, std::vector&lt;<span class="type">double</span>&gt;&amp; range)</span> </span>&#123;</span><br><span class="line">    <span class="type">double</span> angle_start = eg.<span class="built_in">front</span>().<span class="built_in">z</span>(), angle_end = eg.<span class="built_in">back</span>().<span class="built_in">z</span>();</span><br><span class="line">    <span class="type">int</span> id_start = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(<span class="built_in">ceil</span>((angle_start + M_PI) / angle_incre)), </span><br><span class="line">        id_end = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(<span class="built_in">floor</span>((angle_end + M_PI) / angle_incre));</span><br><span class="line">    <span class="keyword">if</span> (id_start == id_end + <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (id_start &gt; id_end) &#123;            <span class="comment">// 奇异角度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = id_start; i &lt; ray_num; i++) &#123;</span><br><span class="line">            <span class="type">double</span> angle = angle_incre * <span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(i) - M_PI;</span><br><span class="line">            <span class="function">Eigen::Vector3d <span class="title">vec</span><span class="params">(cos(angle), sin(angle), angle)</span></span>;</span><br><span class="line">            Eigen::Vector2d intersect = eg.<span class="built_in">getRayIntersect</span>(vec, obs);</span><br><span class="line">            range[i] = intersect.<span class="built_in">norm</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= id_end; i++) &#123;</span><br><span class="line">            <span class="type">double</span> angle = angle_incre * <span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(i) - M_PI;</span><br><span class="line">            <span class="function">Eigen::Vector3d <span class="title">vec</span><span class="params">(cos(angle), sin(angle), angle)</span></span>;</span><br><span class="line">            Eigen::Vector2d intersect = eg.<span class="built_in">getRayIntersect</span>(vec, obs);</span><br><span class="line">            range[i] = intersect.<span class="built_in">norm</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = id_start; i &lt;= id_end; i++) &#123;</span><br><span class="line">            <span class="type">double</span> angle = angle_incre * <span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(i) - M_PI;</span><br><span class="line">            <span class="function">Eigen::Vector3d <span class="title">vec</span><span class="params">(cos(angle), sin(angle), angle)</span></span>;</span><br><span class="line">            Eigen::Vector2d intersect = eg.<span class="built_in">getRayIntersect</span>(vec, obs);</span><br><span class="line">            range[i] = intersect.<span class="built_in">norm</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+<p>​ 但是实际缺很难做，一是因为此处求交点是针对一段折线，需要先旋转数组二分查找。此外，Edge这个数据结构也不方便使用（变长Eigen::Vector2d的deque），还逼得我了解了一下thrust的libcu++ vector。遂放弃加速。</p>
+<h3 id="渲染管线">2.2 渲染管线</h3>
+<p>​ 突然有一天上午，我觉得自己之前很蠢：之前的粒子滤波是写着玩的，要不然求range image的方法也不会是这样（当时因为受Volume2D的启发，想要复用一下这个算法）。事实证明，这个算法不适合求深度图。想到这个，我直接开始思考用激光雷达模型</p>
+<blockquote>
+<p>我称之为：正向法，也即求激光雷达发射光线生成深度图的模型。</p>
+</blockquote>
+<p>​ 深度图获取，在我看来就是一条GPU渲染管线（渲染经常做这个事情啊），而且我觉得本问题用GPU实现实在太适合了，原因有二：</p>
+<ul>
+<li>每个粒子根据此时的位姿求深度图，进而求重采样权重，是完全相互独立的。</li>
+<li>每个粒子内部，渲染深度图使用Z buffer方法，应该是有很不错的并行度的。</li>
+</ul>
+<p>​ 于是我直接设计了一个Z buffer方法：</p>
+<center>
+<img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/zbuf.png" style="zoom:50%;">
+</center>
+<center>
+Figure 2. Z buffer 方法说明
+</center>
+<p>​ Z buffer 很好理解，它与Volume2D的异同是：</p>
+<div class="tabs" id="princ"><ul class="nav-tabs"><li class="tab active"><a href="#princ-1">体积光算法</a></li><li class="tab"><a href="#princ-2">Z Buffer</a></li></ul><div class="tab-content"><div class="tab-pane active" id="princ-1"><p>计算哪些地图边界能被实际观测到（计算遮挡关系，求出没被遮挡的所有边），使用未被遮挡的边计算激光交点以及对应深度。</p></div><div class="tab-pane" id="princ-2"><p>不管遮挡关系，激光与所有可能边相交，取离自己最近的那个值（最小值）。也就是说，Z buffer直接计算所有可能的相交，求最小值。</p></div></div></div>
+<hr>
+<h2 id="iii.-算法设计">III. 算法设计</h2>
+<h3 id="第一代">3.1 第一代</h3>
+<blockquote>
+<p>数据关联越不紧密的，并行的粒度应该越粗。--- 我的理解</p>
+</blockquote>
+<p>​ 这么说的原因是：数据关联紧密的，可能可以使用共享内存。比如本问题中，不同粒子之间，经过背面剔除(back culling)之后的边都不一致，并且观测点也不一致，不适合放在同一个block内部，故一个粒子应该是一个block。而block内部细粒度的并行，应该针对【一个确定粒子下（观测点确定）】的所有地图边（地图两个相连角点确定的线段）（见下图说明：）</p>
+<center>
+<img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/para.png" style="zoom:50%;">
+</center>
+<center>
+Figure 3. 并行说明
+</center>
+<p>​ 不同的观测点位于不同block，同一观测点下的不同线段（比如observing point 1下的地图线段），线段之间是thread并行的（不同颜色线段产生的深度信息是并行计算的）。使用线段而不是Edge作为处理单元以及这样设置并行带来几个好处：</p>
+<ul>
+<li>线段是定长的数据（4个float就可以表示）</li>
+<li>不同block可以在常量内存中共用同一个地图（初始线段）</li>
+<li>同一个block内处理不同线段的thread，可以将back culling的结果输出到一个共享的flag数组上，并且计算的深度值也可以使用共享内存保存，加速内存读写。</li>
+</ul>
+<p>​ 于是初代算法的流程大概是这样：</p>
+<ul>
+<li>观测点数为girdDim.x（也即block数）（10000+），线段数量为blockDim.x（也即线程数）（通常小于400）.</li>
+</ul>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/flow.png"></p>
+<center>
+Figure 4. 算法流程
+</center>
+<p>​ 由于第一代算法几乎就是整个算法的思想主体（之后的都是优化迭代，没有大改），重点说一下。</p>
+<h4 id="背面剔除">3.1.1 背面剔除</h4>
+<p>​ 背面剔除需要flags：输入的是原始地图，原始地图中有些线段是不需要的（背面），在背面剔除函数中每个线程计算自己对应的线段是否是正面，保存在flag中。以下代码块是动态内存分配，平均每个block使用1-2KB的共享内存（很节约）。由于CUDA动态共享内存 <strong><u>只有这一种方法分配</u></strong>，所以跨类型或者多数组是不可能直接写的，需要强转指针（我哥建议我使用reinterpret_cast来完成指针转换，但是我发现这样也没问题）。注意由于分配的是int数组，故在kernel launch时，指定的数组字节数需要为4的整数倍（bool只占1字节，所以可能需要padding）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> __shared__ <span class="type">int</span> range[];          <span class="comment">//...一个数据类型分为了两个不同意义以及类型的块</span></span><br><span class="line"><span class="type">bool</span>* flags = (<span class="type">bool</span>*)(&amp;range[range_num]);</span><br></pre></td></tr></table></figure>
+<h4 id="单线段z-buffer">3.1.2 单线段Z buffer*</h4>
+<p>​ 假设本thread的id对应的线段需要被处理（事实上如果不需要被处理，会直接return，这确实会引起warp divergence，但是overhead可以忽略），那么就需要计算这个线段产生的局部深度图。</p>
+<p>​ 其中的难点在于控制逻辑：<strong><u>-PI~PI</u></strong>是atan2的角度输出范围，角度奇异性（由于是逆时针，一般情况下起始点角度小于终止点，但是跨<span class="math inline">\(\pm\pi\)</span>界限（x负半轴）时会出现奇异）会影响数组下标 / 角度id等等的计算，这里不多讲，有兴趣直接看代码吧。</p>
+<p>​ 此外重要的一点就是：Z buffer保存的始终是某个角度上深度的最小值，但是如何计算最小？需要我们把所有线段深度算出来然后求最小？<strong><u>显然不是，这样太慢了，而且需要线程间数据交流（共享内存）</u></strong>。我们考虑增量式的方法：</p>
+<div class="note primary"><p>​ 计算值每次和深度值数组range（共享内存）对应id进行比较，保留更小的值。但是这会涉及到一个问题：<strong><u>线程访问冲突</u></strong>。</p>
+</div>
+<div class="note success"><p>​ 使用原子操作！原子地进行比较并且替换为更小值就行。但是很可惜：<strong><u>CUDA不支持float原子比较</u></strong>。</p>
+</div>
+<p>​ 那么怎么办呢？stackoverflow上有人给了方法：</p>
+<div class="note info"><p>​ 把Float直接按位解释为int，对此int进行一些计算，转化为一个可以保序的（ordered）int，对int进行原子比较可以使用atomicMin。</p>
+</div>
+<p>​ 关于Ordered int转换，见这篇别人写的博客<a target="_blank" rel="noopener" href="http://stereopsis.com/radix.html">[Float radix sort]</a>, 以及stackoverflow上的<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/17399119/how-do-i-use-atomicmax-on-floating-point-values-in-cuda">[一个回答]</a>（最高赞的是错的，Informate.it写的是对的）。原子操作十分香，而且感觉很优雅。</p>
+<h4 id="相似度权重">3.1.3 相似度权重</h4>
+<p>​ 所有线程计算结束之后（相当于本粒子对应观测点的深度图算完了），一个block内计算参考深度图与本观测点深度图的L1误差<span class="math inline">\(L_e\)</span>，<span class="math inline">\(1/(L_e+1)\)</span>是本观测点的权重。</p>
+<h3 id="之后的优化">3.2 之后的优化</h3>
+<p>​ 第一代算法存在一些速度缺陷：</p>
+<ul>
+<li>使用double，进行计算：CUDA对double并不是特别友好，一些double函数比如atan2就更不用说了。int也是滥用了，有些数字使用short即可，完全不必用int。</li>
+<li>Z buffer中的线段求交点函数<code>__device__ __forceinline__ float getRange(...)</code>内部过多Eigen或者自定义数据结构的重复索引操作，并且有些计算没有复用。这个函数是整个单线段Z buffer的瓶颈。</li>
+<li>使用Eigen，库虽然方便，但是速度慢了</li>
+<li><strong><u>（重要）：</u></strong>并行度低，没有使用流水线(stream)，单kernel，GPU占用巨大。</li>
+</ul>
+<p>​ 第一个问题优化之后，使得我的算法从与CPU差不多的速度升到的CPU的五倍（相比于8线程），第二三个问题修正使得我的速度上升为CPU速度的16倍（相比于8线程），而profile以及流水线优化使得我的算法先后达到了32x，45x加速！所以我重点说一下stream concurrency。</p>
+<h3 id="stream-concurrency">3.3 Stream Concurrency</h3>
+<p>​ stream，翻译是“流”，我将其理解成为流水线。实际上是GPU的一个操作“队列”：</p>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/nvvp.png"></p>
+<center>
+Figure 5. stream示意图[1]
+</center>
+<p>stream有这样的特性：</p>
+<ul>
+<li>如果一个kernel或者是cuda操作（比如Memcpy）在同一个stream下被launch，那么是按照issue-order（发射的顺序）执行（与之相对的是乱序发射）。</li>
+<li>如果分配到不同的stream下，那么可以乱序执行，并且根据GPU资源利用情况，可能有overlap。</li>
+</ul>
+<p>​ 那么显然，overlap多大，说明GPU越不容易空闲，很可能可以有几个kernel函数的并行执行，相当于流水线操作，上一个kernel还没执行完，下一个kernel已经开始了。如果不指定stream，使用default stream，那么profile得到的图会是一个完全阶梯状的，阶梯之间一般没有并行（issue-order限制），一开始我就是单stream执行的，<strong><u>并且是一个超大的kernel（需要处理上万个block）</u></strong>。</p>
+<p>​ 当我意识到这一点之后，我将kernel拆分了，反复调用particle filter这个核函数，不过每次只处理不到100个block。开始时跑的效果并不好，<strong><u>直到我使用了CUDA Profiler</u></strong>，将运行状态绘制出来之后发现，诶？完全阶梯状的kernel调用，并且profiler也告诉我：“<strong><u>kernel overlap too small: 0%</u></strong>”，也就是说，block几乎是顺序计算的，这样的效率太低！</p>
+<p>​ 查阅了很多资料[1][2][3]，最后确定使用stream：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cudaStream_t streams[<span class="number">8</span>];</span><br><span class="line">streams[<span class="number">0</span>] = cudaStreamDefault;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    <span class="built_in">cudaStreamCreateWithFlags</span>(&amp;streams[i],cudaStreamNonBlocking);</span><br><span class="line"><span class="comment">// cudaProfilerStart();</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; cascade_num; i++) &#123;</span><br><span class="line">    particleFilter &lt;&lt;&lt; <span class="number">16</span>, seg_num, shared_to_allocate, streams[i % <span class="number">8</span>]&gt;&gt;&gt; (...);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">CUDA_CHECK_RETURN</span>(<span class="built_in">cudaDeviceSynchronize</span>());</span><br><span class="line"><span class="comment">// cudaProfilerStop();</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    <span class="built_in">cudaStreamDestroy</span>(streams[i]);</span><br></pre></td></tr></table></figure>
+<p>​ 创建了不同的stream（cudaStreamNonBlocking），循环地把不同的kernel（处理particles的不同offset位置）发射到不同的stream上，实现更加紧凑的并行。cudaStreamDefault 在CUDA7之后不会有之前的隐式同步问题（默认stream会导致操作串行化），所以可以使用。</p>
+<p>​ 当然，流水线最后的级数，block的大小都是profile试着调整过来的。32x加速的版本，使用的grid有点过小（4个粒子，8个streams）：</p>
+<ul>
+<li>4个粒子的kernel会迅速执行完，但是kernel时间并没有长到可以充分利用流水线调度空余时间。</li>
+<li>最后使用16个粒子的kernel，速度提到了45x（profile之后突然想到的）</li>
+</ul>
+<h3 id="一些其他的加速尝试">3.4 一些其他的加速尝试</h3>
+<p>​ 以下是证明在本问题中无效的加速尝试：</p>
+<ul>
+<li>动态并行（dynamic parallelism，这也是在上一篇CUDA博客中折磨我的东西）。<strong><u>这个完全没用！</u></strong>反倒是增大了每个kernel的线程资源消耗（一个block就只有最多1024线程），导致算法变得更慢。很显然嘛，一个block大概200-300个线程，那么每个线程还得再launch一个子kernel（多线程），显然资源会不够。</li>
+<li>内存吞吐流水操作：CUDA希望我做这个事情：内存的移动是小块小块的，不要一起完成，否则没有太大的流水线加速效果。但实际情况是：即使是个几百MB的global memory复制，也非常迅速地完成了（貌似没到1ms）</li>
+</ul>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/cuda.png"></p>
+<center>
+Figure 6. CUDA stream化的优势
+</center>
+<ul>
+<li>更加激进的位宽优化（能换short就short了），剩余的一些优化用处不大。</li>
+<li>等等等等：尝试了很多方法，不一一列举了。</li>
+</ul>
+<h3 id="采样点不足">3.5 采样点不足</h3>
+<p>​ 旋转对算法结果的影响能力比平移大。试想一下自己平移一些之后看到的世界与旋转一点看到的世界的差异就知道了。开始时，角度的采样明显是欠缺的：</p>
+<ul>
+<li>三个轴上都使用均匀分布随机数。因为开始时我希望保证三个维度下的采样应该一致，但这种做法并不好，因为我 <strong><u>并不能保证</u></strong>，在每一个平移位置，旋转的采样都足够了。</li>
+</ul>
+<p>​ 之后我使用了如下的策略：12800个点，先在平移上均匀采样1280个点，每个平移位置：360度等间隔采样（10个点，36度一个），那么一个平移位置对应了10个点，再对这10个点加少量位置噪声。这种策略，<strong><u>可以保证每个平移位置的角度采样都是充分的</u></strong>，就不会因为角度采样过于随机导致视角缺失。</p>
+<h3 id="一些坑">3.6 一些坑</h3>
+<ul>
+<li>Eigen/CUDA不兼容的坑：在同学的RTX 2070设备上测试时，他的驱动是CUDA 10.2，Eigen 3.3.4，我的驱动CUDA 10.1，Eigen相同，我可以编译，他报错：找不到<code>Eigen 找不到&lt;math_functions.hpp&gt;</code>：把Eigen升级到3.4.0 （直接上Gitlab爬下它的源码进行include），正确选择arch代数（RTX 2070至少应该选arch=sm_70? 我的MX150是sm_61）就可以通过编译。</li>
+<li>std::atomic库与CUDA不兼容：我想把之前写的键盘操作用在CUDA可视化中，但是编译不过，CUDA中的std::atomic部分类型的copy constructor是deleted functions，没有实际意义。最后没有解决，放弃了，直接使用OpenCV。</li>
+<li>nvcc要加一些flags才能避免Eigen的一些傻逼warning：<code>--expt-relaxed-constexpr -Xcudafe --diag_suppress=esa_on_defaulted_function_ignored</code>，CMake添加这个：<code>add_compile_options(-Wno-deprecated-declarations)</code></li>
+<li>__constant__ memory访问的问题：定义__constant__ 变量，是不能用extern的，并且constant内存是已经存在的，只需要声明用多少(不能malloc)，只要能看到这个变量的定义，那么这个变量对能看到它的函数都是全局的。<strong><u>在不同文件中使用同一个constant memory变量，需要：</u></strong>打开CUDA的separate compilation选项（目的是生成一个relocatable的代码），separate compilation在之前的动态并行中说过。</li>
+<li>一些结构体定义的函数如果需要在GPU上用，要声明为__host__ __device__ （双重属性），这样的话，CPU / GPU上会各有一份实现。</li>
+<li>带cuda开头的cuda runtime API一般都是host only，不要使用在kernel中。</li>
+<li>使用nvvp进行可视化profiling，需要安装java8，配置jre-1.8（针对Ubuntu18.04），环境错了是打不开profile工具的。并且profile的时候需要有root权限。</li>
+<li>粒子的运动：每个粒子应该朝自己的方向前进后退左移右移，而不是与控制点保持一样的方向。方向一致的运动结果是有问题的。</li>
+</ul>
+<hr>
+<h2 id="iv.-实验结果">IV. 实验结果</h2>
+<h3 id="粒子滤波效果一览">4.1 粒子滤波效果一览</h3>
+<p>​ 6fps慢速播放效果：</p>
+<video src="cv_output1.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 1. 慢速播放效果
+</center>
+<video src="cv_output2.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 2. 常速播放效果（特意找了一个较长时间没有收敛的情况）
+</center>
+<h3 id="profile结果">4.2 Profile结果</h3>
+<p>​ 小block的kernel方便进行kernel之间的并发，而大block的kernel就可以明显看出执行偏顺序化了。</p>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-24-07.png"></p>
+<center>
+Figure 7. 8 streams 小block kernel
+</center>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-26-17.png"></p>
+<center>
+Figure 8. 8 streams 大block kernel
+</center>
+<p>​ 极端情况是单stream大block，由于资源占用过多，kernel之间完全是串行执行了。</p>
+<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/Screenshot%20from%202021-10-16%2014-28-26.png"></p>
+<center>
+Figure 9. 单 stream 大block kernel
+</center>
+<h3 id="速度说明">4.3 速度说明</h3>
+<p>​ 已经测试的速度（12800粒子，$$115度激光，角分辨率0.5度，共330个激光点的情况）：</p>
+<ul>
+<li>GeForce MX150: 约为42fps</li>
+<li>GeForce RTX 2070: 约为116.5fps</li>
+</ul>
+<h3 id="四张图">4.4 四张图</h3>
+<p>​ 红色粒子为采样，红色粒子内部有黄色箭头（很小），指示了粒子的方向。蓝绿色点是所有粒子按照权重加权平均的结果（带权重心），黄色点是真值。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic0.png"></th>
+<th style="text-align: center;"><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">开始阶段：粒子簇在平移均匀分布（略带噪声）</td>
+<td style="text-align: center;">移动一段距离，每个粒子都更新了自己的位置</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic2.png"></td>
+<td style="text-align: center;"><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic3.png"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">收敛中：粒子均值已经收敛到真值附近</td>
+<td style="text-align: center;">收敛，有偏差，这是初值估计可以容忍的</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://developer.download.nvidia.com/CUDA/training/StreamsAndConcurrencyWebinar.pdf">Steve Rennich - CUDA C/C++ Streams and Concurrency</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://www.olcf.ornl.gov/wp-content/uploads/2020/07/07_Concurrency.pdf">Nvidia Bob Crovella CUDA Concurrency</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://on-demand.gputechconf.com/gtc/2014/presentations/S4158-cuda-streams-best-practices-common-pitfalls.pdf">Justin Luitjens - CUDA streams best practices common pitfalls</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/" title="CUDA踩坑实录【2】">https://enigmatisms.github.io/2021/10/15/CUDA踩坑实录【2】/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/GPU/" rel="tag"><i class="fa fa-tag"></i> GPU</a>
+              <a href="/tags/CUDA/" rel="tag"><i class="fa fa-tag"></i> CUDA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/15/Correspondence-Problem-Papers/" rel="prev" title="Correspondence Problem Papers">
+                  <i class="fa fa-chevron-left"></i> Correspondence Problem Papers
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/" rel="next" title="特龙智慧-GMapping">
+                  特龙智慧-GMapping <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

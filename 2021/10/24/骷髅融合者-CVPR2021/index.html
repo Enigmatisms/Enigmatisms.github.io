@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="骷髅融合者  I. Intros ​ 想看看CVPR2021上都有关于点云配准或者点云处理都有什么样的文章，网上搜刮了几篇，骷髅融合者就是其中一篇。这篇论文的作者貌似是上海交大的本科生，嗯 本科CVPR一作，卢策吾老师团队，可以说是很nb了。本论文提出的思想，个人认为比较简单（可能是因为比较复杂的部分被PointNet++掩盖了，文中也没有使用时下最为流行的【变形金刚】）。并且看完Intro">
+<meta property="og:type" content="website">
+<meta property="og:title" content="骷髅融合者-CVPR2021">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="骷髅融合者  I. Intros ​ 想看看CVPR2021上都有关于点云配准或者点云处理都有什么样的文章，网上搜刮了几篇，骷髅融合者就是其中一篇。这篇论文的作者貌似是上海交大的本科生，嗯 本科CVPR一作，卢策吾老师团队，可以说是很nb了。本论文提出的思想，个人认为比较简单（可能是因为比较复杂的部分被PointNet++掩盖了，文中也没有使用时下最为流行的【变形金刚】）。并且看完Intro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-24%2001-40-07-16350111328661.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-23%2023-45-48-16350111328672.png">
+<meta property="article:published_time" content="2021-10-23T17:44:06.000Z">
+<meta property="article:modified_time" content="2021-10-31T14:55:08.461Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta property="article:tag" content="点云">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-24%2001-40-07-16350111328661.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/","path":"2021/10/24/骷髅融合者-CVPR2021/","title":"骷髅融合者-CVPR2021"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>骷髅融合者-CVPR2021 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85"><span class="nav-text">骷髅融合者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-%E8%AE%BA%E6%96%87%E6%80%9D%E6%83%B3"><span class="nav-text">II. 论文思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E6%83%B3%E6%A6%82%E8%BF%B0"><span class="nav-text">2.1 思想概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%AE%E7%82%B9"><span class="nav-text">2.2 亮点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E8%A7%89%E5%BE%97%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">2.3 个人觉得存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-text">2.3.1 稀疏性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E9%82%BB%E8%BF%91%E6%90%9C%E7%B4%A2"><span class="nav-text">2.3.2 最邻近搜索</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          骷髅融合者-CVPR2021
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-24 01:44:06" itemprop="dateCreated datePublished" datetime="2021-10-24T01:44:06+08:00">2021-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-10-31 22:55:08" itemprop="dateModified" datetime="2021-10-31T22:55:08+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="骷髅融合者">骷髅融合者</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ 想看看CVPR2021上都有关于点云配准或者点云处理都有什么样的文章，网上搜刮了几篇，骷髅融合者就是其中一篇。这篇论文的作者貌似是上海交大的本科生，嗯 本科CVPR一作，卢策吾老师团队，可以说是很nb了。本论文提出的思想，个人认为比较简单（可能是因为比较复杂的部分被PointNet++掩盖了，文中也没有使用时下最为流行的【变形金刚】）。并且看完Introduction之后，我就觉得这个思想好像在哪里见过：嗷，原来是我的灯条检测中含有这个方法的弱弱化版。</p>
+<p>​ 本短篇博客只做该论文的一个简单分析，并不附带复现（如果要带复现的话，一是需要时间，二是需要了解PointNet++）。论文的地址是：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.10814">arXiv: Skeleton Merger: an Unsupervised Aligned Keypoint Detector</a></p>
+<p><img src="/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-24%2001-40-07-16350111328661.png"></p>
+<center>
+Figure 1. Skeleton Merger 论文效果
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-论文思想">II. 论文思想</h2>
+<h3 id="思想概述">2.1 思想概述</h3>
+<p><img src="/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-23%2023-45-48-16350111328672.png"></p>
+<center>
+Figure 2. Skeleton Merger 论文思想框架
+</center>
+<p>​ 作者使用了一种“重构误差”的思想，使用一个更简单的表征，来重构一个点云，使得原始点云与生成的点云在某个metric下最为相似。而我在RM时做的工作：无监督优化算法的灯条检测，也是类似：</p>
+<ul>
+<li>找两个key points（灯条的端点），使用灯条的端点根据hand-crafted重构方法，重构出灯条，使得生成的灯条与原始灯条图像的L2差距最小。（所以可以说，我大二下学期写的这个算法是本论文的弱弱化）</li>
+</ul>
+<p>​ 本文的思想大概可以被总结如下：</p>
+<div class="note danger no-icon"><p>使用PointNet++，生成一个加权矩阵，加权后可以生成k个key points，同时，PointNet++也会输出一些全局信息。生成的key points自然形成一个完全图。</p>
+</div>
+<div class="note warning no-icon"><p>使用PointNet++输出的全局信息，过3层MLP，生成【activation strength】，此后我们会知道，这实际就是skeleton完全图中，每条边存在的概率。</p>
+</div>
+<div class="note info no-icon"><p>完全图上，每条边都可以产生一个sub-cloud（均匀采样得到，点数与长度成正比）。之后通过一个网络（decoder），学习每一个点的offset（相对于骨架的移动），使得生成的点云可以表征更加复杂的形状。</p>
+</div>
+<div class="note success no-icon"><p>使用Composite Chamfer Distance（CCD，一种改进的Chamfer Distance方法）作为loss函数，使得原始点云与生成点云的CCD最小【<a href="#unsup">无监督模型的生成式loss</a>】。</p>
+</div>
+<p>​ 本文不涉及任何网络结构以及网络设计，只是分析一下：</p>
+<ul>
+<li>其方法有哪些亮点</li>
+<li>个人认为其方法可能存在哪些不足</li>
+</ul>
+<h3 id="亮点">2.2 亮点</h3>
+<p>​ 本人认为，此论文突出的两个亮点就是：</p>
+<ul>
+<li>skeleton重构误差</li>
+<li>CCD误差函数的设计</li>
+</ul>
+<p>​ 首先，通过skeleton重建点云，来辅助判定key points的选取效果，可以使得其达到无监督的目的。在MoCo论文分析中，实际上已经说过，无监督的loss也就主要是那么两种（据我目前所知的“主要”）：</p>
+<ul>
+<li>对比loss（以MoCo为代表的），主动生成匹配与不匹配的样本，最大化不同类别特征之间的差别</li>
+<li>生成式loss（autoencoder思想），主要思想是：学出来的特征能够经过某种方式重构输入，特征学得越好，从直觉上来说，重构效果越好。</li>
+</ul>
+<p>​ 第二种方法的显著问题就是：一般会有比较大的计算开销（特别是重构图像时，长采样、反卷积结构等等）。个人感觉，本文是一种生成式的loss，但是由于：（1）key points（对应的边）具有稀疏性（2）均匀采样密度可控性，计算开销可能不会太难以接受。</p>
+<p>​ 本文直接对key points形成的完全图进行重构，生成一个个的sub-cloud，但是由于有些边采样出的点，实际是不存在的，应该在其存在性上就予以抹杀（而非在offset学习阶段，强行将其拉回到某个位置），故作者引入了activation strength，每条边都将有一个对应的activation strength，相当于是边权，边权小的边对应的生成点在reconstruction过程中可能被丢弃，并且在loss计算过程中，也可能不会参与。</p>
+<p>​ 此外就是CCD误差函数的设计。CCD是Chamfer distance的一个扩展，Chamfer distance可以简单地将其理解成：最邻近点距离。在一个n维metric space中给定两个集合A，B，（比如）A中的某个点<span class="math inline">\(p_i\)</span>到B中的最近点的距离，就是Chamfer distance。</p>
+<p>​ 在本问题中，集合A、B分别是生成点云与原始点云。但是需要注意，Chamfer distance是单向的，那么需不需要构建成双向对称的loss函数呢？答案是否定的，本问题本身就不是一个对称的问题。作者做了一个分类：</p>
+<div class="tabs" id="class"><ul class="nav-tabs"><li class="tab active"><a href="#class-1">正向loss</a></li><li class="tab"><a href="#class-2">反向loss</a></li></ul><div class="tab-content"><div class="tab-pane active" id="class-1"><p>对每一个生成点云中的点<span class="math inline">\(p_i\)</span>，计算<span class="math inline">\(p_i\)</span>在原始点云中的最近点<span class="math inline">\(q_i\)</span>，并且计算对应的Chamfer distance，使之最小化，这是在提升生成点云的fidelity（准确性），也就是说：生成点云的“大致形状”应该与原始点云类似。</p></div><div class="tab-pane" id="class-2"><p>对每一个原始点云中的点<span class="math inline">\(q_j\)</span>，计算<span class="math inline">\(q_j\)</span>在生成点云中的最近点<span class="math inline">\(p_j\)</span>。这就是不对称性的体现：即便生成点云每个点在原始点云上都有很好的对应点，<strong><u>由于生成点云可能具有稀疏性</u></strong>，反过来，原始点云的某些点可能没有办法在生成点云上找到很好的对应点。数学上来说，这就是：单射和满射。正向loss如果很小，只能保证生成点云的<strong><u>fidelity</u></strong>问题，能建立一个很好的 生成点云<span class="math inline">\(\rightarrow\)</span>原始点云的单射，但是反过来，如果原始点云的每个点也能在生成点云上有很好的对应，那么可能可以建立一个原始点云<span class="math inline">\(\rightarrow\)</span>生成点云的单射，使得 <strong><u>coverage</u></strong>问题得到解决。</p></div></div></div>
+<p>​ 正向fidelity loss很简单，就是这样： <span class="math display">\[
+\begin{equation}\label{fid}
+L_f=\sum_k a_k\sum_i\Vert p_i-q_i\Vert^2,q_i=\mathop{\arg\min}_{q}\Vert p_i-q_i\Vert
+\end{equation}
+\]</span> ​ 而反向coverage loss就没有那么简单了。首先，加入反向loss也如上式一样，定义成对称的，那么最终结果将会是：我直接让所有<span class="math inline">\(a_i\)</span>训练成0得了，没有点存在，就没有loss！显然这是很有问题的。</p>
+<p>​ 一方面，我们希望<span class="math inline">\(a_i\)</span> (activation strength)可以起到作用，另一方面我们又希望避免上述问题，我们也希望不会因为公式<span class="math inline">\(\eqref{fid}\)</span>内部的<span class="math inline">\(a_i\)</span>存在，使得<span class="math inline">\(a_i\)</span>倾向于变小。作者提出了两个策略：</p>
+<ul>
+<li>为了体现“coverage”，作者将会【一配多】，也就是说，不再寻找距离最小的一个点，而是：查到点<span class="math inline">\(q_i\)</span>后，删除<span class="math inline">\(q_i\)</span>来源的那条边（以及所有点），并且累加本边对应的activation strength到一个本地的（初始化为0的累加器）变量w上。如果w小于1，那就继续在剩余点中查找最小距离点，重复上述操作，直到w&gt;1或者没有客用边。</li>
+<li>假设已经没有可用边了，而w&lt;1，则进行惩罚（<strong><u>说明我们让<span class="math inline">\(a_i\)</span>学得太小了</u></strong>），在loss上增加<span class="math inline">\(\gamma (1-w)\)</span>，论文中<span class="math inline">\(\gamma\)</span>选取20.0，比较大。</li>
+</ul>
+<p>​ 上述操作可以保证：<span class="math inline">\(a_i\)</span>不会因为优化CCD而变得很小。</p>
+<h3 id="个人觉得存在的问题">2.3 个人觉得存在的问题</h3>
+<h4 id="稀疏性问题">2.3.1 稀疏性问题</h4>
+<p>​ 作者如何重建其生成点云的呢？首先：根据图结构，每条边进行均匀采样。每条线段上有若干个点。此后使用一个网络进行offset学习。这样会存在一定问题：重建的点云可能就是很稀疏，导致CCD coverage loss计算总是比较大。比如：一个圆柱型的物体，在同一高度上，绕轴不同角度可能存在很多个点，但对于本论文的方法，一个高度上就一个点，那么对于圆柱型物体，只能使用螺旋式的offset，这会使得某些位置上比较稀疏。</p>
+<p>​ 要解决这个问题，可能可以在初始时同一个位置采样很多个点，之后使得这些点，在过本点，垂直图结构边的平面上扩散开来。<strong><u>我认为这样的话，学习的参数可以减少（每个点只需要学习一个参数而不是三个），也可以解决稀疏问题。</u></strong></p>
+<h4 id="最邻近搜索">2.3.2 最邻近搜索</h4>
+<p>​ 这只说下我的担忧：最邻近搜索快速吗？当然，可以使用一些加速的数据结构，比如8叉树，KD树等等，但是能有多快呢？不好说，我没有做过实验，但是这也就是非完全的生成式loss遇到的问题，loss构建时的稀疏性问题。所以个人认为，此处可以将最邻近loss换为别的loss。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/" title="骷髅融合者-CVPR2021">https://enigmatisms.github.io/2021/10/24/骷髅融合者-CVPR2021/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/%E7%82%B9%E4%BA%91/" rel="tag"><i class="fa fa-tag"></i> 点云</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/" rel="prev" title="特龙智慧-GMapping">
+                  <i class="fa fa-chevron-left"></i> 特龙智慧-GMapping
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/" rel="next" title="位姿变换与六轴仿真">
+                  位姿变换与六轴仿真 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

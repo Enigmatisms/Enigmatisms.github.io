@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。   Figure 1. 2D-2D单应匹配">
+<meta property="og:type" content="website">
+<meta property="og:title" content="协方差 &amp; 特征值的交集">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Eigens &amp; Covs  ​ 线性代数确实很有趣，但是展开成\(\sum\)的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵&#x2F;向量求导）（烦人的分子分母布局）。   Figure 1. 2D-2D单应匹配">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/normal.JPG">
+<meta property="article:published_time" content="2021-03-12T14:45:03.000Z">
+<meta property="article:modified_time" content="2021-03-14T04:52:25.152Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/","path":"2021/03/12/协方差-特征值的交集/","title":"协方差 & 特征值的交集"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>协方差 & 特征值的交集 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#eigens-covs"><span class="nav-text">Eigens &amp; Covs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E7%89%B9%E5%BE%81%E9%87%8F%E4%B8%8E%E6%B3%95%E5%90%91%E9%87%8F%E4%BC%B0%E8%AE%A1"><span class="nav-text">矩阵特征量与法向量估计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E7%9B%B4%E7%BA%BF%E6%B3%95%E5%90%91%E9%87%8F%E4%BC%B0%E8%AE%A1"><span class="nav-text">二维直线法向量估计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d%E5%9B%BE%E5%83%8F%E9%85%8D%E5%87%86%E9%97%AD%E5%BC%8F%E8%A7%A3"><span class="nav-text">2D图像配准闭式解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#appendix"><span class="nav-text">Appendix</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99%E4%BB%A5%E5%8F%8A%E5%9F%BA%E6%9C%AC%E7%BB%93%E8%AE%BA%E8%AF%81%E6%98%8E"><span class="nav-text">向量矩阵求导法则以及基本结论证明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%B3%95%E5%88%99"><span class="nav-text">基本法则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E5%88%97%E6%B1%82%E5%AF%BC"><span class="nav-text">行列求导</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%BF%B9%E7%9A%84%E6%B1%82%E5%AF%BC%E6%B3%95%E5%88%99"><span class="nav-text">矩阵迹的求导法则</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          协方差 & 特征值的交集
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-12 22:45:03" itemprop="dateCreated datePublished" datetime="2021-03-12T22:45:03+08:00">2021-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-14 12:52:25" itemprop="dateModified" datetime="2021-03-14T12:52:25+08:00">2021-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="eigens-covs">Eigens &amp; Covs</h1>
+<hr>
+<p>​ 线性代数确实很有趣，但是展开成<span class="math inline">\(\sum\)</span>的形式就没有趣了。本文意在分析矩阵特征值在某些场合下的应用以及一些线性代数结论（特别是矩阵/向量求导）（烦人的分子分母布局）。</p>
+<p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/stitch.jpg"></p>
+<center>
+Figure 1. 2D-2D单应匹配
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="矩阵特征量与法向量估计">矩阵特征量与法向量估计</h2>
+<p>​ 对于一个给定矩阵A而言，其特征方程是： <span class="math display">\[
+\begin{equation}\label{eigen}
+\begin{array}{l}
+A\pmb{x}=\lambda\pmb{x}\\
+(I-\lambda A)\pmb{x}=\pmb{0}
+\end{array}
+\end{equation}
+\]</span> ​ 以上两个式子定义实际是同一个意思，只不过写法不同。如何理解特征（eigen）量呢？对于特征向量<span class="math inline">\(\pmb{x}\)</span>，在矩阵A的映射下（线性变换），会导致<span class="math inline">\(\pmb{x}\)</span>的方向完全不变（可能反向）。而另一方面，空间变换与矩阵运算的联系也有着紧密的联系，比如3 * 3矩阵就能完全表征二维平面上的平移以及旋转。实际上 3 * 3矩阵能表示任何的透视（perspective）变换： <span class="math display">\[
+\begin{equation}
+(x&#39;,y&#39;,z&#39;)^T=\begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13} \\
+a_{21} &amp; a_{22} &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{pmatrix}\begin{pmatrix}
+x \\
+y \\
+z
+\end{pmatrix}
+=A\pmb{x}
+\end{equation}
+\]</span> ​ 那么对A可以求其特征量。这些特征量表征的是什么呢？为了简单以及便于人类进行空间想象，以下讨论主要集中于二维矩阵与三维矩阵的讨论。</p>
+<h3 id="二维直线法向量估计">二维直线法向量估计</h3>
+<p>​ 实际上，在二维的情况下，估计法向量与估计直线是同一个问题。假设有一堆点，如下图所示，存在噪声并且由于实际表面是个曲面，需要选择一个合理的范围，利用范围内点的信息进行法向量估计：</p>
+<p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/normal.JPG"></p>
+<center>
+Figure 2. 2D法向量估计
+</center>
+<p>​ 我们需要估计一条直线（法向量形式）： <span class="math display">\[
+\begin{equation}\label{normal}
+a^T\pmb{x}-b=0
+\end{equation}
+\]</span> ​ 那么对于n个离散的点<span class="math inline">\((x_i,y_i)\rightarrow\pmb{x}_i\)</span>，如果能找到参数<span class="math inline">\(a,b\)</span>使得： <span class="math display">\[
+\begin{equation}\label{res1}
+|b-a^T\pmb{x}|
+\end{equation}
+\]</span> ​ 这是由需要估计的参数直线<span class="math inline">\(\eqref{normal}\)</span>决定的，那么可以将<span class="math inline">\(\eqref{res1}\)</span>化为模平方的形式，这也就是我们需要优化的目标，实际上点的信息已经包含在直线中了，虽然没有写成常见的直线拟合最小二乘表示： <span class="math display">\[
+\begin{equation}\label{cost}
+C=\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x})
+\end{equation}
+\]</span> ​ 加上约束，可以得到一个带约束优化问题。约束是：<span class="math inline">\(a^Ta=1\)</span>。也就是说希望法向量是单位向量： <span class="math display">\[
+\begin{equation}
+\left\{
+\begin{array}{ll}\label{obj}
+\text{min }\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x}) \\
+\text{s.t. } a^Ta=1
+\end{array}
+\right.\rightarrow
+\text{min }\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x}) + \lambda(a^Ta-1)\\
+\end{equation}
+\]</span> ​ 也就是又用Lagrange乘子法将有约束问题转化为无约束问题了。对KKT条件进行讨论，等式约束的KKT条件就不用说了。对<span class="math inline">\(a\)</span>求导，有（这里有必要穿插一下矩阵与向量的求导知识）。如果x是一个 n * 1的列向量，那么一个关于x的标量函数关于x求导，求出将会是一个行向量。进一步地，可以证明（见<a href="#app">【Appendix】</a>）： <span class="math display">\[
+\begin{equation}\label{lemma}
+\begin{array}{ll}
+\text{if }\alpha=x^TAx,\text{where }A\text{ is }n \times n \\
+\text{then } \frac{\partial\alpha}{\partial x}=x^T(A+A^T)
+\end{array}
+\end{equation}
+\]</span> ​ 那么根据公式<span class="math inline">\(\eqref{lemma}\)</span>，并且对<span class="math inline">\(\eqref{obj}\)</span>进行关于a（2 * 1列向量）求导，此处求导的结果是： <span class="math display">\[
+\begin{equation}\label{der}
+2\lambda a^T-2bn\overline{x}^T+\sum_{i=1}^n2a^T(x_ix_i^T)
+\end{equation}
+\]</span> ​ 而对b求导实际上也能得到重要的结论：即<span class="math inline">\(b=a^T\overline{x}\)</span>，那么带入到公式<span class="math inline">\(\eqref{der}\)</span>中就会有： <span class="math display">\[
+\begin{equation}\label{der2}
+2\lambda a^T+2a^T\sum_{i=1}^n(x_ix_i^T)-(\overline{x}\overline{x}^T)=2\lambda a^T+2a^T\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T
+\end{equation}
+\]</span> ​ 而<span class="math inline">\(\eqref{der2}\)</span>的右半部分求和式实际上是点集的协方差，最后也就得到了（忽略负号给<span class="math inline">\(\lambda\)</span>代来的影响）： <span class="math display">\[
+\begin{equation}\label{eig}
+\left(\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T\right)a=\lambda a
+\end{equation}
+\]</span> ​ 也就是说，<span class="math inline">\(\lambda\)</span>为点集协方差矩阵的一个特征值，而<span class="math inline">\(a\)</span>则为对应的特征向量。也就是说，<span class="math inline">\(a\)</span>（法向量）的解实际上是点集协方差的一个特征向量，但是对于二维问题而言，特征向量有两个（一个最大特征向量，一个最小特征向量）。那么显然，根据<span class="math inline">\(\eqref{eig}\)</span>以及<span class="math inline">\(b=a^T\overline{x}\)</span>，带入到目标函数<span class="math inline">\(\eqref{obj}\)</span>中可以得到： <span class="math display">\[
+\begin{equation}
+L=0+\sum_{i=1}^n[a^T(x_i-\overline{x})][a^T(x_i-\overline{x})]^T=n\lambda
+\end{equation}
+\]</span> ​ 可以知道，<span class="math inline">\(\lambda\)</span>应该选择最小特征值。那么<span class="math inline">\(a\)</span>的解就是最小特征值对应的特征向量。感觉这个过程就十分的精妙，主要是要完全利用KKT条件，一个都不能漏，并且有意识地构造协方差 / 均值以及<span class="math inline">\(x^Tx / xx^T\)</span>两种形式。<strong><u>不难发现</u></strong>，这种表示形式可以自然推广到三维空间中去，此时求取的不再是直线的法向量，而是平面的法向量。</p>
+<hr>
+<h2 id="d图像配准闭式解">2D图像配准闭式解</h2>
+<p>​ 考虑一个2D问题，两幅图像的配准。假设我们通过SIFT算子 + RANSAC优化，得到了准确的特征点配对关系，那么如何求这个单应矩阵呢？</p>
+<div class="note warning"><p>​ 实际上，纯2D-2D匹配并不能称为单应矩阵（单应矩阵是同一物体3D-3D投影变换的表征）</p>
+</div>
+<p>​ 考虑简单的仿射变换，假设仿射变换矩阵为<span class="math inline">\(H\)</span>，给定source点集与target点集： <span class="math display">\[
+\begin{equation}
+P=(p_1,p_2,...p_n),Q=(q_1,q_2,...,q_2),P,Q\in \mathbb{R}^{3\times n}
+\end{equation}
+\]</span> ​ 那么假设<span class="math inline">\(HP=Q\)</span>,也即点集<span class="math inline">\(P\)</span>经过变换<span class="math inline">\(H\)</span>后直接成了<span class="math inline">\(Q\)</span>，那么为了使变换后的投影误差最小，考虑最小二乘问题： <span class="math display">\[
+\begin{equation}
+L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow tr[(HP-Q)(HP-Q)^T]
+\end{equation}
+\]</span> ​ 那么根据矩阵迹的求导（以下性质将在<a href="#app">【Appendix】</a>中进行简要的分析）</p>
+<table>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 45%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">性质</th>
+<th>结论（分母布局）</th>
+<th>分子布局</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">轮换性</td>
+<td><span class="math inline">\(tr(ABC)=tr(BCA)\)</span></td>
+<td><span class="math inline">\(tr(ABC)=tr(BCA)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">线性1</td>
+<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial A}=B\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial A}=B^T\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">线性2</td>
+<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial A}=B^T\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial A}=B\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">二次型1</td>
+<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial A}=A(B+B^T)\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial A}=(B+B^T)A^T\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">二次型2</td>
+<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial A}=(B+B^T)A\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial A}=(B+B^T)A^T\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>​ 可以得到： <span class="math display">\[
+\begin{equation}\label{H}
+\frac{\partial \text{ tr}[(HP-Q)(HP-Q)^T]}{\partial H}=2HPP^T-2QP^T=0
+\end{equation}
+\]</span> ​ 则可以得到：<span class="math inline">\(H=QP^T(PP^T)^{-1}\)</span>是解。其中<span class="math inline">\((PP^T)^{-1}\)</span>是伪逆，由于其行列式可能为0。可以用SVD分解得到，正常情况则使用LDLT进行分解即可。</p>
+<hr>
+<h2 id="appendix">Appendix</h2>
+<p><span id="app"></span></p>
+<h3 id="向量矩阵求导法则以及基本结论证明">向量矩阵求导法则以及基本结论证明</h3>
+<p>​ 这里涉及的都是基本的线性代数（以及高数中的多元函数Jacobian求解），但是自己从来认真推过。向量矩阵求导主要分析其中几个公式：</p>
+<h4 id="基本法则">基本法则</h4>
+<ul>
+<li>标量对行向量求导，结果是行向量（朴素结论）</li>
+<li>标量对列向量求导，结果是列向量（朴素结论）</li>
+<li>标量对矩阵，结果是同样大小的矩阵，并且每个元素与求导矩阵对应（朴素结论）</li>
+</ul>
+<h4 id="行列求导">行列求导</h4>
+<p>​ 行向量对列向量求导，结果显然是个雅可比，由于求导元素是列向量，那么雅可比矩阵是按列组织的： <span class="math display">\[
+\begin{equation}
+d(y_1,y_2,...,y_n)/d
+\begin{pmatrix}
+x_1\\
+x_2\\
+\vdots \\
+x_m
+\end{pmatrix}=
+\begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} &amp; \frac{\partial y_2}{\partial x_1} &amp; ... &amp; \frac{\partial y_1}{\partial x_1}\\
+\frac{\partial y_1}{\partial x_2} &amp; \frac{\partial y_2}{\partial x_2} &amp; ... &amp; \frac{\partial y_1}{\partial x_2} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+\frac{\partial y_1}{\partial x_m} &amp; \frac{\partial y_2}{\partial x_m} &amp; ... &amp; \frac{\partial y_1}{\partial x_m}
+\end{pmatrix}
+\end{equation}
+\]</span> ​ 则反之，如果是列向量对行向量求导，那么将会是上矩阵的转置。注意，上式我写的是分母布局，之后我将完全使用分子布局，因为比较自然。分子布局与分母布局的区别是：</p>
+<ul>
+<li>分子布局：如果f是个列向量，x是个标量，那么<span class="math inline">\(\frac{\partial f}{\partial x}\)</span>为列向量（自然表达）</li>
+<li>分母布局：如果f是个标量，x是个列向量，那么<span class="math inline">\(\frac{\partial f}{\partial x}\)</span>是个列向量（感觉不太自然嗷）</li>
+</ul>
+<p>​ 也就是说，列向量对标量求导是不变形的，矩阵对标量求导也是不变形的（那么自然，行向量对标量求导也不变形，这就是一个比较自然的表达）。接下来讨论的公式都基于几个共同点：</p>
+<ul>
+<li>向量<span class="math inline">\(\pmb{x}\)</span>是列向量（n * 1）
+<ul>
+<li>矩阵A是m * n矩阵或是n * n矩阵79</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}
+\frac{\partial A\pmb{x}}{\partial \pmb{x}}=A\tag{prop 1}
+\end{equation}
+\]</span></p>
+<p>​ 这个很显然，讨论<span class="math inline">\(A\pmb{x}\)</span>时只需要将A按行分块，<span class="math inline">\(A\pmb{x}\)</span>每个元素都是<span class="math inline">\(\pmb{a}_j\pmb{x}\)</span>（标量），那么一个列向量<span class="math inline">\(A\pmb{x}\)</span>中的每个标量元素对列向量求导，得到一个行向量： <span class="math display">\[
+\begin{equation}
+\pmb{a}_j\pmb{x}=\sum_{i=1}^na_{ji}x_i
+\end{equation}
+\]</span> ​ 显然，对这个标量求导得到<span class="math inline">\(\pmb{a}_j\)</span>本身。 <span class="math display">\[
+\begin{equation}
+\frac{\partial \pmb{x}^TA\pmb{x}}{\partial \pmb{x}}=\pmb{x}^T(A+A^T)\tag{prop 2}
+\end{equation}
+\]</span> ​ 展开之后易于证明，由于<span class="math inline">\(\pmb{x}^TA\pmb{x}\)</span>是标量，标量对列向量求导是行向量，可以得到，行内的第j个元素为： <span class="math display">\[
+\begin{equation}
+\sum_{i=1}^na_{ji}x_i+\sum_{j=1}^na_{ji}x_j
+\end{equation}
+\]</span> ​ 上式前半部分是行向量<span class="math inline">\(\pmb{x}^T\)</span>与矩阵<span class="math inline">\(A^T\)</span>的某一列进行相乘，后半部分则与<span class="math inline">\(A\)</span>的某一列相乘。<span class="math inline">\(\text{prop 2}\)</span>的证明又是比较容易的，可以根据基本的求和式与矩阵运算性质得到，关于矩阵行列求导操作，就只提这两个。</p>
+<h3 id="矩阵迹的求导法则">矩阵迹的求导法则</h3>
+<p>​ 迹是针对n * n矩阵而言的（对角线之和），假设<span class="math inline">\(A_{n\times k},B_{k\times n}\)</span>，则<span class="math inline">\(\text{tr}(AB)\)</span>有： <span class="math display">\[
+\begin{equation}\label{tr}
+\text{tr}(AB)=\sum_{i=1}^n\sum_{j=1}^ka_{ij}b_{ji}
+\end{equation}
+\]</span> ​ 那么假设<span class="math inline">\(\text{tr}(AB)\)</span>对A求导，由分子布局，将A看成一个行向量，每个行元素为一个列向量。可以知道，分子布局下，标量对行求导，得到列向量，列向量的元素将由原来行向量内的元素决定。那么由于原来行向量（1 * k）元素是一个个的列向量（n * 1），那么求导后的每个分量是个行向量（1 * n），也即最后的结果是（k * n）的，下面证明这就是矩阵B。</p>
+<p>​ 我们假设当前正在对行向量<span class="math inline">\(A\)</span>的元素<span class="math inline">\(\pmb{a}_p\)</span>进行求导，<span class="math inline">\(\pmb{a}_p=(a_{1p},a_{2p},...,a_{np})^T\)</span>是A矩阵的第p列。那么由公式<span class="math inline">\(\eqref{tr}\)</span>，迹中与<span class="math inline">\(a_{ip}\)</span>有关的只有： <span class="math display">\[
+\begin{equation}
+\sum_{i=1}^na_{ip}b_{pi}
+\end{equation}
+\]</span> ​ 对其求导，由于上式是一个标量而<span class="math inline">\(\pmb{a}_p\)</span>是一个列向量，应该得到一个行向量结果 <span class="math display">\[
+\begin{equation}
+\sum_{i=1}^na_{ip}b_{pi}\mathop{\Longrightarrow}^{d\pmb{a}_p}(b_{p1},b_{p2},...,b_{pn})
+\end{equation}
+\]</span> ​ 也就是说，矩阵迹对<span class="math inline">\(A\)</span>矩阵的第p个列求导，得到B的第p行。那么由此可以得到<span class="math inline">\(d\text{ tr}(AB)/dA=B\)</span>。（注意，这和我们上面所列表格不一致，表格是分母布局的，分母布局下这里确实是<span class="math inline">\(B^T\)</span>）。分母布局和分子布局恰是转置关系，那么公式<span class="math inline">\(\eqref{H}\)</span>在分子布局下应该是不变的（因为减号前后都进行了转置）。</p>
+<p></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/" title="协方差 &amp; 特征值的交集">https://enigmatisms.github.io/2021/03/12/协方差-特征值的交集/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" rel="tag"><i class="fa fa-tag"></i> 线性代数</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%90%86%E8%A7%A3/" rel="prev" title="贝叶斯学习的理解">
+                  <i class="fa fa-chevron-left"></i> 贝叶斯学习的理解
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/" rel="next" title="优雅线代与美妙优化">
+                  优雅线代与美妙优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

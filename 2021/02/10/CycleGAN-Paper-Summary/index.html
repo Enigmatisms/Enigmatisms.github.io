@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="CycleGAN  Preface ​ GAN常用作风格迁移或者是object transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object transfiguration中，A-&gt;B">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CycleGAN Paper Summary">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="CycleGAN  Preface ​ GAN常用作风格迁移或者是object transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object transfiguration中，A-&gt;B">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/result.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/adver.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/collapse.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/pad.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/nopad2.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/nopad3.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/norm.JPG">
+<meta property="article:published_time" content="2021-02-10T13:33:33.000Z">
+<meta property="article:modified_time" content="2021-02-18T13:27:44.008Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="DL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/result.JPG">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/","path":"2021/02/10/CycleGAN-Paper-Summary/","title":"CycleGAN Paper Summary"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CycleGAN Paper Summary | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cyclegan"><span class="nav-text">CycleGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#preface"><span class="nav-text">Preface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-text">复现的结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-text">论文的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ccl%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">CCL的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ccl%E5%8F%AF%E4%BB%A5%E6%8E%A8%E5%87%BA%E4%BB%80%E4%B9%88"><span class="nav-text">CCL可以推出什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-text">生成器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E5%88%AB%E5%99%A8"><span class="nav-text">判别器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8Bgan%E6%A8%A1%E5%BC%8F%E5%B4%A9%E5%A1%8C"><span class="nav-text">原始GAN模式崩塌?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E5%B4%A9%E5%A1%8C%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">模式崩塌的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#jskl%E6%95%A3%E5%BA%A6%E7%9A%84%E4%BD%BF%E7%94%A8%E5%AF%BC%E8%87%B4%E6%A8%A1%E5%BC%8F%E5%B4%A9%E5%A1%8C"><span class="nav-text">JS&#x2F;KL散度的使用导致模式崩塌</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#minmax%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="nav-text">min&#x2F;max顺序问题</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-text">复现的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%8D%B7%E7%A7%AF%E8%BF%87%E7%A8%8B"><span class="nav-text">反卷积过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#patchgan"><span class="nav-text">PatchGAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#normalization%E8%B0%88"><span class="nav-text">Normalization谈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bn"><span class="nav-text">BN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in"><span class="nav-text">IN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#layernorm-groupnorm"><span class="nav-text">LayerNorm &amp; GroupNorm</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resnet%E7%9B%B8%E5%85%B3"><span class="nav-text">ResNet相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82%E9%97%AE%E9%A2%98"><span class="nav-text">一些细节问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CycleGAN Paper Summary
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-10 21:33:33" itemprop="dateCreated datePublished" datetime="2021-02-10T21:33:33+08:00">2021-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-02-18 21:27:44" itemprop="dateModified" datetime="2021-02-18T21:27:44+08:00">2021-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="cyclegan">CycleGAN</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ GAN常用作风格迁移或者是object transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object transfiguration中，A-&gt;B集合映射过程可以通过此网络实现，但B集合进入网络后，生成出来的（例应是原始的B）却与原始B相差很远。当然，在object transfiguration中，更加有挑战性的问题是，对于pix2pix论文提出的成对图像转换而言，成对图像一般很难获得。如果只有两个集合A / B，A / B内的对象为不同属性的，那么在没有预先产生匹配关系的情况如何将A / B集合内的物体互相映射呢？</p>
+<span id="more"></span>
+<p>​ 在论文 <em>Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</em> （arXiv链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.10593">【arXiv Preview】🔗</a>）中，作者提出了：Cycle Consistancy的思想（好了，xxx一致性，听多了）（循环一致性），在误差函数中添加了两项：</p>
+<ul>
+<li>循环一致误差（CCL），用于控制一致性（显然）</li>
+<li>本征一致性，感觉作者没有提。但是我觉得可以通过CCL推导出来。</li>
+</ul>
+<h3 id="复现的结果">复现的结果</h3>
+<p>​ 由于受到设备的限制（GeForce MX150，三年的i5小米Air轻薄本的渣显卡）网络只训练了25个迭代（原文使用了50个学习率恒定迭代，此后50个迭代学习率线性递减至0），也没有修改学习率设置。一张图片大概需要计算1s，995张图片需要15min+才能完成一轮迭代。结果如图：</p>
+<p><img src="/2021/02/10/CycleGAN-Paper-Summary/result.JPG"></p>
+<center>
+Figure 1. 训练结果
+</center>
+<p>​ 两行为一组，一共六行。前两行是橙子-&gt;苹果，中间两行是苹果-&gt;橙子，后两行是初始情况（欠训练时的结果）。</p>
+<hr>
+<h2 id="论文的细节">论文的细节</h2>
+<h3 id="ccl的定义">CCL的定义</h3>
+<p>​ 在【3. Formulation】中，作者提到：循环一致性就是：假设集合<span class="math inline">\(X\)</span>与<span class="math inline">\(Y\)</span>分别包含两种类型物体，<span class="math inline">\(G\)</span>与<span class="math inline">\(F\)</span>分别是两个生成器，其中<span class="math inline">\(G\)</span>用于利用集合<span class="math inline">\(X\)</span>对象生成集合<span class="math inline">\(Y\)</span>的对象，<span class="math inline">\(F\)</span>则正好相反。也就是： <span class="math display">\[
+G: X\rightarrow Y,G(x)\rightarrow Y,\text{for each }x\in X \\
+F: Y\rightarrow X,F(y)\rightarrow X,\text{for each }y\in Y
+\]</span> ​ 那么对于这样的映射，应该有：<span class="math inline">\(F(G(x))\approx x\)</span>（也就是经过两个生成网络后，<span class="math inline">\(X\rightarrow Y\rightarrow X\)</span>），数据应该和初始输入保持一致。在object transfiguration或是style transfer中，我觉得这种想法十分自然，并且很妙。由于在这两个问题中，图像本身的形状特征并不会发生巨大的变化，变化的只是颜色 / 纹理属性，在object transfiguration中，从物体A变成物体B以及其反过程是对称的，风格迁移中，风格的加入和消除也是对称的（可以将原图看成另一种风格），那么由反函数的性质，应该存在上式的结果。于是，作者定义了一个Cycle Consistancy Loss： <span class="math display">\[
+L_{cyc}(G,F,x,y)=\Vert G(F(y))-y\Vert_1+\Vert F(G(x))-x\Vert_1
+\]</span> ​ 也就是用（理论上的identity变换）变换前后的图像的1-范数进行比较。显然是越小越好，希望这种identity映射前后基本不变。</p>
+<p>​ 但其实整篇论文传达的意思就那么简单，18页的论文，放了一半页数的图，但是做的事情却牛大了（虽然已经是4年前的论文了）。不得不吐槽一下，原论文中提到的信息不太多（可能是因为这些基本的问题作者认为大家都应该明白所以不说了？），所以这篇文章非常好懂，复现起来也相对简单（但是我太菜了，遇到了一些坑）。</p>
+<hr>
+<h3 id="ccl可以推出什么">CCL可以推出什么</h3>
+<p>​ 个人认为，既然存在CCL（<span class="math inline">\(X\rightarrow Y\rightarrow X\)</span>循环映射不变），那么以下想法也是自然应该成立的：设<span class="math inline">\(x\in X, y \in Y\)</span>，那么应该存在： <span class="math display">\[
+\begin{equation}
+G:X\rightarrow Y, G(y)\approx y\\
+F:Y\rightarrow X, F(x)\approx x
+\end{equation}
+\]</span> ​ 也就是说，由于G的输出空间为<span class="math inline">\(Y\)</span>（期望），所以对于已经在y空间里的数据而言，生成网络不应该改变其特征。所以可以定义本征一致性loss： <span class="math display">\[
+\begin{equation}\label{equ:ind}
+L_{ind}=\mathbb E_{p\_data(y)} \Vert G(y)-y\Vert_1 + \mathbb E_{p\_data(y)} \Vert F(x)-x\Vert_1
+\end{equation}
+\]</span> ​ 可以认为这是循环的一半情况吧，但是确实是应该加入到loss项中的，既然存在循环一致性，那么本征一致性理论上来说也是存在的。</p>
+<p>​ 于是，full objective应该是： <span class="math display">\[
+\begin{equation}
+L_{full}(X,Y,G,F)=L_{adv}(X,Y,G,F)+L_{cyc}(X,Y,G,F)+L_{ind}(X,Y,G,F)
+\end{equation}
+\]</span></p>
+<hr>
+<h3 id="网络结构">网络结构</h3>
+<h4 id="生成器">生成器</h4>
+<p><span id="generator"></span></p>
+<p>​ 论文中的生成器采用了ResNet结构，首先图片都是256 * 256 * 3的图片，以6个Residual Block结构进行说明：</p>
+<ul>
+<li>输入层：输入3 输出64，<span class="math inline">\(7\times 7\)</span> 大小的卷积网络，使用ReLU激活函数，InstanceNorm
+<ul>
+<li>Reflection Padding</li>
+</ul></li>
+<li>输入64 输出128，<span class="math inline">\(3\times 3\)</span> 卷积网络，<strong><u>步长2</u></strong>，其余同上
+<ul>
+<li>Reflection Padding</li>
+</ul></li>
+<li>输入128 输出256，<span class="math inline">\(3\times 3\)</span> 卷积网络，<strong><u>步长2</u></strong>，其余同上</li>
+<li>Residual Block 1，256-&gt;256，<span class="math inline">\(3\times 3\)</span> 卷积网络，<strong><u>步长2</u></strong>，其余同上，个人使用了ZeroPadding</li>
+<li>Residual Block 2，Residual Block 3，Residual Block 4，Residual Block 5，Residual Block 6</li>
+<li>非整数步长的卷积（ConvTranspose，反卷操作）， <span class="math inline">\(3\times 3\)</span> ，步长1/2，256-&gt;128</li>
+<li>非整数步长的卷积， <span class="math inline">\(3\times 3\)</span> ，步长1/2，128-&gt;64</li>
+<li>输出层，（64-&gt;3）其余同输入层，Tanh激活</li>
+</ul>
+<p></p>
+<h4 id="判别器">判别器</h4>
+<p><span id="clf"></span></p>
+<p>​ 判别器使用PatchGAN结构，也就是说不只输出一个值（比如过卷积后再过全连接输出1）。输出的是一个super image，super image是一张size更小的单通道图，每个像素表示的是：<strong><u>判别器输出的结果，图像上每小块为real的概率（重新组织的特征图）</u></strong>。也就是说，输出层只需要卷积，输出卷积结果。</p>
+<ul>
+<li><span class="math inline">\(4\times 4\)</span> Convolution，64-&gt;128，很奇怪吧。偶数大小的kernel，所以anchor在哪？ LeakyReLU(0.2)
+<ul>
+<li>InstanceNorm</li>
+</ul></li>
+<li><span class="math inline">\(4\times 4\)</span> Convolution，128-&gt;256 LeakyReLU(0.2)</li>
+<li><span class="math inline">\(4\times 4\)</span> Convolution，256-&gt;512 LeakyReLU(0.2)</li>
+<li><span class="math inline">\(4\times 4\)</span> Convolution，512-&gt;1，直接输出</li>
+</ul>
+<p>额，不讲武德。为什么网络结构细节放在Appendix？搞得我以为我读完了，最后一乱翻发现了更重要的东西。</p>
+<p></p>
+<hr>
+<h3 id="原始gan模式崩塌">原始GAN模式崩塌?</h3>
+<h4 id="模式崩塌的定义">模式崩塌的定义</h4>
+<p>​ 模式崩塌也就是多个输入映射到同一个输出上的情况。这通常出现在输出模式具有多峰分布的情况。通常我们希望，在目标分布（不可知，但是可以通过采样学习近似）多峰的情况下，拟合的近似分布也应该是多峰的。但如果出现了生成器过强的情况，直接导致生成器每次都拟合到其中一个峰上，就很可能导致模式崩塌。</p>
+<p><img src="/2021/02/10/CycleGAN-Paper-Summary/adver.JPG"></p>
+<center>
+Figure 2. 图片来自Goodfellow著名论文 GAN[1]
+</center>
+<p>​ 上图说明的是，多峰分布时，每一次训练生成器后的生成分布。训练造成了模式崩塌，也就是输出的低丰富性，这就失去了GAN本身的意义。</p>
+<p>​ Goodfellow在论文中提到两种可能产生模式崩塌的原因：</p>
+<h5 id="jskl散度的使用导致模式崩塌">JS/KL散度的使用导致模式崩塌</h5>
+<p>​ JS散度： <span class="math display">\[
+\begin{equation}\label{equ:js}
+2D_{JS}(P_R|P_G)=\int_xP_R(x)log(\frac{P_R(x)}{\frac{P_R(x) + P_G(x)}{2}})dx + \int_xP_G(x) log(\frac{P_G(x)}{\frac{P_R(x) + P_G(x)}{2}})dx
+\end{equation}
+\]</span> ​ KL散度： <span class="math display">\[
+\begin{equation}
+D_{KL}(P|Q)=\int_xP(x)log(\frac{P(x)}{Q(x)})dx
+\end{equation}
+\]</span> ​ KL散度能造成更加恐怖的模式崩塌。由于KL散度的非对称性，每次求导都会往特定方向逼近。求导时往特定方向趋近的问题导致了模式崩塌？为什么会这样？KL散度的不对称性决定了其可以从两个方向进行观察，两个方向上的KL散度不是相同的，Goodfellow称<span class="math inline">\(D_{KL}(p_{data}\Vert p_{model})\)</span>（以data分布为主导的KL散度）为正KL散度，<span class="math inline">\(D_{KL}(p_{model}\Vert p_{data})\)</span>为逆KL散度。正KL散度和逆KL散度在优化上的表现是有所不同的。可以从直观上理解，前者是给定数据分布（的计算 / 估计）时，模型分布于数据分布的差别，那么此时模型分布 <strong><u>将会是被动的</u></strong>，只要能达到最小拟合的情况，模型分布怎么样都可以。</p>
+<p><img src="/2021/02/10/CycleGAN-Paper-Summary/collapse.JPG"></p>
+<center>
+Figure 3. 模式崩塌问题中的两种KL散度[1]
+</center>
+<p>​ 如上图左图，由于原始（数据）分布已知，模型分布为了产生最小散度，形状可以很奇怪。而在逆KL散度中，已经知道的是模型分布，也就是说：已经出现在模型中的模式<strong><u>概率分布大</u></strong>，尚未出现的模式概率分布小。这样一加权，就会让已经生成的模式被强化，造成单峰性（如上图右）。</p>
+<p>​ 这两种KL散度倾向性不同：</p>
+<ul>
+<li>正KL散度倾向于满足数据分布，不考虑模型已经有的分布，所以很可能生成一些奇怪的模式（比如上图中概率分布大的部分在两峰中间，这是不合理的），但是理论上其多样性更佳</li>
+<li>逆KL散度倾向于生成已经存在的模式，不习惯于跳出圈子。显然这样做会产生更多我们熟悉的模式，更少奇怪的新模式，但是容易引起模式崩塌。</li>
+</ul>
+<p>​ 关于这点，Goodfellow这样说到：</p>
+<blockquote>
+<p>We can think of <span class="math inline">\(D_{KL}(p_{data}\Vert p_{model})\)</span> as preferring to place high probability everywhere that the</p>
+<p>data occurs, and <span class="math inline">\(D_{KL}(p_{model}\Vert p_{data})\)</span> as preferrring to place low probability wherever the data does not occur.</p>
+</blockquote>
+<h5 id="minmax顺序问题">min/max顺序问题</h5>
+<p>​ Goodfellow在GAN论文中也提到，GAN的原理（min max）可能会引起模式崩塌。通常我们说，GAN是：minmax结构的，也就是： <span class="math display">\[
+\begin{equation}\label{equ:minmax}
+G^*=\mathop{argmin}_{G} \mathop{max}_{D}L(G,D)
+\end{equation}
+\]</span> ​ 其意义也就是（在前某篇文章中提到过）：在判别器最优的情况下进行生成器的最优化。我们希望在一个十分强的判别器存在的情况下仍然能尽可能优化生成器，直到生成器骗过判别器。而Goodfellow说到：</p>
+<blockquote>
+<p>We use it in the hope that it will behave like min max but it often behaves like max min.</p>
+</blockquote>
+<p>​ max min也就是公式<span class="math inline">\(\eqref{equ:minmax}\)</span>对于min / max的取反结果。个人认为可以这样理解：max min结构也就是：训练生成器在内循环，训练判别器在外循环。直观上看也就是每一次训练判别器，可能会训练多次生成器。这样是不好的。判别器训练一次之后，生成器会有过拟合到<strong><u>判别器认为最像real data的一种（或少数几种）模式上</u></strong>的趋势（由于生成器要训练多次）。这就导致了模式崩塌。关于这个理解，原文是这样写的：</p>
+<blockquote>
+<p>The generator is thus asked to map every <strong>z</strong> value to the single <strong>x</strong> coordinate that the discriminator believes is most likely to be real rather than fake.</p>
+</blockquote>
+<p>​ 有些情况下可能会导致GAN的行为更像max min而非min max。个人认为：训练一次判别器后训练多次分类器可能造成此情况（我之前也这么写过，效果是好的，毕竟生成出来的图片最像真的，但是多样性变差了）。</p>
+<hr>
+<h2 id="复现的细节">复现的细节</h2>
+<h3 id="反卷积过程">反卷积过程</h3>
+<p>​ 在CycleGAN<a href="#generator">[网络结构细节]</a>中，作者使用了这样的一个结构：非整数步长的卷积（ConvTranspose，反卷操作）， <span class="math inline">\(3\times 3\)</span> ，步长1/2，256-&gt;128。反卷积之前试着使用过，但是由于（当时我以为）1/2步长时其输出只能为奇数，就没有深入了解了。结果此处碰上了，为了尽可能按照论文复现，重新了解了一下这个玩意。</p>
+<p>​ ConvTranspose就是卷积的逆过程，在有步长的情况下更为明显。常用于上采样放大。但实际上，即使步长为1，“放大”也是做不到的。由于ConvTranspose实际上也是用卷积核生成输出，卷积核必然导致输出小于输入，所以需要加入padding。padding让我感觉反卷积在放大过程中需要加入太多无效的信息（即使reflection padding也是一样的），毕竟是上采样过程（信息 少-&gt;多）。这种“无效信息的加入”在步长不为1的1时候更能体现出来（如下图片列表）</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/02/10/CycleGAN-Paper-Summary/pad.gif"></th>
+<th><img src="/2021/02/10/CycleGAN-Paper-Summary/nopad2.gif"></th>
+<th><img src="/2021/02/10/CycleGAN-Paper-Summary/nopad3.gif"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">padding放大</td>
+<td>stride放大（奇数）</td>
+<td>stride放大（偶数）</td>
+</tr>
+</tbody>
+</table>
+<p>​ 分数步长的卷积就是需要上采样的卷积。整数步长将会使卷积核跳过一些位点，而分数（小于1）则是需要在位点之间进行padding的。非1步长 / 有padding的卷积计算就不再赘述了。</p>
+<p>​ 值得注意的是分数步长的卷积，当步长不为1时（比如stride = 2），两个原始位点之间会填充一个位点。这样导致了：当stride = 2时，不管原来的输入size为奇数还是偶数，输出一定是奇数size的（<strong><u>此处说的是kernel size为奇数，个人感觉偶数的kernel size不够自然，需要讨论anchor</u></strong>）（偶数kernel size可以让输出为偶数，比如ConvTranspose2d(n, n, 4, 2, 1) 就是放大size为原来的两倍）。我实现的第一版CycleGAN使用的是ConvTranspose，附带了一个output_padding (由于当时使用奇数核)，正如图三所示，感觉其结果十分不自然，但效率上并没有太大的区别。对于偶数kernel，其anchor默认在最左上方。</p>
+<p>​ 然而在第二版CycleGAN中我就把反卷积换成了卷积+上采样了，网络看起来更正常一些。</p>
+<hr>
+<h3 id="patchgan">PatchGAN</h3>
+<p>​ 这里指的是分类器设计，CycleGAN作者在其论文中采用了CycleGAN的结构，也就是分类器不输出二分类概率值，而是直接输出一个channel-1的卷积结果。例如，一个256*256的图像可以被一个70*70的特征图给表达，这70*70个元素，每个元素代表着图上的某个区域的真实性。自然我们希望，在判定为真实时这个输出接近ones(70, 70)，反之接近zeros(70, 70)。论文中使用了70*70，我的实现中并没有这么做。我写的判别器结构：</p>
+<ul>
+<li>(256, 256, 3) -&gt; (128, 128, 8) kernel size = 4，stride = 2，padding = 1，no norm</li>
+<li>(128, 128, 8) -&gt; (64, 64, 16) kernel size = 4，stride = 2，padding = 1，instance norm</li>
+<li>(64, 64, 16) -&gt; (32, 32, 32) kernel size = 4，stride = 2，padding = 1，instance norm</li>
+<li>(32, 32, 32) -&gt; (16, 16, 1) kernel size = 4，stride = 2，padding = 1，no activation, no norm.</li>
+</ul>
+<p>​ 当然，如果要说的话，个人还有几个没有复现的部分：</p>
+<ul>
+<li>ResNet residual block我只用了两个。在论文中，128*128使用了6个resBlock，256*256则使用了9个。</li>
+<li>没有避免model oscillation的trick（使用历史生成的图片而非当前最新生成的图片进行训练）</li>
+<li>可能本征Loss是我加进去的东西，我在原文中并没有读出这样的意思来。（<strong><u>张麻子：这tm是复现？</u></strong>）</li>
+</ul>
+<hr>
+<h3 id="normalization谈">Normalization谈</h3>
+<p>​ 首先看一张图（来自西交袁泽剑老师的CVPR课PPT，而PPT上的图又是来自<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1803.08494">【Wu and He, “Group Normalization”, ECCV 2018🔗】</a></p>
+<p><img src="/2021/02/10/CycleGAN-Paper-Summary/norm.JPG"></p>
+<center>
+Figure 4. 4种normalization
+</center>
+<p>​ 上图描述了常用的（第四种我在写这篇文章之前也不知道是啥）4种norm（我目前见过用的只有BN与IN）。Normalization的作用就是神经网络的“白化操作”，将NN的输出固定于Norm(0, 1)，可以稳定训练。</p>
+<h4 id="bn">BN</h4>
+<p>​ BatchNorm看名字就应该能知道，这种Normalization与batch有关。看第一张图，当Batch size为N时，将会对某个channel做batch内的norm操作（也就是一个batch里的所有训练用例 + 一个channel的特征）。显然这个操作在batch size为1时意义不大（退化成了instance norm？）。类似于多张图片训练的（判别模型）常用这个。</p>
+<h4 id="in">IN</h4>
+<p>​ 显然instance norm与batch没有关系，它是对单张图片意义上的norm。图片每个通道进行normalization。通道数对应了filter数，filter对应了生成的特征。实际上instance norm就是对不同的特征进行normalization。instance norm由于针对单张图片的不同通道，常用于生成式技术比如style transfer。</p>
+<h4 id="layernorm-groupnorm">LayerNorm &amp; GroupNorm</h4>
+<p>​ Laynorm 是一张图的所有通道做normalization。网上说是对RNN明显的，至于为什么，我没有深入了解过。而GroupNorm相当于是多个通道的Instance Norm，选取的通道数是可变的。</p>
+<hr>
+<h3 id="resnet相关">ResNet相关</h3>
+<p>​ ResNet专注于学习输入输出残差的表示，而不是学习简单的输入输出关系。为什么说学习残差？普通的CNN网络输入输出结构是这样的： <span class="math display">\[
+x\mathop{\rightarrow}^F F(x)\rightarrow y
+\]</span> ​ 学习的是x与y之间的映射关系，而在res net种，增加了一个identity mapping的合并： <span class="math display">\[
+x\mathop{\rightarrow}^F F(x)\rightarrow x&#39;,y=x+x&#39;
+\]</span> ​ 那么，真正的输出是y，但是存在参数的部分输入输出只有x'，也就是说学习的实际上只是y-x（输出 - 输入），也就是说：学习的是残差，残差表示将可以使深层网络收敛速度加快，并且网络过深时模型准确率并不会有太大的损失。实际上ResNet的 residual block结构也就是一个identical mapping和卷积的并联，个人在刚开始什么都不懂的时候，曾经将两个不同kernel size的卷积层并联在一起，觉得这会提高网络的表达能力（虽然不知道为什么，只是一种感觉）。所以CycleGAN为什么要使用ResNet结构？</p>
+<p>​ 个人的理解是：网络层数加深时，原始图的信息会在经过卷积发生损失，层数越深，积累的损失越大。加入直接的信息通道（shortcut）可以减少这样的信息损失。（可能个人原来使用不同的kernel size核并联时觉得，这样可以在同一层聚合不同大小的特征）。CSDN上有一篇文章说的很好（总结起来就是如下观点）[2]:</p>
+<ul>
+<li><p>孙剑（？是我们学校的孙剑老师吗）认为ResNet可以避免梯度弥散问题（过深的网络优化时梯度不明显）</p></li>
+<li><p>特征冗余可以被削弱：减少信息损失问题（和我的想法有点类似）</p></li>
+<li><p>ensemble 特征融合：实际的网络层数由于shortcut的加入变得并不太深</p></li>
+<li><p>层次性：shortcut保留了简单的特征，与复杂的特征（参数卷积部分）融合</p></li>
+<li><p>凸函数性：层数越深，函数非凸性越严重，找不到全局最优，ResNet结构可以优化函数非凸性</p></li>
+</ul>
+<hr>
+<h3 id="一些细节问题">一些细节问题</h3>
+<ul>
+<li>关于激活函数：Sigmoid通常用于概率映射，Tanh通常用于图像输出层，而ReLU和LeakyReLU通常作为中间层的输出函数。注意不要乱加。</li>
+<li>为什么有的时候输入层会倾向于不进行normalization？很显然，输入的数据会进行预处理，通常都在DataLoader的transform中。比如说使用normalize，以及shuffle，就已经可以保证数据的标准高斯分布。这种情况下，第一层是不需要进行normalize的。</li>
+<li>Conv2D不提供padding的模式变换（same和circular选项不算），需要在nn模块下使用ReflectionPad / ZeroPad 等等Padding方式。</li>
+</ul>
+<hr>
+<h2 id="参考文献">参考文献</h2>
+<p>[1] Jun-Yan Zhu, Taesung Park, Phillip Isola, Alexei A. Efros Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks.</p>
+<p>[2] Ian J. Goodfellow, Jean Pouget-Abadie∗ , Mehdi Mirza, Bing Xu, David Warde-Farley, Generative Adversarial Nets</p>
+<p>[3] 《ResNet个人理解》https://blog.csdn.net/nini_coded/article/details/79582902</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/" title="CycleGAN Paper Summary">https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/09/Typora-Markdown-Intros/" rel="prev" title="Typora & Markdown Intros">
+                  <i class="fa fa-chevron-left"></i> Typora & Markdown Intros
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/" rel="next" title="<i class="fas fa-quote-left"></i>   To strive, to seek, to find, and not to yield.   <i class="fas fa-quote-right"></i>">
+                  <i class="fas fa-quote-left"></i>   To strive, to seek, to find, and not to yield.   <i class="fas fa-quote-right"></i> <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

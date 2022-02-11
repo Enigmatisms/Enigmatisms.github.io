@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Typora &amp; Markdown  Why?  ​ 此文撰写的目的是：  归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到） 给我Raven的安利。   效率工具，绝不白启">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Typora &amp; Markdown Intros">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Typora &amp; Markdown  Why?  ​ 此文撰写的目的是：  归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到） 给我Raven的安利。   效率工具，绝不白启">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/from_site.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/ind_1.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/ind_2.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/caption.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/insert1.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/insert2.JPG">
+<meta property="og:image" content="https://bkimg.cdn.bcebos.com/pic/bba1cd11728b4710dac3926bc9cec3fdfd0323ac?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/table.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/todos.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/emoji.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/setting1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/setting2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/latex1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/mermaid2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/mermaid3.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/flow.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/gantt.JPG">
+<meta property="article:published_time" content="2021-02-09T15:14:13.000Z">
+<meta property="article:modified_time" content="2021-11-14T17:02:05.978Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="typesetting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/from_site.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/","path":"2021/02/09/Typora-Markdown-Intros/","title":"Typora & Markdown Intros"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Typora & Markdown Intros | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#typora-markdown"><span class="nav-text">Typora &amp; Markdown</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#why"><span class="nav-text">Why?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why-markdown"><span class="nav-text">Why Markdown?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-typora"><span class="nav-text">Why Typora?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level-1-skills"><span class="nav-text">Level 1 Skills</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%BA%8F-%E6%9C%89%E5%BA%8Fitems"><span class="nav-text">无序 &amp; 有序items</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%BA%8Fitems"><span class="nav-text">无序items</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%BA%8Fitems"><span class="nav-text">有序items</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#typora-items%E4%BD%BF%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91"><span class="nav-text">Typora items使用的一个坑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E5%8F%98%E6%8D%A2"><span class="nav-text">字体变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E9%A2%98%E4%B8%8E%E5%88%86%E5%89%B2%E7%BA%BF"><span class="nav-text">标题与分割线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F"><span class="nav-text">超链接的两种常见方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E9%A1%B5%E8%B7%B3%E8%BD%AC"><span class="nav-text">网页跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B5%E5%86%85%E8%B7%B3%E8%BD%AC"><span class="nav-text">页内跳转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E4%B8%8E%E8%A1%A8%E6%A0%BC%E6%8F%92%E5%85%A5"><span class="nav-text">图片与表格插入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5"><span class="nav-text">图片插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC%E6%8F%92%E5%85%A5"><span class="nav-text">表格插入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#todos%E4%B8%8E%E5%BC%95%E7%94%A8"><span class="nav-text">TODOs与引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-text">引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#todos"><span class="nav-text">TODOs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="nav-text">代码片段与代码块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emoji"><span class="nav-text">Emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typora%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%8A%9F%E8%83%BD"><span class="nav-text">Typora的一些设置与功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%84%E7%BB%87"><span class="nav-text">目录组织</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level-2-skills"><span class="nav-text">Level 2 Skills</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8html%E5%91%BD%E4%BB%A4"><span class="nav-text">实用HTML命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E7%9A%84%E5%B1%85%E4%B8%AD%E4%B8%8E%E4%BF%AE%E6%94%B9"><span class="nav-text">文字的居中与修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E9%A1%B5-%E9%AB%98%E7%BA%A7%E8%A1%A8%E6%A0%BC"><span class="nav-text">分页 &#x2F; 高级表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B9%8B%E5%89%8D%E8%AE%B2%E8%BF%87%E7%9A%84html"><span class="nav-text">之前讲过的HTML</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#latex-%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="nav-text">LaTex 数学公式渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%81%94%E5%85%AC%E5%BC%8F"><span class="nav-text">内联公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E5%9D%97"><span class="nav-text">公式块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8latex%E8%AF%AD%E6%B3%95"><span class="nav-text">常用\(\LaTeX\)语法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mermaid-flow-gantt"><span class="nav-text">Mermaid &#x2F; Flow &#x2F; Gantt</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mermaid"><span class="nav-text">Mermaid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flow%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">Flow流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gantt%E6%97%B6%E9%97%B4%E5%9B%BE"><span class="nav-text">Gantt时间图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E7%BB%83%E4%B9%A0"><span class="nav-text">实践练习！</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Typora & Markdown Intros
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-09 23:14:13" itemprop="dateCreated datePublished" datetime="2021-02-09T23:14:13+08:00">2021-02-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-11-15 01:02:05" itemprop="dateModified" datetime="2021-11-15T01:02:05+08:00">2021-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/tutorial/" itemprop="url" rel="index"><span itemprop="name">tutorial</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="typora-markdown">Typora &amp; Markdown</h1>
+<hr>
+<h2 id="why">Why?</h2>
+<p><span id="start"></span></p>
+<p>​ 此文撰写的目的是：</p>
+<ul>
+<li>归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到）</li>
+<li>给我Raven的安利。</li>
+</ul>
+<center>
+效率工具，绝不白启
+</center>
+<p></p>
+<span id="more"></span>
+<h3 id="why-markdown">Why Markdown?</h3>
+<p>​ 虽说markdown实际是给 不爱使用鼠标在word上点来点去的人使用的（并且面向的人群一般是对敲代码有兴趣的人），但由于Markdown上手极其简单，并且使用效率极高，<strong><u>极其适合：</u></strong></p>
+<ul>
+<li>撰写ReadMe，帮助他人理解某个程序 / 文件包 / 压缩包文件 / 文档 / 代码 如何使用。</li>
+<li>写一些风格简约而又好看的文档，方便撰写 tutorials / ideas / agenda / 会议记录 / <strong><u>学习笔记</u></strong> / <strong><u>实验报告</u></strong> / 等等，<strong><u>并快速生成PDF文件</u></strong>。</li>
+<li>【Event Horizon】上的所有博文，均是markdown渲染出来的。</li>
+</ul>
+<h3 id="why-typora">Why Typora?</h3>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/from_site.png"></p>
+<center>
+Figure 1. 来自官网的图片
+</center>
+<p>​ Typora 是一款极其轻量级的Markdown语法编辑器，其界面就像windows自带的记事本。并且，对于markdown语法支持实时渲染（直接显示效果）。易用性与美观性（尤其是其自带的Pixyll主题，中英文都极其美观）是其另外两个优点。Typora支持：</p>
+<ul>
+<li>Markdown所有语法</li>
+<li>LaTex数学公式渲染</li>
+<li>html支持（网页前端语言，markdown进阶中用于美化，本文会提几个常用栗子）</li>
+</ul>
+<hr>
+<h2 id="level-1-skills">Level 1 Skills</h2>
+<p>​ 本节将会介绍基础的markdown语法。记忆这些语法是非常容易的，因为都很简单。</p>
+<h3 id="无序-有序items">无序 &amp; 有序items</h3>
+<h4 id="无序items">无序items</h4>
+<p>​ 在分点操作时，常常会使用 (1) 分点内容前面加上一个黑色圆点 (2) 使用编号（有序排列），在markdown中，无需进行鼠标点击（鼠标 / 触控板 / 触屏 在文档撰写的时候真的累赘）。对于 <strong>无序分点，可以如下输入：</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> Markdown is easy to use.</span><br><span class="line"><span class="bullet">-</span> Markdown is so goodlooking.</span><br><span class="line"><span class="bullet">-</span> Simplicity is the basic traits.</span><br></pre></td></tr></table></figure>
+<p>​ （前面的- 就是减号，当然 “*” 号也是可以替换“-” 号的），在Typora页面上实时显示的结果是：</p>
+<ul>
+<li>Markdown is easy to use.</li>
+<li>Markdown is so goodlooking.</li>
+<li>Simplicity is the basic traits.</li>
+</ul>
+<p>​ 当然，不同级别的items（分级）也是支持的，只需要通过缩进的方式（比如TAB缩进，或是Typora提供的 <code>Ctrl + ]</code> 增加缩进（级别减小（子item）），<code>Ctrl + [</code> 减少缩进（或者说：级别增大））：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> Markdown is easy to use.</span><br><span class="line"><span class="bullet">	-</span> Gramma is easy to remember.</span><br><span class="line"><span class="bullet">		-</span> &quot;- + indent&quot; is unordered item.</span><br><span class="line"><span class="bullet">    -</span> Then What?</span><br></pre></td></tr></table></figure>
+<p>​ 在Typora页面上实时显示的结果是：</p>
+<ul>
+<li>Markdown is easy to use.
+<ul>
+<li>Gramma is easy to remember.
+<ul>
+<li>"- + indent" is unordered item.</li>
+</ul></li>
+<li>Then What?</li>
+</ul></li>
+</ul>
+<h4 id="有序items">有序items</h4>
+<p>​ 需要按照编号排列时，可以输入以下语句：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> Open the gate.</span><br><span class="line"><span class="bullet">2.</span> Let the army in.</span><br><span class="line"><span class="bullet">3.</span> Close the gate.</span><br></pre></td></tr></table></figure>
+<p>​ 这个其实有点鸡肋了，markdown会自动帮你调整编号的位置。Typora则会帮你自动添加编号，也即：输入一个 1. 再换行，会自动出现 2. 3. 等等。以上的输出结果是：</p>
+<ol type="1">
+<li>Open the gate.</li>
+<li>Let the army in.</li>
+<li>Close the gate.</li>
+</ol>
+<p>​ 当然，有序items也是可以分级的。同样使用缩进的方法可以达到目的。</p>
+<h4 id="typora-items使用的一个坑">Typora items使用的一个坑</h4>
+<ul>
+<li><p>随便写的一句话。</p>
+<p>随便写的第二句话。</p></li>
+<li><p>随便写的一句话</p></li>
+</ul>
+<p>​ 随便写的第二句话。</p>
+<p>​ 在写完items后，不想要分下一个点了，想要开始另一端正文，但是无论使用 backspace 删除 还是使用 <code>Ctrl + [</code> 删去自动添加的分点，都会让下一行的首行缩进变得很奇怪，主要体现在：按下TAB之后，正常情况下只会缩进一个字符，但是此情况下，缩进了不止一个字符，并且出现了错位的情况。</p>
+<table>
+<thead>
+<tr class="header">
+<th><img src="/2021/02/09/Typora-Markdown-Intros/ind_1.JPG"></th>
+<th>错误情况，正文与item文字对齐了。并且一个tab就能缩进到此情况</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="/2021/02/09/Typora-Markdown-Intros/ind_2.JPG"></td>
+<td>正确情况，需要两个tab才能达到首行缩进两个字符的情况</td>
+</tr>
+</tbody>
+</table>
+<p>​ 对于强迫症患者而言（如作者），这是不能被接受的。解决方法是：</p>
+<ul>
+<li>在错误情况的行首 两次tab键，先进行一次首行两字符缩进。</li>
+<li>再使用<code>Ctrl + [</code> 取消Typora自动设置的item缩进，即可。</li>
+</ul>
+<hr>
+<h3 id="字体变换">字体变换</h3>
+<p>​ Markdown 如何打出：<em>斜体（Italic）</em>，<strong>加粗（Bold）</strong>，<strong><em>斜体加粗（Combined）</em></strong>，<u>下划线</u>，<del>删除线</del>呢？</p>
+<ul>
+<li><p>斜体使用：<code>*斜体*</code>，输入两个<code>**</code> 在<code>*</code>包括的部分内部内输入需要斜体的文字即可。当然，不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+I</code></p></li>
+<li><p>加粗：<code>**加粗**</code>，需要加粗的文字需要左右各两个<code>*</code>。不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+B</code></p></li>
+<li><p>斜体加粗：<code>***斜体加粗***</code>，也就是需要加粗的部分左右各3星。不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+I+B</code></p></li>
+<li><p>下划线：<font color="blue">这是第一个HTML语法的小栗子，不过很简单</font>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;u&gt;需要下划线的部分&lt;/u&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;u&gt;</code>表示起始（underline），<code>&lt;/u&gt;</code>前的<code>/</code>表示结束。</li>
+<li>不管是word，OneNote还是Typora，快捷键都是<code>Ctrl+U</code></li>
+</ul></li>
+<li><p>删除线：<code>~~需要删除的部分~~</code>，也就是左右各两个<code>~</code>。Typora中，默认快捷键是：<code>Alt+Shift+5</code>。</p></li>
+</ul>
+<p>​ 给出一个实际的例子，输入如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">开始：*这是文中需要倾斜的部分*，这是正常的部分，这是**需要加粗的部分**，而这是***综合部分***。下划线可以&lt;u&gt;这么加&lt;/u&gt;，而下划线+加粗可以这样，&lt;u&gt;**虽然Ctrl+B+U快捷键完全可以解决**&lt;/u&gt;。删除线则是~~这样使用的~~。</span><br></pre></td></tr></table></figure>
+<p>​ 实际输出如下：</p>
+<p>​ 开始：<em>这是文中需要倾斜的部分</em>，这是正常的部分，这是<strong>需要加粗的部分</strong>，而这是<strong><em>综合部分</em></strong>。下划线可以<u>这么加</u>，而下划线+加粗可以这样，<u><strong>虽然Ctrl+B+U快捷键完全可以解决</strong></u>。删除线则是<del>这样使用的</del>。</p>
+<hr>
+<h3 id="标题与分割线">标题与分割线</h3>
+<p><span id="caption"></span></p>
+<p>​ Markdown中的标题是格式化的。不需要设置大小与格式（不过正常情况下标题是左对齐的）。标题使用 <code>#</code> + 空格来表示。</p>
+<p></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br></pre></td></tr></table></figure>
+<p>​ 输出结果是长这样的：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/caption.png"></p>
+<center>
+Figure 2. 标题样式
+</center>
+<p>​ 注意，<code>#</code>之后一定要跟上空格，再输入标题内容。</p>
+<p>​ 分割线：只需要在需要分割的位置，加入<code>---</code>即可进行分割（注意<code>---</code>一定要另起一行，分割线行中只能写这一个内容）。比如文中的分割线，都是<code>---</code>的渲染结果，例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Contents I</span><br><span class="line">---</span><br><span class="line">Contents II</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="超链接的两种常见方式">超链接的两种常见方式</h3>
+<p>​ HyperLink （超链接）最常见的使用方式就是 <strong><u>网页跳转</u></strong>。当然，markdown中存在另一种页内跳转的方式。假设我们希望读者在读到这段文字的时候，去查看本文其他位置的内容，比如 <a href="#start">【点我查看文章开头】</a>，确实也是可以做到的。</p>
+<h4 id="网页跳转">网页跳转</h4>
+<p>​ reference编写时，可能我们希望读者可以通过点击直接跳转到某个位置，可以使用以下方式进行编写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[跳转链接](https://www.baidu.com/)</span><br></pre></td></tr></table></figure>
+<p>​ <code>[]</code>内部指定：超链接嵌入在<code>[]</code>包括的文字内部，也就是说，点击此段被包括的部分，可以进行跳转。<code>()</code>内部则是网址了，网址只需要在浏览器上复制后粘贴于此处即可。上述渲染结果如下：</p>
+<p>​ <a target="_blank" rel="noopener" href="https://www.baidu.com/">跳转链接</a></p>
+<h4 id="页内跳转">页内跳转</h4>
+<p>​ 如果是PDF文件，需要读者可以方便地随着作者的思路走，可以使用如下方式。</p>
+<ol type="1">
+<li><p>在需要跳转到的位置插入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;span id=&#x27;name&#x27;&gt;</span><br><span class="line">需要跳转的位置，比如上个&quot;超链接的两种常见方式&quot;开头部分跳转到文章开头，则将此块插入到文章开头</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">例如：</span><br><span class="line">&lt;span id=&#x27;start&#x27;&gt;</span><br><span class="line">	此文撰写的目的是：</span><br><span class="line">- 归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到）</span><br><span class="line">- 给我Raven的安利。</span><br><span class="line">&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 需要说明的是，id='name' 在这里设置了一个标签，name是标签的名字。比如一篇文章内部可能有很多跳转，为了不混淆目的地，需要标记不同的目的地的名称。比如开头标记为<code>span id='start'</code>，而结尾标记为<code>span id='ending'</code>。此后就根据标记跳转到需要的地方。</p></li>
+<li><p>在开始跳转位置处写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[点我跳转](#name)</span><br></pre></td></tr></table></figure>
+<p>​ 由于作者在文章开头处设置了一个跳转目的地，写的是<code>&lt;span id='start'&gt;</code>，也就是目的地被称为了<code>start</code>，上面这个例子的name 如果设置成start，则结果是这样的：</p>
+<p>​ <a href="#start">点我跳转</a>。当然一般为了美观，可以在<code>[]</code>内再加上一个<code>[]</code>，就会变成<a href="#name">[点我跳转]</a>。注意在<code>()</code>内，需要一个<code>#</code>，此处不表示一级标题。</p></li>
+<li><p>查看结果。</p></li>
+</ol>
+<hr>
+<h3 id="图片与表格插入">图片与表格插入</h3>
+<h4 id="图片插入">图片插入</h4>
+<p>​ Markdown的图片插入语法如下图所示：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">文章中给图片起的别名</span>](<span class="link">图片所在位置</span>)</span><br></pre></td></tr></table></figure>
+<p>​ <code>[]</code>中的内容可以不填写，但是图片位置必须要指定。在Typora中，有两种方式可以快速插入图片：(1) 右键-&gt;插入-&gt;图片。(2) 快捷键<code>Ctrl+Shift+I</code>。</p>
+<table>
+<thead>
+<tr class="header">
+<th><img src="/2021/02/09/Typora-Markdown-Intros/insert1.JPG"></th>
+<th>可以点击文件夹图标进行图片插入</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="/2021/02/09/Typora-Markdown-Intros/insert2.JPG"></td>
+<td>也可以手动输入，默认是绝对路径（就是要输入从盘位置开始的路径）</td>
+</tr>
+</tbody>
+</table>
+<p>​ 注意，与word不同：word插入图片后，修改文件夹中的图片，不会对已经在文章里的内容产生影响（比如更改大小 / 删除等等，文中的图片保持不变），因为word中的图片是一份copy。而Markdown中的图片，只是原图片的<strong><u>链接</u></strong>，任何对源文件的修改都将影响文中的图片。其好处是：更改图片的细节很容易，无需重新插入。但是，在完成文章，输出成pdf前一定要确保对应名字的图片能够被找到。</p>
+<p>​ <code>()</code>中，除了可以填写本地图片（插入本地图片），也可以插入网络上的图片。浏览器一般会提供<strong>复制图片链接</strong>选项，只需要将链接填写在<code>()中即可</code>。比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![起子](https://bkimg.cdn.bcebos.com/pic/bba1cd11728b4710dac3926bc9cec3fdfd0323ac?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto)</span><br></pre></td></tr></table></figure>
+<p>​ 输出结果如下：</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/bba1cd11728b4710dac3926bc9cec3fdfd0323ac?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto" alt="起子" style="zoom:50%;"></p>
+<center>
+Figure 3. 起子的百度百科上复制的图片
+</center>
+<p>​ Typora提供了图片大小缩放的快捷选项，只需要对插入的图片按右键，找到<code>【缩放图片到】</code>即可。缩放后，图片的源码栏 <strong><u>不再是markdown语法</u></strong>，而变成了 <strong><u>HTML语法</u></strong>，因为原生markdown不支持缩放，但是与使用者无关，其插入路径还是可以随意更改，这个特性对本地图片也是适用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;https://bkimg.cdn.bcebos.com/pic/bba1cd11728b4710dac3926bc9cec3fdfd0323ac?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto&quot; alt=&quot;起子&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 注意到上述代码中有一项：<code>style="zoom:50%;"</code>，表明缩放的大小。Typora只提供了默认的几个缩放等级，如果要更灵活的缩放可以直接更改<code>50%</code>为其他数值。</p>
+<h4 id="表格插入">表格插入</h4>
+<p>​ 原生Markdown支持表格，但是表格的输入有点麻烦（Typora提供了更快捷的插入方式），可以先看原生语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|姓名|班级|学号|成绩|</span><br><span class="line">|:-|:-:|-:|:-:|</span><br><span class="line">|A|1|001|59|</span><br><span class="line">|B|1|002|58|</span><br><span class="line">|C|1|003|57|</span><br></pre></td></tr></table></figure>
+<p>​ 输出的结果如图（Pixyll主题下的图表，最美观的那种）：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/table.png"></p>
+<center>
+Figure 4. Typora Pixyll主题表格
+</center>
+<p>​ 注意到其中有些奇怪的东西：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|:-|:-:|-:|:-:|</span><br></pre></td></tr></table></figure>
+<p>​ 这是什么？此处表示图表的对齐方式：<code>:-</code>冒号在左边表示左对齐。<code>:-:</code>两边有冒号表示居中，<code>-:</code>右边冒号表示右对齐。原生语法下，不写对齐方式是不会渲染表格的，出来的就是这一堆神秘代码。</p>
+<p>​ Typora右键可以插入表格，在插入的表格左上方可以选择对齐方式 / 表格size（列 * 行）。但是表格的大小（每个cell的长宽）根据所在列和行的内容自动调整。注意，表格内也可以使用markdown / HTML / LaTex语法。</p>
+<hr>
+<h3 id="todos与引用">TODOs与引用</h3>
+<p>​ 代办项 / 引用 是markdown提供的另外两种输出样式：如图所示</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/todos.png"></p>
+<center>
+Figure 5. 引用与待办项输出示例
+</center>
+<h4 id="引用">引用</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; 一级引用</span><br><span class="line">&gt;&gt; 二级引用</span><br><span class="line">&gt;&gt;&gt; 三级引用</span><br></pre></td></tr></table></figure>
+<p>​ 注意&gt;号后面要加空格。引用可以一直套娃下去。</p>
+<p>​ 有的时候可能卡在引用语法里出不来（输入不了正常的文字，换行之后仍然是引用区内），只需要使用<code>Ctrl+[</code>减少缩进即可退出引用。</p>
+<h4 id="todos">TODOs</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- [x] 14:00-16:00</span><br><span class="line">- [ ] 16:00-18:00</span><br></pre></td></tr></table></figure>
+<p>​ 注意：首先是<code>-</code>号，<strong>空格</strong>后，再输入<code>[ ]</code>（中有空格），再空格输入文字。其中输入有x的表明已经完成的，原生markdown中需要输入x，但Typora中可以直接点击，自动输入x。</p>
+<hr>
+<h3 id="代码片段与代码块">代码片段与代码块</h3>
+<p>​ 一般会给程序员使用，比如要强调一块代码的时候。Markdown是可以根据选择的语言进行语法高亮(Syntax Highlights) 以及自动标注行号的，以下是C++代码的一个实例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello Markdown!\n&quot;</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 实际上，所有需要强调的非文章内容都可以放在代码块中。原生markdown语法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">...</span><br><span class="line">​```</span><br></pre></td></tr></table></figure>
+<p>​ 需要指定语言时，Typora在代码块右下角可以输入语言（点击代码块后右下角会出现），原生语法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">```语言名称</span><br><span class="line"></span><br><span class="line">​```</span><br><span class="line">例如</span><br><span class="line">​```python</span><br><span class="line">print(&quot;Hello markdown.&quot;)</span><br><span class="line">​```</span><br></pre></td></tr></table></figure>
+<p>​ 如果不需要整段的代码，而是需要强调某些小部分的话，可以使用“`”符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">插入图片的快捷键是`Ctrl+Shift+I`</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="emoji">Emoji</h3>
+<p>​ 这个好像是Typora提供的（原生markdown好像也有，但是emoji的名称要去记，很不方便）。比如我要输入一个微笑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:smile:</span><br></pre></td></tr></table></figure>
+<p>​ 微笑将会按照上面的语法显示出来：:smile:。对Typora而言，输入英文冒号后，随便输入一个字母都可能有对应的emoji，比如：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/emoji.png"></p>
+<center>
+Figure 6. Markdown自带的emoji
+</center>
+<hr>
+<h3 id="typora的一些设置与功能">Typora的一些设置与功能</h3>
+<p><span id="setting"></span></p>
+<p>​ Typora个性化设置可以帮助用户更好地使用其携带的一些功能：右上角<code>[文件]</code>-&gt;<code>[偏好设置]</code>-&gt;<code>[Markdown]</code>中（markdown设置更为常用）：</p>
+<p></p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/setting1.png"></p>
+<center>
+Figure 7. 常用设置1
+</center>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/setting2.png"></p>
+<center>
+Figure 8. 常用设置2
+</center>
+<p>​ 在Typora中还有两种模式可以设置：</p>
+<ul>
+<li>打字机模式（页面自动定位到当前行所在位置，无需滚轮滚动）（可以自己试试看：快捷键<code>F8</code>）</li>
+<li>专注模式（其他内容的可见性会变低（加雾），当前书写内容正常显示）（可以自己试试看：快捷键<code>F9</code>）
+<ul>
+<li>左上角：视图中可以进行设置</li>
+</ul></li>
+</ul>
+<h4 id="目录组织">目录组织</h4>
+<p>​ 如果需要快速建立目录，可以直接在文章开头输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[toc]</span><br></pre></td></tr></table></figure>
+<p>​ 表示（table of contents），这个目录的建立是根据<a href="#caption">【标题与分割线】</a>中的标题级数来组织的。目录可以用在：</p>
+<ul>
+<li>实验报告 / 长文 中</li>
+<li>并且，生成pdf时，会自动插入书签（每个标题都会有书签，书签下根据标题级数还会有子书签）</li>
+</ul>
+<hr>
+<h2 id="level-2-skills">Level 2 Skills</h2>
+<p>​ 此部分内容较为进阶，但是如1 / 3节而言，对于大多数人来说都很实用（第三节难记），包括：</p>
+<ul>
+<li>实用的HTML命令（简单可复制）</li>
+<li>LaTex数学公式输入</li>
+<li>mermaid（块状流程图） / flow（标准流程图） / gantt（甘特图）绘制</li>
+</ul>
+<hr>
+<h3 id="实用html命令">实用HTML命令</h3>
+<blockquote>
+<p><em>HTML</em>称为超文本标记语言，是一种标记语言。它包括一系列标签．通过这些标签可以将网络上的文档格式统一，使分散的Internet资源连接为一个逻辑整体。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/HTML/97049?fr=aladdin">HTML 百度百科</a></p>
+</blockquote>
+<p>​ 本文不教HTML怎么写（不是本文的目的），并且HTML也不像原生markdown那么简洁，但是有些非常实用的编辑命令不得不提。</p>
+<h4 id="文字的居中与修改">文字的居中与修改</h4>
+<p>​ 原生markdown貌似不支持直接居中，作为使用者，我也不可能直接就用空格手动居中了。居中 / 字体调整等方面相对麻烦（虽然无需鼠标点击）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;center&gt;需要居中的部分&lt;/center&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 显示的结果是：</p>
+<center>
+需要居中的部分
+</center>
+<p>​ 而字体大小 / 颜色 / 字型调整，需要应用<code>&lt;font&gt;</code>语法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">size</span>=<span class="string">3</span> <span class="attr">color</span>=<span class="string">&#x27;blue&#x27;</span> <span class="attr">face</span>=<span class="string">&#x27;黑体&#x27;</span>&gt;</span>黑体，size=3的蓝色字<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">size</span>=<span class="string">4</span> <span class="attr">color</span>=<span class="string">&#x27;red&#x27;</span> <span class="attr">face</span>=<span class="string">&#x27;微软雅黑&#x27;</span>&gt;</span>微黑，size=4的红色字<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">size</span>=<span class="string">5</span> <span class="attr">color</span>=<span class="string">&#x27;green&#x27;</span> <span class="attr">face</span>=<span class="string">&#x27;Arial&#x27;</span>&gt;</span> Arial字体，size=5的绿色字<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><font size="3" color="blue" face="黑体">黑体，size=3的蓝色字</font> <font size="4" color="red" face="微软雅黑">微黑，size=4的红色字</font> <font size="5" color="green" face="Arial"> Arial字体，size=5的绿色字</font></p>
+<p>​ 多重特性叠加也是可以的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;center&gt;&lt;font size=3 color=&#x27;blue&#x27; face=&#x27;黑体&#x27;&gt;居中黑体size3蓝色字/font&gt;&lt;/center&gt;</span><br></pre></td></tr></table></figure>
+<center>
+<font size="3" color="blue" face="黑体">居中黑体size3蓝色字/font&gt;
+</font></center>
+<hr>
+<h4 id="分页-高级表格">分页 / 高级表格</h4>
+<p>​ 假如我们希望某处文字后，另起一页，直接打换行太不方便了（并且markdown中没有页数这个概念，转为pdf后才能看到分页效果）。可以复制以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;page-break-after: always;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 表示此处之后，进行新加一页的操作。通常用于：abstract与下文的分割 / 目录与下文的分割 / 正文与reference的分割。</p>
+<p>​ <strong><u>高级表格</u></strong>：原生markdown不支持单元格合并，需要使用HTML的<code>&lt;table&gt;</code>标签才能得到扩展。具体方法十分复杂，不作为重点，只是提一下，有兴趣者参看：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/html/html-tables.html">【HTML 表格 | 菜鸟教程🔗】</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lhrdlp/article/details/100861546">【CSDN HTML表格 单元格合并🔗】</a></li>
+</ul>
+<hr>
+<h4 id="之前讲过的html">之前讲过的HTML</h4>
+<ul>
+<li><code>&lt;u&gt;...&lt;/u&gt;</code> 下划线语法</li>
+<li><code>&lt;span id='name'&gt;...&lt;/span&gt;</code>，设置跳转位置标记语法</li>
+</ul>
+<hr>
+<h3 id="latex-数学公式渲染">LaTex 数学公式渲染</h3>
+<p>​ 什么是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/LaTeX/1212106?fr=aladdin">[<span class="math inline">\(\LaTeX\)</span>百度百科🔗]</a>，<a href="(https://www.latex-project.org/)">[<span class="math inline">\(\LaTeX\)</span>官网]</a></p>
+<p>​ 原生的markdown不支持（Github上的readme就不直接支持<span class="math inline">\(\LaTeX\)</span>语法），但是Typora支持。有数学公式输入需要的朋友可以使用内置的功能。注意可能需要在设置中打开LaTex支持，详见<a href="#setting">【Typora的一些设置与功能】</a>。</p>
+<h4 id="内联公式">内联公式</h4>
+<p>​ 就是行内嵌入公式，比如：<span class="math inline">\(P(x|y)=\frac{P(x,y)}{P(y)}\)</span>或是：<span class="math inline">\(f:D \subset \mathbb R^n\rightarrow \mathbb R\)</span>。只需要使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">比如：$P(x|y)=\frac&#123;P(x,y)&#125;&#123;P(y)&#125;$</span><br></pre></td></tr></table></figure>
+<p>​ 也就是LaTex语法是被$符号（左右各一个）包围的。</p>
+<h4 id="公式块">公式块</h4>
+<p><span class="math display">\[
+2D_{JS}(P_R|P_G)=\int_xP_R(x)log(\frac{P_R(x)}{\frac{P_R(x) + P_G(x)}{2}})dx + \int_xP_G(x) log(\frac{P_G(x)}{\frac{P_R(x) + P_G(x)}{2}})dx
+\]</span></p>
+<p>​ 还没有接触过LaTex的朋友，就不指望你立马写出以上的公式来了。上面公式的代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">2D_&#123;JS&#125;(P_R|P_G)=\int_xP_R(x)log(\frac&#123;P_R(x)&#125;&#123;\frac&#123;P_R(x) + P_G(x)&#125;&#123;2&#125;&#125;)dx + \int_xP_G(x) log(\frac&#123;P_G(x)&#125;&#123;\frac&#123;P_R(x) + P_G(x)&#125;&#123;2&#125;&#125;)dx</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>​ 重点就是开头和结尾插入两个<code>$$</code>。</p>
+<h4 id="常用latex语法">常用<span class="math inline">\(\LaTeX\)</span>语法</h4>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/latex1.png"></p>
+<center>
+Figure 9. LaTex常用语法
+</center>
+<p>​ 公式块语法（多行公式，<strong><u>左对齐</u></strong>，每个公式<strong><u>独立标号</u></strong>）</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;align&#125;</span><br><span class="line"><span class="built_in">&amp;</span> x = a + b 	<span class="keyword">\\</span> <span class="comment">% \\为换行</span></span><br><span class="line"><span class="built_in">&amp;</span> x = c + d</span><br><span class="line"><span class="keyword">\end</span>&#123;align&#125;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[
+\begin{align}
+&amp; x = a + b     \\ % \\为换行
+&amp; x = c + d
+\end{align}
+\]</span></p>
+<p>​ 多行公式，所有公式标号只有一个:</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;equation&#125;</span><br><span class="line">x = a + b 	<span class="keyword">\\</span> <span class="comment">% \\为换行</span></span><br><span class="line">x = c + d</span><br><span class="line"><span class="keyword">\end</span>&#123;equation&#125;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[
+\begin{equation}
+x = a + b   \\ % \\为换行
+x = c + d
+\end{equation}
+\]</span></p>
+<p>​ 其他的语法可以见上一篇博文<a href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">[LaTex基础语法记录]</a>。有些语法支持（比如矩阵 / 大花括号 / 公式lable添加），有些不支持（图片操作 / 分节）</p>
+<hr>
+<h3 id="mermaid-flow-gantt">Mermaid / Flow / Gantt</h3>
+<p>​ 这三种是常见的图表（块状逻辑图）（流程图）（甘特图（多用于项目管理）），这些图表都是基于三个“`”符号的代码块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">```mermaid</span><br><span class="line">...</span><br><span class="line">​```</span><br><span class="line"></span><br><span class="line">​```flow</span><br><span class="line">...</span><br><span class="line">​```</span><br><span class="line"></span><br><span class="line">​```gantt</span><br><span class="line">...</span><br><span class="line">​```</span><br></pre></td></tr></table></figure>
+<h4 id="mermaid">Mermaid</h4>
+<p>​ 只提供简单的示例：mermaid图表通常的输出如下：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/mermaid2.png"></p>
+<center>
+Figure 10. TB与LR两种空间排布的输出
+</center>
+<p>​ 左图是上下式排列（<code>graph TB</code>）右图是左右式排列（<code>graph LR</code>）。</p>
+<p>​ mermaid图提供了几种 <strong>【线型】</strong>，【<strong>框型</strong>】。比如：</p>
+<ul>
+<li>细直线（无向<code>---</code>），细箭头（有向<code>--&gt;</code>），粗直线（<code>===</code>），粗箭头（<code>==&gt;</code>）</li>
+<li>直角框（A[内容]），圆角框（ A(内容) ），圆形框（ A((内容)) ），如下代码所示。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A((A))--&gt;B[B]</span><br><span class="line">B--&gt;C((C))</span><br><span class="line">B---D(D)</span><br><span class="line">C===E(E)</span><br><span class="line">D==&gt;E((E))</span><br></pre></td></tr></table></figure>
+<p>​ 输出的结果为：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/mermaid3.png"></p>
+<center>
+Figure 11. 不同线型与框型的输出
+</center>
+<h4 id="flow流程图">Flow流程图</h4>
+<p>​ 流程图中有五个主要结构：其书写如表所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th>结构</th>
+<th>书写方式</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>开始框（圆角框）</td>
+<td>start</td>
+</tr>
+<tr class="even">
+<td>输入输出框（平行四边形）</td>
+<td>inputoutput</td>
+</tr>
+<tr class="odd">
+<td>流程框（直角框）</td>
+<td>operation</td>
+</tr>
+<tr class="even">
+<td>条件判定（菱形框）</td>
+<td>condition</td>
+</tr>
+<tr class="odd">
+<td>结束框（圆角框）</td>
+<td>end</td>
+</tr>
+</tbody>
+</table>
+<p>​ 一个书写示例如下图所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">start=&gt;start: Program starts</span><br><span class="line">input=&gt;inputoutput: Input</span><br><span class="line">operation=&gt;operation: System checking</span><br><span class="line">condition=&gt;condition: System failed?</span><br><span class="line">output=&gt;inputoutput: Output</span><br><span class="line">error=&gt;operation: Error</span><br><span class="line">end=&gt;end: Shutdown</span><br><span class="line"></span><br><span class="line">start(right)-&gt;input</span><br><span class="line">input(right)-&gt;operation</span><br><span class="line">operation(right)-&gt;condition</span><br><span class="line">condition(no,right)-&gt;output</span><br><span class="line">condition(yes,bottom)-&gt;error(right)-&gt;output</span><br><span class="line">output(right)-&gt;end</span><br></pre></td></tr></table></figure>
+<p>​ 对于<code>=&gt;</code>左边的部分，其实是每个框的名称，比如定义一个operation框叫做error。<code>=&gt;</code>右边则是框类型。上半部分中，所有的框被定义了，包括其类型以及内容（类型后冒号 + 空格 输入内容），下半部分则是其中的流程转换关系（<code>-&gt;</code>表示 flow的方向）</p>
+<p>​ 注意 condition可多分支，所以会有(no) / (yes)标签，其他的(right / bottom)都指的是箭头的空间方向。事实上，flow只能画一些简单的流程图，复杂的流程图中各个框的位置极其难编排。输出结果如下：</p>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/flow.JPG"></p>
+<center>
+Figure 12. flow流程图输出的结果
+</center>
+<h4 id="gantt时间图">Gantt时间图</h4>
+<p>​ 给一个例子吧，from <a target="_blank" rel="noopener" href="https://blog.csdn.net/zyxhangiian123456789/article/details/102479437">[CSDN Gantt Graph]</a>。个人其实没有使用在这个的需求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gantt</span><br><span class="line">dateformat YYYY-MM-DD</span><br><span class="line">Title The expected refining schedule</span><br><span class="line">section DS1</span><br><span class="line">Oil 3 (25,000): done, 0h, 100h</span><br><span class="line">Oil 4 (24,000): crit, 96h</span><br><span class="line">Oil 8 (24,000): crit, 176h</span><br><span class="line">section DS2</span><br><span class="line">Oil 1 (16,000): done, 0h, 48h</span><br><span class="line">Oil 2 (26,000): done, 78h</span><br><span class="line">oil 11 (82,300): crit, 246h</span><br><span class="line">section DS3</span><br><span class="line">Oil 5 (15,000): done, 0h, 60h</span><br><span class="line">Oil 4 (17,000): done, 68h</span><br><span class="line">oil 6 (18,000): done, 72h</span><br><span class="line">oil 10 (43,055): crit, 172h</span><br><span class="line">section DS4</span><br><span class="line">Oil 7 (22,000): done, 0h, 35h</span><br><span class="line">Oil 8 (103,000): active, 165h</span><br><span class="line">oil 9 (107,638): crit, 172h</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/02/09/Typora-Markdown-Intros/gantt.JPG"></p>
+<center>
+Figure 13. Gantt图绘制结果
+</center>
+<hr>
+<h2 id="实践练习">实践练习！</h2>
+<ul>
+<li>一句话：尝试-&gt;熟练 就能发现word / WPS 有多难以使用。</li>
+<li>读者可以尝试使用Markdown写一份笔记。要求包含：
+<ul>
+<li>封面的设计（比如居中 / 强制分页 / 字体变换 / 图片插入）</li>
+<li>目录（toc插入 / 强制分页）</li>
+<li>正文（标题 / 强调 / 分点 / 超链接 / 引用 / 表格 / 代码块(optional) / LaTeX(optional) ）</li>
+</ul></li>
+</ul>
+<center>
+<font size="5"> Amat Victoria Curam. 2021.2.10</font>
+</center>
+<p>​</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/" title="Typora &amp; Markdown Intros">https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/typesetting/" rel="tag"><i class="fa fa-tag"></i> typesetting</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/" rel="prev" title="LaTex基础语法记录">
+                  <i class="fa fa-chevron-left"></i> LaTex基础语法记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/10/CycleGAN-Paper-Summary/" rel="next" title="CycleGAN Paper Summary">
+                  CycleGAN Paper Summary <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

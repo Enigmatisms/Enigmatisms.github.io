@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Volume2D  Preface ​ 最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。   Figure 1. 我的世界光影  ​ 实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在&quot;Gods&#39; Ray&quot;的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2D体积光绘制算法设计">
+<meta property="og:url" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Volume2D  Preface ​ 最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。   Figure 1. 我的世界光影  ​ 实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在&quot;Gods&#39; Ray&quot;的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/rays.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/block.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/orient.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/calc2.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/render.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/cond.JPG">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/direct.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/direct2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/beauty1.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/beauty2.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/volume.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/volume2.gif">
+<meta property="article:published_time" content="2021-02-18T07:35:30.000Z">
+<meta property="article:modified_time" content="2021-06-17T10:52:43.573Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="algos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/","path":"2021/02/18/2D体积光绘制算法设计/","title":"2D体积光绘制算法设计"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2D体积光绘制算法设计 | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">32</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">44</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#volume2d"><span class="nav-text">Volume2D</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#preface"><span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-text">算法设计与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E7%A1%AE%E5%AE%9A%E4%B8%8E%E5%88%92%E5%88%86"><span class="nav-text">边界确定与划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E7%9A%84%E6%8C%89%E6%A0%85%E6%A0%BC%E7%A1%AE%E5%AE%9A"><span class="nav-text">边界的按栅格确定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E9%87%8D%E6%96%B0%E8%AE%A1%E7%AE%97"><span class="nav-text">边界重新计算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AB%E5%8F%89%E6%90%9C%E7%B4%A2"><span class="nav-text">八叉搜索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E6%A1%86%E7%A1%AE%E5%AE%9A"><span class="nav-text">渲染框确定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96"><span class="nav-text">美化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E4%B8%8E%E4%BB%A3%E7%A0%81"><span class="nav-text">结果与代码</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2D体积光绘制算法设计
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-18 15:35:30" itemprop="dateCreated datePublished" datetime="2021-02-18T15:35:30+08:00">2021-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-06-17 18:52:43" itemprop="dateModified" datetime="2021-06-17T18:52:43+08:00">2021-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="volume2d">Volume2D</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ 最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png"></p>
+<center>
+Figure 1. 我的世界光影
+</center>
+<p>​ 实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在"Gods' Ray"的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光影，我也很想自己实现一个光线效果（大一写的游戏<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">Ethians alpha 1.1🔗</a>中有阴影计算的算法（FOV shadow casting），但结果是基于栅格的，而不是基于像素的）。综合以上的想法 + 想精进一下C++ STL技术，我设计了一个这样的问题。</p>
+<span id="more"></span>
+<blockquote>
+<p>假设有一个点光源，在一个只有矩形障碍物的2D平面空间中，如何高效渲染场景中的阴影？</p>
+</blockquote>
+<p>​ 这就是一个典型的渲染问题，我设计了一个渲染算法并采用C++ + OpenCV 4.5.1进行实现。</p>
+<hr>
+<h2 id="算法设计与实现">算法设计与实现</h2>
+<h3 id="准备工作">准备工作</h3>
+<p>​ 首先将整个地图进行栅格化。比如个人的实现中，一个1200 * 900的窗口，被栅格化为 40 * 30的地图，每个栅格大小为30 pixels。障碍物是基于栅格的（对于类似于Ethians Alpha 1.1这样的平面Roguelike Game适用），栅格越精细，障碍物也可以更加精细，阴影计算对应的时间消耗越大。</p>
+<hr>
+<h3 id="边界确定与划分">边界确定与划分</h3>
+<p>​ 对于矩形的障碍物，一个很自然的想法就是：对其边界进行管理，阴影投射的产生是由于边界对光线的截断作用。但是对于一个w * h的栅格化地图，每一个栅格存在4条边界（不考虑共用边界时），直接对所有边界进行操作，时间复杂度将至少是<span class="math inline">\(O(n^2)\)</span>的。显然，在这个问题中，有些边界是完全不必要存在的，我们需要在此步内计算真正可能影响渲染的边界。关于边界我们还需要其他的信息：</p>
+<ul>
+<li>边界的两个端点位置</li>
+<li>边界是垂直的还是水平的</li>
+<li>边界是否被遮挡，是否被处理过</li>
+<li>边界相对于光线的方向</li>
+</ul>
+<p>​ 后续的计算需要依赖于上述信息。</p>
+<h4 id="边界的按栅格确定">边界的按栅格确定</h4>
+<p>​ 刚开始时我的设计有些问题，我直接使用位置进行遍历（按照水平 / 竖直两个方向，并行），能够快速求出所有的边界。规则如下：</p>
+<ol type="1">
+<li>设置occupancy map（栅格占用2D数组），为0则表示没有障碍物，为1表示有障碍物</li>
+<li>边界所在的位置 水平边的上方一格与下方一格occupancy map值不相等，竖直边则是左右块的值不相等</li>
+<li>可以快速确定两个方向的所有边</li>
+</ol>
+<p>​ 但是这样存在一个问题，我确实可以省略一些非边界位置，比如两个相邻障碍物块之间的边界或者两个空气方块之间的边界，仍然存在一些无用边界无法被剔除。如下图所示：</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/rays.JPG"></p>
+<center>
+Figure 2. 冗余边界示意图
+</center>
+<p>​ 实际上背对光源的边界对投影毫无帮助，计算时可以忽略。这样既可以节省内存，也可以节省计算时间。而如开始的设计，按照边界的水平 / 竖直方向进行边界计算无法获知某一条边界在栅格上的位置，也就无法获知其是否能影响投影结果。</p>
+<p>​ 按照栅格进行确定，也就是遍历地图上所有的栅格，边界在栅格上是有其相对位置信息的，而栅格相对光源也是可以获知位置信息的，这样可以计算出边界是否会影响投影结果。具体的规则如下：</p>
+<ul>
+<li>在光源正上方的栅格，只有面朝光源的这一条边界是有意义的</li>
+<li>在光源侧面的栅格，根据光源的相对位置，最多选择两条面朝光源的边界</li>
+<li>首先计算栅格相对光源的位置：分为8种情况：</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>enum名称</th>
+<th>意义</th>
+<th>二进制编码</th>
+<th>16进制表示</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TL</td>
+<td>左上</td>
+<td>0000</td>
+<td>0x00</td>
+</tr>
+<tr class="even">
+<td>DT</td>
+<td>正上</td>
+<td>0001</td>
+<td>0x01</td>
+</tr>
+<tr class="odd">
+<td>TR</td>
+<td>右上</td>
+<td>0010</td>
+<td>0x02</td>
+</tr>
+<tr class="even">
+<td>DL</td>
+<td>正左</td>
+<td>0100</td>
+<td>0x04</td>
+</tr>
+<tr class="odd">
+<td>DR</td>
+<td>正右</td>
+<td>0110</td>
+<td>0x06</td>
+</tr>
+<tr class="even">
+<td>BL</td>
+<td>左下</td>
+<td>1000</td>
+<td>0x08</td>
+</tr>
+<tr class="odd">
+<td>DB</td>
+<td>正下</td>
+<td>1001</td>
+<td>0x09</td>
+</tr>
+<tr class="even">
+<td>BR</td>
+<td>右下</td>
+<td>1010</td>
+<td>0x0a</td>
+</tr>
+</tbody>
+</table>
+<p>​ 设置编码的原因是，可以根据逻辑运算快速求出栅格或者边界是否属于某个方向（例如上方 包括左上 正上和右上，或者正方向，包括四个正向）。</p>
+<ul>
+<li>只有正方向的栅格存在一条有效边界，其余栅格均存在两条有效边界，如下图所示：</li>
+</ul>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/block.JPG"></p>
+<center>
+Figure 3. 有效边界示意图
+</center>
+<p>​ 根据边中点与光源的相对位置可以计算出边的方向（orient），边的orient图：</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/orient.png"></p>
+<center>
+Figure 4. 边方向计算图，中部灰色方块是光源
+</center>
+<p>​ 边界计算是分块并行的。由于我使用的机器为4核的，使用了4个线程（也就是依图像中心划分为四个象限，并行计算，最后合并到一个vector内）</p>
+<hr>
+<h3 id="边界重新计算">边界重新计算</h3>
+<p>​ 光有边界是没有用的，我们需要通过边界来计算渲染问题，前面的步骤只是在减少不必要的边界计算以及渲染框计算。关于阴影区域的一个简单想法是：投影是存在先后顺序的，距离光源近的边界必然是需要被预先处理的，并且在距离近的边界投影完成之后，可能导致其他边界被遮挡。被完全遮挡的边界是不需要参与后续计算的，这是因为更远的边界被完全遮挡后，其投影的阴影部分必然小于遮挡此边的边界的投影阴影区域（很绕？）。</p>
+<p>​ 既然存在先后顺序，就必然涉及到排序。为了避免进行排序，实现中直接用了一个小顶堆（C++ <code>&lt;queue&gt;</code> 头文件中的 priority_queue）。可惜的是，priority_queue的特性与queue相似，没有迭代器，无法遍历，所以priority_queue存放的是边界类的指针，指向vector中的某个边界类。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">EdgeCompFunctor</span>&#123;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="type">const</span> Edge* <span class="type">const</span> e1, <span class="type">const</span> Edge* <span class="type">const</span> e2)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> e1-&gt;<span class="built_in">getDistance</span>() &gt; e2-&gt;<span class="built_in">getDistance</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">std::priority_queue&lt;Edge*, std::vector&lt;Edge*&gt;, EdgeCompFunctor&gt; edges;</span><br></pre></td></tr></table></figure>
+<p>​ 边界到光源的距离在计算边界的时候，按照中点到光源的欧式距离已经计算过了。</p>
+<p>​ 边界重新计算主要解决两个问题：</p>
+<ul>
+<li>完全被遮挡的边界，设置其内部的valid flag为false，之后出队时如果遇到标签无效的边界直接跳过。</li>
+<li>部分被遮挡的边界，<strong><u>需要重新计算其端点</u></strong>。这个才是最重要的部分。</li>
+</ul>
+<p>​ 如何判定一个Edge在某个距离更近的边界产生的阴影内部呢？可以使用相对角度进行判定：绝对角度坐标（比如极坐标）是不好的，不管使用什么表征（除非四元数），都会存在奇异性，比如极坐标的x正向实际分割了0°与360°，这会让角度大小判定变得复杂。</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/calc2.JPG"></p>
+<center>
+Figure 5. 遮挡性计算
+</center>
+<p>​ 如上图所示，假设我们看左上角那条边界。首先对于正在投影的边界（Projecting edge），其遮挡范围有个角度θ。那么有如下规则，假设一条需要判断的边界到到两条边界的角度为<span class="math inline">\(\theta_{ij},i,j=1,2\)</span>。其中 <span class="math inline">\(\theta{ij}\)</span>表示边界端点i到光线j的夹角：</p>
+<ul>
+<li>某端点与光源连线到两束光线的角度均小于光线夹角θ：说明这个端点在不可视范围内</li>
+<li>某端点到光源连线到两束光线的角度中，至少有一个角度大于θ，说明这个端点在可视范围内。</li>
+</ul>
+<p>​ 如果我们通过计算方向向量，使用方向向量进行内积的计算，内积的结果就是端点和光线夹角的cos值，显然，cos值越接近1（越大），对应端点连线 / 光线的夹角越小。（<strong><u>注意这内积值是cos值，cos在0-<span class="math inline">\(\pi\)</span>是减函数，开始忽略了这一点，直接“越小越好”导致了爆炸</u></strong>）。</p>
+<p>​ 得到了夹角之后有如下规则：</p>
+<ul>
+<li>两个端点均在不可视范围内的直接设置valid = false，之后不再处理</li>
+<li>其中一个端点在不可视范围内的，计算此端点的更新值（恰好在光线上的点）。</li>
+</ul>
+<p>​ 关于端点更新到什么位置：简单的想法是，端点更新到离他近的光线上（夹角小的光线上）。我之前这样做的时候引起了问题：假如夹角小的那条光线对应的位置在障碍物内部或者在空气方块内部（总之不在边界上），就会出现问题。所以需要判定：优先投影到夹角小的光线对应的更新位置上，如果occupancy map指示对应位置不是边界，则投影到另一条光线位置。</p>
+<p>​ 那么整个流程应该是：</p>
+<ul>
+<li>取堆顶，堆顶指针指向的边界为当前投影边，计算光线方向向量，pop</li>
+<li>“八叉”搜索（个人叫法，现在没有用八叉树实现，但是实际应该是可以用类似结构实现的），搜索需要更新的边，进行更新</li>
+<li>更新就是判定是否要更新端点或者valid flag值，此处可以并行</li>
+<li>所有需要更新的边更新之后，确定渲染框</li>
+</ul>
+<h4 id="八叉搜索">八叉搜索</h4>
+<p>​ 由于每条边都包含方向信息，而在某条边投影时，并非整张地图上的边都有可能更新。更新只发生在与投影边相同方向（或是相近方向）的边中。规则是：</p>
+<ul>
+<li>如果是正方向上的边，比如投影边是正上方的，由于正方向障碍物的阴影覆盖面广，需要搜索正上方，左上方，右上方的所有边。也就是说，正方向的投影边需要搜索一个大方向（包含3个小的方向）</li>
+<li>如果不是正方向上的边，只需要搜索边集合（vector）中与投影边相同方向的边即可。</li>
+</ul>
+<p>​ 这种方法还只是基于一维vector的全遍历，实际可以使用unordered_map，以方向编码为key，value为vector，只搜索部分vector。</p>
+<hr>
+<h3 id="渲染框确定">渲染框确定</h3>
+<p>​ 个人认为，本投影问题实际上是：每一条边投影时产生图像上的一部分阴影部分，每投影一条边时就可以计算一个渲染框，只需要将此渲染框内填充满阴影（的颜色）即可。如下图所示，给定一条边界，需要计算此边界产生的阴影区域，也就是需要获得光线（或者阴影边界线）与地图边界的交点。如果得到交点，经过排序之后，可以直接使用OpenCV提供的fillConvexPoly进行凸多边形的颜色填充。</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/render.JPG"></p>
+<center>
+Figure 6. 渲染框计算示意图
+</center>
+<p>​ 如果需要解边界上的点位置，我们需要如下信息：光源位置<span class="math inline">\((x_c, y_c)\)</span>，光线向量<span class="math inline">\((v_x,v_y), (u_x,u_y)\)</span>，边界：<span class="math inline">\(x=0,y=0,x=x_M,y=y_M\)</span>，并设对应边界为：<span class="math inline">\((x_b,y_b)\)</span>那么可以根据： <span class="math display">\[
+(x_c,y_c)+t(v_x,v_y)=(x_b,y_b)
+\]</span> ​ 在边界上<span class="math inline">\(x_b,y_b\)</span>中必然有一个是已知的，可以解出t，得到未知的边界坐标分量。实际上，一条射线（一个向量）可能与两个边界（相邻的x / y方向边界）相交，得到两个解，从两个解中选择合理值（两个分量均在边界范围内）作为解。</p>
+<p>​ 此外，得到了边界交点并不代表着渲染框完全选取好了，由于边界交点并不一定在同一条地图边界上，可能需要增加额外的地图corner为渲染框角点。有如下三种情况：</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/cond.JPG"></p>
+<center>
+Figure 7. 渲染框增加地图边界点的三种情况
+</center>
+<p>​ 在出现需要增加点的情况下，需要人为设计一些规则，讨论如何判定进入这三种情况中的哪一种情况：</p>
+<ul>
+<li>加入两个点的情况出现时，特征的表现是：两个解的某个分量差的绝对值等于地图某个方向的长度。</li>
+<li>加入一个点的情况出现时，特征的表现是：两个解的对应分量不会相等。</li>
+</ul>
+<p>​ 渲染框需要emplace到某个二维vector中。此后使用4个线程同时绘制渲染框即可（地图内100个随机障碍块时，绘制时间大概是1.5ms）。结果如下图所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/direct.png"></th>
+<th style="text-align: center;"><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/direct2.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">随机地图渲染框绘制</td>
+<td style="text-align: center;">非随机地图渲染框绘制</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="美化">美化</h3>
+<p>​ 美化主要做了两个事情：可视范围确定 + 光强衰减。这两个事情可以合并起来处理。开始我使用线性衰减，设置阴影的色彩为(20, 20, 20)： <span class="math display">\[
+max(255-\frac{255-20}{R_{max}}R,20)
+\]</span> ​ 此式说明，光强度线性衰减到<span class="math inline">\(R_{max}\)</span>后，维持在最低光强值处。线性衰减的效果并不好，可见范围内较亮位置比较小。而改换成较为符合物理学的光强衰减公式（平方反比）后，效果较好： <span class="math display">\[
+max(\frac{255}{(aR+1)^2},20),where\;a=\frac{\sqrt\frac{255}{20}-1}{R_{max}}
+\]</span> ​ 美化后的结果如下两张图所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/beauty1.png"></th>
+<th style="text-align: center;"><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/beauty2.png"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">随机地图渲染框绘制</td>
+<td style="text-align: center;">非随机地图渲染框绘制</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="结果与代码">结果与代码</h2>
+<p>​ 代码见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/tree/master/cpp/volume">[Github🔗Algorithm Plus/cpp/volume]</a>，代码依赖：OpenCV 4.5.1，OpenMP，C++ 11（或以上），CMake。</p>
+<p>​ 加入了平滑运动：光源的运动不是按照栅格进行的，而是按照像素进行的，运动过程比较平滑，可以通过键盘操控光源的移动。输出的gif如下：</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/volume.gif"></p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/volume2.gif"></p>
+<center>
+Figure 8. 体积光与光源运动
+</center>
+<hr>
+<br>
+<center>
+Do you like what you♂see ?
+</center>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/" title="2D体积光绘制算法设计">https://enigmatisms.github.io/2021/02/18/2D体积光绘制算法设计/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/algos/" rel="tag"><i class="fa fa-tag"></i> algos</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/" rel="prev" title="<i class="fas fa-quote-left"></i>   To strive, to seek, to find, and not to yield.   <i class="fas fa-quote-right"></i>">
+                  <i class="fa fa-chevron-left"></i> <i class="fas fa-quote-left"></i>   To strive, to seek, to find, and not to yield.   <i class="fas fa-quote-right"></i>
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/20/CNN-Capsule-Neural-Networks/" rel="next" title="CNN - Capsule Neural Networks">
+                  CNN - Capsule Neural Networks <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">288k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">4:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
