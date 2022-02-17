@@ -33,44 +33,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) w">
+  <meta name="description" content="Hexo NexT美化  ​ Hexo NexT主题博客默认只有一个主页面，虽然可以在config.yml中选择以哪个板块作为主页面，但假如我想有多个不同的页面都与主页一样有页面预览，还是难以直接做到的。网上确实有一篇教程：【Hexo添加自定义分类菜单项并定制页面布局(简洁版)】，我的snippet板块第一版就是用这个教程搭建的，但之后发现存在一些问题。那么应该如何解决呢？">
 <meta property="og:type" content="website">
-<meta property="og:title" content="CNN Style Transfer论文复现">
-<meta property="og:url" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:title" content="Hexo NexT主题 更强的自定义页面">
+<meta property="og:url" content="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) w">
+<meta property="og:description" content="Hexo NexT美化  ​ Hexo NexT主题博客默认只有一个主页面，虽然可以在config.yml中选择以哪个板块作为主页面，但假如我想有多个不同的页面都与主页一样有页面预览，还是难以直接做到的。网上确实有一篇教程：【Hexo添加自定义分类菜单项并定制页面布局(简洁版)】，我的snippet板块第一版就是用这个教程搭建的，但之后发现存在一些问题。那么应该如何解决呢？">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/training.JPG">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_71.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_221.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_481.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_11.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_181.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_241.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/star.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_801.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/chaos.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_801.jpg">
-<meta property="article:published_time" content="2021-04-21T08:54:50.000Z">
-<meta property="article:modified_time" content="2021-11-14T17:00:15.543Z">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/link.png">
+<meta property="article:published_time" content="2022-02-17T18:12:01.000Z">
+<meta property="article:modified_time" content="2022-02-17T19:11:47.776Z">
 <meta property="article:author" content="Enigmatisms">
-<meta property="article:tag" content="English">
-<meta property="article:tag" content="knowings">
-<meta property="article:tag" content="DL">
+<meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/training.JPG">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/link.png">
 
 
-<link rel="canonical" href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">
+<link rel="canonical" href="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/","path":"2021/04/21/CNN-Style-Transfer论文复现/","title":"CNN Style Transfer论文复现"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/","path":"2022/02/18/Hexo-NexT主题-更强的自定义页面/","title":"Hexo NexT主题 更强的自定义页面"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>CNN Style Transfer论文复现 | Event Horizon</title>
+<title>Hexo NexT主题 更强的自定义页面 | Event Horizon</title>
   
 
 
@@ -181,7 +167,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#neuralstyle"><span class="nav-text"># NeuralStyle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#to-run-the-code"><span class="nav-text">To run the code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tree---working-directory"><span class="nav-text">Tree - Working Directory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-little-help"><span class="nav-text">A Little Help</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#requirements"><span class="nav-text">Requirements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#training-process"><span class="nav-text">Training Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#results"><span class="nav-text">Results</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#possible-todos"><span class="nav-text">Possible TODOs</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-next%E7%BE%8E%E5%8C%96"><span class="nav-text">Hexo NexT美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#snippet%E6%9D%BF%E5%9D%97%E4%B8%8E%E4%B8%BB%E6%9D%BF%E5%9D%97%E5%85%B3%E7%B3%BB"><span class="nav-text">Snippet板块与主板块关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%8C%96"><span class="nav-text">强化</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -264,7 +250,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -277,7 +263,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CNN Style Transfer论文复现
+          Hexo NexT主题 更强的自定义页面
         </h1>
 
         <div class="post-meta-container">
@@ -287,15 +273,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2021-04-21 16:54:50" itemprop="dateCreated datePublished" datetime="2021-04-21T16:54:50+08:00">2021-04-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-11-15 01:00:15" itemprop="dateModified" datetime="2021-11-15T01:00:15+08:00">2021-11-15</time>
+      <time title="Created: 2022-02-18 02:12:01 / Modified: 03:11:47" itemprop="dateCreated datePublished" datetime="2022-02-18T02:12:01+08:00">2022-02-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -303,7 +283,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+          <a href="/categories/snippet/" itemprop="url" rel="index"><span itemprop="name">snippet</span></a>
         </span>
     </span>
 
@@ -321,7 +301,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.2k</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -339,105 +319,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="neuralstyle"># NeuralStyle</h2>
-<p>My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) with good interpretability.</p>
-<ul>
-<li>CVPR 2016 OpenAccess Link is here: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">CVPR 2016 open access</a></li>
-<li>Personal understanding of this paper [Chinese]: <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">Blog of Enigmatisms/CNN Style Transfer论文复现</a></li>
-</ul>
-<div class="note success"><p>2021.11.15 complement: I have no intention to analyze and explain this paper, because I think it's simple, and I have a deep impression of this, therefore there is no point recording anything on the blog. Original Github Repo: <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeuralStyle">Github🔗: Enigmatisms/NeuralStyle</a>. This post is exactly the README.md of the repo.</p>
-</div>
+        <h2 id="hexo-next美化">Hexo NexT美化</h2>
+<hr>
+<p>​ Hexo NexT主题博客默认只有一个主页面，虽然可以在config.yml中选择以哪个板块作为主页面，但假如我想有多个不同的页面都与主页一样有页面预览，还是难以直接做到的。网上确实有一篇教程：<a target="_blank" rel="noopener" href="https://finisky.github.io/customizecategorybyextension/">【Hexo添加自定义分类菜单项并定制页面布局(简洁版)】</a>，我的snippet板块第一版就是用这个教程搭建的，但之后发现存在一些问题。那么应该如何解决呢？</p>
 <span id="more"></span>
 <hr>
-<h3 id="to-run-the-code">To run the code</h3>
-<p>Make sure to have Pytorch / Tensorboard on your device, CUDA is available too yet I failed to use it (GPU memory not enough, yet API is good to go). I am currently using Pytorch 1.7.0 + CU101.</p>
-<p>On Init, it might require you to download pretrained VGG-19 network, which requires network connection.</p>
+<h2 id="snippet板块与主板块关系">Snippet板块与主板块关系</h2>
+<p>​ Snippet板块下的所有post，其分类（category）都是"snippet"，根据上文博客提到的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> realestatePosts = locals.<span class="property">posts</span>.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> x.<span class="property">categories</span>.<span class="property">data</span>[<span class="number">0</span>].<span class="property">name</span> == filteredCategory;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>​ 这样可以筛选分类为"filteredCategory"的博文，只显示在Snippet板块。但是主板块上仍然无法阻止分类为"filteredCategory"的博客显示（主板块上不显示最合理），开始时我尝试修改<code>.njk</code>文件，但分页会出现错误。我在hexo-next开了个issue，点击下述图片以查看。解决方案是把<code>hexo-generator-index</code>替换为<code>hexo-generator-indexed</code>。</p>
+<center>
+<div style="background-color: rgb(245, 245, 245); border-radius: 18px; padding: 7px;">
+<a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next/issues/1691"><img alt="Qries" src="/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/link.png" style="zoom: 60%"></a>
+</div>
+</center>
 <hr>
-<h3 id="tree---working-directory">Tree - Working Directory</h3>
+<h2 id="强化">强化</h2>
+<p>​ <a target="_blank" rel="noopener" href="https://finisky.github.io/customizecategorybyextension/">【Hexo添加自定义分类菜单项并定制页面布局(简洁版)】</a>开了一个很好的头，通过这种方法确实可以生成一个新的板块，其中只留有特定分类的博文，但是多post一些博文会发现致命问题：</p>
 <ul>
-<li>folder <code>content</code>: Where I keep content images.</li>
-<li>folder <code>imgs</code>: To which the output goes.</li>
-<li>folder <code>style</code>:
-<ul>
-<li><code>lossTerm.py</code>: Style loss and Content loss are implemented here.</li>
-<li><code>precompute.py</code>: VGG-19 utilization, style and content extractors.</li>
-<li><strong><code>transfer.py</code></strong>: executable script.</li>
-</ul></li>
+<li>博文排序是倒序的，越老的post排在越前面。阿哲，历史文件的现实意义？</li>
+<li>博文置顶失效了。在<code>hexo-generator-indexed</code>中有个这样的功能：只需要在markdown的<code>front-matter</code>中填上:<code>sticky: x</code>（x是优先级，最小0最大100），就会根据优先级来排序，可以实现置顶功能，但是在博客的方法下失效了。我们看看博客中提到的方法代码：</li>
 </ul>
-<hr>
-<h3 id="a-little-help">A Little Help</h3>
-<p>Always run <code>transfer.py</code> in folder <code>style/</code>, using <code>python ./transfer.py -h</code>， you'll get:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">usage: transfer.py [-h] [--alpha ALPHA] [--epoches EPOCHES]</span><br><span class="line">                   [--max_iter MAX_ITER] [--save_time SAVE_TIME] [-d] [-g]</span><br><span class="line">                   [-c]</span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  --alpha ALPHA         Ratio of content loss in the total loss</span><br><span class="line">  --epoches EPOCHES     Training lasts for . epoches (for LBFGS)</span><br><span class="line">  --max_iter MAX_ITER   LBFGS max iteration number</span><br><span class="line">  --save_time SAVE_TIME</span><br><span class="line">                        Save image every &lt;save_time&gt; epoches</span><br><span class="line">  -d, --del_dir         Delete dir ./logs and start new tensorboard records</span><br><span class="line">  -g, --gray            Using grayscale image as initialization for generated</span><br><span class="line">                        image</span><br><span class="line">  -c, --cuda            Use CUDA to speed up training</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="requirements">Requirements</h3>
-<ul>
-<li>Run:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install -r requirements.py</span><br></pre></td></tr></table></figure>
-<p>To find out.</p>
-<hr>
-<h3 id="training-process">Training Process</h3>
-<ul>
-<li>Something strange happened. Loss exploded twice (but recovered.). Tensorboard graphs:</li>
-</ul>
-<p><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/training.JPG"></p>
-<p>Therefore, parameter images change like this (Initialized with grayscale image).</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_71.jpg"></th>
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_221.jpg"></th>
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_481.jpg"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_11.jpg"></td>
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_181.jpg"></td>
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_241.jpg"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">First few epochs</td>
-<td style="text-align: center;">Exploded, for 2th row image</td>
-<td style="text-align: center;">Recovered</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="results">Results</h3>
-<ul>
-<li>CPU training is tooooooo slow. Took me <strong><u>2+ hours</u></strong> for 800 iterations. (i5-8250U 8th Gen @ 1.60Hz)</li>
-</ul>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/star.jpg" style="zoom:80%;"></th>
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg"></th>
-<th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_801.jpg"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/chaos.jpg" style="zoom:80%;"></td>
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg"></td>
-<td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_801.jpg"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Style</td>
-<td style="text-align: center;">Content</td>
-<td style="text-align: center;">Output(800 Iterations)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>I've also done the style transfer of Van Gogh's self portrait for my dad, which is not appropriate to display, but worked.</li>
-</ul>
-<hr>
-<h3 id="possible-todos">Possible TODOs</h3>
-<ul class="task-list">
-<li><input type="checkbox" disabled>
-Try adding InstanceNorm into VGG-19 ? Useful ? Meaningful ?</li>
-</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pagination = <span class="built_in">require</span>(<span class="string">&#x27;hexo-pagination&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> filteredCategory = <span class="string">&#x27;snippet&#x27;</span>;</span><br><span class="line"></span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">generator</span>.<span class="title function_">register</span>(<span class="string">&#x27;custom&#x27;</span>, <span class="keyword">function</span>(<span class="params">locals</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> realestatePosts = locals.<span class="property">posts</span>.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> x.<span class="property">categories</span>.<span class="property">data</span>[<span class="number">0</span>].<span class="property">name</span> == filteredCategory;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">pagination</span>(<span class="string">&#x27;snippets&#x27;</span>, realestatePosts, &#123;</span><br><span class="line">    <span class="attr">perPage</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">layout</span>: [<span class="string">&#x27;index&#x27;</span>],</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>​ 非常plain，就是过滤了一下标签。在这里，我按照<code>hexo-generator-indexed</code>中的代码（在hexo的node_module下可以看到），借鉴其<code>generator.js</code>修改了这个博客过滤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pagination = <span class="built_in">require</span>(<span class="string">&#x27;hexo-pagination&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; sort &#125; = <span class="built_in">require</span>(<span class="string">&#x27;timsort&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> filteredCategory = <span class="string">&#x27;snippet&#x27;</span>;</span><br><span class="line"></span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">generator</span>.<span class="title function_">register</span>(<span class="string">&#x27;custom&#x27;</span>, <span class="keyword">function</span>(<span class="params">locals</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> posts = locals.<span class="property">posts</span>.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> x.<span class="property">categories</span>.<span class="property">data</span>[<span class="number">0</span>].<span class="property">name</span> == filteredCategory;</span><br><span class="line">  &#125;).<span class="title function_">sort</span>(<span class="string">&#x27;-date&#x27;</span>).<span class="title function_">slice</span>(<span class="number">0</span>);				<span class="comment">// 复制，而非原地操作</span></span><br><span class="line">  <span class="title function_">sort</span>(posts.<span class="property">data</span>, <span class="function">(<span class="params">a, b</span>) =&gt;</span> (b.<span class="property">sticky</span> || <span class="number">0</span>) - (a.<span class="property">sticky</span> || <span class="number">0</span>));</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">pagination</span>(<span class="string">&#x27;snippets&#x27;</span>, posts, &#123;</span><br><span class="line">    <span class="attr">perPage</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">layout</span>: [<span class="string">&#x27;custom&#x27;</span>],</span><br><span class="line">    <span class="attr">data</span>: &#123;</span><br><span class="line">      <span class="attr">__index</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>​ 过滤之后立马调用timesort，根据日期排序，再根据posts中博客的<code>sticky</code>值排序，两处都定义了匿名函数。这样一来，博客生成的就是正确的排版。</p>
 
     </div>
 
@@ -455,7 +361,7 @@ Try adding InstanceNorm into VGG-19 ? Useful ? Meaningful ?</li>
   </li>
   <li class="post-copyright-link">
       <strong>Post link: </strong>
-      <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/" title="CNN Style Transfer论文复现">https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer论文复现/</a>
+      <a href="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/" title="Hexo NexT主题 更强的自定义页面">https://enigmatisms.github.io/2022/02/18/Hexo-NexT主题-更强的自定义页面/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -464,23 +370,18 @@ Try adding InstanceNorm into VGG-19 ? Useful ? Meaningful ?</li>
 </div>
 
           <div class="post-tags">
-              <a href="/tags/English/" rel="tag"><i class="fa fa-tag"></i> English</a>
-              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
-              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+              <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/" rel="prev" title="优雅线代与美妙优化">
-                  <i class="fa fa-chevron-left"></i> 优雅线代与美妙优化
+                <a href="/2022/02/17/Redmi-G-2021%E9%94%90%E9%BE%99%E7%89%88%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="prev" title="Redmi G 2021锐龙版双系统环境工程记录">
+                  <i class="fa fa-chevron-left"></i> Redmi G 2021锐龙版双系统环境工程记录
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/" rel="next" title="滤波＆卡尔曼">
-                  滤波＆卡尔曼 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-02-17T07:17:50.067Z</updated>
+  <updated>2022-02-17T19:11:47.776Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo NexT主题 更强的自定义页面</title>
+    <link href="https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/"/>
+    <id>https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/</id>
+    <published>2022-02-17T18:12:01.000Z</published>
+    <updated>2022-02-17T19:11:47.776Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;hexo-next美化&quot;&gt;Hexo NexT美化&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;​ Hexo NexT主题博客默认只有一个主页面，虽然可以在config.yml中选择以哪个板块作为主页面，但假如我想有多个不同的页面都与主页一样有页面预览，还是难以直接做到的。网上确实有一篇教程：&lt;a href=&quot;https://finisky.github.io/customizecategorybyextension/&quot;&gt;【Hexo添加自定义分类菜单项并定制页面布局(简洁版)】&lt;/a&gt;，我的snippet板块第一版就是用这个教程搭建的，但之后发现存在一些问题。那么应该如何解决呢？&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="hexo" scheme="https://enigmatisms.github.io/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Redmi G 2021锐龙版双系统环境工程记录</title>
@@ -648,32 +669,6 @@ Figure 1. 粒子广场
     <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
     
     <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【笔记】两篇双目相关论文</title>
-    <link href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/"/>
-    <id>https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/</id>
-    <published>2021-09-04T06:00:53.000Z</published>
-    <updated>2021-09-07T17:01:48.210Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;stereo&quot;&gt;Stereo!&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。&lt;/p&gt;
-&lt;p&gt;​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="stereo" scheme="https://enigmatisms.github.io/tags/stereo/"/>
     
   </entry>
   
