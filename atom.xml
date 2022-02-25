@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-02-17T19:11:47.776Z</updated>
+  <updated>2022-02-25T00:44:11.858Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,86 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>远古SDF文档</title>
+    <link href="https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/"/>
+    <id>https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/</id>
+    <published>2022-02-22T09:17:43.000Z</published>
+    <updated>2022-02-25T00:44:11.858Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;iframe src=&quot;//www.slideshare.net/slideshow/embed_code/key/dUI2s72z0jLiEq&quot; width=&quot;750&quot; height=&quot;420&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>简单的ROS跨设备控制</title>
+    <link href="https://enigmatisms.github.io/2022/02/22/%E7%AE%80%E5%8D%95%E7%9A%84ROS%E8%B7%A8%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6/"/>
+    <id>https://enigmatisms.github.io/2022/02/22/%E7%AE%80%E5%8D%95%E7%9A%84ROS%E8%B7%A8%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6/</id>
+    <published>2022-02-22T09:16:48.000Z</published>
+    <updated>2022-02-25T00:23:43.573Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;rrrros&quot;&gt;RRRROS&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ ROS常用的进程通信机制是消息传递，是基于各个node与master的XML-RPC实现，并且可能用到TCP/UDP等传输层协议，非常地网络。这样看来，ROS进行跨设备通信应该是比较简单的。本篇主要记录一个简单的ROS跨设备应用场景，并简介其中的原理。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="ROS" scheme="https://enigmatisms.github.io/tags/ROS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2D激光SLAM中的SDF表征</title>
+    <link href="https://enigmatisms.github.io/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/"/>
+    <id>https://enigmatisms.github.io/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/</id>
+    <published>2022-02-21T06:04:27.000Z</published>
+    <updated>2022-02-25T00:28:25.325Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;sdf-slam&quot;&gt;SDF-SLAM&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 在家配电脑环境工程时，真没有事干，就只能看看论文了。之前太naive了，了解得少，只知道2D地图表征常用栅格图以及点云，不常用的是隐式函数（implicit function），却忘记了还有SDF这个中间表征。查找2D-SLAM文献时，蹦出了几篇SDF相关的文章，都还算中规中矩，通俗易懂（比起什么cartographer分支定界来说，简直太友好了，不过说起来，这几篇论文中除了cartographer魔改论文之外，真的谈了后端吗？）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Fossel, Joscha-David, Karl Tuyls, and Jürgen Sturm. &quot;2D-SDF-SLAM: A signed distance function based SLAM frontend for laser scanners.&quot; &lt;em&gt;2015 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)&lt;/em&gt;. IEEE, 2015.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Daun, Kevin, et al. &quot;Large scale 2d laser slam using truncated signed distance functions.&quot; &lt;em&gt;2019 IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)&lt;/em&gt;. IEEE, 2019.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Fu, Xingyin, et al. &quot;Improved Signed Distance Function for 2D Real-time SLAM and Accurate Localization.&quot; &lt;em&gt;arXiv preprint arXiv:2101.08018&lt;/em&gt; (2021).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ P.S. 本文内容并不多。虽然这有三篇论文，其中值得大篇幅讲的不可能塞在这篇博客中，不值得大篇幅讲的都在这了。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
+    
+    <category term="表征" scheme="https://enigmatisms.github.io/tags/%E8%A1%A8%E5%BE%81/"/>
+    
+  </entry>
   
   <entry>
     <title>Hexo NexT主题 更强的自定义页面</title>
@@ -574,101 +654,6 @@ Figure 1. 这人有一个以自己名字命名的实验室，还曾拒绝过出�
     <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
     
     <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CUDA踩坑实录【2】</title>
-    <link href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/"/>
-    <id>https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/</id>
-    <published>2021-10-15T14:20:52.000Z</published>
-    <updated>2021-11-24T07:43:52.726Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;cuda-ii&quot;&gt;CUDA II&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用... 等等。&lt;/p&gt;
-&lt;p&gt;​ 为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的&lt;a href=&quot;https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/&quot;&gt;【Particle Filter Simulation】&lt;/a&gt;这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为 &lt;strong&gt;&lt;u&gt;激光雷达仿真器LiDARSim2D&lt;/u&gt;&lt;/strong&gt;的一个补充模块，现在更新在了&lt;a href=&quot;https://github.com/Enigmatisms/LiDARSim2D&quot;&gt;[仿真器repo：LiDARSim2D]&lt;/a&gt;下。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png&quot;&gt;&lt;/p&gt;
-&lt;center&gt;
-Figure 1. 粒子广场
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
-    
-    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Correspondence Problem Papers</title>
-    <link href="https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/"/>
-    <id>https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/</id>
-    <published>2021-10-14T16:54:54.000Z</published>
-    <updated>2021-10-14T17:28:07.645Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;correspondence-problem&quot;&gt;Correspondence Problem&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;The &lt;strong&gt;correspondence problem&lt;/strong&gt; refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due to movement of the camera, the elapse of time, and/or movement of objects in the photos. ---Wikipedia&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;​ 最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。&lt;/p&gt;
-&lt;p&gt;​ 我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV 2005的尤其简单，看完就能写出代码来）：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf&quot;&gt;ICCV 2005: A Spectral Technique for Correspondence Problems Using Pairwise Constraints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://arxiv.org/abs/2103.05465&quot;&gt;CVPR 2021: PointDSC: Robust Point Cloud Registration using Deep Spatial Consistency&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 我将本人论文分享时做的PPT贴在本文内。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CUDA踩坑实录【1】</title>
-    <link href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/"/>
-    <id>https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/</id>
-    <published>2021-09-22T16:06:38.000Z</published>
-    <updated>2021-09-24T01:52:46.588Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;cuda-i&quot;&gt;CUDA I&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;​ 在复现&lt;a href=&quot;https://arxiv.org/abs/2104.07516&quot;&gt;&lt;strong&gt;A Decomposition Model for Stereo Matching&lt;/strong&gt;&lt;/a&gt;这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA extension。出于以下目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;复习CUDA（特别是在学习完GPU存储结构与计算之后，急需实践）&lt;/li&gt;
-&lt;li&gt;学习setuptools的使用以及torch的CUDA extension写法&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 我给自己定了一个小型的CUDA任务，与SDF以及marching cubes算法十分相关。项目见&lt;a href=&quot;https://github.com/Enigmatisms/CuTorch&quot;&gt;[🔗Enigmatisms/CuTorch]&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
-    
-    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
     
   </entry>
   
