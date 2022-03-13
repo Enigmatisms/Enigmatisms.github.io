@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-02-25T00:44:11.858Z</updated>
+  <updated>2022-03-13T17:15:48.756Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Neural Randiance Field【1】</title>
+    <link href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/"/>
+    <id>https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/</id>
+    <published>2022-03-13T12:05:21.000Z</published>
+    <updated>2022-03-13T17:15:48.756Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;neural-rf&quot;&gt;Neural RF&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Randiance Field【2】]中介绍Point NeRF以及NeRF的复现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com&quot;&gt;Mildenhall, Ben, et al. &quot;Nerf: Representing scenes as neural radiance fields for view synthesis.&quot; &lt;em&gt;European conference on computer vision&lt;/em&gt;. Springer, Cham, 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2010.07492.pdf&quot;&gt;Zhang, Kai, et al. &quot;Nerf++: Analyzing and improving neural radiance fields.&quot; &lt;em&gt;arXiv preprint arXiv:2010.07492&lt;/em&gt; (2020).&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/bench.gif&quot; style=&quot;zoom:100%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. 拿个视频当NeRF demo是吧?（误）
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="NeRF" scheme="https://enigmatisms.github.io/tags/NeRF/"/>
+    
+  </entry>
   
   <entry>
     <title>远古SDF文档</title>
@@ -620,40 +656,6 @@ Figure 1. Skeleton Merger 论文效果
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="点云" scheme="https://enigmatisms.github.io/tags/%E7%82%B9%E4%BA%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>特龙智慧-GMapping</title>
-    <link href="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/"/>
-    <id>https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/</id>
-    <published>2021-10-21T17:03:49.000Z</published>
-    <updated>2021-10-22T12:19:23.355Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;特龙智慧&quot;&gt;特龙智慧&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;​ 我在大二上学期购买了《概率机器人》一书，当时还没有学概率论，所以我看不懂（但是我大受震撼）。大二下的暑假曾经学了一段时间，但是没有深入，到第五章就结束了。直到现在，大四了，项目有这方面的需求了，才重新开始看特龙(Sebstian Thrun)这本口碑很好的书。尽管这本书是2006年出版的，其中的很多思想在现在的我看来，都还很有指导意义。非常后悔，自己没能在之前花精力啃下这本SLAM以及移动机器人著作。&lt;/p&gt;
-&lt;p&gt;​ GMapping（以及相关的粒子滤波SLAM方法）或多或少都有他的参与，最近也刚好读了相关的论文，并且仔细研读了其代码（OpenSLAM上的💩山，literally），故我把这些笔记整理成了一篇文章：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;本文作者并没有特龙，但是估计是相关团队的文章：&lt;a href=&quot;https://ieeexplore.ieee.org/abstract/document/4084563/&quot;&gt;Improved Techniques for Grid Mapping with Rao-Blackwellized Particle Filters&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;上面这篇论文可以说是：&lt;a href=&quot;https://ieeexplore.ieee.org/abstract/document/1250629/&quot;&gt;IROS2003:An Efficient FastSLAM Algorithm for Generating Maps of Large-Scale Cyclic Environments from Raw Laser Range Measurements&lt;/a&gt;的升级版（这篇论文的建议分布是“学”出来的）。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%202021-10-22%20194809.png&quot;&gt;&lt;/p&gt;
-&lt;center&gt;
-Figure 1. 这人有一个以自己名字命名的实验室，还曾拒绝过出任Google副总裁...
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
-    
-    <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
     
   </entry>
   

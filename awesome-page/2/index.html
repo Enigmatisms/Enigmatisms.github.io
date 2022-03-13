@@ -104,9 +104,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">36</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">37</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">50</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">51</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -189,7 +189,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -237,6 +237,117 @@
 
     <div class="main-inner index posts-expand">
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/" class="post-title-link" itemprop="url">Nvidia 简单环境工程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-11-21 15:33:34 / Modified: 16:29:53" itemprop="dateCreated datePublished" datetime="2021-11-21T15:33:34+08:00">2021-11-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ampere-pytorch">Ampere Pytorch</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 近日训练神经网络花了五六十块钱，在<a target="_blank" rel="noopener" href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
+<ul>
+<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子</li>
+<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch 1.4.0，直接没办法跑</li>
+</ul>
+<p>​ 于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX 3060，对应架构为安培（Ampere sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
+<center>
+<img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
+</center>
+<center>
+Figure 1. 看起来很便宜 黄仁勋Yes
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
     
 
 
@@ -1257,112 +1368,6 @@ Figure 1. 粒子广场
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/" class="post-title-link" itemprop="url">【笔记】两篇双目相关论文</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-09-04 14:00:53" itemprop="dateCreated datePublished" datetime="2021-09-04T14:00:53+08:00">2021-09-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-09-08 01:01:48" itemprop="dateModified" datetime="2021-09-08T01:01:48+08:00">2021-09-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.4k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="stereo">Stereo!</h1>
-<hr>
-<p>​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
-<p>​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/awesome-page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/5/">5</a><a class="extend next" rel="next" href="/awesome-page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1397,13 +1402,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">303k</span>
+    <span title="Symbols count total">311k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:36</span>
+    <span title="Reading time total">4:43</span>
   </span>
 </div>
 <div class="busuanzi-count">
