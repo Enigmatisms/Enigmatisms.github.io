@@ -8462,4 +8462,99 @@ Figure 6. 已知光线方向与r求其在inverse sphere上的投影
         <tag>NeRF</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Cartographer编译问题整理</title>
+    <url>/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="cartographer">Cartographer</h1>
+<hr>
+<p>​ 毕设工作设计到与cartographer进行定量实验比较。本人在<a href="https://github.com/Enigmatisms/cartographer_tester">Enigmatisms/cartographer_tester</a>中整理了cartographer以及ros驱动代码，添加了自动化轨迹读取等功能，两周前在Ubuntu 18.04上已经完成了测试，但在Ubuntu 20.04上一直编译不通过，调了一下午才调出来。本文记录了cartographer在不同版本的Ubuntu上（尤其是20.04）的一些典型编译问题以及解决方案。笔者现已经通过文中所说的解决方案完成了cartographer的编译。</p>
+<span id="more"></span>
+<hr>
+<h2 id="lua-not-found">Lua Not Found</h2>
+<p>​ 从Github上下载Lua，本地编译安装并且<code>sudo make install</code> 是可以使得这个错误消失。但是，我在Ubuntu 18.04用此方法安装Lua 5.3之后，编译导致ABSL库问题（与Lua有关的）。遂<code>sudo make uninstall</code>卸载，使用</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install lua5.2</span><br></pre></td></tr></table></figure>
+<p>​ 通过apt安装。但是这样安装的<code>lua5.2</code>，编译时仍然说找不到（即使重启，仍然也找不到）。不过，其实我跳过了官网的<code>rosdep</code>步骤，先走完<code>rosdep</code>步骤再编译就能找到<code>lua 5.2</code>了。关于如何解决<code>rosdep update</code>速度慢的问题，见 <a href="https://blog.csdn.net/qq_45831587/article/details/120705199#comments_20681710">[这篇博客，亲测有效]</a>. 这篇博客虽然针对20.04，对于18.04，只需要修改python3为python2.7即可。</p>
+<hr>
+<h2 id="undefined-reference-to-absl">Undefined Reference to ABSL</h2>
+<p>​ <code>absl</code>库可能产生问题:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[241/387] Linking CXX executable cartographer_pbstream</span><br><span class="line">FAILED: cartographer_pbstream </span><br><span class="line">: &amp;&amp; /usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/cartographer_pbstream.dir/cartographer/io/pbstream_main.cc.o  -o cartographer_pbstream  libcartographer.a  /usr/local/lib/libceres.a  -lglog  -lspqr  -ltbb  -lcholmod  -lccolamd  -lcamd  -lcolamd  -lamd  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llua5.2  -lm  /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0  -lglog  /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.2  -lcairo  /usr/local/lib/libprotobuf.a  /usr/local/lib/libabsl_leak_check.a  /usr/local/lib/libabsl_cord.a  /usr/local/lib/libabsl_cordz_info.a  /usr/local/lib/libabsl_cord_internal.a  /usr/local/lib/libabsl_cordz_functions.a  /usr/local/lib/libabsl_cordz_handle.a  /usr/local/lib/libabsl_hash.a  /usr/local/lib/libabsl_city.a  /usr/local/lib/libabsl_bad_variant_access.a  /usr/local/lib/libabsl_low_level_hash.a  /usr/local/lib/libabsl_raw_hash_set.a  /usr/local/lib/libabsl_bad_optional_access.a  /usr/local/lib/libabsl_hashtablez_sampler.a  /usr/local/lib/libabsl_exponential_biased.a  /usr/local/lib/libabsl_str_format_internal.a  /usr/local/lib/libabsl_synchronization.a  /usr/local/lib/libabsl_stacktrace.a  /usr/local/lib/libabsl_graphcycles_internal.a  /usr/local/lib/libabsl_symbolize.a  /usr/local/lib/libabsl_malloc_internal.a  /usr/local/lib/libabsl_debugging_internal.a  /usr/local/lib/libabsl_demangle_internal.a  /usr/local/lib/libabsl_time.a  /usr/local/lib/libabsl_strings.a  /usr/local/lib/libabsl_strings_internal.a  /usr/local/lib/libabsl_base.a  -lpthread  /usr/local/lib/libabsl_spinlock_wait.a  -lrt  /usr/local/lib/libabsl_throw_delegate.a  /usr/local/lib/libabsl_raw_logging_internal.a  /usr/local/lib/libabsl_log_severity.a  /usr/local/lib/libabsl_int128.a  /usr/local/lib/libabsl_civil_time.a  /usr/local/lib/libabsl_time_zone.a  -lpthread &amp;&amp; :</span><br><span class="line">/usr/bin/ld: libcartographer.a(histogram.cc.o): in function `cartographer::common::Histogram::ToString[abi:cxx11](int) const&#x27;:</span><br><span class="line">histogram.cc:(.text+0x43c): undefined reference to `absl::strings_internal::CatPieces[abi:cxx11](std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">/usr/bin/ld: histogram.cc:(.text+0x95a): undefined reference to `absl::strings_internal::AppendPieces(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;*, std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">[256/387] Building CXX object CMakeFiles/cartographer.mapping.internal.3d.scan_matching.fast_correlative...er_3d_test.dir/cartographer/mapping/internal/3d/scan_matching/fast_correlative_scan_matcher_3d_test.cc.o</span><br><span class="line">ninja: build stopped: subcommand failed.</span><br><span class="line">&lt;== Failed to process package &#x27;cartographer&#x27;: </span><br><span class="line">  Command &#x27;[&#x27;ninja&#x27;, &#x27;-j16&#x27;, &#x27;-l16&#x27;]&#x27; returned non-zero exit status 1.</span><br></pre></td></tr></table></figure>
+<p>​ 此问题可能由<strong><u>两部分原因</u></strong>导致：</p>
+<ul>
+<li><p>Ubuntu 20.04上，cartographer，cartographer_ros等模块以及<code>abseil-cpp</code>模块均需要使用c++17标准编译（来源于这个Github issue：<a href="https://github.com/google/or-tools/issues/2196">8.0 fails: undefined reference to absl::lts_2020_09_23::Status::Status #2196</a>），原始的<code>install_abseil.sh</code>是这样的：</p>
+<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
+<p>如果修改为：</p>
+<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -std=c++17 \</span><br><span class="line">  -DABSL_CXX_STANDARD=17 \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  -DABSL_PROPAGATE_CXX_STD=ON \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
+<p>​ 增加<code>-std=c++17</code>，<code>-DABSL_CXX_STANDARD=17</code>，<code>-DABSL_PROPAGATE_CXX_STD=ON</code> ，前两个选项为了使得编译使用c++17标准，最后一个选项防止编译warning。而其他cartographer相关模块，只需要在每个模块下的<code>CMakeLists.txt</code>中的<code>project(xxx)</code>后添加</p>
+<p><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++17&quot;</span>)</span><br></pre></td></tr></table></figure></p></li>
+<li><p>Google查找问题时，在<code>abseil-cpp</code>库的issue里找到了这么一个issue: <a href="https://github.com/abseil/abseil-cpp/issues/640">undefined reference errors (absl::strings_internal::CatPieces and absl::ByChar::Find)</a>。其中有个人提到：</p></li>
+</ul>
+<blockquote>
+<p>Confirmed on my end: if I add back what was removed from <code>AbseilConfigureCopts.make</code> in commit <a href="https://github.com/abseil/abseil-cpp/commit/c6954897f7ece5011f0126db9117361dc1a6ff36"><code>c695489</code></a> then it works.</p>
+</blockquote>
+<p>​ 于是我修改<code>install_abseil.sh</code>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout c6954897f7ece5011f0126db9117361dc1a6ff36	# 修改到这个commit</span><br></pre></td></tr></table></figure>
+<p>​ 编译<code>abseil-cpp</code>，完成后删除cartographer之前的<code>build_isolated</code>以及<code>devel_isolated</code>并重新编译cartographer。则不再出现<code>absl</code>库问题。</p>
+<hr>
+<h2 id="pythoninterp-版本问题">PythonInterp 版本问题</h2>
+<p>​ Ubuntu 20.04首次摒弃 python 2.7，包括ROS（rospy）在内全面转向python3，但是可能还是存在一些余孽？继续编译后我遇到了如下问题：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">CMake Error at /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:146 (message):</span><br><span class="line">  Could NOT find PythonInterp: Found unsuitable version &quot;2.7.18&quot;, but</span><br><span class="line">  required is at least &quot;3&quot; (found /usr/bin/python)</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:391 (_FPHSA_FAILURE_MESSAGE)</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPythonInterp.cmake:169 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/python.cmake:4 (find_package)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/all.cmake:164 (include)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/catkinConfig.cmake:20 (include)</span><br><span class="line">  CMakeLists.txt:55 (find_package)</span><br></pre></td></tr></table></figure>
+<p>​ emmm，我查了一下trace stack中的所有cmake文件，没有什么发现，只是cmake无法找到python3，并且在<code>which python</code>时显示的是2.7.18的 python2。看来是默认python有问题，只需要使用：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1</span><br><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2</span><br></pre></td></tr></table></figure>
+<p>​ 就可以解决问题，自此所有问题都得到了解决，cartographer顺利安装。</p>
+<hr>
+<h2 id="其他记录">其他记录</h2>
+<ul>
+<li>成功无bug适配了cartographer的cere-solver版本是2.0.0，在Ubuntu 18.04以及20.04上通用。</li>
+<li>cartographer的 <code>CMakeLists.txt</code>很复杂，但是读一读还是能学到一些有趣的东西，比如：<code>cmake_parse_arguments</code></li>
+</ul>
+]]></content>
+      <categories>
+        <category>snippet</category>
+      </categories>
+      <tags>
+        <tag>环境工程</tag>
+        <tag>SLAM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NeRF论文复现</title>
+    <url>/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="nerf">NeRF</h1>
+<hr>
+<p>​ 最近工程浓度太高，关于【如何设计】以及【为什么】的思考显著少于【如何实现】以及【怎么解决】。为了平衡科研与工程，我复现了最近读的一篇多视角重建论文（见上一篇博客 <a href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field【1】/">Neural Randiance Field【1】</a>）：</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall, Ben, et al. "Nerf: Representing scenes as neural radiance fields for view synthesis." <em>European conference on computer vision</em>. Springer, Cham, 2020.</a></li>
+</ul>
+<p>​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见<a href>Github repo: Enigmatisms/NeRF</a></p>
+<p>​ <strong><u>本篇博客尚未完成。</u></strong></p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-困难部分">II. 困难部分</h2>
+<h3 id="cuda加速的随机采样">2.1 CUDA加速的随机采样</h3>
+<p>​ 个人觉得，NeRF中有很多操作都可以用CUDA实现，正好我很长时间没有写过CUDA程序了，想借此机会回忆一下CUDA编程以及调试。首先我从随机采样下手。NeRF的直接随机采样主要用在coarse network中，由于我们的（以及作者的）设备capacity不支持对100张(800×800)图片的直接采样（GPU global memory根本不够），而我们同时又希望在训练过程中，渐进地覆盖训练集的所有像素，故需要随机采样。</p>
+<p>​ 复现过程中，算法逻辑并非困难的部分。比较绕的地方在于输入输出的设计。采样需要输出什么？我只需要点以及对应的RGB信息就可以了吗？是否还需要其他的辅助信息（诸如，点属于的位姿id等等）？采样的修改，迭代了三个版本：</p>
+<div class="note "><p>​ 初代版本的输出shape是：(采样光束数量，每条光束采样点数量 + 1，3)。至于为什么要+1，在每条光束的最后一个输出数据，是产生此光束的图像RGB信息。而之前的输出数据则是按由近到远的采样点。本版本实现已经输出一个shape为（采样光束数量，每条光束采样点数量）的<code>lengths</code> tensor了，用于渲染，使得渲染时不需要再根据采样点3D坐标反算一遍每个点到相邻点的距离，<code>lengths</code> 张量已经计算好了。但本版本缺少重要的信息：光线方向信息，光线方向信息需要用在逆变换采样以及coarse samples &amp; fine samples的合并中。虽然也可以通过后期点差值来计算，但这毕竟也不是一种很高效的方法。此外，本版本的一个 <strong><u>重大缺陷</u></strong> 就是，<strong><u>在写采样之前我完全不知道数据集是什么样的</u></strong>。我直接写了一个根据内外参数采样的算法，但是数据集中 <strong><u>相机内参只有focal（并且以FoV的形式给出）</u></strong>，没有各轴的放大系数，内参是不完整的。故我被迫又去学了一下如何只用焦距计算相机坐标系下的点，并放弃了本版本代码。</p>
+</div>
+<div class="note "><p>​ 第二代算法实际上已经功能完备了，输出的shape是(采样光束数量，每条光束采样点数量 + 1，9)，在每条光线的最后一个9维位置，保存了（对应相机的平移，光束的方向），9维个维度在其他数据中的意义分别是：</p>
+<ul>
+<li>前三维度：采样点(x, y, z)</li>
+<li>中间三维度：光束方向（未归一化）</li>
+<li>后三维度：RGB值（方便比较）</li>
+</ul>
+</div>
+<h3 id="cuda加速的逆变换采样">2.2 CUDA加速的逆变换采样</h3>
+<h3 id="渲染操作">2.3 渲染操作</h3>
+<h3 id="输入的融合">2.4 输入的融合</h3>
+<h3 id="杂项">2.5 杂项</h3>
+<hr>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>DL</tag>
+        <tag>NeRF</tag>
+      </tags>
+  </entry>
 </search>

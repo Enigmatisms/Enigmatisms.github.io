@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-03-13T17:15:48.756Z</updated>
+  <updated>2022-04-11T06:27:04.128Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Cartographer编译问题整理</title>
+    <link href="https://enigmatisms.github.io/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/"/>
+    <id>https://enigmatisms.github.io/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</id>
+    <published>2022-04-11T06:21:38.000Z</published>
+    <updated>2022-04-11T06:27:04.128Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;cartographer&quot;&gt;Cartographer&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 毕设工作设计到与cartographer进行定量实验比较。本人在&lt;a href=&quot;https://github.com/Enigmatisms/cartographer_tester&quot;&gt;Enigmatisms/cartographer_tester&lt;/a&gt;中整理了cartographer以及ros驱动代码，添加了自动化轨迹读取等功能，两周前在Ubuntu 18.04上已经完成了测试，但在Ubuntu 20.04上一直编译不通过，调了一下午才调出来。本文记录了cartographer在不同版本的Ubuntu上（尤其是20.04）的一些典型编译问题以及解决方案。笔者现已经通过文中所说的解决方案完成了cartographer的编译。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="环境工程" scheme="https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
+    
+    <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NeRF论文复现</title>
+    <link href="https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-03-26T16:44:24.000Z</published>
+    <updated>2022-04-11T06:20:05.885Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;nerf&quot;&gt;NeRF&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 最近工程浓度太高，关于【如何设计】以及【为什么】的思考显著少于【如何实现】以及【怎么解决】。为了平衡科研与工程，我复现了最近读的一篇多视角重建论文（见上一篇博客 &lt;a href=&quot;https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field【1】/&quot;&gt;Neural Randiance Field【1】&lt;/a&gt;）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com&quot;&gt;Mildenhall, Ben, et al. &quot;Nerf: Representing scenes as neural radiance fields for view synthesis.&quot; &lt;em&gt;European conference on computer vision&lt;/em&gt;. Springer, Cham, 2020.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见&lt;a href&gt;Github repo: Enigmatisms/NeRF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​ &lt;strong&gt;&lt;u&gt;本篇博客尚未完成。&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="NeRF" scheme="https://enigmatisms.github.io/tags/NeRF/"/>
+    
+  </entry>
   
   <entry>
     <title>Neural Randiance Field【1】</title>
@@ -577,85 +630,6 @@ Figure 1. Duality problem formulation
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
     <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>位姿变换与六轴仿真</title>
-    <link href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/"/>
-    <id>https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/</id>
-    <published>2021-10-31T13:55:36.000Z</published>
-    <updated>2021-11-01T15:43:27.037Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;axis6&quot;&gt;Axis6&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: &lt;code&gt;ɡəˈziːboʊ&lt;/code&gt;，重音在前），代码放在了&lt;a href=&quot;https://github.com/Enigmatisms/Axis6&quot;&gt;[Github🔗:Enigmatisms/Axis6]&lt;/a&gt;。本文包含如下内容：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;位姿变换/正逆运动学的一些基本知识&lt;/li&gt;
-&lt;li&gt;Gazebo的配置使用&lt;/li&gt;
-&lt;li&gt;仿真效果视频（&lt;del&gt;高清无码&lt;/del&gt;）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 这里放两张图：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr class=&quot;header&quot;&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png&quot; style=&quot;zoom:85%;&quot;&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png&quot;&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class=&quot;odd&quot;&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;rviz仿真结果&lt;/td&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;Gazebo仿真结果&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;center&gt;
-Figure 1. 仿真效果图
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="运动学" scheme="https://enigmatisms.github.io/tags/%E8%BF%90%E5%8A%A8%E5%AD%A6/"/>
-    
-    <category term="Gazebo" scheme="https://enigmatisms.github.io/tags/Gazebo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>骷髅融合者-CVPR2021</title>
-    <link href="https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/"/>
-    <id>https://enigmatisms.github.io/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/</id>
-    <published>2021-10-23T17:44:06.000Z</published>
-    <updated>2021-10-31T14:55:08.461Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;骷髅融合者&quot;&gt;骷髅融合者&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 想看看CVPR2021上都有关于点云配准或者点云处理都有什么样的文章，网上搜刮了几篇，骷髅融合者就是其中一篇。这篇论文的作者貌似是上海交大的本科生，嗯 本科CVPR一作，卢策吾老师团队，可以说是很nb了。本论文提出的思想，个人认为比较简单（可能是因为比较复杂的部分被PointNet++掩盖了，文中也没有使用时下最为流行的【变形金刚】）。并且看完Introduction之后，我就觉得这个思想好像在哪里见过：嗷，原来是我的灯条检测中含有这个方法的弱弱化版。&lt;/p&gt;
-&lt;p&gt;​ 本短篇博客只做该论文的一个简单分析，并不附带复现（如果要带复现的话，一是需要时间，二是需要了解PointNet++）。论文的地址是：&lt;a href=&quot;https://arxiv.org/abs/2103.10814&quot;&gt;arXiv: Skeleton Merger: an Unsupervised Aligned Keypoint Detector&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/10/24/%E9%AA%B7%E9%AB%85%E8%9E%8D%E5%90%88%E8%80%85-CVPR2021/Screenshot%20from%202021-10-24%2001-40-07-16350111328661.png&quot;&gt;&lt;/p&gt;
-&lt;center&gt;
-Figure 1. Skeleton Merger 论文效果
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="点云" scheme="https://enigmatisms.github.io/tags/%E7%82%B9%E4%BA%91/"/>
     
   </entry>
   
