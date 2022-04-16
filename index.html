@@ -385,7 +385,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-04-11 14:20:05" itemprop="dateModified" datetime="2022-04-11T14:20:05+08:00">2022-04-11</time>
+      <time title="Modified: 2022-04-17 06:51:23" itemprop="dateModified" datetime="2022-04-17T06:51:23+08:00">2022-04-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -404,14 +404,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.4k</span>
+      <span>8k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>7 mins.</span>
     </span>
 </div>
 
@@ -428,8 +428,13 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall, Ben, et al. "Nerf: Representing scenes as neural radiance fields for view synthesis." <em>European conference on computer vision</em>. Springer, Cham, 2020.</a></li>
 </ul>
-<p>​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见<a href>Github repo: Enigmatisms/NeRF</a></p>
-<p>​ <strong><u>本篇博客尚未完成。</u></strong></p>
+<p>​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑（坑主要来源于个人没有清晰的设计思路，不同模块间的输入输出连续性不强，导致接口经常改动，此外... 有些问题确实也挺坑的）。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见<a href>Github repo: Enigmatisms/NeRF</a></p>
+<center>
+<img src="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/dynamic.gif" style="zoom:60%;">
+</center>
+<center>
+Figure 1. blender synthetic dataset - drums 训练过程可视化（从epoch 1- epoch 400）
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/#more" rel="contents">
@@ -1397,13 +1402,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">318k</span>
+    <span title="Symbols count total">325k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:49</span>
+    <span title="Reading time total">4:55</span>
   </span>
 </div>
 <div class="busuanzi-count">

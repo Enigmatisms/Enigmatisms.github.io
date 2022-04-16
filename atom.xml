@@ -44,7 +44,7 @@
     <link href="https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/"/>
     <id>https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/</id>
     <published>2022-03-26T16:44:24.000Z</published>
-    <updated>2022-04-11T06:20:05.885Z</updated>
+    <updated>2022-04-16T22:51:23.619Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;nerf&quot;&gt;NeRF&lt;/h1&gt;
@@ -53,8 +53,13 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com&quot;&gt;Mildenhall, Ben, et al. &quot;Nerf: Representing scenes as neural radiance fields for view synthesis.&quot; &lt;em&gt;European conference on computer vision&lt;/em&gt;. Springer, Cham, 2020.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见&lt;a href&gt;Github repo: Enigmatisms/NeRF&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;​ &lt;strong&gt;&lt;u&gt;本篇博客尚未完成。&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;</summary>
+&lt;p&gt;​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑（坑主要来源于个人没有清晰的设计思路，不同模块间的输入输出连续性不强，导致接口经常改动，此外... 有些问题确实也挺坑的）。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见&lt;a href&gt;Github repo: Enigmatisms/NeRF&lt;/a&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/dynamic.gif&quot; style=&quot;zoom:60%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. blender synthetic dataset - drums 训练过程可视化（从epoch 1- epoch 400）
+&lt;/center&gt;</summary>
     
     
     
