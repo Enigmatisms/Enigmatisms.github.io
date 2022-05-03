@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-57-36.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/22/%E7%89%B9%E9%BE%99%E6%99%BA%E6%85%A7-GMapping/Screenshot%20from%202021-10-22%2017-59-28.png">
 <meta property="article:published_time" content="2021-10-21T17:03:49.000Z">
-<meta property="article:modified_time" content="2021-10-22T12:19:23.355Z">
+<meta property="article:modified_time" content="2022-04-25T14:34:18.295Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="概率论">
@@ -114,9 +114,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">37</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">38</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">53</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">55</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -189,7 +189,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -200,7 +200,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -280,9 +280,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-10-22 01:03:49 / Modified: 20:19:23" itemprop="dateCreated datePublished" datetime="2021-10-22T01:03:49+08:00">2021-10-22</time>
+      <time title="Created: 2021-10-22 01:03:49" itemprop="dateCreated datePublished" datetime="2021-10-22T01:03:49+08:00">2021-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-04-25 22:34:18" itemprop="dateModified" datetime="2022-04-25T22:34:18+08:00">2022-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -410,7 +416,7 @@ p(x_t|x_{t-1},z_t,u_{t-1},m_{t-1})
 &amp;\int \frac {p(x&#39;,z_t,x_{t-1},m_{t-1},u_{t-1})}{p(x&#39;|x_{t-1},m_{t-1},u_{t-1})p(x_{t-1},u_{t-1},m_{t-1})}p(x&#39;|x_{t-1},m_{t-1},u_{t-1})dx&#39;=\\
 &amp;\int p(z_t|m_{t-1},x&#39;,x_{t-1},u_{t-1})p(x&#39;|x_{t-1},m_{t-1},u_{t-1})dx&#39;\stackrel{\text{独立性}}{\longrightarrow}\\
 &amp;\int p(z_t|x&#39;,m_{t-1})p(x&#39;|x_{t-1},u_{t-1})dx&#39;\propto\\
-&amp;\sum_{i=1}^Kp(z_t|m_{t-1}^{(i)},x_j)p(x_j|x_{t-1}^{(i)},u_{t-1})\label{approx}
+&amp;\sum_{j=1}^Kp(z_t|m_{t-1}^{(i)},x_j)p(x_j|x_{t-1}^{(i)},u_{t-1})\label{approx}
 \end{align}
 \]</span> ​ 公式<span class="math inline">\(\eqref{approx}\)</span>将最后的转换完成了，这个公式使得我们不必计算复杂的条件概率，而可以使用：机器人运动学模型分布与观测模型分布的加权组合，更新每一个粒子（<strong><u>运用好独立性假设以及边缘化，可以推出很多有意思的公式</u></strong>）。</p>
 <p>​ 论文中的更新迭代策略是这样的：</p>
@@ -640,13 +646,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">325k</span>
+    <span title="Symbols count total">352k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:55</span>
+    <span title="Reading time total">5:20</span>
   </span>
 </div>
 <div class="busuanzi-count">

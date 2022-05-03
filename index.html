@@ -104,9 +104,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">37</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">38</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">53</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">55</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -189,7 +189,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -323,6 +323,212 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/" class="post-title-link" itemprop="url">Rust学习 II</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-05-03 12:01:41 / Modified: 12:04:18" itemprop="dateCreated datePublished" datetime="2022-05-03T12:01:41+08:00">2022-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>11 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="rust---ii">Rust - II</h1>
+<hr>
+<h2 id="i.-intro">I. Intro</h2>
+<p>​ 变量的lifetime之前的部分，理解起来都比较简单。而一到lifetime出场，一群妖魔鬼怪也就跟着出场了。不过其实是因为之前的两天学习中，对于变量的引用，所有权的租借理解不够到位。本文仍然是在跟着Rust官方（的非官方，它自己写的）教程学习过程中，整活扩展的一些记录。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/" class="post-title-link" itemprop="url">Rust学习 I</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-05-03 11:57:35 / Modified: 12:04:12" itemprop="dateCreated datePublished" datetime="2022-05-03T11:57:35+08:00">2022-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>15k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>14 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="rust---i">Rust - I</h1>
+<hr>
+<h2 id="intros">Intros</h2>
+<p>​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及定义跳转等等），第一天学的时候，只能实现一些强逻辑性算法（比如什么快排，归并排序等等），无法深入使用数据结构（给我一个数据结构我根本不知道里面有什么方法）。</p>
+<p>​ 第一天快结束时，想学习一下Rust的可视化工具Plotters，结果发现，之前从菜鸟教程了解的写法过于粗浅，基本看不懂Plotters代码，遂投身更加深入的学习。但却发现，给自己设置的小目标 --- 写一个链表，按照之前了解的语法知识，我都是写不出来的。快要放弃只是接触到了一个教程以及其官方文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://rust-unofficial.github.io/too-many-lists/index.html">Rust unofficial - Learning Rust With Entirely Too Many Linked Lists</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/index.html">Rust-lang docs</a></li>
+</ul>
+<p>​ 教程详细介绍了对于链表的实现，较为通俗易懂，有些难以思考的问题，其实沉下心来想也很快能想出来。本文是跟着教程实现过程中，笔者对于遇到的一些问题的处理方法以及自己的心得。由于笔者非常不喜欢依葫芦画瓢（因为这样，感觉自己完全学不到东西），所以笔者也在自己的实现中整活（超前学习），本文也记录了整活过程中遇到的坑及处理方法。本篇为Rust学习心得的第一章。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1134,240 +1340,6 @@ Figure 1. Hoho. Da. Nice.
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/" class="post-title-link" itemprop="url">Swin Transformer 复现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-10 22:45:34" itemprop="dateCreated datePublished" datetime="2022-01-10T22:45:34+08:00">2022-01-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-23 00:37:54" itemprop="dateModified" datetime="2022-01-23T00:37:54+08:00">2022-01-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>12 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="swin-transformer">Swin Transformer</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：<strong><u>一个公式都没有</u></strong>（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/tree/master/swin">Github/Maevit(这实际是ViT的复现repo)</a></p>
-<p>​ 论文原文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14030">Liu, Ze, et al. "Swin transformer: Hierarchical vision transformer using shifted windows." <em>arXiv preprint arXiv:2103.14030</em> (2021).</a></p>
-<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png"></p>
-<center>
-Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">前端小学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-26 20:18:03" itemprop="dateCreated datePublished" datetime="2021-12-26T20:18:03+08:00">2021-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-13 22:08:49" itemprop="dateModified" datetime="2022-01-13T22:08:49+08:00">2022-01-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="front-end">Front-End</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上）完全不一样的语言去做这件事，最后确定用前端写网页游戏。前端说有趣，也还挺有趣的（毕竟我之前一直想当建筑设计师，搞设计的热情还是有的），但总感觉少了点深度思考（可能因为我接触的太简单）。为了在实践中学习前端，我将之前用Pygame实现的用户登录界面用JS升级了一下（只是功能升级，并没有更好看，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/JSen">Github:Enigmatisms/JSen</a>），本文记录在做这个小小项目过程中遇到的一些问题。</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png" style="zoom: 40%;"></th>
-<th style="text-align: center;"><img src="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/home.png"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Ethians Alpha 1.0 主菜单</td>
-<td style="text-align: center;">一个（个人认为的）人性化的登录/注册网页</td>
-</tr>
-</tbody>
-</table>
-<center>
-Figure 1. 目标 与 现阶段 发展不平衡之间的矛盾
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/awesome-page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/5/">5</a><a class="extend next" rel="next" href="/awesome-page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1402,13 +1374,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">325k</span>
+    <span title="Symbols count total">352k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">4:55</span>
+    <span title="Reading time total">5:20</span>
   </span>
 </div>
 <div class="busuanzi-count">

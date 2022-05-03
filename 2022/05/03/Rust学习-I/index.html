@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RbBW2OguDsx3OoyQghfVhVDSgpBgwKw3Em9kY2pJUvU">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Rust - I  Intros ​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rust学习 I">
+<meta property="og:url" content="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Rust - I  Intros ​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-03T03:57:35.000Z">
+<meta property="article:modified_time" content="2022-05-03T04:04:12.549Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/","path":"2022/05/03/Rust学习-I/","title":"Rust学习 I"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust学习 I | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">38</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">55</span></a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rust---i"><span class="nav-text">Rust - I</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#intros"><span class="nav-text">Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-%E7%94%A8rust%E5%AE%9E%E7%8E%B0%E9%93%BE%E8%A1%A8"><span class="nav-text">II. 用Rust实现链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null-pointer-optimization%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-text">2.1 null pointer optimization的意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF---private-type-xxx-in-public-interface"><span class="nav-text">2.2 错误 - private type &#39;xxx&#39; in public interface</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memreplace%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">2.3 mem::replace的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%BE%AA%E7%8E%AF%E4%B8%AD%E4%BD%BF%E7%94%A8match%E6%96%B9%E6%B3%95"><span class="nav-text">2.4 在循环中使用match方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8Bgenerics"><span class="nav-text">2.5 关于泛型编程（generics）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%89%80%E6%9C%89%E6%9D%83%E7%A7%9F%E5%80%9F%E4%BB%A5%E5%8F%8Amove"><span class="nav-text">2.6 关于所有权，租借以及move</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#drop%E7%89%B9%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.7 Drop特性的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-stack-with-option"><span class="nav-text">III. Stack with Option</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E5%90%91option"><span class="nav-text">3.1 转向Option</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#as_ref-as_mut-as_deref"><span class="nav-text">3.2 as_ref | as_mut | as_deref</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rust-%E5%85%B6%E4%BB%96todo%E9%A1%B9"><span class="nav-text">Rust 其他TODO项</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust学习 I
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-05-03 11:57:35 / Modified: 12:04:12" itemprop="dateCreated datePublished" datetime="2022-05-03T11:57:35+08:00">2022-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>15k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>14 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="rust---i">Rust - I</h1>
+<hr>
+<h2 id="intros">Intros</h2>
+<p>​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及定义跳转等等），第一天学的时候，只能实现一些强逻辑性算法（比如什么快排，归并排序等等），无法深入使用数据结构（给我一个数据结构我根本不知道里面有什么方法）。</p>
+<p>​ 第一天快结束时，想学习一下Rust的可视化工具Plotters，结果发现，之前从菜鸟教程了解的写法过于粗浅，基本看不懂Plotters代码，遂投身更加深入的学习。但却发现，给自己设置的小目标 --- 写一个链表，按照之前了解的语法知识，我都是写不出来的。快要放弃只是接触到了一个教程以及其官方文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://rust-unofficial.github.io/too-many-lists/index.html">Rust unofficial - Learning Rust With Entirely Too Many Linked Lists</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/index.html">Rust-lang docs</a></li>
+</ul>
+<p>​ 教程详细介绍了对于链表的实现，较为通俗易懂，有些难以思考的问题，其实沉下心来想也很快能想出来。本文是跟着教程实现过程中，笔者对于遇到的一些问题的处理方法以及自己的心得。由于笔者非常不喜欢依葫芦画瓢（因为这样，感觉自己完全学不到东西），所以笔者也在自己的实现中整活（超前学习），本文也记录了整活过程中遇到的坑及处理方法。本篇为Rust学习心得的第一章。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-用rust实现链表">II. 用Rust实现链表</h2>
+<h3 id="null-pointer-optimization的意义">2.1 null pointer optimization的意义？</h3>
+<p>​ 假设我们有一个这样的数据结构：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Foo</span> &#123;</span><br><span class="line">		Empty,</span><br><span class="line">    	<span class="title function_ invoke__">NotEmpty</span>(a_pointer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 通常来说，enum类型<code>Foo</code>（可以将enum的内存功能理解为一个union）需要有足够空间以存储其表示的数据，也即在<code>Empty</code>以及<code>NotEmpty</code>两个类型之间，选择所占空间最大的那个类型对应的内存消耗作为enum类型<code>Foo</code>的大小。但是，<code>Foo</code>如何才能知道当前表示的是<code>Empty</code>还是<code>NotEmpty</code>类型？通常，需要额外的空间（比如一个字节）存储一个叫tag的域，以指示当前<code>Foo</code>的真正含义。有一种例外，例如以上这个例子：</p>
+<p>（1）<code>Empty</code> 没有关联数据</p>
+<p>（2）<code>NotEmpty</code> 我们认为是一个指针，对于此指针而言，数据位为0（空指针）是不允许的</p>
+<p>​ 也即，此例子中，<code>NotEmpty</code>中不被允许的结果（全0）恰好可以被用于表示<code>Empty</code>。则此时，我们不再需要tag域来表示<code>Foo</code>的实际意义（Foo中数据可以直接判定）。</p>
+<h3 id="错误---private-type-xxx-in-public-interface">2.2 错误 - <code>private type 'xxx' in public interface</code></h3>
+<p>​ 如果我直接写如下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Foo</span> &#123;elem: <span class="type">i32</span>&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Bar</span> &#123;</span><br><span class="line">    test_elem: Foo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这样是完全没有问题的。但是如以下这两种写法，都会出现问题</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Foo</span> &#123;elem: <span class="type">i32</span>&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Bar</span> &#123;				<span class="comment">// 第一种写法</span></span><br><span class="line">    <span class="keyword">pub</span> test_elem: Foo</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">Bar</span> &#123;				<span class="comment">// 第二种写法</span></span><br><span class="line">    <span class="title function_ invoke__">First</span>(Foo),</span><br><span class="line">    Second</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 两种写法都会报错，编译器认为：<code>can't leak private type</code>。struct中的权限，不同于C++的结构体（默认public），struct默认private，如果显式定义了<code>pub</code>关键字才成为public的。而对于enum而言，只要enum本身是public的，其中的所有元素都是public的。但Rust不允许用户在公开的类型中，暴露私有类型，正如参与国家机密项目的科学家，即使这个科学家（的存在）并非机密，他也不能随意讨论机密的内容。</p>
+<h3 id="memreplace的作用">2.3 <code>mem::replace</code>的作用</h3>
+<p>​ 如果我们使用链表实现stack，也即不记录链表的尾部，假设我们需要push新的值到链表中，就会涉及到修改链表的表头：我们需要新创建一个Node，此Node的head是原来链表的head（stack堆积性），假设Node的两个域：data（数据）与next（链表指向下一个元素的“指针”），有两个内容需要修改：</p>
+<p>（1）head本身的值，需要修改为最新的Node，这个只需要修改head的指向</p>
+<p>（2）新Node的next，由于我们需要原来的head作为next，这里涉及到移动或者复制。如果用复制：我很惊讶我瞎搞一通竟然过编译了（见下代码块），首先，定义一下stack使用的列表：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    head: Link,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Link</span> &#123;</span><br><span class="line">    Empty,</span><br><span class="line">    <span class="title function_ invoke__">More</span>(<span class="type">Box</span>&lt;Node&gt;),</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    elem: <span class="type">i32</span>,</span><br><span class="line">    next: Link,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        List &#123; head: Link::Empty &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 那么假设我们需要写一个push，就涉及到了将head赋值给next的操作：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">push</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, elem: <span class="type">i32</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">new_node</span> = Node &#123;</span><br><span class="line">            elem: elem,</span><br><span class="line">            next: <span class="keyword">self</span>.head,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 但是直接这样是不允许的，因为self.head 会被move掉，move会使得当前链表的head直接被销毁，也即链表部分被摧毁了（或者说成，partially-initialized，有一部分没有初始化）。如上，在同样的位置（next处）使用clone，如注释所示，也是不允许的。编译器提示：clone是没有被实现的特性（self.head没有Clone函数），那么我们来实现一下。考虑到head是一个Link，那么我们把Link的clone函数实现了，是不是就可以了？如下所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">Link</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Link &#123;</span><br><span class="line">        <span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">            Link::Empty =&gt; Link::Empty,</span><br><span class="line">            Link::<span class="title function_ invoke__">More</span>(next) =&gt; Link::<span class="title function_ invoke__">More</span>(next.<span class="title function_ invoke__">clone</span>()),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 其中需要注意的点：<code>Link</code>的enum语法特性，需要判定当前<code>Link</code>的实际意义（match）。如果是<code>Empty</code> 需要返回<code>Empty</code>，请使用namespace指定 <strong><u>返回的<code>Empty</code>是<code>Link</code>中定义的。</u></strong> 如果是<code>More</code>，这里需要注意两点：</p>
+<p>（1）<code>Link::More(next)</code> 此处的next是一个shared reference，如果要用来初始化则需要解引用<code>*next</code>。但是很遗憾，这里会报错，直接<code>*next</code>是一个移动操作。会使得<code>Link</code>成为 partially-initialized的数据，这是不被允许的。</p>
+<p>（2）直接使用<code>next.clone()</code>。很抱歉，这里又有问题：</p>
+<blockquote>
+<ul>
+<li>the method <code>clone</code> exists for struct <code>Box&lt;Node&gt;</code>, but its trait bounds were not satisfied</li>
+<li>struct Node ----------- doesn't satisfy <code>Node: Clone</code></li>
+</ul>
+</blockquote>
+<p>​ 个人猜测，这是由于Node本身没有实现clone函数导致的，于是这里我实现clone。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Node &#123;</span><br><span class="line">        Node &#123;</span><br><span class="line">            elem: <span class="keyword">self</span>.elem,</span><br><span class="line">            next: <span class="keyword">self</span>.next.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这样竟然过编译了，并且，结果也是正确的，说明这样的方法是有效的，可以通过暂时保存一份原数据的copy。但是这样是否更慢？测试显示，这种需要clone的方法，在同样进行2000次push的情况下，比官方文档中使用<code>std::mem::replace</code>的版本，慢将近2000倍... 所以还是好好学习官方实现吧。</p>
+<blockquote>
+<p>Time elapsed for my push: 309.202965ms Time elapsed for swap push: 160.718µs</p>
+</blockquote>
+<h3 id="在循环中使用match方法">2.4 在循环中使用match方法</h3>
+<p>​ 学习教程的时候我们已经知道了，对于只有两个分类的enum，可以使用match的语法糖：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">ptr</span>: &amp;Link = &amp;stack.head;</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = ptr &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 注意，<code>Link::More(node)</code>本身是enum类型（此例子中，是<code>Link</code>）的一个常引用（shared ref，之所以称之为常引用，是因为个人认为这个与C++中的常引用非常类似），而node则是对应的<code>Link::More</code>类型的常引用，此处也就是<code>&amp;Box&lt;Node&gt;</code>类型的。那么根据这个语法糖，可以写出一个遍历栈的方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">show_stack</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span>: &amp;Link = &amp;<span class="keyword">self</span>.head;</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = ptr &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Stack: &#123;&#125;&quot;</span>, node.elem);</span><br><span class="line">        ptr = &amp;node.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 首先，ptr需要是【可变的】常引用（相当于const type *），才能改变其指向。我们判定，如果ptr不是<code>Link::Empty</code>，由于此时<code>ptr</code>实际对应了一个<code>&amp;Box&lt;Node&gt;</code>，我们将<code>ptr</code>对应的Node中元素取出，并使得ptr指向下一个元素（注意，是<code>node.next</code>是<code>Link</code>类型的，但我们需要的<code>ptr</code>是对<code>Link</code>的引用，故需要符号<code>&amp;</code>）</p>
+<h3 id="关于泛型编程generics">2.5 关于泛型编程（generics）</h3>
+<p>​ 我想直接使用模板类型T作为栈的类型。于是需要修改定义：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">List</span>&lt;T&gt; &#123;head: Link&lt;T&gt;&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span>&lt;T&gt; &#123;</span><br><span class="line">    elem: T,</span><br><span class="line">    next: Link&lt;T&gt;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span>&lt;T&gt; &#123;</span><br><span class="line">    elem: T,</span><br><span class="line">    next: Link&lt;T&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 所有相关位置都需要增加<code>&lt;T&gt;</code>以指示当前类型是模板类型。需要注意以下几个问题：</p>
+<p>（1）如果要初始化模板类型，在类型声明时需要带有<code>&lt;T&gt;</code>，而构造时（等号右边）不需要，比如：<code>let new_node: Node &lt;T&gt; = Node &#123;...&#125;;</code>，如果右边带了模板，则会报错：<code>chained comparison operator</code>。类型声明同样也包括返回值。如果不声明类型，则会进行自动类型推断，绑定类型。<code>T</code>根据先后顺序进行类型绑定，例如<code>Node</code>的两个变量都是类型<code>T</code>，而初始化时，由第一个变量传入的<code>f32</code>绑定<code>T = f32</code>，而第二个变量则是<code>i32</code>，产生冲突，则会报错。</p>
+<p>（2）<code>impl</code>需要有<code>&lt;T&gt;</code>，也即例如<code>impl&lt;T&gt; ... Link&lt;T&gt;</code></p>
+<p>​ 但是事情并没有那么简单，不是改好了所有的模板声明与定义就能通过编译了（sad）。这里存在的一个问题时，我之前实现了一版基于<code>clone</code>方法的push，那么想要正确应用<code>clone</code>，需要 <strong><u>类型支持clone方法</u></strong>。而原来使用的<code>i32</code>，由于是基本类型，在<code>Node</code>进行clone时直接按值传递，无需clone，现在由于是未知的类型<code>T</code>，由于其很可能不是基本类型，故直接 <code>elem: self.elem</code> 默认引发 move。</p>
+<p>​ 想要避免move，简单的想法是我直接 <code>elem: self.elem.clone()</code>。聪明吧？不太聪明。<code>self.elem</code>作为类型<code>T</code>的变量，需要实现<code>Clone</code>方法。对于类型<code>T</code>而言，我不知道怎么实现它的<code>Clone</code>方法（只学了两天，巨菜的），那我只能限制类型<code>T</code>包含了<code>Clone</code>特性了。于是：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">List</span>&lt;T&gt; <span class="keyword">where</span> T: <span class="built_in">Clone</span> &#123;head: Link&lt;T&gt;&#125;</span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Link</span>&lt;T&gt; <span class="keyword">where</span> T: <span class="built_in">Clone</span> &#123;</span><br><span class="line">    Empty,</span><br><span class="line">    <span class="title function_ invoke__">More</span>(<span class="type">Box</span>&lt;Node&lt;T&gt;&gt;),</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span>&lt;T&gt; <span class="keyword">where</span> T: <span class="built_in">Clone</span> &#123;</span><br><span class="line">    elem: T,</span><br><span class="line">    next: Link&lt;T&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 其中，where限制了<code>T</code>需要存在的特性，这被称为<code>trait bound</code>。没有满足就会报错：<code>E0277: required by this bound in xxx</code> 。对应地，我们需要在<code>impl</code>块中，告知编译器类型<code>T</code>已经实现了某个trait，也即<code>impl&lt;T: Clone&gt;</code>。</p>
+<p>​ 这样还没完！之前写的函数还是存在问题，猜猜改了什么？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: std::fmt::Display + <span class="built_in">Clone</span>&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">show_stack</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span>: &amp;Link&lt;T&gt; = &amp;<span class="keyword">self</span>.head;</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = ptr &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Stack: &#123;&#125;&quot;</span>, node.elem);</span><br><span class="line">            ptr = &amp;node.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 答案是，将<code>impl&lt;T: Clone&gt;</code>修改为<code>impl&lt;T: std::fmt::Display + Clone&gt;</code>。这是因为Rust编译器认为，类型<code>T</code>是什么啊？我怎么display它啊？你实现了Display方法没？显然我没有。那么我们是否有必要在整个stack中都添加此约束呢？比如<code>pub struct List&lt;T&gt; where T Clone + std::fmt::Display</code>？答案是，可有可无。如果不加，对于一些复杂的自定义<code>T</code>而言，不能直接调用<code>show_stack</code>方法了。也即，<code>impl</code>块在此处，只限制了对于此方法的调用。没有实现<code>std::fmt::Display</code>特性的类型，不调用这个函数就行了，其他功能并不影响。P.S. 注意多重约束的写法是加号。P.S.2，为了简洁起见，我可能会考虑删除基于clone的版本，使得复杂类型<code>T</code>不一定需要实现<code>Clone</code>特性。P.S.3，注意，在type用法中，如果type alias是一个模板类型，则无需写特性约束（写了也会被编译器忽略并且报一个warning的）。</p>
+<h3 id="关于所有权租借以及move">2.6 关于所有权，租借以及move</h3>
+<p>​ 是时候写pop了。pop，很显然需要考虑栈是否空。由于栈是否空由enum的状态表示，这里直接使用match即可，我使用了一下match的语法糖：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">pop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = &amp;<span class="keyword">self</span>.head &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">pop_elem</span> = node.elem.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">        <span class="keyword">self</span>.head = node.next;</span><br><span class="line">        <span class="keyword">return</span> pop_elem;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">panic!</span>(<span class="string">&quot;Can not pop from an empty stack.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这里有两个需要注意的点：</p>
+<p><span id="match_move"></span></p>
+<p>（1）进行match操作时，如果直接写<code>let Link::More(node) = self.head</code>，会发生move（毕竟有let在这里嘛，可以理解成node是一个新创建的变量，<code>self.head</code>将变更所有权）。我们并不希望<code>self.head</code>丧失所有权（而被销毁），则可以通过一个可变引用来使用self.head。涉及到引用的地方是不可以发生move的，因为引用只是租借了变量，获得了临时的访问或修改能力，就像住房问题，共享引用（shared）只可以使用，而不能修改（比如如果选择住酒店，就不能随意装修），与之相比，可变引用就像是对房子的长租，可以进行装修。但这两种引用都不改变原房主对房屋的所有权，此时如果发生move（所有权的转让），则是在进行违法犯罪活动（没有所有权的人，要把当前房屋的所有权转移给别人）。故<code>self.head</code>之前需要增加所有权引用。</p>
+<p>（2）由于增加了引用，此处的<code>node</code>也是原<code>self.head</code>实际数据的引用（&amp;Box&lt;Node&lt;T&gt;&gt;）。那么这就涉及到一个问题，<code>self.head</code>是值（value），我们希望用<code>self.head.next</code> （实际不能这样访问，我这里只做一个示意）来重写<code>self.head</code>。但<code>node</code>是一个引用，我们在<code>self.head = node.next</code>的过程中，会将<code>node</code>的next项move给<code>self.head</code>，对引用进行的move，是不被允许的。果不其然，最后报错了。</p>
+<p>​ 此处依然可以使用<code>mem::replace</code>。注意<code>mem::replace</code>的性质：</p>
+<blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">replace</span>&lt;T&gt;(dest: &amp;<span class="keyword">mut</span> T, src: T) <span class="punctuation">-&gt;</span> T</span><br></pre></td></tr></table></figure>
+<p>Moves <code>src</code> into the referenced <code>dest</code>, returning the previous <code>dest</code> value.</p>
+</blockquote>
+<p>​ replace将目的位置用src替换，并且 <strong><u>按值</u></strong> 返回dest位置的变量。正好，我们需要<code>self.head</code>按值而非按引用返回的结果。这样获得的<code>node</code>就可以进行move（因为按值传递的<code>node</code>具有所有权）。则可以简单重写第二行：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = mem::<span class="title function_ invoke__">replace</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head, Link::Empty) &#123;...</span><br></pre></td></tr></table></figure>
+<p>​ 这样就可以过编译了。P.S：如果需要可控的错误控制，可以返回<code>Option&lt;T&gt;</code>，当Empty时返回None，就不用不可恢复的panic宏了。</p>
+<h3 id="drop特性的实现">2.7 Drop特性的实现</h3>
+<p>​ 由于原本的stack链表，自动析构过程不能进行尾递归优化，为了防止析构时爆栈，需要手动析构，也即实现Drop特性。直接实现如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Clone</span> + <span class="built_in">Default</span>&gt; <span class="built_in">Drop</span> <span class="keyword">for</span> <span class="title class_">List</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span> = &amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head;</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(node) = mem::<span class="title function_ invoke__">replace</span>(ptr, Link::Empty)&#123;</span><br><span class="line">            ptr = &amp;<span class="keyword">mut</span> node.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 看起来好像很有道理？首先，我将ptr指向的本节点换出（到值），同时使得原变量置为Empty，再使得ptr指向换出后的值对应的next。但这样写是有问题的，因为我这样实现，利用了一个特性：我将ptr换出到值，此值是临时变量，在结束本次循环之后，会析构，也即此node无效了，并且原变量也设成了Empty。但我对node.next进行的引用操作，阻止了我利用临时变量短生命周期的特性，ptr指向的内容将可能无效。故这样写会触发编译错误。</p>
+<p>​ 正确的写法仍然是，按值传递：ptr应该一直是下一个node的值，可以写成：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Clone</span> + <span class="built_in">Default</span>&gt; <span class="built_in">Drop</span> <span class="keyword">for</span> <span class="title class_">List</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span> = mem::<span class="title function_ invoke__">replace</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head, Link::Empty);</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Link</span>::<span class="title function_ invoke__">More</span>(<span class="keyword">mut</span> node) = ptr&#123;</span><br><span class="line">            ptr = mem::<span class="title function_ invoke__">replace</span>(&amp;<span class="keyword">mut</span> node.next, Link::Empty);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这样，每一个node原有的变量都会由replace方法，将所有权转移到ptr中，原变量全部置为Empty。注意，由于是按值转移的，给原变量赋值Empty也并不会妨碍我们在replace后使用ptr取出其中的node，因为所有权以及变量真正的信息已经转移到了ptr中。其中需要注意的两点：</p>
+<p>（1）node这玩意，如果不加前面的mut，是错的。因为这里我们写的是<code>let &lt;variable&gt; = ...</code> 这样的句式，我们定义了一个变量node，但是没有将其定义成可变的。对于不可变变量，不能使用可变引用，在下一行的replace处会报错。对<code>while let</code>句式中，等号前面变量，也需要理解成是一个正规的变量定义过程。那么此处，将<code>while let</code>写为标准的match形式，也有同样的操作：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Clone</span> + <span class="built_in">Default</span>&gt; <span class="built_in">Drop</span> <span class="keyword">for</span> <span class="title class_">List</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span> = mem::<span class="title function_ invoke__">replace</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head, Link::Empty);</span><br><span class="line">        <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">match</span> ptr &#123;</span><br><span class="line">                Link::<span class="title function_ invoke__">More</span>(<span class="keyword">mut</span> node) =&gt; &#123;</span><br><span class="line">                    ptr = mem::<span class="title function_ invoke__">replace</span>(&amp;<span class="keyword">mut</span> node.next, Link::Empty);</span><br><span class="line">                &#125;,</span><br><span class="line">                Link::Empty =&gt; &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这里需要注意的是，loop与match的配合用法（在多类型enum下使用的逻辑）。则根据这个例子，我们可以认为，match的过程中可能定义新的变量，那么此变量的性质可以根据括号内的内容进行确定。</p>
+<p>（2）还有另一种写法<code>while let Link::More(node) = &amp;mut ptr</code>，我们来分析一下为什么也可以过编译：这样写，node是ptr的一个可变引用。如果需要使用结构体中的某个值，自然可以可变引用自这个结构体的可变引用了。此处的引用不会叠加，<code>&amp;mut node.next</code>不会称为引用的引用（因为<code>node.next</code>不是引用，<code>node</code>才是）。故replace后，可以把<code>node,next</code>处对应的变量所有权移动到ptr中，变量的类型（ptr是<code>Link&lt;T&gt;</code>）也可以对应replace的结果。</p>
+<hr>
+<h2 id="iii.-stack-with-option">III. Stack with Option</h2>
+<h3 id="转向option">3.1 转向Option</h3>
+<p>​ 不难发现，前面的<code>enum Link</code>就是一个弱化版的Option。至于为什么是弱化版的，答案很显然，Option作为一个标准库提供的模块，自然有更多方便使用的函数。其中一个就是take函数。我们可以看take函数的定义：</p>
+<blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">take</span>&lt;T&gt;(dest: &amp;<span class="keyword">mut</span> T) <span class="punctuation">-&gt;</span> T </span><br></pre></td></tr></table></figure>
+<p>Replaces <code>dest</code> with the default value of <code>T</code>, returning the previous <code>dest</code> value.</p>
+</blockquote>
+<p>​ 这里有两种形式的take，一个是<code>std::mem::take</code>（官方文档非常清晰），另一种是：实例化的Option可以调用的take函数。两者的功能是类似的，只不过<code>mem::take</code>针对所有类型。查看Option的官方文档可以知道，take返回Option自身的同时，将原变量设为None，相当于进行所有权转移的函数，用此函数可以避免move。而对于<code>mem::take</code>，官方文档给了一个简单易懂的例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Buffer</span>&lt;T&gt; &#123; buf: <span class="type">Vec</span>&lt;T&gt; &#125;</span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; Buffer&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">get_and_reset</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Vec</span>&lt;T&gt; &#123;</span><br><span class="line">        <span class="comment">// error: cannot move out of dereference of `&amp;mut`-pointer</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">buf</span> = <span class="keyword">self</span>.buf;</span><br><span class="line">        <span class="keyword">self</span>.buf = Vec::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        buf</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 上面的error说的就是：由于函数传入的是self的可变引用，不能被move，故报错。</p>
+<p>​ 那么，使用take函数，可以简化原来使用<code>mem::replace</code>的位置，如drop函数：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Clone</span> + <span class="built_in">Default</span>&gt; <span class="built_in">Drop</span> <span class="keyword">for</span> <span class="title class_">List</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ptr</span> = <span class="keyword">self</span>.head.<span class="title function_ invoke__">take</span>();</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Some</span>(<span class="keyword">mut</span> node) = ptr&#123;</span><br><span class="line">            ptr = node.next.<span class="title function_ invoke__">take</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 只需要记住，ptr需要接受按值传递的结果，这样不会引起move问题。此外，Option还实现了两个重要的方法：<code>map</code>以及<code>unwrap</code>。</p>
+<p>​ map，有那么一些类似于python中的map。python中的map可以将一个iterator中的所有元素通过某个函数进行映射。而此处的map，是将Option进行变换。官方的定义是：map可以通过传入的函数，将<code>Option&lt;T&gt;</code>转换为<code>Option&lt;U&gt;</code>：</p>
+<blockquote>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br></pre></td></tr></table></figure>
+<p>Maps an <code>Option&lt;T&gt;</code> to <code>Option&lt;U&gt;</code> by applying a function to a contained value.</p>
+</blockquote>
+<p>​ 官方文档提供了一个这样的例子。对于<code>Option&lt;String&gt;</code>类型的变量来说（也就是带有None选项的String），直接求<code>len()</code>是非常繁琐的，我们需要通过好几行match指令块或者<code>if let</code>语法糖才能得到其长度。而对于map而言，<strong><u>由于传入的函数，操作的是T，本质是一个T-&gt;U的映射函数</u></strong>，可以很轻松地获得其长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">result</span> = some_string.<span class="title function_ invoke__">map</span>(|s| &#123;s.<span class="title function_ invoke__">len</span>()&#125;);</span><br></pre></td></tr></table></figure>
+<p>​ 那么，map的变体有<code>map_or</code>以及<code>map_or_else</code>，我觉得比较有价值的是<code>map_or</code>。其实不光是map函数有<code>_or</code>以及<code>_or_else</code>实现，其他一些函数也有这样的实现，如之后要说的<code>unwrap</code>, <code>ok</code>，<code>or</code>本身也是一个函数。<code>map_or</code>的输入则是：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U</span><br></pre></td></tr></table></figure>
+<p>​ 也即需要提供一个默认值。也即当结果为None时，返回一个默认的结果。<code>map_or_else</code>则是，传入两个函数，如果当前值非None，则执行第二个函数（f），否则执行第一个函数。</p>
+<p>​ 而unwrap，根据其名字理解，也即解包。显然，在Option中，我们将有意义的值包在了Some中，但通常我们可能需要内部的值。使用match块同样太过复杂，我们考虑用unwrap，这个函数实际就是一个<code>Option&lt;T&gt;</code>到T的映射。同样地，其<code>_or</code>以及<code>_or_else</code>方法，都有类似的map对应函数的函数思想。值得一提的是，<code>unwrap_or_else</code>中有这么一句话：</p>
+<blockquote>
+<p>Returns the contained <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/option/enum.Option.html#variant.Some"><code>Some</code></a> value or computes it from a <strong><u>closure</u></strong>.</p>
+</blockquote>
+<p>​ 闭包？这里说的实际上是我们传递的匿名函数，写法就是<code>|Some的内部变量| &#123;有返回值的函数体&#125;</code>。此函数与C++的匿名函数很像，也可以从外部捕获变量（捕获的变量也一样无需写在<code>|·|</code>（或C++中<code>[·]</code>）中），用在函数体中进行计算。</p>
+<p>​ 知道<code>map</code>的工作原理之后，我们可以立刻用map进行一些程序改写。比如stack中的pop，我们希望在修改head的同时，可以返回原head对应node的值。则可以按照如下方式进行书写：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">pop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">        <span class="keyword">self</span>.head.<span class="title function_ invoke__">take</span>().<span class="title function_ invoke__">map</span>(|node &#123;</span><br><span class="line">            	<span class="keyword">self</span>.head = node.next;</span><br><span class="line">            	node.elem</span><br><span class="line">            &#125;).<span class="title function_ invoke__">unwrap</span>()</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 此处的逻辑很简单：首先take()将<code>self.head</code>置None，并且返回实际存储的Some(node)，Some(node)进入map中的函数被处理，取出其中的node（按值），重新覆盖<code>self.head</code>（node变量内部值的move），按值返回node的elem域。但注意如果没有<code>.unwrap()</code>，如上返回的Some(T)或者None，如果要返回真正的<code>T</code>类型值，则需要加上<code>unwrap</code>，但这不是很危险，当stack为empty时，也不知道会发生什么（我们删去了empty处理）。</p>
+<h3 id="as_ref-as_mut-as_deref">3.2 as_ref | as_mut | as_deref</h3>
+<p>​ 之前我想实现一个top函数，不过此top函数是返回值的函数，而官方教程则说：我们应该实现一个返回引用的top（教程叫做peek）。开始我觉得这好像也不是什么难事吧？于是我写了一波：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">top</span>(&amp; <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;T &#123;</span><br><span class="line">    <span class="keyword">self</span>.head.<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">        &amp;node.elem</span><br><span class="line">    &#125;).<span class="title function_ invoke__">unwrap</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 结果直接报错了，错误信息：</p>
+<blockquote>
+<p>&amp;node.elem returns a reference to data owned by the current function</p>
+<p>self.head.map(|node|{... move occurs because <code>self.head</code> has type <code>Option&lt;Box&lt;second::Node&lt;T&gt;&gt;&gt;</code>, which does not implement the <code>Copy</code> trait</p>
+</blockquote>
+<p>​ 我的理解是，self.head.map由于实际是match方法的一种简化形式，那么根据match倾向于move值这个特性，self.head被隐式move了。这样会导致错误。而与原先不同，我们不能使用take()函数（take会使得原来的self.head被设为None，同样一次take的结果也不能被move到多个变量中）。教程上推荐使用<code>as_ref</code>方法，于是我在官方文档上查了一下这个函数。看到这个函数中的其中一句话，我终于透彻地理解了文档中的两句话的意义：</p>
+<ul>
+<li>"Consume the original" 表示原变量将被销毁（被move，所有权丧失）</li>
+<li>"Preserving the original" 表示保留原变量</li>
+</ul>
+<p>​ 但是<code>as_ref</code>文档中所说的："Converts from <code>&amp;Option&lt;T&gt;</code> to <code>Option&lt;&amp;T&gt;</code>." 具体表示什么意思呢？引用符号在内部外部的区别是什么？我是这么理解的，仍然以stack中的内容为例子。stack的Link，其类型是<code>Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>。那么上面这句话的意思就是将<code>&amp;...</code> 转化为<code>Option&lt;&amp; Box&lt;Node&lt;T&gt;&gt;&gt;</code>。为什么要这样呢？我们先回顾一下map的性质。我们在函数的参数列表中写的是<code>&amp; self</code>，这就导致了<code>self.head.map</code>无法进行，这是因为，由于map具有类似match的属性，会导致<code>self.head</code>发生move（到新产生的变量<code>node</code>中，如果还不是很明白，请参考<a href="#match_move">本博客的这里</a>），引用内部是不允许发生move的，故报错。而<code>take</code>则将内部的Node取了出来，但是是按值取的，原来的<code>head</code>内容变成了None，并且难以恢复。故这里，我们希望以一种不破坏原来的<code>self.head</code>的方式，返回一个对<code>self.head</code>中node的引用。注意到：由于参数列表中<code>&amp;self</code>的存在，这里的<code>self.head</code>实际上 <strong>就是<code>&amp;Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code></strong>。</p>
+<p>​ 如果将其转化成<code>Option &lt;&amp;Box&lt;Node&lt;T&gt;&gt;&gt;</code>，那么map得到的结果node，就是一个引用（<code>&amp;Node&lt;T&gt;</code>），我们可以通过如下代码来确定：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">top_node</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;Node&lt;T&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.head.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">            node</span><br><span class="line">        &#125;).<span class="title function_ invoke__">unwrap</span>()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>​ 注意，由于以上代码只是测试使用，我没有定义成public函数（事实上，定义成public函数会报错，Node是一个私有类型，被放在了公共区域，private type leak错误）。这段代码是可以过编译的（放在对应的<code>impl</code>块中）。则说明，node本身就是一个引用。故不发生move，<code>self.head</code>被成功保存下来了。太好了，我们又赢啦！那么，最后如果要返回<code>&amp;node.elem</code>，只需要在<code>self.head</code>之后，加上<code>.as_ref()</code>即可。</p>
+<p>​ 那么余下的两个函数，根据分析<code>as_ref</code>时的经验，理解起来应该会容易很多：</p>
+<ul>
+<li><code>as_mut</code>: Converts from <code>&amp;mut Option&lt;T&gt;</code> to <code>Option&lt;&amp;mut T&gt;</code>. 也即，当结构体成员函数使用<code>&amp;mut self</code>输入时，<code>as_mut</code>后接的<code>map</code>将可以输出node的可变引用</li>
+<li><code>as_deref</code>: 我错了，我暂时不想去递归deref以及<code>Deref::Target</code>是个什么玩意。</li>
+</ul>
+<p>​ 这里我想再按照自己的理解，解读一下官方教程的例子。官方教程想通过自定义的<code>peek_mut</code>修改栈顶数据，但是：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list.<span class="title function_ invoke__">peek_mut</span>().<span class="title function_ invoke__">map</span>(|&amp;<span class="keyword">mut</span> value| &#123;</span><br><span class="line">    value = <span class="number">42</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>​ 这样写是显然不可以的。首先，<code>peek_mut</code>就如我们的<code>top_node_mut</code>一样，返回的是<code>&amp;mut T</code> （官方教程则是返回<code>Option&lt;&amp;mut T&gt;</code>），在map之后，将成为<code>&amp;mut T</code>，也即，value本身就是一个mutable reference，那么此例子中，对于一个mutable reference，再进行引用，成了mutable reference的mutable reference，会怎么样呢？首先，mutable reference变量value，只是说 <strong><u>其指向的内容是可变的</u></strong>，但并没有声明，value本身可以变（也即value不可以改变指向，但是能改变指向的内容），只有value本身有mut属性，才能安全地对value进行mutable reference。这里显然没有这样的条件，并且即使挂上了这个引用，最后修改的也是value值，而不是value指向的值。</p>
+<hr>
+<h2 id="rust-其他todo项">Rust 其他TODO项</h2>
+<ul>
+<li>值得一记，回头搞清楚原理（主要是dyn关键词用法）：使用函数作为参数进行传递（callback类写法）</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">sort_test</span>(&amp; bubble_sort);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">sort_test</span>(sort_func: &amp;<span class="keyword">dyn</span> <span class="title function_ invoke__">Fn</span>(&amp;<span class="keyword">mut</span> [<span class="type">i32</span>])) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr</span> = [<span class="number">7</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line">    <span class="title function_ invoke__">sort_func</span>(&amp;<span class="keyword">mut</span> arr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">bubble_sort</span>(arr: &amp;<span class="keyword">mut</span> [<span class="type">i32</span>]) &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Vec</code> 切片的<code>to_vec</code>函数与切片类型（切片转数组或其他数据类型时的overhead）
+<ul>
+<li><code>Vec</code>切片之后会变成 <code>&amp;[type]</code>？比如<code>&amp;vec[3..9]</code> 实际上是<code>&amp; [i32]</code>?</li>
+</ul></li>
+<li><code>cargo new --lib &lt;name&gt;</code> 的 <code>lib</code>具体起什么作用？</li>
+<li><code>Box</code> 说是堆的指针？其作用类似于C中动态分配内存的结构?</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/" title="Rust学习 I">https://enigmatisms.github.io/2022/05/03/Rust学习-I/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/Rust/" rel="tag"><i class="fa fa-tag"></i> Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/" rel="prev" title="Cartographer编译问题整理">
+                  <i class="fa fa-chevron-left"></i> Cartographer编译问题整理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/" rel="next" title="Rust学习 II">
+                  Rust学习 II <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">352k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:20</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

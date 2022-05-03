@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-04-11T06:27:04.128Z</updated>
+  <updated>2022-05-03T04:04:18.561Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rust学习 II</title>
+    <link href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/"/>
+    <id>https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/</id>
+    <published>2022-05-03T04:01:41.000Z</published>
+    <updated>2022-05-03T04:04:18.561Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;rust---ii&quot;&gt;Rust - II&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intro&quot;&gt;I. Intro&lt;/h2&gt;
+&lt;p&gt;​ 变量的lifetime之前的部分，理解起来都比较简单。而一到lifetime出场，一群妖魔鬼怪也就跟着出场了。不过其实是因为之前的两天学习中，对于变量的引用，所有权的租借理解不够到位。本文仍然是在跟着Rust官方（的非官方，它自己写的）教程学习过程中，整活扩展的一些记录。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="Rust" scheme="https://enigmatisms.github.io/tags/Rust/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rust学习 I</title>
+    <link href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/"/>
+    <id>https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/</id>
+    <published>2022-05-03T03:57:35.000Z</published>
+    <updated>2022-05-03T04:04:12.549Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;rust---i&quot;&gt;Rust - I&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;intros&quot;&gt;Intros&lt;/h2&gt;
+&lt;p&gt;​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及定义跳转等等），第一天学的时候，只能实现一些强逻辑性算法（比如什么快排，归并排序等等），无法深入使用数据结构（给我一个数据结构我根本不知道里面有什么方法）。&lt;/p&gt;
+&lt;p&gt;​ 第一天快结束时，想学习一下Rust的可视化工具Plotters，结果发现，之前从菜鸟教程了解的写法过于粗浅，基本看不懂Plotters代码，遂投身更加深入的学习。但却发现，给自己设置的小目标 --- 写一个链表，按照之前了解的语法知识，我都是写不出来的。快要放弃只是接触到了一个教程以及其官方文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://rust-unofficial.github.io/too-many-lists/index.html&quot;&gt;Rust unofficial - Learning Rust With Entirely Too Many Linked Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://doc.rust-lang.org/std/index.html&quot;&gt;Rust-lang docs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 教程详细介绍了对于链表的实现，较为通俗易懂，有些难以思考的问题，其实沉下心来想也很快能想出来。本文是跟着教程实现过程中，笔者对于遇到的一些问题的处理方法以及自己的心得。由于笔者非常不喜欢依葫芦画瓢（因为这样，感觉自己完全学不到东西），所以笔者也在自己的实现中整活（超前学习），本文也记录了整活过程中遇到的坑及处理方法。本篇为Rust学习心得的第一章。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="Rust" scheme="https://enigmatisms.github.io/tags/Rust/"/>
+    
+  </entry>
   
   <entry>
     <title>Cartographer编译问题整理</title>
@@ -573,68 +627,6 @@ Figure 1. Duality problem formulation
     <category term="English" scheme="https://enigmatisms.github.io/tags/English/"/>
     
     <category term="Methodology" scheme="https://enigmatisms.github.io/tags/Methodology/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Distance Metrics on Point Clouds</title>
-    <link href="https://enigmatisms.github.io/2021/11/14/Distance-Metrics-on-Point-Clouds/"/>
-    <id>https://enigmatisms.github.io/2021/11/14/Distance-Metrics-on-Point-Clouds/</id>
-    <published>2021-11-14T12:41:04.000Z</published>
-    <updated>2021-11-14T17:11:45.368Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;distance-metrics&quot;&gt;Distance Metrics&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;​ 近期的研究有探究一个好的尺度的需求：判断配准是否完成。针对这个问题，我脑子里想的第一件事就是：判定两个点云在某个尺度上是否相近。带着这个目的，我结合之前看过的文献，在解决这个问题的方案中补充了一些新的内容。本文主要包括一下几个内容：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;三种传统点云尺度的简介（Hausdorff，Chamfer，Earth Mover&#39;s）&lt;/li&gt;
-&lt;li&gt;一种基于深度学习的距离尺度（ECCV 2020）&lt;a href=&quot;https://link.springer.com/content/pdf/10.1007/978-3-030-58621-8_32.pdf&quot;&gt;DPDist: Comparing Point Clouds Using Deep Point Cloud Distance&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;低维的最邻近点并不意味着结果能很好地适用于任务，高维的最邻近才是最终的追求。就像你和你异地的（男）女朋友，你们地理上不是最邻近，但是在某个高维空间中，确实是最邻近的，这就是为什么我们需要变换尺度与维度看问题。--- 哲♂学家 千越 · 让 · 德 · 叠buff · 何&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="PointCloud" scheme="https://enigmatisms.github.io/tags/PointCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>概率图模型</title>
-    <link href="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/"/>
-    <id>https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</id>
-    <published>2021-11-10T02:33:59.000Z</published>
-    <updated>2021-11-14T16:51:41.365Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;crf-mrf&quot;&gt;CRF &amp;amp; MRF&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;​ 本文是早期被挂在&lt;a href=&quot;https://github.com/Enigmatisms/Algorithms-Plus&quot;&gt;Github🔗: Enigmatisms/Algorithm Plus&lt;/a&gt;上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。&lt;/p&gt;
-&lt;p&gt;​ 可能我最近还是要重新学一下概率图模型:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;​ 之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="概率论" scheme="https://enigmatisms.github.io/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
     
   </entry>
   
