@@ -35,38 +35,38 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Neural RF  I. Intros ​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Randiance Field【2】]中介绍">
+  <meta name="description" content="Neural RF  I. Intros ​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Radiance Field【2】]中介绍P">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Neural Randiance Field【1】">
-<meta property="og:url" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/index.html">
+<meta property="og:title" content="Neural Radiance Field【1】">
+<meta property="og:url" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Neural RF  I. Intros ​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Randiance Field【2】]中介绍">
+<meta property="og:description" content="Neural RF  I. Intros ​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Radiance Field【2】]中介绍P">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/bench.gif">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/nerf.png">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/sra.png">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/optical-illusion-murals-street-art-1010-19.jpg">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/demo.png">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/nearfar.png">
-<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/inverse.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/bench.gif">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/nerf.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/sra.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/optical-illusion-murals-street-art-1010-19.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/demo.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/nearfar.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/inverse.png">
 <meta property="article:published_time" content="2022-03-13T12:05:21.000Z">
-<meta property="article:modified_time" content="2022-03-13T17:15:48.756Z">
+<meta property="article:modified_time" content="2022-08-13T08:36:55.127Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="DL">
 <meta property="article:tag" content="NeRF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/bench.gif">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/bench.gif">
 
 
-<link rel="canonical" href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/">
+<link rel="canonical" href="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/","path":"2022/03/13/Neural-Randiance-Field【1】/","title":"Neural Randiance Field【1】"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/","path":"2022/03/13/Neural-Radiance-Field【1】/","title":"Neural Radiance Field【1】"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Neural Randiance Field【1】 | Event Horizon</title>
+<title>Neural Radiance Field【1】 | Event Horizon</title>
   
 
 
@@ -117,9 +117,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">38</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">39</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">55</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">59</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -192,7 +192,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -203,7 +203,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -260,7 +260,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -273,7 +273,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Neural Randiance Field【1】
+          Neural Radiance Field【1】
         </h1>
 
         <div class="post-meta-container">
@@ -291,7 +291,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-14 01:15:48" itemprop="dateModified" datetime="2022-03-14T01:15:48+08:00">2022-03-14</time>
+      <time title="Modified: 2022-08-13 16:36:55" itemprop="dateModified" datetime="2022-08-13T16:36:55+08:00">2022-08-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -338,13 +338,13 @@
         <h1 id="neural-rf">Neural RF</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Randiance Field【2】]中介绍Point NeRF以及NeRF的复现：</p>
+<p>​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Radiance Field【2】]中介绍Point NeRF以及NeRF的复现：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall, Ben, et al. "Nerf: Representing scenes as neural radiance fields for view synthesis." <em>European conference on computer vision</em>. Springer, Cham, 2020.</a></li>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.07492.pdf">Zhang, Kai, et al. "Nerf++: Analyzing and improving neural radiance fields." <em>arXiv preprint arXiv:2010.07492</em> (2020).</a></li>
 </ul>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/bench.gif" style="zoom:100%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/bench.gif" style="zoom:100%;">
 </center>
 <center>
 Figure 1. 拿个视频当NeRF demo是吧?（误）
@@ -361,7 +361,7 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
 <li>设计了一种层级化的采样算法，通过coarse-to-fine，coarse sampler采样结果对fine sampler进行指导，使得fine sampler可以更加聚焦于物体表面附近的采样，提升采样训练效率</li>
 </ul>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/nerf.png" style="zoom:100%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/nerf.png" style="zoom:100%;">
 </center>
 <center>
 Figure 2. NeRF网络信息处理过程
@@ -438,7 +438,7 @@ C(\mathbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\mathbf{r}(t))c(\mathbf{r}(t), \mathbf{
 </ul>
 <h3 id="shape-radiance-ambiguity">3.1 Shape-Radiance Ambiguity</h3>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/sra.png" style="zoom:80%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/sra.png" style="zoom:80%;">
 </center>
 <center>
 Figure 3. Shape-Radiance Ambiguity 问题：形状不对但是颜色对了也能恢复少部分视角下的图像
@@ -451,14 +451,14 @@ Figure 3. Shape-Radiance Ambiguity 问题：形状不对但是颜色对了也能
 <div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">正常训练</a></li><li class="tab"><a href="#span-unique-name-2">训个球</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ 最后的结果，应当是：某一3D点在某一视角下观测在成像平面上体现的颜色 = 不同点 <strong><u>部分准确的</u></strong> RGB与 <strong><u>准确的</u></strong> opacity（对应了准确的物体形状）的加权和。</p></div><div class="tab-pane" id="span-unique-name-2"><p>​ 此结果则是：某一3D点在某一视角下观测在成像平面上体现的颜色 = 准确的RGB * 1（opacity在单位球上）。</p></div></div></div>
 <p>​ 作者想表达的也就是：在不需要精确model 3D形状时，在某几个少数视角下，我也能把正确的2D图像输出。比如下面这张街头艺术，显然作者并没有在墙上真的搞一个这样的洞，但是他却能成功在这个视角下，把他想要的3D效果给画出来。</p>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/optical-illusion-murals-street-art-1010-19.jpg" style="zoom:100%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/optical-illusion-murals-street-art-1010-19.jpg" style="zoom:100%;">
 </center>
 <center>
 Figure 4. 2D-3D视觉错觉：形状完全不对，但是能表示正确的3D意义
 </center>
 <p>​ 这是个什么问题呢？显然，<strong><u>过拟合问题</u></strong>。少数视角下，我只需要通过硬调输出使得与输入一致，完全不用管原物体形状胡来，就能达到一个低loss，这样的结果有泛化能力吗？显然是没有的。NeRF++作者做了一个关于【球形opacity】物体的实验：</p>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/demo.png" style="zoom:100%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/demo.png" style="zoom:100%;">
 </center>
 <center>
 Figure 3. 换视角后的泛化能力极差
@@ -474,7 +474,7 @@ Figure 3. 换视角后的泛化能力极差
 <p>​ 用一句话来总结这部分工作，就是：Inverse depth。在双目视觉中，假如我们要直接表示深度图，通常是做不到的，尤其在室外。假设我们看到了天空，那么天空的距离是多少呢？我们debug查看一下变量，奥 NaN 啊，那没事了。对于场景中存在较多较远物体时，即使没有inf距离，也可能使得网络不得不学习【输出需要加一个大bias】这种傻特征。在双目等应用中，通常我们都取inverse depth，距离远就0，距离再怎么近也不可能1/0。</p>
 <p>​ 看NeRF一文中的demo就知道，它的输入，都是一些限定大小的物体，并且这些物体还特地去除了背景。emmm，你说如果一个网络只能处理这种数据，我们会评价它：未来可期。那么本着【未来工作未来录】的想法，是我做审稿人我就给你拒了（误）。个人认为，至少背景还是要有的吧，不然看起来还真缺点实际意义。NeRF++作者认为，常规NeRF，由于训练使用的是点采样这种方法，对于大型unbounded场景来说，远距离下采样要多少个点才算够？离散的话，能很好近似渲染过程的积分吗？太稠密的话，是否会使得网络专注于背景建模，使得前景的效果变差？并且也消耗计算资源？作者发现确实会这样：</p>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/nearfar.png" style="zoom:80%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/nearfar.png" style="zoom:80%;">
 </center>
 <center>
 Figure 5. 经典鱼和熊掌不可兼得
@@ -485,7 +485,7 @@ Figure 5. 经典鱼和熊掌不可兼得
 <li>外部区域，全部用inverse sphere表示。</li>
 </ul>
 <center>
-<img src="/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/inverse.png" style="zoom:67%;">
+<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/inverse.png" style="zoom:67%;">
 </center>
 <center>
 Figure 6. 已知光线方向与r求其在inverse sphere上的投影
@@ -512,7 +512,7 @@ Figure 6. 已知光线方向与r求其在inverse sphere上的投影
   </li>
   <li class="post-copyright-link">
       <strong>Post link: </strong>
-      <a href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/" title="Neural Randiance Field【1】">https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field【1】/</a>
+      <a href="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/" title="Neural Radiance Field【1】">https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field【1】/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -580,13 +580,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">352k</span>
+    <span title="Symbols count total">379k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:20</span>
+    <span title="Reading time total">5:45</span>
   </span>
 </div>
 <div class="busuanzi-count">

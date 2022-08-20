@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-05-03T04:04:18.561Z</updated>
+  <updated>2022-08-20T07:50:27.941Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,117 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rust C++小记录</title>
+    <link href="https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/"/>
+    <id>https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/</id>
+    <published>2022-08-20T07:46:13.000Z</published>
+    <updated>2022-08-20T07:50:27.941Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;rustc&quot;&gt;Rust/C++&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    
+    
+    <category term="C++" scheme="https://enigmatisms.github.io/tags/C/"/>
+    
+    <category term="Rust" scheme="https://enigmatisms.github.io/tags/Rust/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ref NeRF复现</title>
+    <link href="https://enigmatisms.github.io/2022/08/13/Mip-NeRF-Ref-NeRF/"/>
+    <id>https://enigmatisms.github.io/2022/08/13/Mip-NeRF-Ref-NeRF/</id>
+    <published>2022-08-13T08:35:58.000Z</published>
+    <updated>2022-08-20T07:51:37.089Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;ref-nerf复现&quot;&gt;Ref NeRF复现&lt;/h2&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 科研恢复性训练。之前把CUDA加速的全并行shadow caster写完了，算是复习了CUDA、Rust以及FFI的使用。深度学习方面就以复现Ref NeRF为一个小任务。论文&lt;a href=&quot;https://dorverbin.github.io/refnerf/&quot;&gt;CVPR 2022 Best Student Honorable Mention: Ref NeRF - Structured View-Dependent Appearance for Neural Radiance Fields&lt;/a&gt;对反射现象进行了良好的建模。之前我一直在研究折射现象的NeRF建模，就折射建模思路而言，此文对我有很大的启发。并且个人认为，基于Ref NeRF以及mip NeRF作为框架是比较好的选择（除此之外就是要考虑如何让训练变快了，Instant NGP当然是不二选择）。当然，由于在复现过程中也遇到了许多问题，本文在阐述复现思路以及论文理解的同时，也会探讨踩过的坑。目前，Ref NeRF的复现结果还没有达到令我满意的程度，只是具备雏形，毕竟融合两篇文章的idea可能导致冲突，深度学习这种玄学就更是这样了，模型炸了都不知道从哪一个先开始。复现见 &lt;a href=&quot;https://github.com/Enigmatisms/NeRF&quot;&gt;Enigmatisms/NeRF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2022/08/13/Mip-NeRF-Ref-NeRF/ezgif-1-8207b1faa2.gif&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、depth与“奇怪的法向量”
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="NeRF" scheme="https://enigmatisms.github.io/tags/NeRF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rust CUDA混合编程</title>
+    <link href="https://enigmatisms.github.io/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/"/>
+    <id>https://enigmatisms.github.io/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</id>
+    <published>2022-08-09T06:11:59.000Z</published>
+    <updated>2022-08-20T07:39:32.185Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;​ （未完成，请勿点击）Rust FFI（foriegn function interface）非常有吸引力，特别是当你用熟了&lt;a href=&quot;https://github.com/nannou-org/nannou&quot;&gt;nannou&lt;/a&gt;库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）&lt;/li&gt;
+&lt;li&gt;ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="GPU" scheme="https://enigmatisms.github.io/tags/GPU/"/>
+    
+    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
+    
+    <category term="Rust FFI" scheme="https://enigmatisms.github.io/tags/Rust-FFI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mip NeRF思想注入与更多的NeRF方法</title>
+    <link href="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/"/>
+    <id>https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/</id>
+    <published>2022-05-03T07:42:06.000Z</published>
+    <updated>2022-08-20T07:32:28.463Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;​ （未完成，请勿点击）。最近读了非常多关于NeRF的论文，毕竟这玩意从ECCV 2020被提出来之后就爆火了，变体层出不穷，基本上我能想到的卷法，都有人卷过了。低垂的果实总是被有能力又有准备的人先摘走，留下来的都是一些需要费大力气才能摘到的果实。论文不仅需要读，好的论文一定要复现，才能深入了解其精髓，西安交大人工智能学院的刘龙军副教授曾经在组会上说到：读论文不复现等于白读！大家都深以为然:&amp;gt;。而其中最有复现价值（并且难度没那么高的，不像Instant NGP，official repo代码都看不懂）的当属：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ICCV 2021: &lt;a href=&quot;https://arxiv.org/abs/2103.13415&quot;&gt;Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;ECCV 2022: &lt;a href=&quot;https://arxiv.org/abs/2111.12077&quot;&gt;Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 其中Mip NeRF 360中的proposal network已经成为目前个人所实现的NeRF框架的基础。本文是复现过程中的一些心得以及对其他所读的NeRF论文的总结。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
+    
+    <category term="NeRF" scheme="https://enigmatisms.github.io/tags/NeRF/"/>
+    
+  </entry>
   
   <entry>
     <title>Rust学习 II</title>
@@ -129,23 +240,23 @@ Figure 1. blender synthetic dataset - drums 训练过程可视化（从epoch 1- 
   </entry>
   
   <entry>
-    <title>Neural Randiance Field【1】</title>
-    <link href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/"/>
-    <id>https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/</id>
+    <title>Neural Radiance Field【1】</title>
+    <link href="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/"/>
+    <id>https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/</id>
     <published>2022-03-13T12:05:21.000Z</published>
-    <updated>2022-03-13T17:15:48.756Z</updated>
+    <updated>2022-08-13T08:36:55.127Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;neural-rf&quot;&gt;Neural RF&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Randiance Field【2】]中介绍Point NeRF以及NeRF的复现：&lt;/p&gt;
+&lt;p&gt;​ 深度学习的大环境下，视图合成（view synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Radiance Field【2】]中介绍Point NeRF以及NeRF的复现：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com&quot;&gt;Mildenhall, Ben, et al. &quot;Nerf: Representing scenes as neural radiance fields for view synthesis.&quot; &lt;em&gt;European conference on computer vision&lt;/em&gt;. Springer, Cham, 2020.&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2010.07492.pdf&quot;&gt;Zhang, Kai, et al. &quot;Nerf++: Analyzing and improving neural radiance fields.&quot; &lt;em&gt;arXiv preprint arXiv:2010.07492&lt;/em&gt; (2020).&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;center&gt;
-&lt;img src=&quot;/2022/03/13/Neural-Randiance-Field%E3%80%901%E3%80%91/bench.gif&quot; style=&quot;zoom:100%;&quot;&gt;
+&lt;img src=&quot;/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/bench.gif&quot; style=&quot;zoom:100%;&quot;&gt;
 &lt;/center&gt;
 &lt;center&gt;
 Figure 1. 拿个视频当NeRF demo是吧?（误）
@@ -472,161 +583,6 @@ Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="transformer" scheme="https://enigmatisms.github.io/tags/transformer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>前端小学习</title>
-    <link href="https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://enigmatisms.github.io/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/</id>
-    <published>2021-12-26T12:18:03.000Z</published>
-    <updated>2022-01-13T14:08:49.469Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;front-end&quot;&gt;Front-End&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 某天我回过头来看自己大一写的游戏，越玩越觉得制作尽量细节拉满（确实，不过估计是因为我大一非常闲，可以整天泡在写游戏里）。虽然如此，我还是觉得Pygame不适合做这个游戏，并且我觉得大一时的代码设计思想还不成熟，非常乱，想重构这个游戏。思来想去，用Unity（写了个弹珠打砖块游戏）觉得不爽，并且C#语言风格与C++类似，不想重复，遂想用一些（感觉上）完全不一样的语言去做这件事，最后确定用前端写网页游戏。前端说有趣，也还挺有趣的（毕竟我之前一直想当建筑设计师，搞设计的热情还是有的），但总感觉少了点深度思考（可能因为我接触的太简单）。为了在实践中学习前端，我将之前用Pygame实现的用户登录界面用JS升级了一下（只是功能升级，并没有更好看，见&lt;a href=&quot;https://github.com/Enigmatisms/JSen&quot;&gt;Github:Enigmatisms/JSen&lt;/a&gt;），本文记录在做这个小小项目过程中遇到的一些问题。&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr class=&quot;header&quot;&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/5.png&quot; style=&quot;zoom: 40%;&quot;&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/12/26/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%AD%A6%E4%B9%A0/home.png&quot;&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class=&quot;odd&quot;&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;Ethians Alpha 1.0 主菜单&lt;/td&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;一个（个人认为的）人性化的登录/注册网页&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;center&gt;
-Figure 1. 目标 与 现阶段 发展不平衡之间的矛盾
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="JavaScript" scheme="https://enigmatisms.github.io/tags/JavaScript/"/>
-    
-    <category term="前端开发" scheme="https://enigmatisms.github.io/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vision Transformers</title>
-    <link href="https://enigmatisms.github.io/2021/11/28/Vision-Transformers/"/>
-    <id>https://enigmatisms.github.io/2021/11/28/Vision-Transformers/</id>
-    <published>2021-11-27T23:22:16.000Z</published>
-    <updated>2022-01-10T15:06:30.909Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;vit&quot;&gt;ViT&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 去年的一个工作&lt;a href=&quot;#refs&quot;&gt;[1]&lt;/a&gt;，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文&lt;a href=&quot;#refs&quot;&gt;[2]&lt;/a&gt;（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive bias的方法。论文提出的网络复现起来很简单，毕竟不是什么大型网络以及复杂架构，但是要复现其结果感觉还是挺吃经验的。复现见：&lt;a href=&quot;https://github.com/Enigmatisms/Maevit&quot;&gt;[Github🔗:Enigmatisms/Maevit]&lt;/a&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr class=&quot;header&quot;&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/11/28/Vision-Transformers/train.png&quot;&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2021/11/28/Vision-Transformers/test.png&quot;&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class=&quot;odd&quot;&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;最终（无mixup）训练集准确率（约99.8%）&lt;/td&gt;
-&lt;td style=&quot;text-align: center;&quot;&gt;最终（无mixup）测试集准确率（约94.5%）&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;center&gt;
-Figure 1. CIFAR-10实验，官方实现显示的最终acc约为94.7%
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="transformer" scheme="https://enigmatisms.github.io/tags/transformer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nvidia 简单环境工程</title>
-    <link href="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
-    <id>https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</id>
-    <published>2021-11-21T07:33:34.000Z</published>
-    <updated>2021-11-21T08:29:53.397Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;ampere-pytorch&quot;&gt;Ampere Pytorch&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;​ 近日训练神经网络花了五六十块钱，在&lt;a href=&quot;http://www.ai-galaxy.cn/&quot;&gt;智星云&lt;/a&gt;平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子&lt;/li&gt;
-&lt;li&gt;环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch 1.4.0，直接没办法跑&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX 3060，对应架构为安培（Ampere sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。&lt;/p&gt;
-&lt;center&gt;
-&lt;img src=&quot;/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png&quot; style=&quot;zoom:67%;&quot;&gt;
-&lt;/center&gt;
-&lt;center&gt;
-Figure 1. 看起来很便宜 黄仁勋Yes
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="环境工程" scheme="https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>A Duality Problem of Representations</title>
-    <link href="https://enigmatisms.github.io/2021/11/14/A-Duality-Problem-of-Representations/"/>
-    <id>https://enigmatisms.github.io/2021/11/14/A-Duality-Problem-of-Representations/</id>
-    <published>2021-11-14T13:19:26.000Z</published>
-    <updated>2021-11-14T16:27:29.974Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;duality&quot;&gt;Duality&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-introduction&quot;&gt;I. Introduction&lt;/h2&gt;
-&lt;p&gt;In a slide talking about 3D geometry and deep learning, I found something interesting: one question, of which I can not get rid. This is a duality question about representations:&lt;/p&gt;
-&lt;center&gt;
-&lt;img src=&quot;/2021/11/14/A-Duality-Problem-of-Representations/dual.png&quot; style=&quot;zoom:60%;&quot;&gt;
-&lt;/center&gt;
-&lt;center&gt;
-Figure 1. Duality problem formulation
-&lt;/center&gt;
-&lt;p&gt;These problems lingered in my head:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Why and how we can regard probability distribution and particle filters as dual counterparts to each other?&lt;/li&gt;
-&lt;li&gt;Same question for occupancy map and point clouds, as they seem to be, according to the figure above, the representations under different specifications?&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;So I took some time to sink in this problem. This post is therefore the summarization of my thoughts.&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Philosophy" scheme="https://enigmatisms.github.io/categories/Philosophy/"/>
-    
-    
-    <category term="English" scheme="https://enigmatisms.github.io/tags/English/"/>
-    
-    <category term="Methodology" scheme="https://enigmatisms.github.io/tags/Methodology/"/>
     
   </entry>
   
