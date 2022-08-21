@@ -33,9 +33,9 @@
     <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
     
     
-    <category term="C++" scheme="https://enigmatisms.github.io/tags/C/"/>
-    
     <category term="Rust" scheme="https://enigmatisms.github.io/tags/Rust/"/>
+    
+    <category term="C++" scheme="https://enigmatisms.github.io/tags/C/"/>
     
   </entry>
   
@@ -198,9 +198,9 @@ Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、dept
     <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
     
     
-    <category term="环境工程" scheme="https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
-    
     <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
+    
+    <category term="环境工程" scheme="https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/"/>
     
   </entry>
   
