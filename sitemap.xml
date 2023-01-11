@@ -617,21 +617,14 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/DL/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/algos/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/Methodology/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -652,7 +645,14 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/Methodology/</loc>
+    <loc>https://enigmatisms.github.io/tags/DL/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -673,13 +673,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/%E6%97%A0%E7%9B%91%E7%9D%A3/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -687,7 +680,21 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/tags/%E6%97%A0%E7%9B%91%E7%9D%A3/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/tags/%E6%B7%B1%E5%BA%A6%E8%A1%A5%E5%85%A8/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/PointCloud/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -702,13 +709,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/life/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/PointCloud/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -764,13 +764,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/transformer/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/ML/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -778,7 +771,28 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/tags/transformer/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/tags/poetry/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/LLVM/</loc>
+    <lastmod>2023-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/Taichi-lang/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -863,20 +877,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/%E7%82%B9%E4%BA%91/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/LLVM/</loc>
-    <lastmod>2023-01-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/Taichi-lang/</loc>
     <lastmod>2023-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
