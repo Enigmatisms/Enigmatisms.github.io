@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2022-08-20T07:50:27.941Z</updated>
+  <updated>2023-01-11T04:20:35.871Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Taichi Learning I</title>
+    <link href="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/"/>
+    <id>https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/</id>
+    <published>2023-01-11T03:53:43.000Z</published>
+    <updated>2023-01-11T04:20:35.871Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;taichi-lang-i&quot;&gt;Taichi Lang I&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​ 刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的 path tracer 出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python decorator补充（4）自己做的一些小demo。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2023/01/11/Taichi-Learning-I/logo.png&quot; style=&quot;zoom: 50%;&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+Figure 1. 混元形意太极 闪电五连鞭
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
+    
+    <category term="LLVM" scheme="https://enigmatisms.github.io/tags/LLVM/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
+  </entry>
   
   <entry>
     <title>Rust C++小记录</title>
@@ -104,7 +140,7 @@ Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、dept
     <link href="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/"/>
     <id>https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/</id>
     <published>2022-05-03T07:42:06.000Z</published>
-    <updated>2022-08-20T07:32:28.463Z</updated>
+    <updated>2022-08-24T23:20:48.138Z</updated>
     
     
     <summary type="html">&lt;p&gt;​ （未完成，请勿点击）。最近读了非常多关于NeRF的论文，毕竟这玩意从ECCV 2020被提出来之后就爆火了，变体层出不穷，基本上我能想到的卷法，都有人卷过了。低垂的果实总是被有能力又有准备的人先摘走，留下来的都是一些需要费大力气才能摘到的果实。论文不仅需要读，好的论文一定要复现，才能深入了解其精髓，西安交大人工智能学院的刘龙军副教授曾经在组会上说到：读论文不复现等于白读！大家都深以为然:&amp;gt;。而其中最有复现价值（并且难度没那么高的，不像Instant NGP，official repo代码都看不懂）的当属：&lt;/p&gt;
@@ -552,37 +588,6 @@ Figure 1. Hoho. Da. Nice.
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="深度补全" scheme="https://enigmatisms.github.io/tags/%E6%B7%B1%E5%BA%A6%E8%A1%A5%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Swin Transformer 复现</title>
-    <link href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/"/>
-    <id>https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/</id>
-    <published>2022-01-10T14:45:34.000Z</published>
-    <updated>2022-01-22T16:37:54.284Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;swin-transformer&quot;&gt;Swin Transformer&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：&lt;strong&gt;&lt;u&gt;一个公式都没有&lt;/u&gt;&lt;/strong&gt;（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：&lt;a href=&quot;https://github.com/Enigmatisms/Maevit/tree/master/swin&quot;&gt;Github/Maevit(这实际是ViT的复现repo)&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;​ 论文原文：&lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Liu, Ze, et al. &quot;Swin transformer: Hierarchical vision transformer using shifted windows.&quot; &lt;em&gt;arXiv preprint arXiv:2103.14030&lt;/em&gt; (2021).&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png&quot;&gt;&lt;/p&gt;
-&lt;center&gt;
-Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="transformer" scheme="https://enigmatisms.github.io/tags/transformer/"/>
     
   </entry>
   

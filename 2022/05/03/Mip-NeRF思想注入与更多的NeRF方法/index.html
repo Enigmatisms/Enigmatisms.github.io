@@ -42,13 +42,15 @@
 <meta property="og:site_name" content="Event Horizon">
 <meta property="og:description" content="​ （未完成，请勿点击）。最近读了非常多关于NeRF的论文，毕竟这玩意从ECCV 2020被提出来之后就爆火了，变体层出不穷，基本上我能想到的卷法，都有人卷过了。低垂的果实总是被有能力又有准备的人先摘走，留下来的都是一些需要费大力气才能摘到的果实。论文不仅需要读，好的论文一定要复现，才能深入了解其精髓，西安交大人工智能学院的刘龙军副教授曾经在组会上说到：读论文不复现等于白读！大家都深以为然:&amp;gt">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/2022-08-25%20(2).png">
 <meta property="article:published_time" content="2022-05-03T07:42:06.000Z">
-<meta property="article:modified_time" content="2022-08-20T07:32:28.463Z">
+<meta property="article:modified_time" content="2022-08-24T23:20:48.138Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="DL">
 <meta property="article:tag" content="NeRF">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/2022-08-25%20(2).png">
 
 
 <link rel="canonical" href="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/">
@@ -109,9 +111,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">39</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">41</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">59</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">60</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -156,7 +158,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -169,6 +171,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-text"></span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -183,7 +186,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -194,7 +197,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -282,7 +285,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-20 15:32:28" itemprop="dateModified" datetime="2022-08-20T15:32:28+08:00">2022-08-20</time>
+      <time title="Modified: 2022-08-25 07:20:48" itemprop="dateModified" datetime="2022-08-25T07:20:48+08:00">2022-08-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -308,14 +311,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>480</span>
+      <span>3.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -333,6 +336,46 @@
 </ul>
 <p>​ 其中Mip NeRF 360中的proposal network已经成为目前个人所实现的NeRF框架的基础。本文是复现过程中的一些心得以及对其他所读的NeRF论文的总结。</p>
 <span id="more"></span>
+<h2 id="section"></h2>
+<p>​ Neural surface reconstruction方法，利用多视角图片对表面进行建模。个人认为，这样的方法存在以下优点与缺点：</p>
+<ul>
+<li>已知NeRF对于density、法向量以及表面的建模非常垃圾（density云雾效应，表面建模非常粗糙、噪声很多，法向量非分块平滑）</li>
+<li>而对于表面的建模很有可能会使得半透明物体的建模能力下降（由于表面建模一般期望表面density较为集中）</li>
+</ul>
+<p>​ 对于个人而言，本篇论文仅作为了解（知道对应的方法），并不准备实际使用类似的思想（个人更想对所有材质都能进行建模）。</p>
+<p>​ NeuS中的RGB预测与NeRF一致，主要区别在于density以及weight的计算。NeuS就是希望density可以集中在表面附近，不产生云雾或者奇异的自遮挡，利用density求得的weight也需要具有一定的性质，主要是 <strong><u>无偏性</u></strong>（unbiased）以及 <strong><u>遮挡感知性</u></strong>（occlusion-aware）。对于NeRF而言，遮挡感知性是已经具备的性质，在weight的计算过程中，“accumulated transmittance”不断累乘（小于等于1的值），形成的weight在光线前段通过不透明物体时将显著降低，这样使得被遮挡的物体/表面不会影响渲染的结果。而NeRF的weight则不存在无偏性，由于正常情况下，density将会在表面附近存在峰值，而由于accumulated transmittance将使得weight发生移动（通常都是向前，特别是在表面附近的density较为分散时），使用这样的density无法估计出好的表面。</p>
+<p>​ 作者的表面建模使用SDF进行表征（外正内负），作者使用名为S-density的函数作为表面附近density的分布。此density实际上是sigmoid函数的导数，计算较为简单： <span class="math display">\[
+\begin{align}
+\phi_s(t)=\frac{se^{-sx}}{(1+e^{-sx})^2},\label{wf}\\
+\Phi_s(t)=\frac{1}{1+e^{-sx}}\\
+w(t)=\frac{\phi_s(f(p(t)))}{\int_{-\infin}^{+\infin}\phi_s(f(p(u)))du}\label{weight}
+\end{align}
+\]</span> ​ 由于我们实际需要设计一种同时具备无偏性以及遮挡感知性的weight，直接使用归一化的S-density显然是没有办法满足要求的（关于表面对称，不满足遮挡感知性）。作者先从无偏性出发，寻找一个不透明度density（opacity density），使得根据此density通过体积渲染计算的weight就是公式<span class="math inline">\(\eqref{wf}\)</span>。可能此时有人会有疑问：不是说以公式<span class="math inline">\(\eqref{wf}\)</span>确定的weight不具有遮挡感知性吗？作者在保证无偏性之后对此问题进行了讨论。首先，作者遵循NeRF的体积渲染公式： <span class="math display">\[
+\begin{equation}\label{derive1}
+T(t)\rho(t)=w(t),\text{ where }T(t)=\exp{\left(-\int_0^t\rho(u)du\right)}
+\end{equation}
+\]</span> ​ 其中t是什么？是SDF函数值，在讨论无偏性时先讨论最简单的情况：<strong><u>平面单障碍物</u></strong>。单个平面障碍物的SDF很简单，就是<span class="math inline">\(-|\cos\theta|(t-t^*)\)</span>，其中<span class="math inline">\(t,t^*\)</span>都代表光线方向的深度值，<span class="math inline">\(\theta\)</span>为入射方向于平面法向量的夹角。则根据指数函数的性质以及平面的SDF公式，代入公式<span class="math inline">\(\eqref{weight},\eqref{derive1}\)</span>，可以得到： <span class="math display">\[
+\begin{equation}
+T(t)\rho(t)=|\cos\theta|\phi_s(f(p(t)))\mathop{\longrightarrow}^{T(t)\rho(t)=-\frac{dT}{dt}(t)}T(t)=\Phi_s(f(p(t)))
+\end{equation}
+\]</span> ​ 也即得到accumulated transmittance的形式就是sigmoid函数。由公式<span class="math inline">\(\eqref{derive1}\)</span>可以根据<span class="math inline">\(T(t)\)</span>，两边求对数后求导可以得到<span class="math inline">\(\rho(t)\)</span>的表达式： <span class="math display">\[
+\begin{equation}\label{density}
+\rho(t)=\frac{-\frac{d\Phi_s}{dt}(f(p(t)))}{\Phi_s(f(p(t)))}
+\end{equation}
+\]</span> ​ 根据此公式，按照NeRF渲染公式可以求出对称、无偏的weight（sigmoid导数的形式）。此后，作者考虑多个平面（区分物体表面内外），如下图所示：</p>
+<center>
+<img src="/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/2022-08-25 (2).png" style="zoom:60%;">
+</center>
+<p>​ 根据公式<span class="math inline">\(\eqref{density}\)</span>知，由于<span class="math inline">\(d\Phi_s/dt\)</span>的值域为正<span class="math inline">\(\mathbb{R}\)</span>，而： <span class="math display">\[
+\begin{equation}
+\frac{d\Phi_s(f(p(t)))}{dt}=\frac{d\Phi_s(u)}{du}\frac{du}{dt},\text{ where }u=f(p(t))
+\end{equation}
+\]</span> ​ 只有当<span class="math inline">\(f&#39;(p(t))\)</span>为正数时，<span class="math inline">\(\rho(t)\)</span>才是正数，否则为负。负数是没有意义的，故我们将负数部分截断到0（背面“剔除”，光线穿过背面表面时，SDF是增加的，导数为正）。这样，被遮挡的部分（背面）将不会产生任何影响。此外，由于使用的公式仍然是NeRF的光线渲染公式，<span class="math inline">\(T(t)\)</span>仍然从0开始积分到当前t，故经过几个障碍物的遮挡后，靠后方的weight会越来越小，这也是遮挡感知的一种体现。根据所推导的连续公式，将其离散化（实际上就是每两个点之间进行零阶保持，用quadrature近似积分）。</p>
+<p>​ 虽然上述推导基于“平面物体”，但实际上对于光滑物体（一阶导连续），每个点都可以估计切平面（作为近似的法平面），也就可以利用平面物体推导的结果。则可以看出，使用NeuS的同时需要对法向量进行估计（如Ref NeRF中的两种方法，可以使用MLP预测法向量，也可以使用density的一阶梯度作为法向量，本论文中则可以用SDF梯度作为法向量）。</p>
+<p>​ 一些关于NeuS的注意事项：</p>
+<ul>
+<li>NeuS中的SDF函数是MLP（MLP近似了空间距离场），同时NeuS中也包含了一个层次化采样的NeRF模型（用于loss计算）。loss计算的逻辑流大概是这样：SDF MLP将会输出空间的SDF值，</li>
+</ul>
 
     </div>
 
@@ -407,7 +450,7 @@ autoMatchOsTheme: true // default: true
 
 <div class="copyright">
   &copy; 2021.1 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-anchor"></i>
   </span>
@@ -418,13 +461,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">379k</span>
+    <span title="Symbols count total">392k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:45</span>
+    <span title="Reading time total">5:56</span>
   </span>
 </div>
 <div class="busuanzi-count">
