@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2023-01-11T04:20:35.871Z</updated>
+  <updated>2023-01-16T14:19:29.586Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -17,11 +17,57 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Taichi-Learning-II</title>
+    <link href="https://enigmatisms.github.io/2023/01/15/Taichi-Learning-II/"/>
+    <id>https://enigmatisms.github.io/2023/01/15/Taichi-Learning-II/</id>
+    <published>2023-01-15T13:43:34.000Z</published>
+    <updated>2023-01-16T14:19:29.586Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;taichi-lang-ii&quot;&gt;Taichi Lang II&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
+&lt;p&gt;​ 深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable programming）目前对我而言比较重要的就是SSDS，可微编程... 可微渲染可能可以用到，但是本身实在是太复杂了... 我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi 入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking simulation（鸟群模拟）中所学到的一些知识。文末附有flocking sim的视频。&lt;/p&gt;
+&lt;p&gt;​ 预计我下一步将会使用Taichi写一个带有participating media功能的path tracer（3D，之前Rust + CUDA写了一个没开源的2D tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等... 想想就刺激。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;frame 52 (红色为掠食者，白色为普通鸟)&lt;/th&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;frame 58 (红色为掠食者，白色为普通鸟)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2023/01/15/Taichi-Learning-II/000052.png&quot; alt=&quot;000052&quot;&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2023/01/15/Taichi-Learning-II/000058.png&quot; alt=&quot;000058&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt;
+Figure 1. Flocking simulation with predators (64 regular boids (this is not a typo) and 4 predators)
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
+    
+    <category term="LLVM" scheme="https://enigmatisms.github.io/tags/LLVM/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Taichi Learning I</title>
     <link href="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/"/>
     <id>https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/</id>
     <published>2023-01-11T03:53:43.000Z</published>
-    <updated>2023-01-11T04:20:35.871Z</updated>
+    <updated>2023-01-16T14:16:01.264Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;taichi-lang-i&quot;&gt;Taichi Lang I&lt;/h1&gt;
@@ -32,7 +78,9 @@
 &lt;li&gt;Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;​ 刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的 path tracer 出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python decorator补充（4）自己做的一些小demo。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2023/01/11/Taichi-Learning-I/logo.png&quot; style=&quot;zoom: 50%;&quot;&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2023/01/11/Taichi-Learning-I/logo.png&quot; style=&quot;zoom: 50%;&quot;&gt;
+&lt;/center&gt;
 &lt;center&gt;
 Figure 1. 混元形意太极 闪电五连鞭
 &lt;/center&gt;</summary>
@@ -556,38 +604,6 @@ Figure 1. Hoho. Da. Nice.
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="3D重建" scheme="https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Depth Completion论文三篇</title>
-    <link href="https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/"/>
-    <id>https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/</id>
-    <published>2022-01-22T16:31:47.000Z</published>
-    <updated>2022-01-22T16:43:28.427Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;depth-completion&quot;&gt;Depth Completion&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了其中三篇关于 guided深度补全的文章：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;ICCV 2019: &lt;a href=&quot;https://openaccess.thecvf.com/content_ICCV_2019/papers/Xu_Depth_Completion_From_Sparse_LiDAR_Data_With_Depth-Normal_Constraints_ICCV_2019_paper.pdf&quot;&gt;Xu, Yan, et al. &quot;Depth completion from sparse lidar data with depth-normal constraints.&quot; &lt;em&gt;Proceedings of the IEEE/CVF International Conference on Computer Vision&lt;/em&gt;. 2019.&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;ICRA 2020 (可能写得不行 才6引): &lt;a href=&quot;https://arxiv.org/abs/2103.00783&quot;&gt;Hu, Mu, et al. &quot;Towards Precise and Efficient Image Guided Depth Completion.&quot; &lt;em&gt;arXiv e-prints&lt;/em&gt; (2021): arXiv-2103.&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;AAAI 2020: &lt;a href=&quot;https://ojs.aaai.org/index.php/AAAI/article/view/6635&quot;&gt;Cheng, Xinjing, et al. &quot;Cspn++: Learning context and resource aware convolutional spatial propagation networks for depth completion.&quot; &lt;em&gt;Proceedings of the AAAI Conference on Artificial Intelligence&lt;/em&gt;. Vol. 34. No. 07. 2020.&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 本文可能写得&lt;strong&gt;&lt;u&gt;很烂&lt;/u&gt;&lt;/strong&gt;，笔者在看这三篇论文以及写博客时，由于返乡安排太紧，只睡了3.25小时。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="深度补全" scheme="https://enigmatisms.github.io/tags/%E6%B7%B1%E5%BA%A6%E8%A1%A5%E5%85%A8/"/>
     
   </entry>
   

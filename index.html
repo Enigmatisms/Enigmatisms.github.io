@@ -106,7 +106,7 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">41</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">60</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">61</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -354,6 +354,130 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/01/15/Taichi-Learning-II/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/01/15/Taichi-Learning-II/" class="post-title-link" itemprop="url">Taichi-Learning-II</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-15 21:43:34" itemprop="dateCreated datePublished" datetime="2023-01-15T21:43:34+08:00">2023-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-16 22:19:29" itemprop="dateModified" datetime="2023-01-16T22:19:29+08:00">2023-01-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>11 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="taichi-lang-ii">Taichi Lang II</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ 深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable programming）目前对我而言比较重要的就是SSDS，可微编程... 可微渲染可能可以用到，但是本身实在是太复杂了... 我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi 入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking simulation（鸟群模拟）中所学到的一些知识。文末附有flocking sim的视频。</p>
+<p>​ 预计我下一步将会使用Taichi写一个带有participating media功能的path tracer（3D，之前Rust + CUDA写了一个没开源的2D tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等... 想想就刺激。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">frame 52 (红色为掠食者，白色为普通鸟)</th>
+<th style="text-align: center;">frame 58 (红色为掠食者，白色为普通鸟)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="/2023/01/15/Taichi-Learning-II/000052.png" alt="000052"></td>
+<td style="text-align: center;"><img src="/2023/01/15/Taichi-Learning-II/000058.png" alt="000058"></td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. Flocking simulation with predators (64 regular boids (this is not a typo) and 4 predators)
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/01/15/Taichi-Learning-II/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -377,9 +501,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-01-11 11:53:43 / Modified: 12:20:35" itemprop="dateCreated datePublished" datetime="2023-01-11T11:53:43+08:00">2023-01-11</time>
+      <time title="Created: 2023-01-11 11:53:43" itemprop="dateCreated datePublished" datetime="2023-01-11T11:53:43+08:00">2023-01-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-16 22:16:01" itemprop="dateModified" datetime="2023-01-16T22:16:01+08:00">2023-01-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -424,7 +554,9 @@
 <li>Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019</li>
 </ul>
 <p>​ 刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的 path tracer 出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python decorator补充（4）自己做的一些小demo。</p>
-<p><img src="/2023/01/11/Taichi-Learning-I/logo.png" style="zoom: 50%;"></p>
+<center>
+<img src="/2023/01/11/Taichi-Learning-I/logo.png" style="zoom: 50%;">
+</center>
 <center>
 Figure 1. 混元形意太极 闪电五连鞭
 </center>
@@ -1217,118 +1349,6 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/" class="post-title-link" itemprop="url">2D激光SLAM中的SDF表征</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-21 14:04:27" itemprop="dateCreated datePublished" datetime="2022-02-21T14:04:27+08:00">2022-02-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-25 08:28:25" itemprop="dateModified" datetime="2022-02-25T08:28:25+08:00">2022-02-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.6k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="sdf-slam">SDF-SLAM</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ 在家配电脑环境工程时，真没有事干，就只能看看论文了。之前太naive了，了解得少，只知道2D地图表征常用栅格图以及点云，不常用的是隐式函数（implicit function），却忘记了还有SDF这个中间表征。查找2D-SLAM文献时，蹦出了几篇SDF相关的文章，都还算中规中矩，通俗易懂（比起什么cartographer分支定界来说，简直太友好了，不过说起来，这几篇论文中除了cartographer魔改论文之外，真的谈了后端吗？）：</p>
-<ul>
-<li><p>Fossel, Joscha-David, Karl Tuyls, and Jürgen Sturm. "2D-SDF-SLAM: A signed distance function based SLAM frontend for laser scanners." <em>2015 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</em>. IEEE, 2015.</p></li>
-<li><p>Daun, Kevin, et al. "Large scale 2d laser slam using truncated signed distance functions." <em>2019 IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)</em>. IEEE, 2019.</p></li>
-<li><p>Fu, Xingyin, et al. "Improved Signed Distance Function for 2D Real-time SLAM and Accurate Localization." <em>arXiv preprint arXiv:2101.08018</em> (2021).</p></li>
-</ul>
-<p>​ P.S. 本文内容并不多。虽然这有三篇论文，其中值得大篇幅讲的不可能塞在这篇博客中，不值得大篇幅讲的都在这了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/awesome-page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><a class="extend next" rel="next" href="/awesome-page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1363,13 +1383,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">392k</span>
+    <span title="Symbols count total">405k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:56</span>
+    <span title="Reading time total">6:08</span>
   </span>
 </div>
 <div class="busuanzi-count">
