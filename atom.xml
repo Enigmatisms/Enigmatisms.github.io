@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2023-01-16T14:19:29.586Z</updated>
+  <updated>2023-02-08T18:00:54.556Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,52 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AdaPT - Monte Carlo Path Tracer I</title>
+    <link href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/"/>
+    <id>https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/</id>
+    <published>2023-02-08T17:55:18.000Z</published>
+    <updated>2023-02-08T18:00:54.556Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ada-path-tracer-i&quot;&gt;Ada Path Tracer I&lt;/h1&gt;
+&lt;p&gt;​ Path tracing背后的概率与数学理论较为复杂，如果不深入理解则很难进行正确的实现，更勿论在此基础上进行创新了。结合笔者在实现过程中的一些体会，笔者认为非Whitted光线追踪渲染器有一个这样的特点：即使是很大的逻辑错误可能也很难使用定性的方法观察出来，最后的错误输出可能与正确输出仅有很小的差别，甚至有的时候根本看不出来（例如，算法收敛慢时我可能倾向于认为是自己没有用太多的variance reduction方法以及深入的采样技术，而不会认为我代码有逻辑错误）。故本文作为 Path Tracing 系列的第一部分文章，将尽可能深入讨论背后的理论知识以及其理解。理解是为实现、创新服务的，任何不到位的地方都将导致实现过程中的卡顿，故此处我将尽力覆盖这两周用零碎事件写&lt;a href=&quot;https://github.com/Enigmatisms/AdaPT&quot;&gt;渲染器: AdaPT&lt;/a&gt;时所遇到的问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;写文档是很烦人的一件事，如果我本身很闲，不用为了各种学业、科研、个人资本等等事情考虑的话，我当然还是非常愿意写博客、写文档的。可惜写博客写文档从现在来看并没有实际的价值，只是我个人的自嗨。 --- 2023.2.8 何千越&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&quot;The cornell spheres&quot;&lt;/th&gt;
+&lt;th style=&quot;text-align: center;&quot;&gt;&quot;The cornell boxes&quot;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/adapt-cornell-sphere.png&quot;&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/adapt-cornell-box.png&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt;
+Figure 1. Ada-Path-Tracer 渲染结果（20s内）
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
+    <category term="CG" scheme="https://enigmatisms.github.io/tags/CG/"/>
+    
+    <category term="renderer" scheme="https://enigmatisms.github.io/tags/renderer/"/>
+    
+  </entry>
   
   <entry>
     <title>Taichi-Learning-II</title>
@@ -568,42 +614,6 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="优化理论" scheme="https://enigmatisms.github.io/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Instant Neural Graphics Primitives</title>
-    <link href="https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/"/>
-    <id>https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/</id>
-    <published>2022-01-23T14:29:53.000Z</published>
-    <updated>2022-01-26T16:15:50.936Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;instant-ngp&quot;&gt;Instant NGP&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf&quot;&gt;&lt;strong&gt;Instant Neural Graphics Primitives with a Multiresolution Hash Encoding&lt;/strong&gt; Thomas Müller, Alex Evans, Christoph Schied, Alexander Keller arXiv:2201.05989 [cs.CV], Jan 2022&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;​ 文章很有趣，对我现有工作有一定的启发价值，当然结果也很nice：&lt;/p&gt;
-&lt;center&gt;
-&lt;img src=&quot;/2022/01/23/Instant-Neural-Graphics-Primitives/robot5.gif&quot; style=&quot;zoom:125%;&quot;&gt;
-&lt;/center&gt;
-&lt;center&gt;
-Figure 1. Hoho. Da. Nice.
-&lt;/center&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="3D重建" scheme="https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/"/>
     
   </entry>
   
