@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RbBW2OguDsx3OoyQghfVhVDSgpBgwKw3Em9kY2pJUvU">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Ada Path Tracer II  ​ 本文为 Ada Path Tracer I 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AdaPT - Monte Carlo Path Tracer II">
+<meta property="og:url" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Ada Path Tracer II  ​ 本文为 Ada Path Tracer I 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/c403f4fb9d8aa590130033b601d2f54a.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/a83efdf5dd11f6681480ff1779c4c29c.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/mis1.png">
+<meta property="article:published_time" content="2023-02-11T14:21:14.000Z">
+<meta property="article:modified_time" content="2023-02-12T14:44:39.094Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="Taichi lang">
+<meta property="article:tag" content="CG">
+<meta property="article:tag" content="renderer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/","path":"2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/","title":"AdaPT - Monte Carlo Path Tracer II"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AdaPT - Monte Carlo Path Tracer II | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">43</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">63</span></a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ada-path-tracer-ii"><span class="nav-text">Ada Path Tracer II</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-pdf-confusion"><span class="nav-text">II. PDF Confusion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A8%E8%AE%BA%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90"><span class="nav-text">2.1 讨论对象分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#importance-sampling"><span class="nav-text">2.2 Importance Sampling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mis"><span class="nav-text">2.3 MIS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.3.1 基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#heuristics"><span class="nav-text">2.3.2 Heuristics</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E6%96%87%E9%97%AE%E9%A2%98%E7%9A%84%E7%AD%94%E6%A1%88"><span class="nav-text">2.3.3 上文问题的答案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AdaPT - Monte Carlo Path Tracer II
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-11 22:21:14" itemprop="dateCreated datePublished" datetime="2023-02-11T22:21:14+08:00">2023-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-02-12 22:44:39" itemprop="dateModified" datetime="2023-02-12T22:44:39+08:00">2023-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="ada-path-tracer-ii">Ada Path Tracer II</h1>
+<hr>
+<p>​ 本文为 <a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/">Ada Path Tracer I</a> 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进行分析。分析过程中我果真也发现自己之前的某些理解是不对的，实现时出了问题，例如在：Lambertian BSDF的实现、MIS 对无面积光源的处理、MIS weight计算等等方面均有瑕疵。</p>
+<p>​ 本部分学习的结束标志着【基本 path tracer 实现】的完成（V1.0）。除了对BSDF进行小的修改之外（表面反射定义过于简单），下一步我将主要围绕两部分进行深入研究：</p>
+<ul>
+<li>Bidirectional path tracing。双向 tracer 对处理 directional / collimated 光源十分有用，并且在caustic建模上有着更好的效果（虽然不是最好的）</li>
+<li>Volumetric path tracing。主要研究匀质介质散射吸收。</li>
+</ul>
+<center>
+<img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png" style="zoom: 80%;">
+</center>
+<center>
+Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/顶部面光源与球面光源
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-pdf-confusion">II. PDF Confusion</h2>
+<h3 id="讨论对象分析">2.1 讨论对象分析</h3>
+<p>​ 有如下问题需要明确：Path tracer中 PDF 对结果的影响是什么？选取不正确的PDF是否会导致结果成为有偏估计？PDF针对分子中哪一项起作用？</p>
+<p>​ 已知MC积分公式： <span class="math display">\[
+\begin{equation}\label{mc_est}
+\frac 1N \sum_{i=1}^N \frac{f(X_i)}{p(X_i)}
+\end{equation}
+\]</span> ​ 求期望可以得到： <span class="math display">\[
+\begin{equation}\label{mc}
+\frac 1N \sum_{i=1}^N E\left(\frac{f(X_i)}{p(X_i)}\right)
+\end{equation}
+\]</span> ​ 而上式内部的期望为： <span class="math display">\[
+\begin{equation}\label{exp}
+E\left(\frac{f(X_i)}{p(X_i)}\right) = \int_\Omega \frac{f(x)}{p(x)}p(x)dx
+\end{equation}
+\]</span> ​ 注意，根据随机变量函数的期望公式： <span class="math display">\[
+E(f(X)) = \int_\Omega f(x)p(x)dx
+\]</span> ​ 可知公式<span class="math inline">\(\eqref{exp}\)</span>求解的期望是随机变量<span class="math inline">\(x\)</span>的函数<span class="math inline">\(f(x)/p(x)\)</span>的期望。其中的<span class="math inline">\(p(x)\)</span>应当仍然是<span class="math inline">\(x\)</span>的分布。那么，在Monte Carlo积分中，或者在某个 vertex 处，<span class="math inline">\(x\)</span> 代表了什么意义？我们举个例子来说明：在 direct component estimation （next event部分），我们采样M条shadow rays。则PDF是：<span class="math inline">\(p(x_l|e_i)p(e_i)\)</span>，注意此处的PDF是定义在面积微元上的（differential area），而一般来说，我们需要的是“某个方向的PDF”（也即立体角定义）。首先我们需要记住立体角的物理概念：</p>
+<blockquote>
+<p>The point from which the object is viewed is called the apex of the solid angle, and the object is said to subtend its solid angle at that point.</p>
+</blockquote>
+<p>​ 接下来可以进行推导，见下图：</p>
+<center>
+<img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/c403f4fb9d8aa590130033b601d2f54a.jpg" style="zoom: 45%;">
+</center>
+<center>
+Figure 2. 微分立体角定义下的PDF与微分面积定义下的PDF（非光源采样）
+</center>
+<center>
+<img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/a83efdf5dd11f6681480ff1779c4c29c.jpg" style="zoom:45%;">
+</center>
+<center>
+Figure 3. 微分立体角定义下的PDF与微分面积定义下的PDF（光源采样 - 实际上与上一情况类似）
+</center>
+<p>注意我们在direct component estimation 中，我们的实际估计目标是： <span class="math display">\[
+\int_\Omega f_r(x, w_i, w_o)L_d(x, w_i)\cos\theta dw_i\rightarrow \frac{1}{N}\sum_{i=1}^N\frac{f_r(x, w_i, w_0)L_d(x, w_i)\cos\theta}{p}
+\]</span> ​ 也即我们实际应该获知各个方向上（微分立体角）的入射情况。而直接采样光源（特别是面光源）得到的PDF并不是定义在“方向上”的，而是在面积上的（面光源上某个微分面积与击中位置张成立体角），故应当进行转化。下面给出上式中分母<span class="math inline">\(p\)</span>的形式。由于<span class="math inline">\(p\)</span>实际上由面积定义的PDF转化而来，并且注意我们使用的并不是投影立体角 --- 我们需要的就是某一方向的PDF。<span class="math inline">\(p\)</span> 自然应该是 <span class="math inline">\(p(w_i)\)</span> 的形式，个人认为这与随机变量函数的期望计算有一定关系：随机变量是什么就用什么PDF（此处随机变量是立体角而不是投影立体角），并且在MIS中，我们需要与BSDF sampling使用同一域下的PDF（BSDF sampling使用立体角而非投影立体角）。非投影立体角下，<span class="math inline">\(p(w_e)\)</span>应该是： <span class="math display">\[
+\begin{equation}\label{convert}
+p(x_l|e_i)p(e_i) \frac{\Vert x_l - x\Vert^2}{\cos(w_o, n_e)}
+\end{equation}
+\]</span> ​ 故在笔者的实现内仅仅使用了光源的normal，而没有使用击中点的normal。</p>
+<p>​ 故综合以上的例子来看，公式<span class="math inline">\(\eqref{mc}\)</span>中的PDF到底是谁的PDF？就目前笔者的理解而言，笔者认为是【方向】。Path tracing 中的积分问题几乎都可以归结为在方向上的积分（而且有时必须归结为在方向上的问题，如MIS中统一在立体角方向域上讨论）。我们不妨进一步讨论BSDF常用的两个方法中，返回的PDF：</p>
+<ul>
+<li><code>sample</code> 方法：由BSDF采样获得反射、透射方向以及对应的PDF</li>
+<li><code>pdf</code> 方法：直接衡量某个方向的PDF，用以MIS</li>
+</ul>
+<p>​ 既然以上两种方法都是在衡量某个方向的PDF，那么为什么诸如 Lambertian 这样的BSDF，以上两个函数返回的PDF却与入射方向有关（cosine weighted）？按理来说，Lambertian BSDF 向半球内的任意方向反射的可能都应相等。</p>
+<div class="note danger"><p>至于为什么Lambertian PDF不是 <span class="math inline">\(1/2\pi\)</span> 而是 <span class="math inline">\(\cos\theta /\pi\)</span>，原因貌似是 importance sampling... 我们大可以使用<span class="math inline">\(1/2\pi\)</span>对应的 uniform hemisphere sampling，但效率不如 cosine weighted hemisphere sampling 高。</p>
+</div>
+<p>​ 不过，这样的PDF是否会导致有偏估计？这就设计到 importance sampling 里的一些知识了。不过在此之前，请记住：</p>
+<div class="note primary"><p>Lambertian uniform PDF 为<span class="math inline">\(1/2\pi\)</span>是针对<span class="math inline">\(w\)</span>（立体角）而言，如果变换到球坐标系下，应当为<span class="math inline">\(p(\theta, \phi) = \sin\theta /\pi\)</span>。其他同理，故一定要 <u><strong>明确PDF在哪个空间下讨论</strong></u>。</p>
+<blockquote>
+<p>It is important to be clear which PDF is being evaluated—for example, for a direction on the hemisphere, we have already seen these densities expressed differently in terms of solid angle and in terms of <span class="math inline">\((\theta, \phi)\)</span>. For hemispheres (and all other directional sampling), these functions return values with respect to solid angle. For the hemisphere, the solid angle PDF is a constant <span class="math inline">\(p(w) = 1/2\pi\)</span>. <a href="#ref">[1]</a></p>
+</blockquote>
+<p>此外，在sampling阶段，PDF的选择是任意的。但一定需要保证：<strong><u>PDF</u></strong> 的计算结果与 <strong><u>采样方法</u></strong> 是一致的，这一点将在importance sampling中详谈。</p>
+</div>
+<h3 id="importance-sampling">2.2 Importance Sampling</h3>
+<blockquote>
+<p>As we will see in Section 13.10, it is often useful to sample from a distribution that has a shape similar to that of the integrand being estimated. For example, because the scattering equation weights the product of the BSDF and the incident radiance with a cosine term, it is useful to have a method that generates directions that are more likely to be close to the top of the hemisphere, where the cosine term has a large value, than the bottom, where the cosine term is small. <a href="#ref">[1]</a></p>
+</blockquote>
+<p>​ Importance sampling 其实是老朋友了，还记得在特龙的《概率机器人》中，particle filter里就有“目标分布”和“建议部分”之说，并且作者称：建议分布越接近目标分布，采样效果越好，收敛越快。由于都是 Monte Carlo 方法（PF定位是 Monte Carlo 定位，Path Tracing 是 Monte Carlo 积分），故Path Tracing中如果可以获得类似公式<span class="math inline">\(\eqref{mc_est}\)</span>中的分子项的PDF，则可以提升采样效率。</p>
+<p>​ 不过需要记住的是：importance sampling 的思想内核是“贡献（contribution）大的部分多采样，贡献小的部分少采样”。这完全不同于“值（value）大的地方多采样，值小的地方少采样”，我们举与PBR book同样的例子：scattering equation： <span class="math display">\[
+\int_\Omega f_r(x, w_i, w_o)L_d(x, w_i)\cos\theta dw_i
+\]</span> ​ 上式中真正产生贡献的是<span class="math inline">\(f_r\times \cos\theta\)</span>，在此乘积项大的位置应当多采样，小的位置少采样（毕竟小的位置贡献小，极端一点的例子就是镜面反射）。采样时，我们既可以选择与<span class="math inline">\(f_r\)</span>相似的 PDF，也可以选择与<span class="math inline">\(f_r\times \cos\theta\)</span> 相似的PDF，这是因为，在公式<span class="math inline">\(\eqref{exp}\)</span>中，分母人为除的PDF将会与当前sample出现的概率抵消。也即：</p>
+<div class="note primary"><p>不考虑效率、认为样本数量无穷时，PDF可以是任意的，只要采样的方法与计算的PDF之间一致即可。（Dirac-delta分布除外）</p>
+</div>
+<p>​ 也即，我们如果使用<span class="math inline">\(1/2\pi\)</span>作为PDF，就必须要使用 uniform hemisphere sampling，否则“抵消”将无法进行。在 Monte Carlo 积分估计式<span class="math inline">\(\eqref{mc_est}\)</span> 中，这种抵消是隐式的（所以我花了很长时间才明白）！【样本<span class="math inline">\(X_i\)</span>】按PDF <span class="math inline">\(p(x)\)</span>定义的概率 <span class="math inline">\(P(X)\)</span> 生成了出来，样本 <span class="math inline">\(x_i\)</span> 或者与此类似的样本出现的频率（可能性）其实已经包含了PDF 信息<span class="math inline">\(p(x)\)</span>，试想一个3面是4，余下三面为1、2、3的骰子，我们对其采样（投掷），得到的结果<span class="math inline">\(f(X_i)\)</span> 确实看似不包含骰子的信息，但1、2、3、4在多次采样中出现的次数却包含PDF信息。</p>
+<p>​ 故，有偏估计？有偏估计只会出现在采样方式与PDF不符的情况中，至少对于<code>sample</code>方法来说是这样的。<code>sample</code>方法获得的PDF并不一定与BSDF的形状相关，还可能与其他附加项有关（cosine term）。那么这里就有一个新的问题：<code>pdf</code>方法返回的PDF是否可以与其他项有关？因为我个人的想法是这样的：<code>pdf</code>项只会使用在MIS中，MIS需要联系两种不同的域，如BSDF sampling (solid angle)和light sampling (differential area)，而 light sampling PDF 在经过公式<span class="math inline">\(\eqref{convert}\)</span>等号右边的分数项变换后将得到立体角定义下的 PDF，此 PDF 是否只应当与 BSDF 项相关？毕竟按照直觉理解，MIS就是为了针对【光源】以及【BSDF】都尝试计算某个方向入射是否可能，加上 cosine term 就不单单是在衡量BSDF而是在衡量 interactions 的整体贡献了。此问题的答案我们将在MIS中进行分析。</p>
+<h3 id="mis">2.3 MIS</h3>
+<h4 id="基本概念">2.3.1 基本概念</h4>
+<p>​ Multiple importance sampling 是一种“信息融合”方法。它在 path tracing 中的一个最简单用法就是融合【BSDF sampling】以及【Emitter sampling】，融合的要求是：</p>
+<blockquote>
+<p>Expressing all densities with respect to the same measure. <a href="#ref">[2]</a></p>
+</blockquote>
+<p>​ 下面给出 path tracing 中的两种最常用的 ray direction 采样方法：</p>
+<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">BSDF Sampling</a></li><li class="tab"><a href="#span-unique-name-2">Emitter Sampling</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ BSDF采样的意思就是：根据BSDF进行采样，采样更倾向于在BSDF值大的位置进行。这样做的好处非常显然：假设BSDF本身是一个窄带分布，在衡量直接光照时如果只是在光源上取点，这些点很有可能落在BSDF峰值区域外。这将会导致我们在低贡献区域浪费大量 samples。则可知，在BSDF分布较窄、光源较大时，BSDF采样结果较好。</p></div><div class="tab-pane" id="span-unique-name-2"><p>​ Emitter采样是现阶段 AdaPT估计直接光照时的采样方法。由于对于漫反射表面而言，入射光线经过反射后将分布在整个半球上，当光源较小时（特别是点光源时），通过BSDF采样可能很难击中光源。那么我们也可以直接在光源上选点，使用所选点以及当前击中点构建shadow rays。这种方法在BSDF分布较宽、光源较小时的采样结果较好。</p></div></div></div>
+<p><span id="fig3"></span></p>
+<center>
+<img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/mis1.png" style="zoom:80%;">
+</center>
+<center>
+Figure 4. MIS结合两种采样方法有助于提升渲染质量
+</center>
+<p>​ 复杂场景自然可能存在大/小光源以及光滑/粗糙/透射/散射的BSDF，则我们最好是找到一种方法，结合两种采样方法得到结果。这里有两种方案：</p>
+<ul>
+<li>简单方案：对于采样过程，我们只使用 emitter sampling。但在结果计算阶段，原始 Monte Carlo 积分将用<span class="math inline">\(p(x)\)</span>除<span class="math inline">\(f(x)\)</span>，而此方案中，我们对结果进行加权，不计算<span class="math inline">\(f(x)/p(x)\)</span>，而是计算<span class="math inline">\(w(x)f(x)\)</span>。<span class="math inline">\(w(x)\)</span>称为 MIS 权重。</li>
+<li>复杂方案：采样过程同时实现 BSDF sampling 以及 emitter sampling，对于两种方法采样的结果，分别计算权重，最后的结果为：<span class="math inline">\(w_1(x)f_{\text{BSDF}}(x)+w_2(x)f_{\text{emitter}}(x)\)</span>。仅从理论上看，这样的方法应该可以有更好的收敛性，因为上一方案仅仅在BSDF/emitter PDF结果冲突时进行重加权，并不帮助获得更好的样本。例如我们不管怎么在光滑表面上采样，落在specular lobe中的样本总是不够多的，虽然最后的权重低，不会有太大错误，但无助于加速收敛。本方案确实也相对复杂，一条shadow rays需要两次 ray intersection 操作。不过我们可以通过随机策略选择的方式，随机使用其中一种策略以降低计算量。</li>
+</ul>
+<p>​ 如果每次从多种采样方法的每种方法中采样至少1个样本，则对应方法被成为“multi-sample estimator”<a href="#ref">[2]</a>，形式如下。其中，<span class="math inline">\(n_i\geq 1\)</span> 为第i种采样方法的样本数，<span class="math inline">\(w_i(·)\)</span>为对应方法的权重函数。 <span class="math display">\[
+\begin{equation}\label{multi}
+F = \sum_{i=1}^n\frac {1}{n_i}\sum_{j=1}^{n_i}w_i(X_{i,j})\frac{f(X_{i,j})}{p_i(X_{i,j})}
+\end{equation}
+\]</span> ​ 以上方法在满足一定条件下一定可以根据每一种无偏采样估计方法构建新的无偏估计方法，基本条件为：(1) <span class="math inline">\(\sum_i w_i(x) = 1, \text{ if } f(x)\neq 0\)</span>， (2) <span class="math inline">\(w_i(x) = 0, \text{ if } p_i(x) = 0\)</span>。具体的证明以及推导见 <a href="#ref">[2]</a></p>
+<p>​ 如果每次随机选择某种采样方法，采样一个样本，则对应方法被称为“one-sample estimator”<a href="#ref">[2]</a>。AdaPT与mitsuba(2/3)采用的则是这种方法，但区别是 mitsuba 使用的是 power heuristic 而 AdaPT 采用的是 balance heuristic（之后会说）。具体形式如下： <span class="math display">\[
+\begin{equation}\label{mono}
+F = \frac{w_I(X_I) f(X_I)}{c_I p_I(X_I)}
+\end{equation}
+\]</span> ​ <span class="math inline">\(I\)</span> 为随机变量，表示随机选择多种采样策略中的一种，<span class="math inline">\(c_I\)</span> 为选择策略<span class="math inline">\(I = i\)</span> 的概率。。AdaPT与mitsuba(2/3)采用的方法为 one-sample 的极端情况：只用一种方法进行sampling，但对sampling结果进行MIS 加权。相当于emitter、BSDF sampling同时存在，记为策略I与II，而选择策略I的概率为1，选择策略2的概率为0。</p>
+<h4 id="heuristics">2.3.2 Heuristics</h4>
+<p>​ 权重函数的选择对于结果的方差有很大的影响。最极端的两个例子：</p>
+<ul>
+<li>某一策略的权重为1，其他策略为0。相当于固定某一种策略进行采样，这当然会引起一些问题，见<a href="#fig3">图4</a></li>
+<li>策略权重一致，假设有N种策略，则每个策略的权重为常数 <span class="math inline">\(1/N\)</span>。这种... 并不好，由于方差具有可加性<a href="#ref">[2]</a></li>
+</ul>
+<p>​ 下面，笔者不加证明地给出一个较好的权重启发函数，其被称为“balance heuristic”: <span class="math display">\[
+\begin{equation}
+w_i(x)=\frac{n_ip_i(x)}{\sum_k n_kp_k(x)}
+\end{equation}
+\]</span> ​ 也即：假设某个样本<span class="math inline">\(x\)</span>原本来自策略<span class="math inline">\(i\)</span>，我们不仅需要计算样本在此策略下被采样出的PDF，也需要计算在其他策略下被采样的PDF（所以<code>pdf</code>方法就有用了），最后的权重是本策略PDF在所有策略PDF之和中的比重。这样的函数在机器学习领域比较常见（可能会包装一下，比如softmax），所以很直观，其背后的intuition（话说，这个词翻译过来就是没那个味道）也很合理：如果某个策略拥有较大的PDF，而其他策略相对较小，则优先选用对应策略。</p>
+<p>​ 注意，在one-sample 的极端情况中，有些策略存在但从来不进行采样，但这样的PDF也是需要计入的。例如AdaPT与mitsuba中，在计算直接光照时都使用 emitter sampling，但采样结果都会用BSDF <code>pdf</code> 计算BSDF PDF。最后的权重则为： <span class="math display">\[
+\begin{equation}\label{weights}
+w_{\text{AdaPT}} = \frac{P_{\text{emitter}}}{P_{\text{emitter}} + P_{\text{BSDF}}},w_{\text{mitsuba}} = \frac{P^2_{\text{emitter}}}{P^2_{\text{emitter}} + P^2_{\text{BSDF}}}
+\end{equation}
+\]</span> ​ <a href="#ref">[2]</a> 分析了 balance heuristic 与其他heuristic函数的方差关系，本文在此处引用其公式： <span class="math display">\[
+\begin{equation}
+V[F_{\text{balance}}] - V[F] \leq \left(\frac{1}{\min_i n_i} - \frac{1}{\sum_i n_i} \right)\mu^2
+\end{equation}
+\]</span> ​ 其中<span class="math inline">\(\mu = E[F]\)</span>，也即需要估计的积分。一般来说，balance heuristic 已经是一个很好的heuristic函数了，其他heuristic函数相对 balance heuristic 而言具有方差下界（方差自然是越小越好，但就算是下界也差不了多少）。</p>
+<p>​ 其他的 heuristic 函数就深入了，我只简单讲讲其中的power heuristic。power heuristic函数正如公式<span class="math inline">\(\eqref{weights}\)</span>中 mitsuba 部分，它在原有的PDF上进行了幂操作。背后的intuition是：希望PDF变小的速度更快，以使得某一小PDF策略对权重产生的影响变得更小。具体的案例分析见<a href="#ref">[2]</a>的【9.2.3.1 Low-variance problems: examples and analysis】。在这里，我不得不说，英语确实很重要，图形学有很多很棒的资料都没有中文翻译。那些教育局的领导拍拍脑袋就觉得高考取消英语有助于提高学生对于传统文化的认同与民族自信心，这种想法纯属多余，对理工类学生来说尤其如此。如果自信不是比出来的，而是闭门造车养出来的，那这种自信无疑非常脆弱。</p>
+<p>​ 不过<a href="#ref">[2]</a>中也分析了，在 one-sample 的情况下，balance heuristic 的表现将比 power heuristic 好（所以为什么mitsuba不用呢）。</p>
+<h4 id="上文问题的答案">2.3.3 上文问题的答案</h4>
+<blockquote>
+<p><code>sample</code>方法获得的PDF并不一定与BSDF的形状相关，还可能与其他附加项有关（cosine term）。那么这里就有一个新的问题：<code>pdf</code>方法返回的PDF是否可以与其他项有关？</p>
+</blockquote>
+<p>​ 答案是，主不在乎。对MIS而言，PDF只需要是对同一定义域下的某个随机变量而言即可。MIS权重只是一个系数，只要满足条件就不会影响无偏估计性。加cosine项一般意味着 BSDF PDF的峰值整体变窄了（<span class="math inline">\(f_r \times \cos\theta\)</span> 只会比 <span class="math inline">\(\cos\theta\)</span> 窄），从直觉上理解也即在此情况下，glossy reflection边缘（与入射与法向角度较大时）更倾向于使用 emitter sampling。这也是合理的，毕竟 glossy reflection 的占比与 diffusive reflection 占比在边缘处很接近。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p><span id="ref"></span></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://pbr-book.org/3ed-2018/Monte_Carlo_Integration/2D_Sampling_with_Multidimensional_Transformations">PBR-Book: 13.6 2D Sampling with Multidimensional Transformations</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf">Stanford graphics: Chapter 9 Multiple Importance Sampling</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/" title="AdaPT - Monte Carlo Path Tracer II">https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/Taichi-lang/" rel="tag"><i class="fa fa-tag"></i> Taichi lang</a>
+              <a href="/tags/CG/" rel="tag"><i class="fa fa-tag"></i> CG</a>
+              <a href="/tags/renderer/" rel="tag"><i class="fa fa-tag"></i> renderer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/" rel="prev" title="AdaPT - Monte Carlo Path Tracer I">
+                  <i class="fa fa-chevron-left"></i> AdaPT - Monte Carlo Path Tracer I
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">424k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

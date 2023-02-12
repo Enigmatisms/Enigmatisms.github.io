@@ -106,7 +106,7 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">43</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">62</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">63</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -323,6 +323,122 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/" class="post-title-link" itemprop="url">AdaPT - Monte Carlo Path Tracer II</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-11 22:21:14" itemprop="dateCreated datePublished" datetime="2023-02-11T22:21:14+08:00">2023-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-02-12 22:44:39" itemprop="dateModified" datetime="2023-02-12T22:44:39+08:00">2023-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ada-path-tracer-ii">Ada Path Tracer II</h1>
+<hr>
+<p>​ 本文为 <a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/">Ada Path Tracer I</a> 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进行分析。分析过程中我果真也发现自己之前的某些理解是不对的，实现时出了问题，例如在：Lambertian BSDF的实现、MIS 对无面积光源的处理、MIS weight计算等等方面均有瑕疵。</p>
+<p>​ 本部分学习的结束标志着【基本 path tracer 实现】的完成（V1.0）。除了对BSDF进行小的修改之外（表面反射定义过于简单），下一步我将主要围绕两部分进行深入研究：</p>
+<ul>
+<li>Bidirectional path tracing。双向 tracer 对处理 directional / collimated 光源十分有用，并且在caustic建模上有着更好的效果（虽然不是最好的）</li>
+<li>Volumetric path tracing。主要研究匀质介质散射吸收。</li>
+</ul>
+<center>
+<img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png" style="zoom: 80%;">
+</center>
+<center>
+Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/顶部面光源与球面光源
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1236,121 +1352,6 @@ Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、dept
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/" class="post-title-link" itemprop="url">NeRF论文复现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-27 00:44:24" itemprop="dateCreated datePublished" datetime="2022-03-27T00:44:24+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-04-17 06:51:23" itemprop="dateModified" datetime="2022-04-17T06:51:23+08:00">2022-04-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="nerf">NeRF</h1>
-<hr>
-<p>​ 最近工程浓度太高，关于【如何设计】以及【为什么】的思考显著少于【如何实现】以及【怎么解决】。为了平衡科研与工程，我复现了最近读的一篇多视角重建论文（见上一篇博客 <a href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field【1】/">Neural Randiance Field【1】</a>）：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall, Ben, et al. "Nerf: Representing scenes as neural radiance fields for view synthesis." <em>European conference on computer vision</em>. Springer, Cham, 2020.</a></li>
-</ul>
-<p>​ NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑（坑主要来源于个人没有清晰的设计思路，不同模块间的输入输出连续性不强，导致接口经常改动，此外... 有些问题确实也挺坑的）。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch + CUDA，主要代码中约有50% CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见<a href>Github repo: Enigmatisms/NeRF</a></p>
-<center>
-<img src="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/dynamic.gif" style="zoom:60%;">
-</center>
-<center>
-Figure 1. blender synthetic dataset - drums 训练过程可视化（从epoch 1- epoch 400）
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/awesome-page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><a class="extend next" rel="next" href="/awesome-page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1385,13 +1386,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">415k</span>
+    <span title="Symbols count total">424k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:17</span>
+    <span title="Reading time total">6:26</span>
   </span>
 </div>
 <div class="busuanzi-count">

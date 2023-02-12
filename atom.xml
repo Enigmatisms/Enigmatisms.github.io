@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2023-02-08T18:00:54.556Z</updated>
+  <updated>2023-02-12T14:44:39.094Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AdaPT - Monte Carlo Path Tracer II</title>
+    <link href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/"/>
+    <id>https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/</id>
+    <published>2023-02-11T14:21:14.000Z</published>
+    <updated>2023-02-12T14:44:39.094Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ada-path-tracer-ii&quot;&gt;Ada Path Tracer II&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;​ 本文为 &lt;a href=&quot;https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/&quot;&gt;Ada Path Tracer I&lt;/a&gt; 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进行分析。分析过程中我果真也发现自己之前的某些理解是不对的，实现时出了问题，例如在：Lambertian BSDF的实现、MIS 对无面积光源的处理、MIS weight计算等等方面均有瑕疵。&lt;/p&gt;
+&lt;p&gt;​ 本部分学习的结束标志着【基本 path tracer 实现】的完成（V1.0）。除了对BSDF进行小的修改之外（表面反射定义过于简单），下一步我将主要围绕两部分进行深入研究：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bidirectional path tracing。双向 tracer 对处理 directional / collimated 光源十分有用，并且在caustic建模上有着更好的效果（虽然不是最好的）&lt;/li&gt;
+&lt;li&gt;Volumetric path tracing。主要研究匀质介质散射吸收。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;center&gt;
+&lt;img src=&quot;/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png&quot; style=&quot;zoom: 80%;&quot;&gt;
+&lt;/center&gt;
+&lt;center&gt;
+Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/顶部面光源与球面光源
+&lt;/center&gt;</summary>
+    
+    
+    
+    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
+    
+    
+    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
+    <category term="CG" scheme="https://enigmatisms.github.io/tags/CG/"/>
+    
+    <category term="renderer" scheme="https://enigmatisms.github.io/tags/renderer/"/>
+    
+  </entry>
   
   <entry>
     <title>AdaPT - Monte Carlo Path Tracer I</title>
@@ -583,37 +621,6 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
     
     <category term="3D重建" scheme="https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我贫瘠的数学世界【1】- SAM与优化方法</title>
-    <link href="https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/"/>
-    <id>https://enigmatisms.github.io/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</id>
-    <published>2022-01-30T03:04:30.000Z</published>
-    <updated>2022-02-03T18:18:41.342Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;bfgsam&quot;&gt;BFGSAM&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;i.-intros&quot;&gt;I. Intros&lt;/h2&gt;
-&lt;p&gt;​ 很长一段时间没有静下心来看过有很强理论性的内容了，我十分担心自己会丧失理论上的思考能力以及数学计算能力。正好之前在看某篇论文时，看到其中提到一种叫做SAM（sharpness aware minimization）的方法，说是效果还行，此前保存了SAM论文，但没去细读。最近寒假由于电脑故障没办法工作，很闲，便重新了解了一些数值优化方面的知识（比如拟牛顿族），并读了读SAM（虽然读完感觉？？？这怎么这么魔法）&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://arxiv.org/pdf/2010.01412.pdf&quot;&gt;ICLR 2021: Foret, Pierre, et al. &quot;Sharpness-aware minimization for efficiently improving generalization.&quot; &lt;em&gt;arXiv preprint arXiv:2010.01412&lt;/em&gt; (2020).&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;u&gt;《我这种菜鸡哪有资格觉得DL顶会论文魔法》系列&lt;/u&gt;&lt;/strong&gt;（下图图源论文）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/sam.png&quot;&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="learning" scheme="https://enigmatisms.github.io/categories/learning/"/>
-    
-    
-    <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
-    
-    <category term="DL" scheme="https://enigmatisms.github.io/tags/DL/"/>
-    
-    <category term="优化理论" scheme="https://enigmatisms.github.io/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/"/>
     
   </entry>
   
