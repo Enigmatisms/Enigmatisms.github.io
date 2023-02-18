@@ -6,7 +6,7 @@
   <link href="https://enigmatisms.github.io/atom.xml" rel="self"/>
   
   <link href="https://enigmatisms.github.io/"/>
-  <updated>2023-02-18T09:04:40.303Z</updated>
+  <updated>2023-02-18T09:06:10.385Z</updated>
   <id>https://enigmatisms.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/"/>
     <id>https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/</id>
     <published>2023-02-18T08:56:36.000Z</published>
-    <updated>2023-02-18T09:04:40.303Z</updated>
+    <updated>2023-02-18T09:06:10.385Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;ada-path-tracer-iii&quot;&gt;Ada Path Tracer III&lt;/h1&gt;
@@ -60,11 +60,11 @@ Figure 1. 无介质的收敛性明显好很多
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
-    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
-    
     <category term="CG" scheme="https://enigmatisms.github.io/tags/CG/"/>
     
     <category term="renderer" scheme="https://enigmatisms.github.io/tags/renderer/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
     
   </entry>
   
@@ -98,11 +98,11 @@ Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/�
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
-    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
-    
     <category term="CG" scheme="https://enigmatisms.github.io/tags/CG/"/>
     
     <category term="renderer" scheme="https://enigmatisms.github.io/tags/renderer/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
     
   </entry>
   
@@ -144,11 +144,11 @@ Figure 1. Ada-Path-Tracer 渲染结果（20s内）
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
-    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
-    
     <category term="CG" scheme="https://enigmatisms.github.io/tags/CG/"/>
     
     <category term="renderer" scheme="https://enigmatisms.github.io/tags/renderer/"/>
+    
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
     
   </entry>
   
@@ -157,7 +157,7 @@ Figure 1. Ada-Path-Tracer 渲染结果（20s内）
     <link href="https://enigmatisms.github.io/2023/01/15/Taichi-Learning-II/"/>
     <id>https://enigmatisms.github.io/2023/01/15/Taichi-Learning-II/</id>
     <published>2023-01-15T13:43:34.000Z</published>
-    <updated>2023-01-16T14:19:29.586Z</updated>
+    <updated>2023-01-16T14:22:30.401Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;taichi-lang-ii&quot;&gt;Taichi Lang II&lt;/h1&gt;
@@ -190,11 +190,11 @@ Figure 1. Flocking simulation with predators (64 regular boids (this is not a ty
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
     <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
     
     <category term="LLVM" scheme="https://enigmatisms.github.io/tags/LLVM/"/>
-    
-    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
     
   </entry>
   
@@ -228,11 +228,11 @@ Figure 1. 混元形意太极 闪电五连鞭
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
     
+    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
+    
     <category term="CUDA" scheme="https://enigmatisms.github.io/tags/CUDA/"/>
     
     <category term="LLVM" scheme="https://enigmatisms.github.io/tags/LLVM/"/>
-    
-    <category term="Taichi lang" scheme="https://enigmatisms.github.io/tags/Taichi-lang/"/>
     
   </entry>
   
