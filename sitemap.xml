@@ -632,20 +632,6 @@
 
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/knowings/</loc>
-    <lastmod>2023-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/algos/</loc>
-    <lastmod>2023-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/release/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -660,14 +646,14 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/SLAM/</loc>
+    <loc>https://enigmatisms.github.io/tags/knowings/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/%E8%A1%A8%E5%BE%81/</loc>
+    <loc>https://enigmatisms.github.io/tags/algos/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -682,6 +668,20 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/3D%E9%87%8D%E5%BB%BA/</loc>
+    <lastmod>2023-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/SLAM/</loc>
+    <lastmod>2023-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/%E8%A1%A8%E5%BE%81/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -800,13 +800,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/Rust-FFI/</loc>
-    <lastmod>2023-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/Rust/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -815,6 +808,13 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/C/</loc>
+    <lastmod>2023-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/Rust-FFI/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -884,13 +884,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/</loc>
-    <lastmod>2023-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/JavaScript/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -899,6 +892,13 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2023-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -935,14 +935,14 @@
 
   
   <url>
-    <loc>https://enigmatisms.github.io/categories/learning/</loc>
+    <loc>https://enigmatisms.github.io/categories/project/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/categories/project/</loc>
+    <loc>https://enigmatisms.github.io/categories/learning/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
