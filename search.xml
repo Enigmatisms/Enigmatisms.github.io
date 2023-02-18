@@ -10347,9 +10347,9 @@ V[F_{\text{balance}}] - V[F] \leq \left(\frac{1}{\min_i n_i} - \frac{1}{\sum_i n
 <hr>
 <p>​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
 <ul>
-<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程，</li>
+<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程</li>
 <li>free space radiance 一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
-<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了。</li>
+<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了</li>
 </ul>
 <table>
 <thead>

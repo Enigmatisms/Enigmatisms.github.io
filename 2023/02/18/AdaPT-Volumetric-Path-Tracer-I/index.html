@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png">
 <meta property="article:published_time" content="2023-02-18T08:56:36.000Z">
-<meta property="article:modified_time" content="2023-02-18T08:58:36.884Z">
+<meta property="article:modified_time" content="2023-02-18T09:04:40.303Z">
 <meta property="article:author" content="Enigmatisms">
 <meta property="article:tag" content="knowings">
 <meta property="article:tag" content="Taichi lang">
@@ -286,7 +286,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2023-02-18 16:56:36 / Modified: 16:58:36" itemprop="dateCreated datePublished" datetime="2023-02-18T16:56:36+08:00">2023-02-18</time>
+      <time title="Created: 2023-02-18 16:56:36 / Modified: 17:04:40" itemprop="dateCreated datePublished" datetime="2023-02-18T16:56:36+08:00">2023-02-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,9 +334,9 @@
 <hr>
 <p>​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
 <ul>
-<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程，</li>
+<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程</li>
 <li>free space radiance 一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
-<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了。</li>
+<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了</li>
 </ul>
 <table>
 <thead>
