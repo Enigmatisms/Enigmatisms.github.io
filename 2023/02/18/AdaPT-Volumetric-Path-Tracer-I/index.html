@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Provide Access Code') !== ''){
+                alert('Incorrect access code.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RbBW2OguDsx3OoyQghfVhVDSgpBgwKw3Em9kY2pJUvU">
+
+<link rel="stylesheet" href="/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Ada Path Tracer III  ​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：  volumetric pat">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AdaPT - Volumetric Path Tracer I">
+<meta property="og:url" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/index.html">
+<meta property="og:site_name" content="Event Horizon">
+<meta property="og:description" content="Ada Path Tracer III  ​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：  volumetric pat">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-good.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/a14147b9be0a8f4e8e3d8d89294df988.jpg">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/Screenshot%20from%202023-02-18%2014-42-51.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png">
+<meta property="og:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png">
+<meta property="article:published_time" content="2023-02-18T08:56:36.000Z">
+<meta property="article:modified_time" content="2023-02-18T08:58:36.884Z">
+<meta property="article:author" content="Enigmatisms">
+<meta property="article:tag" content="knowings">
+<meta property="article:tag" content="Taichi lang">
+<meta property="article:tag" content="CG">
+<meta property="article:tag" content="renderer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-good.jpg">
+
+
+<link rel="canonical" href="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/","path":"2023/02/18/AdaPT-Volumetric-Path-Tracer-I/","title":"AdaPT - Volumetric Path Tracer I"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AdaPT - Volumetric Path Tracer I | Event Horizon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Event Horizon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">43</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">64</span></a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ada-path-tracer-iii"><span class="nav-text">Ada Path Tracer III</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.1 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#abosorption"><span class="nav-text">2.1.1 Abosorption</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emission"><span class="nav-text">2.1.2 Emission</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#out-scattering"><span class="nav-text">2.1.3 Out-scattering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#in-scattering"><span class="nav-text">2.1.4 In-scattering</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#radiative-transfer-equation"><span class="nav-text">2.2 Radiative Transfer Equation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#geometry-term"><span class="nav-text">2.2.1 Geometry Term</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rte"><span class="nav-text">2.2.2 RTE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B"><span class="nav-text">2.3 实现流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vpt-%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-text">2.3.1 VPT 算法流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-text">2.3.2 注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E5%80%BC%E5%BE%97%E8%AE%B0%E5%BD%95"><span class="nav-text">III. 值得记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
+      src="/images/enigma.gif">
+  <p class="site-author-name" itemprop="name">Enigmatisms</p>
+  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AdaPT - Volumetric Path Tracer I
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-02-18 16:56:36 / Modified: 16:58:36" itemprop="dateCreated datePublished" datetime="2023-02-18T16:56:36+08:00">2023-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>12 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="ada-path-tracer-iii">Ada Path Tracer III</h1>
+<hr>
+<p>​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
+<ul>
+<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程，</li>
+<li>free space radiance 一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
+<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了。</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">渲染4000迭代（25s，约10亿光线）</th>
+<th style="text-align: center;">渲染20000迭代（约50亿条光线）</th>
+<th style="text-align: center;">渲染15000迭代</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-good.jpg"></td>
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png"></td>
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png"></td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. 无介质的收敛性明显好很多
+</center>
+<p>​ 话说，我写博客从来没有在一个系列上写超过两篇的文章，渲染技术系列已经三篇了，这还是头一回。</p>
+<span id="more"></span>
+<hr>
+<h2 id="基本概念">2.1 基本概念</h2>
+<h3 id="abosorption">2.1.1 Abosorption</h3>
+<p>​ 吸收与<span class="math inline">\(\sigma_a\)</span>: 吸收系数（absorption cross section），是一个PDF：<code>probability density that light is absorbed per unit distance traveled in the medium</code></p>
+<ul>
+<li>The units of are reciprocal distance (<span class="math inline">\(m^{-1}\)</span>). This means that can take on any positive value; it is not required to be between 0 and 1, for instance.</li>
+</ul>
+<p>​ 吸收系数的单位之所以是<span class="math inline">\(m^{-1}\)</span>，是因为如下关系： <span class="math display">\[
+\begin{equation}\label{absorb}
+L_o(x, w) -L_i(x, w)=-\sigma_a(x, w)L_i(x, w)dt 
+\end{equation}
+\]</span> ​ 其中，<span class="math inline">\(dt\)</span>是微分距离（光线通过一小段散射介质），<span class="math inline">\(L_i(x, w)\)</span>为位置x，入射方向为<span class="math inline">\(w\)</span>的入射光radiance。在各向同性介质假设下，可以通过求解微分方程的方式算出： <span class="math display">\[
+\begin{equation}\label{remain}
+L_o(x+w\cdot t, w) = L_i(x, w)e^{-\int^{t}_0 \sigma_a(x + w\cdot \tau)d\tau}
+\end{equation}
+\]</span> ​ 以上公式就是著名的 Beer-Lambert 定理。</p>
+<h3 id="emission">2.1.2 Emission</h3>
+<p>​ emission：emission... 我本人挺少接触这个概念，可以认为是medium本身的一种“荧光反应”？这种现象对 output radiance 的影响公式为： <span class="math display">\[
+\begin{equation}\label{emission}
+dL_o(x, w) = L_e(x, w)dt
+\end{equation}
+\]</span> ​ 关于这个公式，我在PBR book中读到这样一段话：</p>
+<blockquote>
+<p>This equation incorporates the assumption that the emitted light <span class="math inline">\(L_e\)</span> is not dependent on the incoming light <span class="math inline">\(L_i\)</span>. This is always true under the <strong><u>linear optics assumptions</u></strong> that <code>pbrt</code> is based on.</p>
+</blockquote>
+<p>​ 我对以上公式倒是没有什么感兴趣，只是觉得这里的 linear optics 有点奇怪。emmm 什么是 linear optics assumption? 我在研一上学期的【生物医学光学】课程中曾经学到【非线性光学】的概念，我印象最深的非线性光学概念就是拉曼散射（但显然不可能出现在图形学的渲染问题中，拉曼散射比普通散射的强度低好几个数量级）。如果与某些非线性光学效应有关，我就还有很多光学知识需要补... 个人觉得可能存在这样的一种情况：我曾经读到过光致透明/光致变色的有关内容，假设 emission 与入射光有关，那么 <span class="math inline">\(L_e(x, w)\)</span> 将会比较复杂，是入射 <span class="math inline">\(L_i(x, w)\)</span> 的函数，建模起来就需要一些数学手段。</p>
+<h3 id="out-scattering">2.1.3 Out-scattering</h3>
+<p>​ out-scattering: 光线偏离原本方向，向别的方向传播而损失能量的过程。out-scattering 也是线性微分方程建模（这可能就是缺陷所在）： <span class="math display">\[
+\begin{equation}\label{out-scat}
+dL_o(x, w) = -\sigma_s L_i(x, w) dt
+\end{equation}
+\]</span> ​ 显然，我们可以把公式<span class="math inline">\(\eqref{absorb}\)</span>与公式<span class="math inline">\(\eqref{out-scat}\)</span>组合在一起，得到系数 <span class="math inline">\(\sigma_t = \sigma_a + \sigma_s\)</span>，称之为 attenuation 或者更为熟知的【extinction】。<span class="math inline">\(\sigma_t\)</span> 是个重要概念，由它定义了两个概念:</p>
+<ul>
+<li>Albedo: <span class="math inline">\(\rho = \sigma_s / \sigma_t\)</span>，从公式看也即散射相对于两种 interaction 事件发生的比例。也即发生散射事件时，散射（而非吸收）的概率</li>
+<li>平均自由程：<span class="math inline">\(1/\sigma_t\)</span>。都是伏笔，还记得<span class="math inline">\(\sigma_t\)</span>的单位是<span class="math inline">\(m^{-1}\)</span>吗... 倒数的单位就是<span class="math inline">\(m\)</span>了：光线发生一次散射事件前行进的平均距离。</li>
+</ul>
+<p>​ emmm，有了<span class="math inline">\(\sigma_t\)</span>以及公式<span class="math inline">\(\eqref{absorb}\)</span>与<span class="math inline">\(\eqref{out-scat}\)</span>，我们可以定义一个新的 "Beer-Lambert" 公式： <span class="math display">\[
+\begin{equation}\label{remain2}
+L_o(x+w\cdot t, w) = L_i(x, w)e^{-\int^{t}_0 \sigma_t(x + w\cdot \tau)d\tau}
+\end{equation}
+\]</span> ​ 以上公式计算的结果中，指数项被称为 transmittance（传输率），由于指数项的存在（linear optics），传输率是可乘的（乘等于通过两端路径之和）。exp的指数项被称为光学厚度（optical thickness）: <span class="math display">\[
+\begin{equation}\label{opt-th}
+\tau(x\rightarrow x&#39;) = \int_0^t\sigma_t (x+tw, w)dt
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>This property is useful for volume scattering implementations, since it makes it possible to incrementally compute transmittance at multiple points along a ray.</p>
+</blockquote>
+<p>​ 这也同样需要注意，我同样希望拓展的模型也具有此性质，这样的系统将会是无记忆系统，容易实现并且对并行计算是友好的。【无记忆性】</p>
+<h3 id="in-scattering">2.1.4 In-scattering</h3>
+<p>​ in-scattering 需要引入相函数（phase function）概念，此概念与BSDF很像，我们可以认为BSDF是表面的相函数，BRDF则一般定义背向散射，BSDF则同时定义前向与背向散射。</p>
+<p>​ PBR-book 给出了 BSDF与phase function的一个重要不同，回顾BSDF的性质：BSDF具有“归一性质”： <span class="math display">\[
+\begin{align}\label{norm1}
+\int_{\Omega} L_i(x, w_o)f_r(x, w_i, w_o)\cos\theta dw_o &amp;\leq L_i(x, w_i)\\
+\int_{\Omega} f_r(x, w_i, w_o)\cos\theta dw_o &amp;\leq 1
+\end{align}
+\]</span> ​ 但由于 medium interaction 并没有 cosine's law，并且 phase function并不建模能量衰减，故 phase function 是直接、完全归一化的： <span class="math display">\[
+\begin{equation}\label{norm2}
+\int_{S^2}p(w_i, w_o)dw_o = 1
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>The main difference is that there is no cosine term since the phase function operates on radiance rather than differential irradiance.</p>
+</blockquote>
+<p>​ phase function 实际上就是散射方向的PDF。关于 phase function，这里只提一点：大多数phase function都可以用 H-G phase function 的线性组合近似<a href="#ref">[1]</a>。</p>
+<h2 id="radiative-transfer-equation">2.2 Radiative Transfer Equation</h2>
+<blockquote>
+<p>definitionThe light transport equation is in fact a special case of the equation of transfer, simplified by the lack of participating media and specialized for scattering from surfaces. <a href="#ref">[2]</a></p>
+</blockquote>
+<p>​ 很重要，就推导两对效应：</p>
+<ul>
+<li>absrption / out-scattering (radiance 减少)</li>
+<li>emission / in-scattering (radiance 增多)</li>
+</ul>
+<p>​ 带来的影响，以及从 surface 入射的 radiance 如何对当前一点的入射 radiance 起作用。首先，这里展示无介质情况下的 light transport equation： <span class="math display">\[
+\begin{equation}\label{lte}
+L_o(x, w_o) = L_e(x_h, w_o) + \int_\Omega f(x_h, w_i, w_o)L_i(x_h, w_i)\cos\theta dw_i
+\end{equation}
+\]</span> ​ 其中，<span class="math inline">\(x_h\)</span>为<span class="math inline">\(x\)</span> 沿着<span class="math inline">\(-w_o\)</span> 方向交场景的最近交点（first intersection）。此 LTE 我们很熟悉，也即emission与击中点半球上入射光反射的积分和为出射光，上一篇博客我们也分析了此公式的分解实现。但上述公式中，我们并不清楚场景的几何配置、可视信息等，而这些信息实际上在上述公式中又至关重要。例如在分析直接光照时：</p>
+<ul>
+<li>如果是无介质直接光照，需要trace shadow ray并且确认 shadow ray 并没有 【除了被采样光源之外的其他几何体】遮挡。</li>
+<li>如果是有介质直接光照，需要进行多次 tracing：由于对应的几何可能是 null-surface (用于限制medium的假想surface)，直到 tracing 到达non-null surface 或者光源后就停止。</li>
+</ul>
+<p>​ 在开始介绍 radiative transfer equation 之前，我想提一下 Geometry term 这个东西。</p>
+<h3 id="geometry-term">2.2.1 Geometry Term</h3>
+<p>​ 建议先了解一下这个知识：<a target="_blank" rel="noopener" href="https://math.stackexchange.com/questions/1123045/integration-with-respect-to-a-measure">The Integral With Respect to a Measure</a>（其中nelv的回答。关于某种度量的积分，这里的measure说的并不是概率测度）。</p>
+<blockquote>
+<p>Think of it physically: each measure assigns different <em>weights</em> to given sets: consider for example the particular case <span class="math inline">\(dμ=df(x)=f&#39;(x)dx\)</span> for a well behaved f(x). Here you can really see the difference between the "ordinary" measure <span class="math inline">\(dx\)</span>, which does not care about the location of the set, and <span class="math inline">\(f′(x)dx\)</span>, which indeed does!</p>
+</blockquote>
+<p>​ 也即：我们关心的微元，究竟表达了什么实际意义？nelv举的例子：对于普通 <span class="math inline">\(dx\)</span> 度量的积分问题来说： <span class="math display">\[
+\begin{equation}
+\int_0^1dx = \int_1^2dx = 1
+\end{equation}
+\]</span> ​ 而如果我们的度量不是 <span class="math inline">\(dx\)</span>，而是 <span class="math inline">\(df(x)\)</span>，则显然，上述积分的结果会变成：<span class="math inline">\(f(1) - f(0)\)</span>以及 <span class="math inline">\(f(2) - f(1)\)</span>，两者是否相等取决于函数性质。将“度量”不同导致“积分形式”不同的想法迁移到 path tracing中，我们不难找到如下的例子：</p>
+<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">投影固体角（projected solid angle）</a></li><li class="tab"><a href="#span-unique-name-2">irradiance积分</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ 上篇还是上上篇已经说过了。投影固体角是为了处理 <span class="math inline">\(\cos\theta\)</span> 项的一种表征。由于在 irradiance 积分中，有： <span class="math display">\[
+\begin{equation}
+\int_\Omega f(x_h, w_i, w_o)L_i(x_h, w_i)\cos\theta dw_i
+\end{equation}
+\]</span> ​ 上述 <span class="math inline">\(\cos\theta\)</span> 可以被消去，如果将立体角变为投影立体角。简单理解就是：由于立体角实际上是某个物体【张成的3D角度】在【单位球上的投影面积】（对应2D中某线段确定的弧长），那么这个面积可以投影到单位球中由物体表面法向量确定的圆盘上（由3D面积投影为2D面积），也即： <span class="math display">\[
+\begin{equation}
+ d w_i^{\perp} = \cos\theta dw_i
+\end{equation}
+\]</span> ​ 这就是一种不同的度量，面积微元由投影微分立体角决定。积分空间也会对应改变为2D圆盘而非3D半球。</p></div><div class="tab-pane" id="span-unique-name-2"><p>​ 一种更加复杂的情况，虽然这种情况之前已经多次讲过（BSDF/emitter采样）。观察公式 <span class="math inline">\(\eqref{lte}\)</span> 中的 irradiance 积分，不难发现积分空间是法向量确定的半球，度量是微分立体角。我们可以将其转换为另一种度量：对某一个面光源而言，面光源上每一点对空间中某一点的 irradiance 贡献。此处：对面光源上点进行积分使用的是【面积微元】，积分空间为【光源表面】（对应emitter sampling），而公式 <span class="math inline">\(\eqref{lte}\)</span>中的 irradiance积分，其度量已经讲过（对应了BSDF sampling）。两个度量之间存在转化关系，转化关系的示意图见 <a href="https://enigmatisms.github.io/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/">上一篇博客的Figure.3</a>。</p></div></div></div>
+<p>​ 度量之间的转化关系非常重要，贯穿于 path tracing 的 importance sampling，上次读论文时看到这么一句话：</p>
+<blockquote>
+<p>Converting from the solid angle×length product measure to the volume measure requires multiplication by a corresponding geometry term G. <a href="#ref">[4]</a></p>
+</blockquote>
+<p>​ 也即，Geometry term 可以用作度量转换。在 PBR-book <a href="#ref">[3]</a> 中，有非常详细的 geometry term 用于度量转换的例子 <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_I_Surface_Reflection/The_Light_Transport_Equation#TheSurfaceFormoftheLTE">14.4.3 The Surface Form of the LTE</a>，这里就不浪费笔墨去拾人牙慧了。这也解答了我之前在 stackexchange.cg 上<a target="_blank" rel="noopener" href="https://computergraphics.stackexchange.com/questions/13273/path-tracing-how-to-deal-with-ray-hitting-an-emitter/13304#13304">提问的一个疑惑</a> （我自己写了回答）：为什么 <span class="math inline">\(L_e\)</span> (emission项) 并不需要 distance attenuation 或者 <span class="math inline">\(\cos\)</span> term？因为 emission evaluation 使用的度量是立体角而非面积微元。<span class="math inline">\(L_e\)</span> 本身返回的就是某个方向的 radiance (radiance 在非 volume path tracing 情况下，在两个表面点之间是不变的)。</p>
+<p>​ 在 geometry term 讨论的末尾，我想顺带写一下我对最近读的一篇好文章 <a href>[4]ACM ToG 2013</a> 中某些点的理解。以其论文中的公式 <span class="math inline">\((4)\)</span> 以及对应的 equiangular-sampling 方法为例子（我还没学到 bidirectional path tracing，所以这部分的理解可能会有误） <span class="math display">\[
+\begin{equation}\label{equi}
+p(t_{dc} | b, d, w_{dc})\propto G(b, c) = 1/\Vert b - c\Vert^2
+\end{equation}
+\]</span></p>
+<center>
+<img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/a14147b9be0a8f4e8e3d8d89294df988.jpg" style="zoom: 40%;">
+</center>
+<center>
+Figure 2. Equi-angular sampling 方法
+</center>
+<p>​ 所以为什么，采样的条件分布需要如公式 <span class="math inline">\(\eqref{equi}\)</span> 所示的 bc距离平方反比有关？其中隐含了度量的转换：我们实际在 <span class="math inline">\(w_{dc}\)</span> 方向的直线上采样【距离】，但条件是 --- 对于 vertex b 而言，采样结果应当在角度上呈均匀分布。【角度（3D）】与距离之间的转换，由 <span class="math inline">\(G(b, c)\)</span> 承担：距离越远，单位角度对应的线段长度越大，在某段距离微元内采样的概率就小了。由于是3D空间，故遵循平方反比（而非2D空间下的一次反比）。</p>
+<p>​ 此论文中还有很多采样条件分布的计算都与度量转换有关。转换成正确的度量，在正确的空间下积分才能得到正确的结果。</p>
+<h3 id="rte">2.2.2 RTE</h3>
+<p>​ RTE 本身的形式与 LTE很像，但考虑了光路上 radiance的增加（in-scattering &amp; emission）以及衰减（out-scattering &amp; absorption）。由公式 <span class="math inline">\(\eqref{remain2}\)</span> 定义的传输率（transimittance）将在接下来的叙述中被写为 <span class="math inline">\(T_r\)</span>。则我们考虑光线穿过表面进入介质时，介质中某一点朝某一方向的入射 radiance:</p>
+<center>
+<img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/Screenshot from 2023-02-18 14-42-51.png" style="zoom:90%;">
+</center>
+<center>
+Figure 3. 光线入射介质后的 radiance 计算示意图，图中过p0直线的左侧为介质内部[5]
+</center>
+<p>​ 则，某一点<span class="math inline">\(p\)</span>的入射 radiance 可以被写为： <span class="math display">\[
+\begin{equation}\label{rte}
+L_i(p, w) = T_r(p_0\rightarrow p)L_o(p_0, -w) + \int_d T_r(p&#39;\rightarrow p)L_s(p&#39;, -w)dt
+\end{equation}
+\]</span> ​ 其中，<span class="math inline">\(p&#39; =p_0 -tw\)</span>，<span class="math inline">\(t\)</span> 在<span class="math inline">\([0, d]\)</span>（<span class="math inline">\(d\)</span> 为<span class="math inline">\(p_0\rightarrow p\)</span>的距离）上积分。上式的等号右边有两项：</p>
+<ul>
+<li>第一项：代表了外部光线原本传输的部分在传输到 <span class="math inline">\(p\)</span> 过程中，消耗所剩的部分（<span class="math inline">\(T_r\)</span> 建模了向外的散射与吸收）</li>
+<li>第二项：光线上每一点，都是一个光源（由散射介质会产生内散射的原因决定）。而光源发出的光，自然也需要经过与第一项一样的衰减。此项隐藏了一个积分 - 内散射估计积分：</li>
+</ul>
+<p><span class="math display">\[
+\begin{equation}\label{in-scat}
+L_s(p, w) =L_e(p, w) + \sigma_s(p, w) \int_{S^2} f_p(p, w_o, w)L_i(p, -w_o)dw_o
+\end{equation}
+\]</span></p>
+<p>​ 其中 <span class="math inline">\(S^2\)</span> 表示完整球面（介质嘛，就不是半球面了）。故可以看出公式 <span class="math inline">\(\eqref{rte}\)</span> 包含了所有的 ray-medium interaction 操作。不过一般来说我们不考虑 emission（会发光的烟雾很炫啊）。</p>
+<p>​ emmm，也没什么神秘的对不对？重点不在于理论，在于实现：公式 <span class="math inline">\(\eqref{rte}\)</span> 存在两个积分，则需要两次采样。我们将公式 <span class="math inline">\(\eqref{rte}\)</span> 重写为没有 emission 项的二重积分形式： <span class="math display">\[
+\begin{equation}\label{rte2}
+L_i(p, w) =  \int_d \int_{S^2} T_r(p&#39;\rightarrow p) \sigma_s(p, w) f_p(p, w_o, w)L_i(p, -w_o)dw_odt
+\end{equation}
+\]</span> ​ 写为 Monte Carlo 积分的形式，并假设 <span class="math inline">\(\sigma_s\)</span> homogeneous： <span class="math display">\[
+\begin{equation}\label{rte-mc}
+L_i(p, w) = \frac{\sigma_s}{N}\sum_{i=1}^N \frac{T_r(p_i\rightarrow p)}{\text{pdf}(p_i)} \frac{f_p(p, w_o, w)L_i(p, -w_o)}{\text{pdf}(w_o, w|p_i)}
+\end{equation}
+\]</span> ​ 上式的采样过程是存在顺序的：首先需要采样空间中的点（由于 phase function 可能与空间位置有关，并且是否发生体散射而非表面interaction也与采样点的位置有关），采样完空间中的点后再采样方向。整个evaluation结果需要我们使用联合分布，联合分布则可以用条件分布与边缘分布表出，并且注意，在这种简单情况下（homogeneous），<span class="math inline">\((w_o, w)\)</span> 与 <span class="math inline">\(p_i\)</span> 是独立的。</p>
+<h2 id="实现流程">2.3 实现流程</h2>
+<p>​ PBR book写得太好了，第15章非常清晰。从原始的理论到采样的实现以及算法的全流程，能让人完整地看明白，唯一的遗憾就是缺少一些 volumetric path tracing 的 variance reduction 方法。目前AdaPT 中的<code>vpt</code>分支已经被合并到 <code>master</code> 分支下，虽然有结果但噪声问题还是比较严重。根据<a href="#ref">[4]</a>，方差大可能是 unidirectional volumetric path tracer 无法避免的问题：</p>
+<blockquote>
+<p>Volumetric path tracing with explicit shadow connections suffer from <strong>infinite variance</strong> when participating media surrounds light sources.</p>
+</blockquote>
+<p>​ 根据我的实验结果发现，情况好像确实是这样：</p>
+<table>
+<colgroup>
+<col style="width: 49%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Null-surface with shadow connections</th>
+<th style="text-align: center;">Explicit shadow connections &amp; media surrounds emitters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png"></td>
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png"></td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 4. AdaPT的一些渲染结果
+</center>
+<p>​ 可以看到，上图中的右图明显符合论文<a href="#ref">[4]</a>所说的情况：shadow connections + 光源被介质包裹。所以在20000轮迭代之后（共 trace 50亿条光线，允许的最大depth为25 bounces），仍然存在 shot noises。而左图就是单纯地收敛慢。</p>
+<p>​ 虽然上述算法仍然存在收敛性上的问题，但至少在debug后（真有些只有我能写出来的脑瘫bug，让我怀疑我根本不适合写代码）能达到与 mitsuba 类似的输出结果。在实现的过程中也遇到一些问题（感觉卡住的地方），下面简要说一下。</p>
+<h3 id="vpt-算法流程">2.3.1 VPT 算法流程</h3>
+<p>​ 算法的主要逻辑如下，在循环开始后：</p>
+<ol type="1">
+<li>根据 throughput 判定是否停止。可用的策略有 RR, max iteration 限制以及 min_contribution 限制</li>
+<li>ray intersection -- 计算 first intersection point 以及击中位置的法向量、击中物体的 obj_id</li>
+<li>根据法向量与光线的关系，判定当前光线在 free space 中还是物体中：如果在物体中，光线与法向的夹角应当小于90°，否则大于90°</li>
+<li>计算当前介质，如果 <code>in_free_space</code> = True，则用 world medium，否则用 obj_id 对应的 BSDF内部的medium</li>
+<li>进行自由程采样：
+<ol type="1">
+<li>判定当前介质是否为散射介质，如果不是散射介质（或者是非透明的BRDF），直接转到【步骤4】</li>
+<li>根据指数分布采样平均自由程 <span class="math inline">\(t_{\text{mfp}}\)</span>:
+<ol type="1">
+<li><span class="math inline">\(t_{\text{mfp}}\)</span> 与 ray intersection的下一表面距离 <span class="math inline">\(t_{\max}\)</span> 对比，如果 <span class="math inline">\(t_{\text{mfp}} &lt; t_{\max}\)</span> 则设置 <code>is_mi</code> (is medium interaction) 为 True，否则为 False</li>
+<li>根据 <code>is_mi</code> 的不同，计算这段距离的 transmittance: 如果是表面 interaction，只需要 <span class="math inline">\(T_r /{\text{pdf}}\)</span>，否则还需要乘以 <span class="math inline">\(\sigma_s\)</span></li>
+</ol></li>
+<li>if <code>is_mi</code> == True: 得到介质交互点
+<ol type="1">
+<li>计算直接光照部分：如果光源与interaction 点在同一介质内，只要不遮挡一般没有问题，不在同一介质内则根据BSDF track ray（光线尝试从当前位置出发去击打光源，路径上如果遇到了 null-surface 则继续计算，否则若遇到 non-null surface 则直接丢弃此光线，在 track ray 的过程中需要记录 accumulated transmittance）。直接光照的 contribution 计算结束后，加到当前 radiance 上。</li>
+<li>计算传播，NEE：（主要调用 sample），找到下一次应该传播的方向（phase function采样）以及 throughput。回到步骤1</li>
+</ol></li>
+<li>else: 得到表面 interaction点
+<ol type="1">
+<li>如同正常path tracer，shadow connection / emitter evaluation 以及 BSDF 方向采样</li>
+</ol></li>
+<li>在累加到结果 radiance 之前，throughput 首先乘以自由程采样中计算的 transmittance</li>
+</ol></li>
+</ol>
+<p>​ 注意，由于暂时用不到MIS，与 Monte Carlo integration 有关的项都可以先除以对应的PDF后直接输出，不需要单独输出PDF（因为用不上）。故，所有的 transmittance 都需要除以对应的PDF：</p>
+<ul>
+<li>自由程采样时，根据采样结果计算路径的 transmittance，需要直接除以PDF，这没有什么好说的，毕竟采样是 Monte Carlo 方法的关键步骤。</li>
+<li>track rays 时（用于 direct component evaluation），我们需要计算的PDF是整条路上<strong>都不发生介质散射</strong>（也即方向改变）的PDF。这是由于，direct component evaluation 的光线起始点、终止点是确定的。对于无介质问题而言，直接判断是否遮挡即可。有介质问题，除了遮挡（non-null surface intersection）之外，还必须使得散射不发生（方向不改变）。不过这种想法是很典型的 particle-based 的想法。</li>
+</ul>
+<h3 id="注意">2.3.2 注意</h3>
+<div class="note danger"><p>Backward tracing类方法，请按照物理过程发生的方向理解。举个例子，自由程采样的时候，如果按照 <span class="math inline">\(\text{eye}\rightarrow \text{emitter}\)</span> 的方向理解，会很奇怪。与 path tracing 实现时类似，我们要按 <span class="math inline">\(\text{emitter}\rightarrow \text{eye}\)</span> 的方向：光入射以后，如何与介质交互，而非我的视线如何在介质中被弯折。后者在计算上并没有那么 intuitive。</p>
+<p><strong>一开始我没有按照物理过程的顺序理解，实现过程中浪费了很多时间。大概是因为我太蠢了</strong></p>
+</div>
+<div class="note warning"><p>Direct component shadow connection 在 volumetric path tracing 中效率很低: 只要遇到 non-null surface 就会丢弃直接 shadow ray。对于内部为散射介质的有表面物体而言（也即，不是烟雾），其内部 radiance 也就只能等 ray 出射后，在无介质空间中计算 direct component 或者击中光源来贡献了。</p>
+</div>
+<div class="note info"><p>Taichi 有 bug...，debug时我想跑得快一些，迁移到 windows上时，nested struct 的成员函数死活无法调用。深入底层 python API 后也没找到问题，后面给人提 issue 去了...（确实应该是 python - Taichi 版本兼容性问题）。</p>
+</div>
+<hr>
+<h2 id="iii.-值得记录">III. 值得记录</h2>
+<ul>
+<li>关于diffusive与density estimation:</li>
+</ul>
+<blockquote>
+<p>Section <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_III_Bidirectional_Methods/Stochastic_Progressive_Photon_Mapping.html#sec:photon-mapping-theory">16.2.2</a> will introduce the concept of density estimation, which is used to implement a rendering algorithm known as <em>stochastic progressive photon mapping</em> (SPPM). The underlying density estimation that algorithm uses works well on diffuse surfaces because scattered radiance only depends on the surface position in this case to store a 2D radiance discretization, but for glossy surfaces it becomes preferable to switch to other techniques such as path tracing.</p>
+</blockquote>
+<ul>
+<li>各通道不同如何进行采样: RGB 三通道有不同的 <span class="math inline">\(\sigma_t\)</span> 如何采样？</li>
+</ul>
+<blockquote>
+<p>However, the attenuation coefficient <span class="math inline">\(\sigma_t\)</span> in general varies by wavelength. It is not desirable to sample multiple points in the medium, so a uniform sample is first used to select a spectral channel i; the corresponding scalar value <span class="math inline">\(\sigma_t^i\)</span> is then used to sample a distance along the distribution.</p>
+</blockquote>
+<ul>
+<li>Importance sampling heterogeneous medium (<span class="math inline">\(\sigma_t\)</span> 并非空间均匀)</li>
+</ul>
+<blockquote>
+<p>The most commonly used method for importance sampling Equation (15.13), is known as <strong>ray marching</strong></p>
+</blockquote>
+<p>​ 以下是拓展了解，我们并不需要立即知道（非同质介质本身就比较困难）。对于非同质介质（注意，isotropic / anisotropic 为各向同/异性，homo/hetero 为同质/异质）介质而言，有几种处理办法：</p>
+<ul>
+<li>regular tracking: 对于每一个voxel，都进行同质假设，采用homogeneous 介质的方法</li>
+<li>ray marching: 细分区间 <span class="math inline">\([0, t_{\max}]\)</span>。在每个细分的区间上做同质假设，则可以估计整个区间上的 <span class="math inline">\(\sigma_t\)</span> 近似分布，用逆变换采样可以做到比 regular tracking 更好的采样（但是，是有偏估计，很多时候效果都不好）</li>
+<li>delta tracking:</li>
+</ul>
+<blockquote>
+<p>an alternative unbiased approach proposed by Woodcock et al. (<a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_II_Volume_Rendering/Further_Reading.html#cite:Woodcock1965">1965</a>) that was originally developed to simulate volumetric scattering of neutrons in atomic reactors. This technique is known as <em>delta tracking</em> and is easiest to realize when the attenuation coefficient <span class="math inline">\(\sigma_t\)</span> is monochromatic.</p>
+</blockquote>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Volume_Scattering">PBR-book: Chapter 11 Volume Scattering</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_II_Volume_Rendering/The_Equation_of_Transfer">PBR-book: 15.1 The Equation of Transfer</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_I_Surface_Reflection/The_Light_Transport_Equation#sec:pathspace">PBR-book: The Light Transport Equation</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://scholar.google.com.hk/scholar?hl=zh-CN&amp;as_sdt=0%2C5&amp;q=Joint+Importance+Sampling+of+Low-Order+Volumetric+Scattering&amp;btnG=">Georgiev I, Krivanek J, Hachisuka T, et al. Joint importance sampling of low-order volumetric scattering[J]. ACM Trans. Graph., 2013, 32(6): 164:1-164:14.</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://www.pbr-book.org/3ed-2018/Light_Transport_II_Volume_Rendering/The_Equation_of_Transfer">PBR-book: The Equation of Transfer</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Enigmatisms
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/" title="AdaPT - Volumetric Path Tracer I">https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
+              <a href="/tags/Taichi-lang/" rel="tag"><i class="fa fa-tag"></i> Taichi lang</a>
+              <a href="/tags/CG/" rel="tag"><i class="fa fa-tag"></i> CG</a>
+              <a href="/tags/renderer/" rel="tag"><i class="fa fa-tag"></i> renderer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/" rel="prev" title="AdaPT - Monte Carlo Path Tracer II">
+                  <i class="fa fa-chevron-left"></i> AdaPT - Monte Carlo Path Tracer II
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+new Darkmode({
+saveInCookies: true, // default: true,
+label: '🌓', // default: ''
+autoMatchOsTheme: true // default: true
+})
+.showWidget();
+</script>
+
+<div class="copyright">
+  &copy; 2021.1 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-anchor"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">437k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:37</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+    </div>
+  </footer>
+
+  
+  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

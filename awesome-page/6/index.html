@@ -106,7 +106,7 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">43</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">63</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">64</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,117 @@
 
     <div class="main-inner index posts-expand">
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">2D体积光绘制算法设计</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-18 15:35:30" itemprop="dateCreated datePublished" datetime="2021-02-18T15:35:30+08:00">2021-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-06-17 18:52:43" itemprop="dateModified" datetime="2021-06-17T18:52:43+08:00">2021-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="volume2d">Volume2D</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ 最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png"></p>
+<center>
+Figure 1. 我的世界光影
+</center>
+<p>​ 实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在"Gods' Ray"的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光影，我也很想自己实现一个光线效果（大一写的游戏<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">Ethians alpha 1.1🔗</a>中有阴影计算的算法（FOV shadow casting），但结果是基于栅格的，而不是基于像素的）。综合以上的想法 + 想精进一下C++ STL技术，我设计了一个这样的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
     
 
 
@@ -801,13 +912,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">424k</span>
+    <span title="Symbols count total">437k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:26</span>
+    <span title="Reading time total">6:37</span>
   </span>
 </div>
 <div class="busuanzi-count">

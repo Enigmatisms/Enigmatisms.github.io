@@ -106,7 +106,7 @@
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">43</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">63</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">64</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -323,6 +323,130 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/11/To-strive-to-seek-to-find-and-not-to-yield/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/" class="post-title-link" itemprop="url">AdaPT - Volumetric Path Tracer I</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-02-18 16:56:36 / Modified: 16:58:36" itemprop="dateCreated datePublished" datetime="2023-02-18T16:56:36+08:00">2023-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>12 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ada-path-tracer-iii">Ada Path Tracer III</h1>
+<hr>
+<p>​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
+<ul>
+<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程，</li>
+<li>free space radiance 一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
+<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了。</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">渲染4000迭代（25s，约10亿光线）</th>
+<th style="text-align: center;">渲染20000迭代（约50亿条光线）</th>
+<th style="text-align: center;">渲染15000迭代</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-good.jpg"></td>
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png"></td>
+<td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png"></td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. 无介质的收敛性明显好很多
+</center>
+<p>​ 话说，我写博客从来没有在一个系列上写超过两篇的文章，渲染技术系列已经三篇了，这还是头一回。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1246,112 +1370,6 @@ Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、dept
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/" class="post-title-link" itemprop="url">Rust学习 I</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-05-03 11:57:35 / Modified: 12:04:12" itemprop="dateCreated datePublished" datetime="2022-05-03T11:57:35+08:00">2022-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>15k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>14 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="rust---i">Rust - I</h1>
-<hr>
-<h2 id="intros">Intros</h2>
-<p>​ Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及定义跳转等等），第一天学的时候，只能实现一些强逻辑性算法（比如什么快排，归并排序等等），无法深入使用数据结构（给我一个数据结构我根本不知道里面有什么方法）。</p>
-<p>​ 第一天快结束时，想学习一下Rust的可视化工具Plotters，结果发现，之前从菜鸟教程了解的写法过于粗浅，基本看不懂Plotters代码，遂投身更加深入的学习。但却发现，给自己设置的小目标 --- 写一个链表，按照之前了解的语法知识，我都是写不出来的。快要放弃只是接触到了一个教程以及其官方文档：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://rust-unofficial.github.io/too-many-lists/index.html">Rust unofficial - Learning Rust With Entirely Too Many Linked Lists</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/index.html">Rust-lang docs</a></li>
-</ul>
-<p>​ 教程详细介绍了对于链表的实现，较为通俗易懂，有些难以思考的问题，其实沉下心来想也很快能想出来。本文是跟着教程实现过程中，笔者对于遇到的一些问题的处理方法以及自己的心得。由于笔者非常不喜欢依葫芦画瓢（因为这样，感觉自己完全学不到东西），所以笔者也在自己的实现中整活（超前学习），本文也记录了整活过程中遇到的坑及处理方法。本篇为Rust学习心得的第一章。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/awesome-page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><a class="extend next" rel="next" href="/awesome-page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1386,13 +1404,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">424k</span>
+    <span title="Symbols count total">437k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:26</span>
+    <span title="Reading time total">6:37</span>
   </span>
 </div>
 <div class="busuanzi-count">
