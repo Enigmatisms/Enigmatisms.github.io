@@ -104,9 +104,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">45</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">65</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -189,7 +189,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -237,6 +237,114 @@
 
     <div class="main-inner index posts-expand">
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">Mip NeRF思想注入与更多的NeRF方法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-03 15:42:06" itemprop="dateCreated datePublished" datetime="2022-05-03T15:42:06+08:00">2022-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-08-25 07:20:48" itemprop="dateModified" datetime="2022-08-25T07:20:48+08:00">2022-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>​ （未完成，请勿点击）。最近读了非常多关于NeRF的论文，毕竟这玩意从ECCV 2020被提出来之后就爆火了，变体层出不穷，基本上我能想到的卷法，都有人卷过了。低垂的果实总是被有能力又有准备的人先摘走，留下来的都是一些需要费大力气才能摘到的果实。论文不仅需要读，好的论文一定要复现，才能深入了解其精髓，西安交大人工智能学院的刘龙军副教授曾经在组会上说到：读论文不复现等于白读！大家都深以为然:&gt;。而其中最有复现价值（并且难度没那么高的，不像Instant NGP，official repo代码都看不懂）的当属：</p>
+<ul>
+<li>ICCV 2021: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.13415">Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields</a></li>
+<li>ECCV 2022: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2111.12077">Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields</a></li>
+</ul>
+<p>​ 其中Mip NeRF 360中的proposal network已经成为目前个人所实现的NeRF框架的基础。本文是复现过程中的一些心得以及对其他所读的NeRF论文的总结。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
     
 
 
@@ -1231,117 +1339,6 @@ Figure 1. Hoho. Da. Nice.
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/" class="post-title-link" itemprop="url">Swin Transformer 复现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-10 22:45:34" itemprop="dateCreated datePublished" datetime="2022-01-10T22:45:34+08:00">2022-01-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-16 11:58:10" itemprop="dateModified" datetime="2022-12-16T11:58:10+08:00">2022-12-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>12 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="swin-transformer">Swin Transformer</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：<strong><u>一个公式都没有</u></strong>（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/tree/master/swin">Github/Maevit(这实际是ViT的复现repo)</a></p>
-<p>​ 论文原文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14030">Liu, Ze, et al. "Swin transformer: Hierarchical vision transformer using shifted windows." <em>arXiv preprint arXiv:2103.14030</em> (2021).</a></p>
-<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png"></p>
-<center>
-Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/awesome-page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><a class="extend next" rel="next" href="/awesome-page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1376,13 +1373,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">461k</span>
+    <span title="Symbols count total">475k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:59</span>
+    <span title="Reading time total">7:12</span>
   </span>
 </div>
 <div class="busuanzi-count">

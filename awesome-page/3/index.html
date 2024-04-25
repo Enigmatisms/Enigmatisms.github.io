@@ -104,9 +104,9 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">45</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">65</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
         <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
@@ -178,7 +178,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -189,7 +189,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -237,6 +237,117 @@
 
     <div class="main-inner index posts-expand">
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/" class="post-title-link" itemprop="url">Swin Transformer 复现</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-10 22:45:34" itemprop="dateCreated datePublished" datetime="2022-01-10T22:45:34+08:00">2022-01-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-16 11:58:10" itemprop="dateModified" datetime="2022-12-16T11:58:10+08:00">2022-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>12 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="swin-transformer">Swin Transformer</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​ Swin Transformer获ICCV best paper之后，就总有很多人提起它。个人在前段时间复现了一个与ViT相关的工作（Compact Convolution Transformer），感觉实现太简单（训练难），遂想尝试一些更加复杂的工作。同时我当然也想看看best paper到底是什么水平。此论文写得很清晰，实验做得非常漂亮，思想也很有趣，不过可以说是一篇typical神经网络文章：<strong><u>一个公式都没有</u></strong>（attention公式以及复杂度计算公式不算）。个人虽然惊叹于其SOTA表现，但由于存在不可解释的魔法，也始终觉得很膈应。本文是我在复现过程中的整理的一些思路和我觉得本论文中疑难之处及其理解。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/tree/master/swin">Github/Maevit(这实际是ViT的复现repo)</a></p>
+<p>​ 论文原文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14030">Liu, Ze, et al. "Swin transformer: Hierarchical vision transformer using shifted windows." <em>arXiv preprint arXiv:2103.14030</em> (2021).</a></p>
+<p><img src="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/intro.png"></p>
+<center>
+Figure 1. 艺术之国：还有一个XJTU的（MSRA nb）[1]
+</center>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/10/Swin-Transformer%E5%A4%8D%E7%8E%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
     
 
 
@@ -1289,117 +1400,6 @@ Figure 1. 这人有一个以自己名字命名的实验室，还曾拒绝过出�
 
 
     
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/" class="post-title-link" itemprop="url">CUDA踩坑实录【2】</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-10-15 22:20:52" itemprop="dateCreated datePublished" datetime="2021-10-15T22:20:52+08:00">2021-10-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-11-24 15:43:52" itemprop="dateModified" datetime="2021-11-24T15:43:52+08:00">2021-11-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>8.7k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>8 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="cuda-ii">CUDA II</h1>
-<hr>
-<h2 id="i.-introduction">I. Introduction</h2>
-<p>​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用... 等等。</p>
-<p>​ 为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的<a href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">【Particle Filter Simulation】</a>这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为 <strong><u>激光雷达仿真器LiDARSim2D</u></strong>的一个补充模块，现在更新在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">[仿真器repo：LiDARSim2D]</a>下。</p>
-<p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png"></p>
-<center>
-Figure 1. 粒子广场
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/awesome-page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/awesome-page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/awesome-page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><a class="extend next" rel="next" href="/awesome-page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1434,13 +1434,13 @@ autoMatchOsTheme: true // default: true
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">461k</span>
+    <span title="Symbols count total">475k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:59</span>
+    <span title="Reading time total">7:12</span>
   </span>
 </div>
 <div class="busuanzi-count">

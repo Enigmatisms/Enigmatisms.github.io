@@ -11124,4 +11124,245 @@ E(T) = p_1 T_1 + (1 - p_1)p_2T_2 + (1 - p_1)(1 - p_2)p_3 T_3 + p_m\prod_{i=1}^3(
         <tag>异构计算</tag>
       </tags>
   </entry>
+  <entry>
+    <title>NeRF-GS Interview Preparation</title>
+    <url>/2024/04/25/NeRF-GS-Interview-Preparation/</url>
+    <content><![CDATA[<h1 id="nerf-3dgs">NeRF-3DGS</h1>
+<hr>
+<p>​ 找实习的时候也投了一些相关的岗位（三维重建、NeRF/GS等等），考虑到我本科是搞SLAM的，大四到研二上学期也断断续续做了一年半的NeRF，面相关的岗位时感觉还是比较轻松的，基本上比赛、开源项目吹吹水，回答一些简单的基础问题，做一些简单的题目就结束了，目前面试相关岗位还没碰上答不上来的问题。本部分 review NeRF 的基本工作，此前的 NeRF 项目、比赛以及 3D Gaussian 基本概念。</p>
+<span id="more"></span>
+<hr>
+<h2 id="i.-基本原理部分">I. 基本原理部分</h2>
+<h3 id="积分离散化渲染方程">1.1 积分离散化渲染方程</h3>
+<p>​ NeRF 中只有一个基本原理需要说，也就是渲染方程。渲染方程的连续形式，搞渲染的人可以说是信手拈来，对于 camera 需要积分的方向 <span class="math inline">\(\omega\)</span>，我们有： <span class="math display">\[
+\int _{0}^{T_{\max}} L_o(o+\omega t, -\omega)\sigma(t)T_r(t)dt
+\]</span> ​ 其中，<span class="math inline">\(L_o\)</span> 是某一点的 output radiance，<span class="math inline">\(T_r(t)\)</span> 是透射率。那么离散化以后将是这样的：假设我们使用 ray marching，也即每个 step 内部的 density 是不变的，那么实际上会有：</p>
+<ul>
+<li><ol type="1">
+<li>当前点在没有经过衰减的情况下，将贡献 <span class="math inline">\((1 - \exp(\sigma_i t))L_{o, i}\)</span> radiance。为什么是这样？由于 <span class="math inline">\(\sigma(t)\)</span> 的物理含义是，在 t 位置，光子传播直接终止于此处（消光）的 differential 概率（终止于此处的概念是，被吸收，或者不再向 <span class="math inline">\(\omega\)</span> 方向传播）。为什么最后成为了与 <span class="math inline">\(\exp\)</span> 有关的形式？这是通过 RTE（辐射传输方程） 推出来的：我们假设光的能量变化为 <span class="math inline">\(dL\)</span>，根据 RTE，实际上可以得到：</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[
+dL = -\sigma_t L dt
+\]</span></p>
+<p>​ 可以解出被消光的部分相当于是 <span class="math inline">\(\exp(-\sigma_t t)L(0)\)</span>。则显然，本段内，可以成功出射（产生贡献的，也就是没有被消光的）部分为：<span class="math inline">\((1 - \exp(\sigma_i t))L_{o, i}\)</span>。则此后，这部分 radiance 需要经过前面所有段的 transmittance 的消光： <span class="math display">\[
+\prod_{i = 1}^k\exp(-\sigma_i \delta_i) =\exp\biggl(-\sum_{i = 1}^k \sigma_i \delta_i \biggr)
+\]</span> ​ 那么实际上，可以得到 radiance 的最终表示： <span class="math display">\[
+\sum_{i = 1}^Nc_i\times (1 - \exp(-\sigma_i \delta_i))\exp\biggl(-\sum_{k = 1}^{i-1} \sigma_k \delta_k \biggr)
+\]</span> ​ 后面的 <span class="math inline">\(\exp(-\sum)\)</span> 项通常被称为 transmittance，这你都十分熟悉了。注意，在图形渲染里，这种针对 heterogeneous medium 的操作 ray marching，是有偏的。可能可以替换为 unbiased MC integration？这涉及到 delta-tracking (也就是 null scattering 操作)，导致采样不能是并行的。当然也可以用 MC importance sampling 但采样效率不会高：不是在被积函数大的地方采样。此部分其实没有什么好多说的，不要忘记 <span class="math inline">\(\sigma(t)\)</span> 就行，此部分为 differential 概率，离散化的时候由于不再使用微分表示，所以需要积（1 - 指数部分）。其中的 delta 也没有什么好说的。</p>
+<h3 id="相机模型">1.2 相机模型</h3>
+<p>​ 正常来说，相机模型会是由内参矩阵定义的： <span class="math display">\[
+K = \begin{pmatrix}
+f_x &amp; 0 &amp; c_x \\
+0 &amp; f_y &amp; c_y \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+\]</span> ​ 一个 point on normalized plane 上的点 (X/Z, Y/Z, 1) 通过左乘上式就会到像素坐标。注意，上式是线性的，而在左乘之前，一般需要进行畸变操作：径向畸变和切向畸变。畸变后的点再左乘对应的 K 得到像素坐标。所以，如果要从外参来求光线方向一般则是：乘以 <span class="math inline">\(K^{-1}\)</span>（不考虑畸变的话，考虑则比较麻烦，因为畸变是非线性的，从 u, v 反推 x/z, y/z 相对麻烦一些）。但这样还没完，由于我们得到的结果是相机系下的，所以要到世界系，需要相机本身的位姿（旋转施加在方向上即可）。</p>
+<p>​ 如果用焦距定义的，只需要：除以对应焦距即可。所以，焦距越小，FOV 越大。</p>
+<p>​ 这里整个都还比较简单。那么接下来可以看看 nerfstudio 中我的改动。nerfstudio 原生支持对 camera 的位姿进行优化，三个模式：SO3，SE3（对 4 * 4 矩阵）。此后我在 nerfstudio 里改动了：</p>
+<ol type="1">
+<li><p>内参优化：给了三个模式，所有相机使用不同的内参 / 共用内参 / 不优化。</p></li>
+<li><p>畸变优化：也是三个模式。这里比较简单，主要涉及到改 API 以及查 gradient flow 有没有断掉的地方以及在最后的 output 中显示这两个参数每个 iter 的相对变化。</p></li>
+</ol>
+<p>​ 这里没有多少好说的，就是一个端到端的模块，复用了一下 optimizer。这是有效的。看比赛答辩 ppt 就行了。</p>
+<h3 id="positional-encoding-与基础网络结构">1.3 positional encoding 与基础网络结构</h3>
+<p>​ 网络适合学习高频的信息（因为内部本身就是一个复杂参数的网络），所以需要将 position 以及 direction 经过 positional encoding 将结果送入网络中。原始 NeRF 的 positional encoding 与 NLP 中的很像： <span class="math display">\[
+[\sin(x), \cos(x), \sin(2x), \cos(2x), ..., \sin(2^{L - 1}x), \cos(2^{L - 1}x)]
+\]</span> ​ 注意，这样进行 positional encoding 之后，需要与原始 x, y, z concat 到一起。实际的结果是这样的： <span class="math display">\[
+[x, y, z, \sin(x), \sin(y), \sin(z), \cos(x), \cos(y), \cos(z), \sin(2x), ..., \cos(2^{L - 1}x)]
+\]</span> ​ 所以，按照原始 NeRF 的 L，positional encoding 之后有 63 维。而 direction 的 positional encoding level 低一些，我没记错的话应该是 27。基础网络架构：</p>
+<p>（1）encoding 之后 positional 先过，几层之后与未过的原始输入 concat (可以认为这叫 residual concat，哈哈)。过第二个线性层。后用一个 opacity head 单独输出 density。encode 的 positional feature 与 directional encoding 一同输入浅的 RGB 网络。</p>
+<ul>
+<li>内部不用 norm，使用的激活函数除了 opacity head (可以直接输出 softplus，ReLU，或者输出时不做处理，render时算) 以及 RGB（输出结果用 sigmoid），其他几乎都是 ReLU。</li>
+</ul>
+<p>​ 注意，在 mip NeRF 中，positional encoding 进行了积分（Gaussian weight 的一个积分），相当于如下形式： <span class="math display">\[
+\int \text{Gaussian}(x, \mu, \Sigma)[\sin(x), \cos(x)]dx
+\]</span> ​ 此积分貌似是有解析解的？这个操作实际上在求 positional encoding 在 Gaussian 分布下的期望。确实是有解析形式的，不过要高效计算，就需要一些数学上的操作（比如，由于各个 dimension 之间是独立的，可以只算协方差的对角，从 <span class="math inline">\(O(n^2)\)</span> 变 <span class="math inline">\(O(n)\)</span> ）。这样的一个操作，相当于将高频部分积分掉了（sin, cos 高频时是周期的，积分也会特别接近 0），则有了这个，positional encoding 在两采样点间距离大的情况下，频率就会带限。</p>
+<h3 id="无界场景压缩mip-nerf-360">1.4 无界场景压缩（mip NeRF 360）</h3>
+<p>​ space-warping 技术（contract operator，压缩算子）。</p>
+<ol type="1">
+<li><p>无界场景映射需要新的 sampling 方式，uniform 是不好的（远近一致不行，远应该少一些）。不需要说得非常具体，可以举一个例子（比如 exponential sampling，虽然比较激进），注意是 truncated exponential sampling，然后可以举双 log 的例子。</p></li>
+<li><p>contract operator: <span class="math display">\[
+\text{contract}(\mathbf{x}) = \begin{cases}
+\mathbf{x}, &amp; \Vert \mathbf{x}\Vert \leq 1\\
+(2 - \frac{1}{\Vert \mathbf{x}\Vert})(\frac{\mathbf{x}}{\Vert \mathbf{x}\Vert}), &amp; \Vert \mathbf{x}\Vert \gt 1\\
+\end{cases}
+\]</span> ​ 注意，在 mip NeRF 360 中，我们处理的不再是 point，而是 cone (Gaussian 近似)。上式的第二个 case 的第二个乘积项用来表示 方向，第一项表示其在圆（外圈环）上的位置。也即：内圈是距离上 uniform，外圈是 disparity 上 uniform。</p></li>
+</ol>
+<p>​ mip NeRF 360 并不是使用两个 MLP 表示的（而是一个），相当于送进 positional encoding 之前，需要先进行 contract mapping，但我不是很明白，mip NeRF 是怎么保证所需的 foreground 场景处于 <span class="math inline">\(\Vert \mathbf{x} \Vert &lt; 1\)</span> 的范围内的（难道需要先进行一步 scaling? 这并不是什么大问题，因为只需要 scale camera 的 position 参数即可），如果我们认为相机围绕 (0, 0, 0) 点拍摄，那确实只需要 scale 相机的 translation。</p>
+<p>​ 这里没有什么好说的，不过要注意 contract 之后的 sampling 操作。</p>
+<h3 id="高斯-cone-近似mip-nerf">1.5 高斯 cone 近似（mip NeRF）</h3>
+<p>​ 这里我只说一下思想，因为整个过程数学性比较强。而其实整个过程都是围绕 positional encoding 的积分来的。首先，我们知道一个像素发出的光线可以看成一级一级的 cones，但 cone 本身数学描述很难，作者则用一个 Gauss 近似这整个 cone。那么这个近似公式怎么来的呢，我现在肯定忘了，当时推过一遍。得到了一个 Gauss 之后，就用 Gauss 对整个段上的 positional encoding 进行积分。</p>
+<p>​ 积分的结果相当于囊括了这一段上的所有 position 信息，如果比较宽（scale 问题）则相当于进行了模糊（降低频率）。用积分后的 <span class="math inline">\(\mu\)</span> 过 positional encoding，再乘以一个与 <span class="math inline">\(\Sigma\)</span> 有关的值就是新的 positional encoding。</p>
+<h3 id="一些比较重要的-nerf-工作">1.6 一些比较重要的 NeRF 工作</h3>
+<p>​ 这里我只能举一些我看过的例子，这部分工作可能很老了，我研一下之后基本只看光线追踪（纯CG）相关的文章了。只能简单说说：</p>
+<h4 id="nerf-在稀疏视角下怎么办">NeRF 在稀疏视角下怎么办？</h4>
+<p>​ 稀疏视角造成的严重问题是几何不准或者不对。比如学 floaters 出来，以及一些 degenerate 的 几何结果。几何对了其实 RGB 只要不是十分高频（如金属反射、镜面反射、折射），RGB 就很好学。</p>
+<ul>
+<li>pixel NeRF，pixel NeRF 是通过在图像域上提取特征，基于先验的方法（跨场景的先验，用一个 CNN 提取的）：首先，pretrained encoder 将所有输入图片转成 feature image。此后新视角合成时，ray marching 的 query 点去其他 feature image 上通过 projection 以及 BILERP 去 query 对应 feature，用 feature 做 rendering。有一篇升级版（浙大周晓巍老师组的，好像叫 NeuRay？）考虑了遮挡，使得结果更加 robust。</li>
+<li>free NeRF：两个 intuition（1）few shot 情况下不应该用高频 positional encoding，在训练过程中逐步限制 position encoding 的维度（具体怎么操作，忘了，太久没看了）（2）另外一个，为了限制 floaters（一般是过拟合导致的），作者对临近相机的 density 进行了惩罚，这个操作很有效。我在 giga 比赛中就用了这个操作。</li>
+<li>info NeRF：两个 contribution（1）熵 regularization 项，可以称为是 density 的非0即1惩罚。惩罚所有半透明物体。（2）perturbed ray，对于 clustered views，可以从单个 ray 通过噪声 perturbation 生成一些其他 ray，我记得是限制这些 ray 上的 ray marching 点 density 值与原始生成的 ray 一致。</li>
+</ul>
+<h4 id="nerf-在大场景下怎么做如何节省内存">NeRF 在大场景下怎么做？如何节省内存？</h4>
+<p>​ 大场景一般都是空间划分：</p>
+<ul>
+<li>Mega-NeRF：三个主要贡献吧（1）空间划分，空间划分后，每一块投影到不同图像上，对应图像的 pixel 取出来就成了对应 NeRF 的训练集。（2）NeRF++ 的 outer volume (NeRF++ 不是基于 spatial contraction 的，而是相当于两个 NeRF)，在上面做了一些改进（毕竟要建模背景）以及 NeRF-W 的 appearance embedding（我们在 Giga 比赛中也用了，涨点）（3）渲染加速：用了一个 OccTree cache（有点像 plenoctree）并且做了时域的复用（前后帧了，有点像 TAA）</li>
+<li>Kilo-NeRF：看过（大四），真忘了。我记得是加速大场景 NeRF 渲染的（好像有什么空间与方向解耦的MLP）</li>
+<li>Grid-guided Neural Radiance Fields：略读过。two stage，将 Grid 和 MLP NeRF 结合了。说实在的，可能是我比较菜，我觉得 idea 并不是第一眼就觉得比较 intuitive 的。为什么 grid branch 的 multi-resolution pyramid 有助于 rendering？
+<ul>
+<li>话说，起个好点的名字，大家容易记住这个工作。都是 XXXNeRF的，一下就能记住。你可以叫 GG-NeRF 嘛，GG（good game)</li>
+</ul></li>
+</ul>
+<h4 id="nerf-如何进行压缩">NeRF 如何进行压缩？</h4>
+<ul>
+<li>MERF：当时看到感觉效果很惊艳了（虽然貌似马上被 GS 干了，GS 魔鬼）。MERF 包含一个 low res 的 空域 grid 一个三个 high res 的 （axis-aligned？）三平面（2D）feature grids，所以相当于每次取四个 feature vectors。加在一起，split 后 non-linear mapping 就可以得到 pixel RGB。也能 real time rendering。</li>
+<li>MobileNeRF：很有名的工作。MobileNeRF 其实在某种程度上与 GS 是很像的: MobileNeRF 将场景先描述成一个可优化的 mesh，（虽然我不知道对应 UV coordinates 是怎么算的，可能因为一开始是规则的，很好直接分配？），以及一个 feature texture (8 channel)，此后，渲染是单次光追？（一个像素计算光线与mesh的交，但我不清楚的是这怎么用加速方法，triangle culling 怎么做？因为 mesh 表征是不断变化的），又有一说是 mesh 首先会 rasterize 到一个 deferred renderer 里，我觉得这才像话嘛... 我只需要知道每个 fragment 来自哪个面片（以便处理其顶点位置梯度以及 query UV 坐标）就可以了（但很可惜的是，面片是有 opacity 的，一般来说不能用延迟渲染管线？管不了这么多了），后 8 channel 的 feature 通过一个小网络，配合 view direction 转成 view dependent color。</li>
+</ul>
+<h4 id="nerf-如何在动态场景下使用">NeRF 如何在动态场景下使用？</h4>
+<ul>
+<li>Deformation network（D-NeRF）这样的，学一个 deformation，好像挺多工作这样做的。</li>
+<li>去动态物体：NeRF-W 用的 transient encoding。其他的就不太清楚了，感觉做人体的文章与这个相关的多一些。</li>
+</ul>
+<h4 id="nerf-与-camera-trajectory">NeRF 与 camera trajectory</h4>
+<p>​ 如果 trajectory 来自视频怎么办？如果 camera pose 不准甚至没有了怎么办（Nope-NeRF，这名字很憨）。BARF 面试的时候还问到了。</p>
+<ul>
+<li>BARF（有点老的工作）：还真叫这个名字，想想漫威蜘蛛侠第二部（神秘客在的那一部）里面一哥们因为自己的东西被钢铁侠展示的时候叫BARF，心生怨念成了 Mysterio ... wow，他们一个组都是神秘客么？BA，老朋友了（虽然我感觉我好像没有实际写过，大学期间太菜了）。反正当时 BARF 给我的最深印象就是这个工作的实验非常漂亮，建议去学习一下人家的 project page 怎么做的，太优雅了。positional encoding 对图像配准不好！当 poses 不准确的时候，positional encoding 的高频部分会产生非常不准确的梯度。所以 BARF 的核心思想就是，优化位姿的过程中，逐渐提高 positional encoding 的可用维度（Free NeRF，你好像它啊）。coarse 情况下，配准更容易（梯度噪声小，更正确，简单嘛，相当于一个好的 initialization），而 fine 的情况下才能真正的进行 high-precision pose adjustment。</li>
+<li><span class="math inline">\(F^2\)</span>-NeRF（Fast Free NeRF！FreeNeRF的 fast 版本是吧（狗头））。记不太清了，好像是提出了第三种 warping 方式（forward facing 是 warp 到 NDC，360 是 warp 到 内外 spheres，这种是 perspective warping），反正就是一种可以对 free trajectory 进行 warping 的方式。本文另外还提出了一种基于单 hash table，多 hash functions 的 grid-based 表征。作者说：反正 instant-NGP 都说hash冲突也没关系，MLP 能自动 resolve... 所以即使进行 spatial partition，也可以只用一个 hash feature grid... 恩，但是为什么可以 resolve，这是玄学。</li>
+</ul>
+<h4 id="相关面经问题">1.7 相关面经问题</h4>
+<ul class="task-list">
+<li><input type="checkbox" disabled checked>
+高斯分布有什么重要的性质？挺多的：</li>
+</ul>
+<p>​ 首先，多维高斯分布： <span class="math display">\[
+\frac{1}{\sqrt{(2\pi)^n |\Sigma|}}\exp(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu))
+\]</span> ​ exp 里面是 Mahalanobis 距离，归一化常数可能不是那么好记。多看几遍就知道了。</p>
+<p>（1）高斯随机变量的仿射变换仍然是高斯分布：<span class="math inline">\(X\sim N(\mu, \Sigma)\)</span>，则 <span class="math inline">\(AX + v \sim N(A\mu + v, A\Sigma A^T)\)</span>。此结论可以用于 1D 的情况吗？两个1D正态分布随机变量直接相加，结果会是？这当然属于仿射变换的范畴： <span class="math display">\[
+A = [1, 1], X = \begin{pmatrix} X_1 \\ X_2 \end{pmatrix}
+\]</span> ​ 这和混合高斯模型不一样。混合高斯模型是形成一个新的采样分布（多个 PDF 的混合，而不是变量的混合）。</p>
+<p>​ 上述性质直接用在了 3D GS 以及 mip NeRF 里：</p>
+<p>（2）3D GS: 投影变换取 Jacobian（3D <span class="math inline">\(\mu\)</span> 变 2D <span class="math inline">\(\mu&#39;\)</span> 的过程）。可以根据相机模型回顾一下： <span class="math display">\[
+K\begin{pmatrix}
+X/Z\\
+Y/Z\\
+1
+\end{pmatrix} = \begin{pmatrix}
+u\\
+v\\
+1
+\end{pmatrix}
+\]</span></p>
+<p>​ 所以 Jacobian 到底取的是什么？已知，<span class="math inline">\(f(X)\rightarrow Y\)</span>，则我们需要取： <span class="math display">\[
+J = \frac{d(u, v, 1)}{d(X, Y, Z)}
+=\begin{pmatrix}
+3\times 3
+\end{pmatrix}
+\]</span> ​ 之后形成：<span class="math inline">\(J\Sigma J^T\)</span>，注意这里的 <span class="math inline">\(\Sigma\)</span> 已经是 view tranform (global to local) 转过的。</p>
+<ul>
+<li>mip NeRF：里面也有一步，是 positional encoding 的 cascade <span class="math inline">\(P \in \R^{3\times 3L}\)</span>，用这个去变换。</li>
+<li>剩下的其实都没有那么重要，剩余的有些在基于正态分布的推理里面。比如条件分布：</li>
+</ul>
+<p><span class="math display">\[
+p(X_1 | X_2=a) \sim N(\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(a - \mu_2), \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})
+\]</span></p>
+<h4 id="neus-与-neuralangelo">NeuS 与 Neuralangelo</h4>
+<ul>
+<li><p>NeuS 的核心思想就是找到一个无偏的渲染权重（由于原始的 <span class="math inline">\(Tr(t)\sigma(t)\)</span> 在 <span class="math inline">\(\sigma(t)\)</span> 最大的时候不是取最大值，而 <span class="math inline">\(\sigma(t)\)</span> 取最大值时意味着此处应该是面概率最高的位置）。此渲染权重需要有另一个特点：occlusion aware，也即一条光线上的两处，前一处要把后一处遮住。最后用的时一个 <span class="math inline">\(|cos|\)</span> 函数（作为 f），在某一点算 SDF 的梯度（数值梯度，或者是差分）（一阶近似）。</p></li>
+<li><p>Neuralangelo 论文使用了这样的思想：如果我们学习了一个 SDF 方程（隐式表征），我们可以在所求得的表面处通过求 SDF 的梯度来获得法向量（事实上，ref NeRF 就这么做了，Ref NeRF 有一个梯度预测模块，用 positional 网络的梯度作为监督）。而 Hash table 中，由于有不同grid（相当于不连续的多个函数），grid内的 position 梯度是连续的，而grid间是不连续的（显然，跨越了不同的三线性插值的值）。这时作者就用了数值梯度（可能噪声比较大）。</p>
+<ul>
+<li>coarse-to-fine，很多这样的工作啊，比如原始 NeRF，BARF 都是很经典的 coarse to fine。这里 coarse to fine 的主要是数值梯度步长，步长大则不准，但有助于优化。所以步长不断减小，而另一方面，大步长对应大的 grid size (分辨率低)，所以 grid 的精细度也是随步长变化逐级提高的。</li>
+</ul></li>
+</ul>
+<h4 id="其他八股基本3d视觉问题本科的时候比较熟搞渲染之后就不熟啦">其他八股（基本3D视觉问题，本科的时候比较熟，搞渲染之后就不熟啦）</h4>
+<ul>
+<li>SfM 与 MVS 的基本含义是什么？
+<ul>
+<li>SfM，这个含义不多说。可以举一个例子：COLMAP。COLMAP 就是一个非常常用的 SfM 库，一般来说，流程都是：correspondence search（先匹配，后match，然后会有一个验证环节，可能涉及到多帧验证），根据搜到的不同帧的多对 correspondences 通过三角化计算是 3D 点位置、本质矩阵与图像位姿。此后 BA：好像要用 ceres，比赛的时候在 docker 上装 pyceres 之类的环境工程可折磨了。BA 联合优化 3D 点位置与相机位姿，最小化重投影误差剔除 outliers 。是否稠密重建就看管线里有没有必要做这个事情了。</li>
+<li>MVS：多视角立体视觉。有本书就叫MVS（展开为英文全称）这个名字... 很厚，本科期间看过前几章。</li>
+</ul></li>
+</ul>
+<p>​ 以下这些本科搞 RM 以及 SLAM 的时候就接触过。没有展开写在这里，自行回顾就好了。</p>
+<ul>
+<li>相机标定与极线矫正</li>
+<li>基本矩阵，本质矩阵，单应矩阵。</li>
+<li>ICP 算法的基本步骤</li>
+<li>PnP 算法的基本步骤</li>
+</ul>
+<hr>
+<h2 id="ii.-gs">II. GS</h2>
+<h3 id="gs-基本实现流程">2.1 GS 基本实现流程</h3>
+<p>​ 整个工作的实现难度比 NeRF 大得多（端到端的好处就体现出来了）。如果能找到简单的 reference code 进行逐一拆解是比较好的。个人建议是去阅读基于 Taichi lang 的 Gaussian Splatting 实现：<a href="https://github.com/wanmeihuali/taichi_3d_gaussian_splatting">github: taichi_3d_gaussian_splatting</a>。本文光读论文是很容易觉得自己也没学到什么的（因为非本领域研究者挺难直接从论文的描述想到这是怎么实现的），而基于 Taichi lang 的实现由于语法都是 python，代码本身没有那么晦涩。此实现的 forward 部分我已经完全搞懂了，backward 部分由于有些涉及到需要自己上手算算，这里由于时间关系，只看了个大概。下面我结合图形渲染管线讲一下具体的实现。</p>
+<figure>
+<img src="/2024/04/25/NeRF-GS-Interview-Preparation/image-20240426000448455.png" alt="image-20240426000448455"><figcaption aria-hidden="true">image-20240426000448455</figcaption>
+</figure>
+<center>
+<font size="2"> Figure 1. （哥们的 mermaid 炸了，只能截图了）从 vertex shader 以及 pixel shader 角度来理解 GS </font>
+</center>
+<p>​ 上图概括了整个基于图形渲染管线理解的 Gaussian Splatting forward pass 过程。注意，由于没一个 tile 内部的 Gaussian 个数都可能非常不一样，这导致基于 tensor 进行并行十分难做（tensor --- 规则的形状）。所以在整个 forward 管线中，本实现是 torch，Taichi 混合编程（用 torch 当底层数据容器，用 Taichi 自定义细粒度的 GPU 并行 kernel）。所以 <strong><u>backward</u></strong> 需要自己写。考虑到 backward 的链式求导的过程： <span class="math display">\[
+\frac{d L}{d \mathbf{\Theta}} = \frac{d L}{d I} \times \frac{d I}{d \mathbf{\Theta}}
+\]</span> ​ 其中，<span class="math inline">\(I\)</span> 是 Gaussian 渲染得到的图像。<span class="math inline">\(d L/dI\)</span> 可以通过 Pytorch AD 模块直接算出来，不需要自定义。如果我们选择在此处加基于输出 <span class="math inline">\(I\)</span> 的正则化项，应该是不涉及 pytorch 或者 CUDA 端的自定义 backward 实现的。</p>
+<p>​ 但此处是否可以加入对 <span class="math inline">\(\alpha\)</span> 的惩罚？是否涉及到自定义 backward 函数？如果加入对 <span class="math inline">\(\alpha\)</span> 的惩罚，则一般来说不涉及到渲染某一张图与某 GT 进行比较（因为没有 GT），估计也就是在 tile 内部对 transmittance 增加一个单一峰值惩罚或者非0即1惩罚（有点像 log-barrier）。估计会涉及到自定义 backward 函数的实现。举个例子：假设我对 <span class="math inline">\(\alpha\)</span> 进行惩罚，有一个惩罚函数 <span class="math inline">\(L_\alpha(I_{\alpha})\)</span>, <span class="math inline">\(I_{\alpha}\)</span> 是被惩罚的内容（比如单点的log惩罚或者 transmittance 的 L1 值），那么将有如下的梯度： <span class="math display">\[
+\frac{d L_\alpha(I_{\alpha})}{d \mathbf{\Theta}} = \underbrace{\frac{d L_\alpha(I_{\alpha})}{d I_{\alpha}}}_{\text{trivial}} \times \underbrace{\frac{d I_{\alpha}}{d \mathbf{\Theta}}}_{\text{difficult part}}
+\]</span> ​ 其中 <span class="math inline">\({d I_{\alpha}} / {d \mathbf{\Theta}}\)</span> 还是需要自定义的（相当于 forward 中，在 fragment shader 端，需要自定义 $ L_(I_{})$ 的计算方式，backward</p>
+<p>中需要定义其梯度）。一些简单的想法中，梯度的形式还是相对较为简单的，由于每个点的实际 <span class="math inline">\(\alpha\)</span> 为： <span class="math display">\[
+\alpha(i)=\alpha_i \times \text{2DGaussian}((u, v), \pmb{\mu}, \Sigma)_i
+\]</span> ​ 如果对其进行非 0即1 惩罚就是： <span class="math display">\[
+L(\alpha(i)) = \alpha(i)(1 - \alpha(i))
+\]</span> ​ 上式对 <span class="math inline">\(\alpha\)</span> 求导，其实相对容易，是有很容易实现的解析形式的。所以 backward 从原理上来不会难实现，<strong><u>但是需要知道 torch 怎么写</u></strong>，forward backward 都需要去改还是有一定工作量的，并且需要对 torch 比较熟练。</p>
+<p>​ 同样地，与 transmittance 有关的实现，实际上是与： <span class="math display">\[
+\text{T}_r \times \text{RGB}_{\text{Gaussian}}
+\]</span> ​ 有关，目前看来求导相对比较容易（RGB 项是个乘性的因子），如果要自定义 backward 的话，应该比较简单。</p>
+<h3 id="一些问题">2.2 一些问题</h3>
+<h4 id="gs-参数一般是什么样的covariance-matrix-要怎么训练可以用-gd-吗">GS 参数一般是什么样的？Covariance Matrix 要怎么训练，可以用 GD 吗？</h4>
+<p>​ GS 参数挺多的：<span class="math inline">\(\mu\)</span>（三维），<span class="math inline">\(\Sigma\)</span>（协方差矩阵，不可直接学习，一般来说拆成一个四元数 <span class="math inline">\(q\)</span> 和一个scale vector（某对角矩阵的对角部分）），primitive 本身的 <span class="math inline">\(\alpha\)</span> 值，以及 SH：各向异性的 RGB evaluator。</p>
+<p>​ 其中 CovMat 是不能直接 GD 的，GD 满足不了协方差矩阵的约束。拆成四元数和 scale vector 之后可以进行学习，但其中的梯度怎么求就是一个比较难的问题了，其中从 <span class="math inline">\(4\times 1\)</span> 的 Quaternion 到 <span class="math inline">\(3\times 3\)</span> rotation matrix，实际上会有一个 <span class="math inline">\(4\times 9\)</span> 的 Jacobian（具体形式会比较复杂，希望别来问我）。剩下的就是 GD 的事情。</p>
+<h4 id="gs-与一般-nerf-的优缺点比较可以着重说一下-gs-的缺点nerf-mlp-引入的-inductive-bias-有什么好处">GS 与一般 NeRF 的优缺点比较，可以着重说一下 GS 的缺点？NeRF MLP 引入的 inductive bias 有什么好处？</h4>
+<p>​ GS 如果要表示一个高精度的场景，通常意味着非常大的模型存储压力：每个 primitive 都需要存：3 + 4 + 3 + 1 + (16 * 3, SH) ? 个 float， 而一般来说普通的 NeRF 甚至可以用我的笔记本电脑训练（7GB）。</p>
+<p>​ 显式表征对于场景的描述能力与 primitive 数量是成正相关关系的（当然隐式表征也是，只不过显式明显一些）。</p>
+<p>​ 另外，GS 的定制化一般来说比 NeRF 要复杂：NeRF 端到端隐式表征，意味着内部绝大多数操作都可以用 AD 直接做。但 GS 由于存在不均衡的 workload，用 tensor 方法并行较难（可能用到很多 mask），有时需要自定义 backward 或者梯度计算。</p>
+<p>​ NeRF 引入的最重要的 inductive bias 是，radiance 是可以通过稀疏视角训练的结果通过隐式表征的平滑性在新视角下插值得到的。而 Gaussian Splatting 由于是显式表征，所以没有这个 inductive bias，所以 Gaussian Splatting 必须要保证 Gaussian primitives 在场景中的覆盖率，以及正确地使用正则化项，避免出现 broken 的场景表示。</p>
+<p>​ 这里面比较重要的一部分是 Gaussian primitives 的 adaptive splitting 操作。覆盖率不够的：clone，过大的，split。</p>
+<h4 id="有关复现的胡思乱想">有关复现的胡思乱想</h4>
+<p>​ GS 这种东西应该自己写一个<strong><u>简单版本</u></strong>的，可以加深理解。整个流程其实相对来说比较麻烦：</p>
+<ol type="1">
+<li><p>输入首先需要有 COLMAP 的 sparse point cloud (with RGB)，这一步需要首先跑 COLMAP，对应的输出文件需要 parse 出来（除非有对应的数据集）。</p></li>
+<li><p>如何选择正确的表征？我不是特别清楚，如果使用 Pytorch 去实现的话，是否应该使用 ModuleList。或者说，我实际应该有一个 tensor，比如 <span class="math inline">\(\mu, \Sigma\)</span> 这样的 tensor，所有 Gaussian 都在一起。这样才能利用好 tensor 并行操作，否则需要自己写 CUDA（要花很长时间，而且是正向反向一起写）。能否先避免使用 CUDA 写自定义 kernel function？</p></li>
+</ol>
+<ul>
+<li>可以看看 Taichi-based Gaussian</li>
+</ul>
+<p>​ 假设我没有对 Gaussian 的合并、复制、拆分操作，能达到什么效果？只优化现有高斯，是否还能得到好的结果？</p>
+<ul>
+<li>如果没有合并、复制、拆分、删除操作，tensor 大小可以固定不变。如果有的话，可能需要设计一个 binary mask。
+<ul>
+<li>合并：两个高斯中，其中一个的参数重新计算，另一个的 binary mask 设置为 false</li>
+<li>复制：原始情况下我们会给 tensor 留裕量，比如开始时有 N 个 sparse point，那 tensor 设置为 N + 1024 * k 个（比如接近 1.5 N）。整个 tensor 是 <code>requires_grad = True</code> 的。这种情况下，我们维护的指针向后移动（表示当前 valid 的点最多到什么地方），复制对应的参数即可（但可能要加一个小的扰动），对应 binary mask 设置为 1</li>
+<li>拆分：大拆小，大的改参数，拆分出的放在末尾（与复制类似），对应 binary mask 设置为 1</li>
+<li>删除：binary mask 先设置为 0</li>
+</ul></li>
+<li>以上所有操作完成之后，压缩：把所有 binary mask 为 1 的数据移动到一起（但是对应梯度怎么变就不知道了）</li>
+</ul>
+<p>​ 在 tensor 固定大小不变时，删除也是可以做的：使用 binary mask，alpha 太小的不参数渲染（梯度自然就不会算）。</p>
+<ol start="3" type="1">
+<li><p>view independent RGB 这部分怎么算？涉及到 SH 到 RGB 的转换</p></li>
+<li><p>sorting：肯定对整个 GS tensor 进行 sort 操作。最好是分块的。我们如果首先可以知道不同的 GS 落在什么 tile 内，每个 tile 拿到对应的 GS index，就可以进行 sorting 了。但这样涉及一个问题，每个 tile 拿到的 index 是不一样多的，首先 workload 就会很不均衡。另外，如果要进行并行化也会很麻烦。</p></li>
+<li><p>color splatting: 最后是要用一个 2D Gaussian 在某个 tile 上计算颜色值。怎么去 cut-off color 也会是个问题：我不太可能一个 Gaussian 就直接需要对所有的像素有贡献，那么遍历的代价将会是 <span class="math inline">\(O(HWP)\)</span> 的，<span class="math inline">\(P\)</span> 是 高斯个数。由于 Gaussian 实际上是一个全空间的函数，我必须限定范围。这样又要反过来确定高斯（的主要贡献区域）在哪个 tile 上。相当麻烦。</p></li>
+</ol>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a href="https://towardsdatascience.com/a-comprehensive-overview-of-gaussian-splatting-e7d570081362">A Comprehensive Overview of Gaussian Splatting</a></p>
+<p>[2] <a href="https://radiancefields.com/understanding-3d-gaussian-splatting-via-render-engines/">Understanding 3D Gaussian Splatting via Render Engines! ✨</a></p>
+<p>[3] <a href="https://wandb.ai/geekyrakshit/mip-nerf-360/reports/Mip-NeRF-360-Unbounded-Anti-Aliased-Neural-Radiance-Fields--VmlldzoxOTc4Mjk4">Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields</a></p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>DL</tag>
+        <tag>NeRF</tag>
+        <tag>MVS</tag>
+        <tag>3DGS</tag>
+      </tags>
+  </entry>
 </search>
