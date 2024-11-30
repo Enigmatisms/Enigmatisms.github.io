@@ -50,13 +50,23 @@
     <link href="https://enigmatisms.github.io/2024/04/03/%E9%AB%98%E6%80%A7%E8%83%BD%E5%BC%82%E6%9E%84%E8%AE%A1%E7%AE%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/"/>
     <id>https://enigmatisms.github.io/2024/04/03/%E9%AB%98%E6%80%A7%E8%83%BD%E5%BC%82%E6%9E%84%E8%AE%A1%E7%AE%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</id>
     <published>2024-04-03T14:03:34.000Z</published>
-    <updated>2024-04-03T14:43:15.933Z</updated>
+    <updated>2024-11-30T09:03:22.639Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;hpc-i&quot;&gt;HPC I&lt;/h1&gt;
 &lt;hr&gt;
-&lt;p&gt;​ 投了几个 HPC 岗... 虽然不是科班出身，但个人觉得 HPC 还是挺有意思的（尤其是自己写 CUDA kernel 加速几百几千倍，那种成就感简直...）。HPC 的魅力之一在于，反馈非常及时：某种优化策略可能可以瞬间带来 profiling 时某一项的提高（比如 throughput, speed 等等）。我自己搞 rendering 的过程中也在不断尝试一些小的 tricks （比如SSE啥的，毕竟多线程这种东西根本不用我写... 随便拉出一个线程池来都是自带 scheduler 的...），感觉过程中还是能学到很多东西的，对 CPU/GPU 的各种设计也能有更深的理解。&lt;/p&gt;
-&lt;p&gt;​ 本博客是我认为比较重要的相关知识（第一部分）以及我觉得我可以回答的一些问题。这周先面了DAMO再说...&lt;/p&gt;</summary>
+&lt;p&gt;​ 投了几个 HPC 岗... 虽然不是科班出身，但个人觉得 HPC
+还是挺有意思的（尤其是自己写 CUDA kernel
+加速几百几千倍，那种成就感简直...）。HPC
+的魅力之一在于，反馈非常及时：某种优化策略可能可以瞬间带来 profiling
+时某一项的提高（比如 throughput, speed 等等）。我自己搞 rendering
+的过程中也在不断尝试一些小的 tricks
+（比如SSE啥的，毕竟多线程这种东西根本不用我写...
+随便拉出一个线程池来都是自带 scheduler
+的...），感觉过程中还是能学到很多东西的，对 CPU/GPU
+的各种设计也能有更深的理解。&lt;/p&gt;
+&lt;p&gt;​
+本博客是我认为比较重要的相关知识（第一部分）以及我觉得我可以回答的一些问题。&lt;/p&gt;</summary>
     
     
     

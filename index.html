@@ -482,9 +482,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-04-03 22:03:34 / Modified: 22:43:15" itemprop="dateCreated datePublished" datetime="2024-04-03T22:03:34+08:00">2024-04-03</time>
+      <time title="Created: 2024-04-03 22:03:34" itemprop="dateCreated datePublished" datetime="2024-04-03T22:03:34+08:00">2024-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-30 17:03:22" itemprop="dateModified" datetime="2024-11-30T17:03:22+08:00">2024-11-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -523,8 +529,18 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="hpc-i">HPC I</h1>
 <hr>
-<p>​ 投了几个 HPC 岗... 虽然不是科班出身，但个人觉得 HPC 还是挺有意思的（尤其是自己写 CUDA kernel 加速几百几千倍，那种成就感简直...）。HPC 的魅力之一在于，反馈非常及时：某种优化策略可能可以瞬间带来 profiling 时某一项的提高（比如 throughput, speed 等等）。我自己搞 rendering 的过程中也在不断尝试一些小的 tricks （比如SSE啥的，毕竟多线程这种东西根本不用我写... 随便拉出一个线程池来都是自带 scheduler 的...），感觉过程中还是能学到很多东西的，对 CPU/GPU 的各种设计也能有更深的理解。</p>
-<p>​ 本博客是我认为比较重要的相关知识（第一部分）以及我觉得我可以回答的一些问题。这周先面了DAMO再说...</p>
+<p>​ 投了几个 HPC 岗... 虽然不是科班出身，但个人觉得 HPC
+还是挺有意思的（尤其是自己写 CUDA kernel
+加速几百几千倍，那种成就感简直...）。HPC
+的魅力之一在于，反馈非常及时：某种优化策略可能可以瞬间带来 profiling
+时某一项的提高（比如 throughput, speed 等等）。我自己搞 rendering
+的过程中也在不断尝试一些小的 tricks
+（比如SSE啥的，毕竟多线程这种东西根本不用我写...
+随便拉出一个线程池来都是自带 scheduler
+的...），感觉过程中还是能学到很多东西的，对 CPU/GPU
+的各种设计也能有更深的理解。</p>
+<p>​
+本博客是我认为比较重要的相关知识（第一部分）以及我觉得我可以回答的一些问题。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/03/%E9%AB%98%E6%80%A7%E8%83%BD%E5%BC%82%E6%9E%84%E8%AE%A1%E7%AE%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/#more" rel="contents">
