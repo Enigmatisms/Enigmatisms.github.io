@@ -103,7 +103,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -317,7 +317,9 @@
     
     <div class="post-body" itemprop="articleBody">
           <center>
-<i class="fas fa-quote-left"></i> To follow knowledge like a sinking star<br> Beyond the utmost bound of human thought. <i class="fas fa-quote-right"></i>
+<i class="fas fa-quote-left"></i> To follow knowledge like a sinking
+star<br> Beyond the utmost bound of human thought.
+<i class="fas fa-quote-right"></i>
 </center>
 <p><br></p>
           <!--noindex-->
@@ -424,7 +426,10 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="nerf-3dgs">NeRF-3DGS</h1>
 <hr>
-<p>​ 找实习的时候也投了一些相关的岗位（三维重建、NeRF/GS等等），考虑到我本科是搞SLAM的，大四到研二上学期也断断续续做了一年半的NeRF，面相关的岗位时感觉还是比较轻松的，基本上比赛、开源项目吹吹水，回答一些简单的基础问题，做一些简单的题目就结束了，目前面试相关岗位还没碰上答不上来的问题。本部分 review NeRF 的基本工作，此前的 NeRF 项目、比赛以及 3D Gaussian 基本概念。</p>
+<p>​
+找实习的时候也投了一些相关的岗位（三维重建、NeRF/GS等等），考虑到我本科是搞SLAM的，大四到研二上学期也断断续续做了一年半的NeRF，面相关的岗位时感觉还是比较轻松的，基本上比赛、开源项目吹吹水，回答一些简单的基础问题，做一些简单的题目就结束了，目前面试相关岗位还没碰上答不上来的问题。本部分
+review NeRF 的基本工作，此前的 NeRF 项目、比赛以及 3D Gaussian
+基本概念。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/04/25/NeRF-GS-Interview-Preparation/#more" rel="contents">
@@ -639,22 +644,33 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="ada-path-tracer-iii">Ada Path Tracer III</h1>
 <hr>
-<p>​ AdaPT 进入了 volumetric path tracing 阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles 的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染 homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
+<p>​ AdaPT 进入了 volumetric path tracing
+阶段。由于本人的研究方向（暂定）为散射介质渲染的研究，了解基于 particles
+的（Lagrangian表征的）散射渲染是非常有必要的（烟雾渲染多有意思，虽然现在只能渲染
+homogeneous 介质）。vpt相对于无介质pt的主要难点在于：</p>
 <ul>
-<li>volumetric path tracing 在采样层面上多了一个维度 --- 光线传播距离将不再是无穷远，需要采样其自由程</li>
-<li>free space radiance 一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
-<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么 intuitive 了</li>
+<li>volumetric path tracing 在采样层面上多了一个维度 ---
+光线传播距离将不再是无穷远，需要采样其自由程</li>
+<li>free space radiance
+一致性不再成立，并且模型与表面散射模型有较大的区别。有许多额外计算需要完成</li>
+<li>direct component 更难衡量，这意味着收敛更加困难。MIS 也不那么
+intuitive 了</li>
 </ul>
 <table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 32%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;">渲染4000迭代（25s，约10亿光线）</th>
 <th style="text-align: center;">渲染20000迭代（约50亿条光线）</th>
 <th style="text-align: center;">渲染15000迭代</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-good.jpg"></td>
 <td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-balls-20000.png"></td>
 <td style="text-align: center;"><img src="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/pbr-box-cloud.png"></td>
@@ -664,7 +680,8 @@
 <center>
 Figure 1. 无介质的收敛性明显好很多
 </center>
-<p>​ 话说，我写博客从来没有在一个系列上写超过两篇的文章，渲染技术系列已经三篇了，这还是头一回。</p>
+<p>​
+话说，我写博客从来没有在一个系列上写超过两篇的文章，渲染技术系列已经三篇了，这还是头一回。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/02/18/AdaPT-Volumetric-Path-Tracer-I/#more" rel="contents">
@@ -769,17 +786,27 @@ Figure 1. 无介质的收敛性明显好很多
     <div class="post-body" itemprop="articleBody">
           <h1 id="ada-path-tracer-ii">Ada Path Tracer II</h1>
 <hr>
-<p>​ 本文为 <a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/">Ada Path Tracer I</a> 的续文。在上一篇博客中，我只是说明了 Monte Carlo 积分在path tracing中的应用以及path tracing的理论、实现流程。并没有深入讨论 PDF 如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer 具有更高的效率。笔者在本文中对上文未讨论清楚的问题进行分析。分析过程中我果真也发现自己之前的某些理解是不对的，实现时出了问题，例如在：Lambertian BSDF的实现、MIS 对无面积光源的处理、MIS weight计算等等方面均有瑕疵。</p>
-<p>​ 本部分学习的结束标志着【基本 path tracer 实现】的完成（V1.0）。除了对BSDF进行小的修改之外（表面反射定义过于简单），下一步我将主要围绕两部分进行深入研究：</p>
+<p>​ 本文为 <a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/">Ada
+Path Tracer I</a> 的续文。在上一篇博客中，我只是说明了 Monte Carlo
+积分在path tracing中的应用以及path
+tracing的理论、实现流程。并没有深入讨论 PDF
+如何计算、采样如何进行、PDF的选择如何影响结果以及如何使得 path tracer
+具有更高的效率。笔者在本文中对上文未讨论清楚的问题进行分析。分析过程中我果真也发现自己之前的某些理解是不对的，实现时出了问题，例如在：Lambertian
+BSDF的实现、MIS 对无面积光源的处理、MIS weight计算等等方面均有瑕疵。</p>
+<p>​ 本部分学习的结束标志着【基本 path tracer
+实现】的完成（V1.0）。除了对BSDF进行小的修改之外（表面反射定义过于简单），下一步我将主要围绕两部分进行深入研究：</p>
 <ul>
-<li>Bidirectional path tracing。双向 tracer 对处理 directional / collimated 光源十分有用，并且在caustic建模上有着更好的效果（虽然不是最好的）</li>
+<li>Bidirectional path tracing。双向 tracer 对处理 directional /
+collimated
+光源十分有用，并且在caustic建模上有着更好的效果（虽然不是最好的）</li>
 <li>Volumetric path tracing。主要研究匀质介质散射吸收。</li>
 </ul>
 <center>
 <img src="/2023/02/11/AdaPT-Monte-Carlo-Path-Tracer-II/pbr-balls-multi.png" style="zoom: 80%;">
 </center>
 <center>
-Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/顶部面光源与球面光源
+Figure 1. AdaPT
+2min增量式渲染（CPU，GPU时间除以8-10）：点光源/顶部面光源与球面光源
 </center>
           <!--noindex-->
             <div class="post-button">
@@ -878,19 +905,29 @@ Figure 1. AdaPT 2min增量式渲染（CPU，GPU时间除以8-10）：点光源/�
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="ada-path-tracer-i">Ada Path Tracer I</h1>
-<p>​ Path tracing背后的概率与数学理论较为复杂，如果不深入理解则很难进行正确的实现，更勿论在此基础上进行创新了。结合笔者在实现过程中的一些体会，笔者认为非Whitted光线追踪渲染器有一个这样的特点：即使是很大的逻辑错误可能也很难使用定性的方法观察出来，最后的错误输出可能与正确输出仅有很小的差别，甚至有的时候根本看不出来（例如，算法收敛慢时我可能倾向于认为是自己没有用太多的variance reduction方法以及深入的采样技术，而不会认为我代码有逻辑错误）。故本文作为 Path Tracing 系列的第一部分文章，将尽可能深入讨论背后的理论知识以及其理解。理解是为实现、创新服务的，任何不到位的地方都将导致实现过程中的卡顿，故此处我将尽力覆盖这两周用零碎事件写<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/AdaPT">渲染器: AdaPT</a>时所遇到的问题。</p>
+<p>​ Path
+tracing背后的概率与数学理论较为复杂，如果不深入理解则很难进行正确的实现，更勿论在此基础上进行创新了。结合笔者在实现过程中的一些体会，笔者认为非Whitted光线追踪渲染器有一个这样的特点：即使是很大的逻辑错误可能也很难使用定性的方法观察出来，最后的错误输出可能与正确输出仅有很小的差别，甚至有的时候根本看不出来（例如，算法收敛慢时我可能倾向于认为是自己没有用太多的variance
+reduction方法以及深入的采样技术，而不会认为我代码有逻辑错误）。故本文作为
+Path Tracing
+系列的第一部分文章，将尽可能深入讨论背后的理论知识以及其理解。理解是为实现、创新服务的，任何不到位的地方都将导致实现过程中的卡顿，故此处我将尽力覆盖这两周用零碎事件写<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/AdaPT">渲染器:
+AdaPT</a>时所遇到的问题。</p>
 <blockquote>
-<p>写文档是很烦人的一件事，如果我本身很闲，不用为了各种学业、科研、个人资本等等事情考虑的话，我当然还是非常愿意写博客、写文档的。可惜写博客写文档从现在来看并没有实际的价值，只是我个人的自嗨。 --- 2023.2.8 何千越</p>
+<p>写文档是很烦人的一件事，如果我本身很闲，不用为了各种学业、科研、个人资本等等事情考虑的话，我当然还是非常愿意写博客、写文档的。可惜写博客写文档从现在来看并没有实际的价值，只是我个人的自嗨。
+--- 2023.2.8 何千越</p>
 </blockquote>
 <table>
+<colgroup>
+<col style="width: 51%">
+<col style="width: 48%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;">"The cornell spheres"</th>
 <th style="text-align: center;">"The cornell boxes"</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/adapt-cornell-sphere.png"></td>
 <td style="text-align: center;"><img src="/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/adapt-cornell-box.png"></td>
 </tr>
@@ -1004,24 +1041,41 @@ Figure 1. Ada-Path-Tracer 渲染结果（20s内）
           <h1 id="taichi-lang-ii">Taichi Lang II</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable programming）目前对我而言比较重要的就是SSDS，可微编程... 可微渲染可能可以用到，但是本身实在是太复杂了... 我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi 入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking simulation（鸟群模拟）中所学到的一些知识。文末附有flocking sim的视频。</p>
-<p>​ 预计我下一步将会使用Taichi写一个带有participating media功能的path tracer（3D，之前Rust + CUDA写了一个没开源的2D tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等... 想想就刺激。</p>
+<p>​
+深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable
+programming）目前对我而言比较重要的就是SSDS，可微编程...
+可微渲染可能可以用到，但是本身实在是太复杂了...
+我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi
+入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking
+simulation（鸟群模拟）中所学到的一些知识。文末附有flocking
+sim的视频。</p>
+<p>​ 预计我下一步将会使用Taichi写一个带有participating media功能的path
+tracer（3D，之前Rust + CUDA写了一个没开源的2D
+tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等...
+想想就刺激。</p>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
-<th style="text-align: center;">frame 52 (红色为掠食者，白色为普通鸟)</th>
-<th style="text-align: center;">frame 58 (红色为掠食者，白色为普通鸟)</th>
+<tr>
+<th style="text-align: center;">frame 52
+(红色为掠食者，白色为普通鸟)</th>
+<th style="text-align: center;">frame 58
+(红色为掠食者，白色为普通鸟)</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2023/01/15/Taichi-Learning-II/000052.png" alt="000052"></td>
 <td style="text-align: center;"><img src="/2023/01/15/Taichi-Learning-II/000058.png" alt="000058"></td>
 </tr>
 </tbody>
 </table>
 <center>
-Figure 1. Flocking simulation with predators (64 regular boids (this is not a typo) and 4 predators)
+Figure 1. Flocking simulation with predators (64 regular boids (this is
+not a typo) and 4 predators)
 </center>
           <!--noindex-->
             <div class="post-button">
@@ -1130,9 +1184,14 @@ Figure 1. Flocking simulation with predators (64 regular boids (this is not a ty
 <h2 id="i.-intros">I. Intros</h2>
 <p>​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：</p>
 <ul>
-<li>Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019</li>
+<li>Taichi: A Language for High-Performance Computation on Spatially
+Sparse Data Structures. ToG 2019</li>
 </ul>
-<p>​ 刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的 path tracer 出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python decorator补充（4）自己做的一些小demo。</p>
+<p>​
+刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的
+path tracer
+出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python
+decorator补充（4）自己做的一些小demo。</p>
 <center>
 <img src="/2023/01/11/Taichi-Learning-I/logo.png" style="zoom: 50%;">
 </center>
@@ -1244,10 +1303,21 @@ Figure 1. 混元形意太极 闪电五连鞭
           <h2 id="ref-nerf复现">Ref NeRF复现</h2>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 科研恢复性训练。之前把CUDA加速的全并行shadow caster写完了，算是复习了CUDA、Rust以及FFI的使用。深度学习方面就以复现Ref NeRF为一个小任务。论文<a target="_blank" rel="noopener" href="https://dorverbin.github.io/refnerf/">CVPR 2022 Best Student Honorable Mention: Ref NeRF - Structured View-Dependent Appearance for Neural Radiance Fields</a>对反射现象进行了良好的建模。之前我一直在研究折射现象的NeRF建模，就折射建模思路而言，此文对我有很大的启发。并且个人认为，基于Ref NeRF以及mip NeRF作为框架是比较好的选择（除此之外就是要考虑如何让训练变快了，Instant NGP当然是不二选择）。当然，由于在复现过程中也遇到了许多问题，本文在阐述复现思路以及论文理解的同时，也会探讨踩过的坑。目前，Ref NeRF的复现结果还没有达到令我满意的程度，只是具备雏形，毕竟融合两篇文章的idea可能导致冲突，深度学习这种玄学就更是这样了，模型炸了都不知道从哪一个先开始。复现见 <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeRF">Enigmatisms/NeRF</a></p>
+<p>​ 科研恢复性训练。之前把CUDA加速的全并行shadow
+caster写完了，算是复习了CUDA、Rust以及FFI的使用。深度学习方面就以复现Ref
+NeRF为一个小任务。论文<a target="_blank" rel="noopener" href="https://dorverbin.github.io/refnerf/">CVPR 2022 Best Student
+Honorable Mention: Ref NeRF - Structured View-Dependent Appearance for
+Neural Radiance
+Fields</a>对反射现象进行了良好的建模。之前我一直在研究折射现象的NeRF建模，就折射建模思路而言，此文对我有很大的启发。并且个人认为，基于Ref
+NeRF以及mip
+NeRF作为框架是比较好的选择（除此之外就是要考虑如何让训练变快了，Instant
+NGP当然是不二选择）。当然，由于在复现过程中也遇到了许多问题，本文在阐述复现思路以及论文理解的同时，也会探讨踩过的坑。目前，Ref
+NeRF的复现结果还没有达到令我满意的程度，只是具备雏形，毕竟融合两篇文章的idea可能导致冲突，深度学习这种玄学就更是这样了，模型炸了都不知道从哪一个先开始。复现见
+<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeRF">Enigmatisms/NeRF</a></p>
 <p><img src="/2022/08/13/Mip-NeRF-Ref-NeRF/ezgif-1-8207b1faa2.gif"></p>
 <center>
-Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、depth与“奇怪的法向量”
+Figure 1. Ref NeRF半成品(Shinny Blender -
+Helmet)。从左至右：RGB、depth与“奇怪的法向量”
 </center>
           <!--noindex-->
             <div class="post-button">
@@ -1351,12 +1421,14 @@ Figure 1. Ref NeRF半成品(Shinny Blender - Helmet)。从左至右：RGB、dept
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>​ （未完成，请勿点击）Rust FFI（foriegn function interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel="noopener" href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
+          <p>​ （未完成，请勿点击）Rust FFI（foriegn function
+interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel="noopener" href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
 <ul>
 <li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
 <li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
 </ul>
-<p>​ 中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
+<p>​
+中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/#more" rel="contents">

@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Untitled-NO.1  ​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。  CPP Reference">
+  <meta name="description" content="Untitled-NO.1  ​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。  CPP Reference">
 <meta property="og:type" content="website">
 <meta property="og:title" content="诡异bug背后的一些知识">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/08/28/%E8%AF%A1%E5%BC%82bug%E8%83%8C%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Untitled-NO.1  ​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。  CPP Reference">
+<meta property="og:description" content="Untitled-NO.1  ​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。  CPP Reference">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/28/%E8%AF%A1%E5%BC%82bug%E8%83%8C%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/2.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/28/%E8%AF%A1%E5%BC%82bug%E8%83%8C%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/3.PNG">
@@ -110,7 +110,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -335,7 +335,8 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="untitled-no.1">Untitled-NO.1</h1>
 <hr>
-<p>​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。</p>
+<p>​
+在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。</p>
 <center>
 <a class="btn" target="_blank" rel="noopener" href="https://en.cppreference.com/w/"><i class="fa fa-circle-notch"></i>CPP Reference</a>
 </center>
@@ -344,44 +345,65 @@
 <h2 id="bug-表现">Bug 表现</h2>
 <p>​ 首先我们声明一些记号：</p>
 <ul>
-<li><code>A</code> 是一个class，与之对应的容器是std::vector&lt;A&gt;</li>
-<li>func 是一个函数，大概长这样：<code>void func(const A&amp; a, std::vector&lt;A&gt;&amp; arr)</code>。也就是，传入一个A的常引用，并且传入一个A的容器的引用。</li>
+<li><code>A</code>
+是一个class，与之对应的容器是std::vector&lt;A&gt;</li>
+<li>func
+是一个函数，大概长这样：<code>void func(const A&amp; a, std::vector&lt;A&gt;&amp; arr)</code>。也就是，传入一个A的常引用，并且传入一个A的容器的引用。</li>
 </ul>
-<p>​ func的行为是：根据a，进行计算，有可能往arr尾部push新的A实例。a的来源是：a是一个常引用，但是是这样在外部定义的：</p>
+<p>​
+func的行为是：根据a，进行计算，有可能往arr尾部push新的A实例。a的来源是：a是一个常引用，但是是这样在外部定义的：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A&amp; a_ref = arr[id];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; arr.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="built_in">func</span>(a, arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ for循环外部的，对arr这个vector内某一已经存在元素的引用。之后，将其传入func中，隐式转换为常引用。这实际上对应了我代码中的：阴影在物体内部的投影。比如一个object，需要先计算内部的有效遮挡边如何被内部其他边遮挡。于是A就相当于是 遮挡边class类型，以上的代码就可以认为是：a_ref是当前进行投影的边，arr中保存了这个object的所有遮挡边，使用func来判定a是否遮挡或者如何遮挡其他遮挡边。见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D/blob/master/src/lidar_sim/src/Object.cc">Enigmatisms/LiDAR2DSim🔗</a>定义的函数<code>internalOcclusion</code>。</p>
+<p>​
+for循环外部的，对arr这个vector内某一已经存在元素的引用。之后，将其传入func中，隐式转换为常引用。这实际上对应了我代码中的：阴影在物体内部的投影。比如一个object，需要先计算内部的有效遮挡边如何被内部其他边遮挡。于是A就相当于是
+遮挡边class类型，以上的代码就可以认为是：a_ref是当前进行投影的边，arr中保存了这个object的所有遮挡边，使用func来判定a是否遮挡或者如何遮挡其他遮挡边。见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D/blob/master/src/lidar_sim/src/Object.cc">Enigmatisms/LiDAR2DSim🔗</a>定义的函数<code>internalOcclusion</code>。</p>
 <p>​ 于是我得到了一个这样的结果：</p>
 <p><img src="/2021/08/28/%E8%AF%A1%E5%BC%82bug%E8%83%8C%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/2.png"></p>
 <center>
 Figure 1. GDB调试，projectEdge2Edge的输入有问题
 </center>
-<p>​ 其中projectEdge2Edge函数就是func，其中参数src（是一个继承了<code>std::vector&lt;Eigen::Vector2d&gt;</code>的class）就是类型A。src的内容出错了。</p>
-<p>​ 当然这个问题的定位费了好阵子gdb，打conditional breakpoint才查到（不得不吹一波vscode的内置调试）。可以看到，src（一条投影边）的第一个点（<code>Eigen::Vector2d</code>）值变得奇怪（很小，不应该有）。我首先就猜测是引用失效了（废话），此后猜测 可能是push_back（在breakEdge中进行了push_back，可以说很隐蔽了，breakEdge没有直接传入src，并且src是个const，要是之前我是不会想到引用失效的）导致了引用失效。于是我做了个这样的事情：</p>
+<p>​
+其中projectEdge2Edge函数就是func，其中参数src（是一个继承了<code>std::vector&lt;Eigen::Vector2d&gt;</code>的class）就是类型A。src的内容出错了。</p>
+<p>​ 当然这个问题的定位费了好阵子gdb，打conditional
+breakpoint才查到（不得不吹一波vscode的内置调试）。可以看到，src（一条投影边）的第一个点（<code>Eigen::Vector2d</code>）值变得奇怪（很小，不应该有）。我首先就猜测是引用失效了（废话），此后猜测
+可能是push_back（在breakEdge中进行了push_back，可以说很隐蔽了，breakEdge没有直接传入src，并且src是个const，要是之前我是不会想到引用失效的）导致了引用失效。于是我做了个这样的事情：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (heap.<span class="built_in">empty</span>() == <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="type">size_t</span> top = heap.<span class="built_in">top</span>();</span><br><span class="line">    heap.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="comment">// Edge&amp; this_edge = edges[top] 	  (删除这一行)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; edges.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        Edge&amp; eg = edges[i];</span><br><span class="line">        Edge&amp; this_edge = edges[top] 	<span class="comment">//(加入这一行)</span></span><br><span class="line">        <span class="keyword">if</span> (eg.valid == <span class="literal">false</span> || &amp;eg == &amp;this_edge)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">projectEdge2Edge</span>(this_edge, obs, eg, heap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 由于projectEdge2Edge（func）在执行完push_back之后没有对src（a）有任何后续操作，所以我让引用的设置在for循环中执行，每一次都是最新的引用。这样操作之后果然好了。但是不清楚原因。</p>
+<p>​
+由于projectEdge2Edge（func）在执行完push_back之后没有对src（a）有任何后续操作，所以我让引用的设置在for循环中执行，每一次都是最新的引用。这样操作之后果然好了。但是不清楚原因。</p>
 <hr>
 <h2 id="原因">原因</h2>
 <p>​ 我先是问了我佬哥。得到的回复是：</p>
 <blockquote>
-<p>往vector pushback确定可能导致它的引用失效，因为它可能resize 那就换了块内存了</p>
+<p>往vector pushback确定可能导致它的引用失效，因为它可能resize
+那就换了块内存了</p>
 </blockquote>
 <p>​ emmm。很有道理，我又去查了一波资料[1]：</p>
 <blockquote>
-<p>If the new <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/container/vector/size">size()</a> is greater than <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/container/vector/capacity">capacity()</a> then all iterators and references (including the past-the-end iterator) are invalidated. Otherwise only the past-the-end iterator is invalidated.</p>
+<p>If the new <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/container/vector/size">size()</a>
+is greater than <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/container/vector/capacity">capacity()</a>
+then all iterators and references (including the past-the-end iterator)
+are invalidated. Otherwise only the past-the-end iterator is
+invalidated.</p>
 </blockquote>
-<p>​ 这个capacity是什么呢？vector是动态分配大小的，之前学数据结构与算法的时候，定义动态数组，当时就需要realloc操作，我当时的实现是每次往背后多加4个空余位置。vector也是动态分配的，从它的类函数shrink_to_fit()可以看出来，据说是：每一次realloc到大于当前元素个数的最小二的幂次。那么，举个例子，当vector原来的size是4时，push_back会导致重新分配内存（应该也伴随内存的移动）。这个很好理解，毕竟加入原来分配的内存块是经过了表映射的，如果连续的空间不足，根据vector的又一特性：</p>
+<p>​
+这个capacity是什么呢？vector是动态分配大小的，之前学数据结构与算法的时候，定义动态数组，当时就需要realloc操作，我当时的实现是每次往背后多加4个空余位置。vector也是动态分配的，从它的类函数shrink_to_fit()可以看出来，据说是：每一次realloc到大于当前元素个数的最小二的幂次。那么，举个例子，当vector原来的size是4时，push_back会导致重新分配内存（应该也伴随内存的移动）。这个很好理解，毕竟加入原来分配的内存块是经过了表映射的，如果连续的空间不足，根据vector的又一特性：</p>
 <blockquote>
-<p>The elements are stored contiguously, which means that elements can be accessed not only through iterators, but also <strong><u>using offsets to regular pointers to elements</u></strong>.</p>
+<p>The elements are stored contiguously, which means that elements can
+be accessed not only through iterators, but also <strong><u>using
+offsets to regular pointers to elements</u></strong>.</p>
 </blockquote>
-<p>​ 要保证连续的话，只能整个挪动原来存储的东西。而引用？虽然我一直以为，如果是指针的话，指向的地址可能没东西了导致出错，引用应该安全的多，应该就能完全指向vector中的元素吧。可惜并不是，stackoverflow上的佬哥这么解释：</p>
+<p>​
+要保证连续的话，只能整个挪动原来存储的东西。而引用？虽然我一直以为，如果是指针的话，指向的地址可能没东西了导致出错，引用应该安全的多，应该就能完全指向vector中的元素吧。可惜并不是，stackoverflow上的佬哥这么解释：</p>
 <blockquote>
 <ul>
-<li>Reference, internally is <em>implemented</em> as a constant pointer which is automatically de-referenced.</li>
+<li>Reference, internally is <em>implemented</em> as a constant pointer
+which is automatically de-referenced.</li>
 <li>The natural implementation of a reference is indeed a pointer.</li>
-<li>Though a reference is in reality a pointer, but it shouldn't be used like a pointer but as an alias.</li>
+<li>Though a reference is in reality a pointer, but it shouldn't be used
+like a pointer but as an alias.</li>
 </ul>
 </blockquote>
-<p>​ 常指针或者指针，编译器为了使得reference的设计更安全，要求必须初始化。也就是说，这个引用指向了一块具体的地址，但是由于reallocation，失效了。Nice.</p>
+<p>​
+常指针或者指针，编译器为了使得reference的设计更安全，要求必须初始化。也就是说，这个引用指向了一块具体的地址，但是由于reallocation，失效了。Nice.</p>
 <hr>
 <h2 id="意外收获">意外收获</h2>
 <h3 id="迭代器失效">1. 迭代器失效</h3>
@@ -389,17 +411,22 @@ Figure 1. GDB调试，projectEdge2Edge的输入有问题
 <center>
 Figure 2. 迭代器失效情况
 </center>
-<p>​ 我之前还写带代码还把迭代器装在一个容器里，知道很不优雅，但现在知道除了不优雅，还很危险（富贵险中求！！）。</p>
+<p>​
+我之前还写带代码还把迭代器装在一个容器里，知道很不优雅，但现在知道除了不优雅，还很危险（富贵险中求！！）。</p>
 <h3 id="stdvectorbool">2. std::vector&lt;bool&gt;</h3>
 <blockquote>
-<p>std::vector&lt;bool&gt; is a possibly space-efficient specialization of std::vector for the type bool.</p>
+<p>std::vector&lt;bool&gt; is a possibly space-efficient specialization
+of std::vector for the type bool.</p>
 </blockquote>
-<p>​ 最有意思的是，cppreference说，空间节约的目的导致bool vector在内存中可能不是连续的。</p>
-<p>​ 并且std::vector&lt;bool&gt;有一个新的方法（有别于其他的vector），叫做flip，可以取反内部所有元素。</p>
+<p>​ 最有意思的是，cppreference说，空间节约的目的导致bool
+vector在内存中可能不是连续的。</p>
+<p>​
+并且std::vector&lt;bool&gt;有一个新的方法（有别于其他的vector），叫做flip，可以取反内部所有元素。</p>
 <hr>
 <h2 id="reference">Reference</h2>
 <p>[1] https://en.cppreference.com/w/cpp/container/vector/push_back</p>
-<p>[2] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3954764/how-are-references-implemented-internally">How are references implemented internally?</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3954764/how-are-references-implemented-internally">How
+are references implemented internally?</a></p>
 
     </div>
 

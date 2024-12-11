@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Instant NGP  I. Intros ​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：  Instant Neural Graphics Primitives with a Multiresolution Hash Encoding Thomas Müller, Alex Evans">
+  <meta name="description" content="Instant NGP  I. Intros ​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：  Instant Neural Graphics Primitives with a Multiresolution Hash Encoding Thomas Müller, Alex Ev">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Instant Neural Graphics Primitives">
 <meta property="og:url" content="https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Instant NGP  I. Intros ​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：  Instant Neural Graphics Primitives with a Multiresolution Hash Encoding Thomas Müller, Alex Evans">
+<meta property="og:description" content="Instant NGP  I. Intros ​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：  Instant Neural Graphics Primitives with a Multiresolution Hash Encoding Thomas Müller, Alex Ev">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/robot5.gif">
 <meta property="og:image" content="https://enigmatisms.github.io/2022/01/23/Instant-Neural-Graphics-Primitives/mlp.png">
@@ -113,7 +113,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -335,9 +335,13 @@
         <h1 id="instant-ngp">Instant NGP</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：</p>
+<p>​ 保研前是想搞3D重建来着，大概是无缘吧（xD）。最近老被安利 【5s
+NeRF训练】，听起来很强的样子，速度提升了好几个数量级，遂观摩了一下：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf"><strong>Instant Neural Graphics Primitives with a Multiresolution Hash Encoding</strong> Thomas Müller, Alex Evans, Christoph Schied, Alexander Keller arXiv:2201.05989 [cs.CV], Jan 2022</a></li>
+<li><a target="_blank" rel="noopener" href="https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf"><strong>Instant
+Neural Graphics Primitives with a Multiresolution Hash Encoding</strong>
+Thomas Müller, Alex Evans, Christoph Schied, Alexander Keller
+arXiv:2201.05989 [cs.CV], Jan 2022</a></li>
 </ul>
 <p>​ 文章很有趣，对我现有工作有一定的启发价值，当然结果也很nice：</p>
 <center>
@@ -350,59 +354,121 @@ Figure 1. Hoho. Da. Nice.
 <hr>
 <h2 id="ii.-简单分析">II. 简单分析</h2>
 <h3 id="本文在解决什么问题">2.1 本文在解决什么问题</h3>
-<p>​ 本领域我了解很少，在搞2D SLAM时了解过一些SLAM对地图的建模方式。其中有一个方式叫做隐式函数（implicit functions），旨在用一个参数化的函数来表示一个曲面。而当下神经网络应用火爆，这种参数化的表面表征当然可以使用深度学习的方式来学习。比如如下两篇论文所说的：</p>
+<p>​ 本领域我了解很少，在搞2D
+SLAM时了解过一些SLAM对地图的建模方式。其中有一个方式叫做隐式函数（implicit
+functions），旨在用一个参数化的函数来表示一个曲面。而当下神经网络应用火爆，这种参数化的表面表征当然可以使用深度学习的方式来学习。比如如下两篇论文所说的：</p>
 <blockquote>
-<p>Neural SDFs are typically encoded using large, fixed-size MLPs which are expensive to render.[1]</p>
+<p>Neural SDFs are typically encoded using large, fixed-size MLPs which
+are expensive to render.[1]</p>
 </blockquote>
 <blockquote>
-<p>Our algorithm represents a scene using a fully-connected (non-convolutional) deep network, whose input is a single continuous 5D coordinate (spatial location (x, y, z) and viewing direction (θ, φ)) and whose output is the volume density and view dependent emitted radiance at that spatial location.[2]</p>
+<p>Our algorithm represents a scene using a fully-connected
+(non-convolutional) deep network, whose input is a single continuous 5D
+coordinate (spatial location (x, y, z) and viewing direction (θ, φ)) and
+whose output is the volume density and view dependent emitted radiance
+at that spatial location.[2]</p>
 </blockquote>
-<p>​ 最容易理解的例子应该就是SDF（有向距离场），之前也做过有向距离场表示的点云融合。有向距离场的0集（0-水平集）代表了真实曲面，而有向距离场就是给定一个d维输入（d维空间中的一点），输出正负值（在d-1维流形的“内部”还是“外部”）。那么这个d-1维流形（高维曲面）可以使用神经网络来表示，毕竟神经网络是万能的函数逼近器。如上引用所说，可以使用一个MLP（多层感知机）来“拟合”这个SDF。</p>
+<p>​
+最容易理解的例子应该就是SDF（有向距离场），之前也做过有向距离场表示的点云融合。有向距离场的0集（0-水平集）代表了真实曲面，而有向距离场就是给定一个d维输入（d维空间中的一点），输出正负值（在d-1维流形的“内部”还是“外部”）。那么这个d-1维流形（高维曲面）可以使用神经网络来表示，毕竟神经网络是万能的函数逼近器。如上引用所说，可以使用一个MLP（多层感知机）来“拟合”这个SDF。</p>
 <p><img src="/2022/01/23/Instant-Neural-Graphics-Primitives/mlp.png"></p>
 <center>
 Figure 2. SDF的神经网络表征[1]
 </center>
-<p>​ 但在3D重建领域，训练这个神经网络表征可能非常困难，首先是因为数据的维度比较高，此外是输入量较大。举个例子：NeRF（Neural Radiance Field）需要一个物体的多角度输入图像，两张不同图象上对应的不同像素，可能就是两条不同的光线，需要通过已知的相机位姿 + 由内参确定的光线方向求解交点以求解真实的3D点，这一步计算量已经很大了（但按照个人的理解，这一步应该是与神经网络无关的），下一步又需要把真实的3D点与不同角度下的2D点联系起来，训练【5D输入：相机中心位置 + 本图像某一像素点对应的光线两轴角度（没有roll所以是两轴）】-&gt;【5D输出：density（相当于alpha通道）+ view-dependent RGB】的这样一个网络。如果直接把点值输入，希望在某一个小范围上直接端到端，那可能需要很深的MLP层数才能学到足够好的神经网络近似表征，这样的MLP，一是<strong><u>大</u></strong>，二是 <strong><u>fixed-size and task dependent</u></strong>，既不好训练又没有普适性。</p>
-<p>​ 而作者在related work中举了一个例子：attention机制中为位置信息引入的positional embeddings可以使得网络很好地使用（甚至学出）位置信息。把我们的低维信息embed到某个高维空间，使得我们需要训练的MLP输入不再是原始的或者简单处理的数据，而是一个个高维空间中具有良好性质（比如 <strong><u>可插值，n阶连续等等</u></strong>）的encoding，对缩减MLP大小非常有好处。反观attention机制中的一些learnable positional embeddings，他们的实现也不过就是（以torch为例）<code>nn.Parameter</code>，并没有说让输入过一些新的层，以一种不额外延长forward pass长度的方式增加了参数数量。</p>
-<p>​ 不过实际上，用参数embeddings表示的情况有人已经做过了。举个例子，假设我有一个voxel map，大小为<span class="math inline">\(L\times W\times H\)</span>，voxel map中每一个点我都会有一个高维encoding。但作者也说，这存在三个很大的问题：</p>
+<p>​
+但在3D重建领域，训练这个神经网络表征可能非常困难，首先是因为数据的维度比较高，此外是输入量较大。举个例子：NeRF（Neural
+Radiance
+Field）需要一个物体的多角度输入图像，两张不同图象上对应的不同像素，可能就是两条不同的光线，需要通过已知的相机位姿
++
+由内参确定的光线方向求解交点以求解真实的3D点，这一步计算量已经很大了（但按照个人的理解，这一步应该是与神经网络无关的），下一步又需要把真实的3D点与不同角度下的2D点联系起来，训练【5D输入：相机中心位置
++
+本图像某一像素点对应的光线两轴角度（没有roll所以是两轴）】-&gt;【5D输出：density（相当于alpha通道）+
+view-dependent
+RGB】的这样一个网络。如果直接把点值输入，希望在某一个小范围上直接端到端，那可能需要很深的MLP层数才能学到足够好的神经网络近似表征，这样的MLP，一是<strong><u>大</u></strong>，二是
+<strong><u>fixed-size and task
+dependent</u></strong>，既不好训练又没有普适性。</p>
+<p>​ 而作者在related
+work中举了一个例子：attention机制中为位置信息引入的positional
+embeddings可以使得网络很好地使用（甚至学出）位置信息。把我们的低维信息embed到某个高维空间，使得我们需要训练的MLP输入不再是原始的或者简单处理的数据，而是一个个高维空间中具有良好性质（比如
+<strong><u>可插值，n阶连续等等</u></strong>）的encoding，对缩减MLP大小非常有好处。反观attention机制中的一些learnable
+positional
+embeddings，他们的实现也不过就是（以torch为例）<code>nn.Parameter</code>，并没有说让输入过一些新的层，以一种不额外延长forward
+pass长度的方式增加了参数数量。</p>
+<p>​
+不过实际上，用参数embeddings表示的情况有人已经做过了。举个例子，假设我有一个voxel
+map，大小为<span class="math inline">\(L\times W\times H\)</span>，voxel
+map中每一个点我都会有一个高维encoding。但作者也说，这存在三个很大的问题：</p>
 <div class="note danger"><p>Memory footprint. 如果只用这样的方式设计，内存开销将会是<span class="math inline">\(O(n^3)\)</span>，这还是非常大的，很容易炸显存。</p>
 </div>
-<div class="note "><p>Trade-off并不值得。如果使用过量的embeddings，很可能出现：整个feature embeddings 参数块只更新一小部分参数：比如如果是2D地图上的query，在双线性插值的情况下需要取周围四个feature vectors，更新四个feature vectors，但MLP的反向传播还是会改动整个MLP的所有参数，花大力气就优化了小部分encodings，可能不值。</p>
+<div class="note "><p>Trade-off并不值得。如果使用过量的embeddings，很可能出现：整个feature
+embeddings
+参数块只更新一小部分参数：比如如果是2D地图上的query，在双线性插值的情况下需要取周围四个feature
+vectors，更新四个feature
+vectors，但MLP的反向传播还是会改动整个MLP的所有参数，花大力气就优化了小部分encodings，可能不值。</p>
 </div>
 <div class="note warning"><p>稀疏化也不好做。首先，稀疏化是必要的。拿另一个领域（SLAM）中的一个例子来说：占用栅格图，对于没有物体的地方我真的有必要存吗？显然我只需要存障碍物栅格即可。但稀疏化可能很困难，比如用hash方法，可能哈希冲突啊，怎么解决？链表？存到别的位置的冲突处理？这非常不利于GPU并行加速。</p>
 </div>
 <h3 id="multiresolution-grid">2.2 Multiresolution Grid</h3>
-<p>​ 个人感觉视角合成或3D重建与双目匹配、光流类似问题还是有很大区别的，而在后两者中，一种常用的处理办法就是特征金字塔（feature pyramid），其一般目的很简单：在特征金字塔趋于顶端位置（多次下采样后），可以进行粗匹配，粗匹配可以给向下不断扩大的精细特征图提供初值，使之更容易收敛到正确的位置（初值估计）。而视角合成与3D重建中，应该没有这种说法。个人倾向于这样认为：</p>
+<p>​
+个人感觉视角合成或3D重建与双目匹配、光流类似问题还是有很大区别的，而在后两者中，一种常用的处理办法就是特征金字塔（feature
+pyramid），其一般目的很简单：在特征金字塔趋于顶端位置（多次下采样后），可以进行粗匹配，粗匹配可以给向下不断扩大的精细特征图提供初值，使之更容易收敛到正确的位置（初值估计）。而视角合成与3D重建中，应该没有这种说法。个人倾向于这样认为：</p>
 <ul>
 <li>考虑一个一般一维信号，此信号可以进行频谱分解，存在不同频率成分</li>
 <li>如果我们把低分辨率（coarse部分）当作低频部分，此部分可以大致刻画局部趋势</li>
 <li>把高分辨率部分（fine）当作高频部分，此部分可以刻画局部细节</li>
-<li>就比如一座山峰，其整体趋势由低频决定，而山峰上的各种崎岖地形由高频 部分决定</li>
+<li>就比如一座山峰，其整体趋势由低频决定，而山峰上的各种崎岖地形由高频
+部分决定</li>
 </ul>
-<p>​ 也即，multi-resolution grids是为了兼顾不同方面（低分辨率局部趋势）（高分辨率局部细节）而设置的结构。而作者在此处的设计是这样的：</p>
+<p>​ 也即，multi-resolution
+grids是为了兼顾不同方面（低分辨率局部趋势）（高分辨率局部细节）而设置的结构。而作者在此处的设计是这样的：</p>
 <p><img src="/2022/01/23/Instant-Neural-Graphics-Primitives/struct.png"></p>
 <center>
 Figure 3. 整体结构
 </center>
-<p>​ 作者并没有使用稠密的grid结构，稠密的特征grid开销太大了（所以RAFT搞的full correlation volume到底在干什么），作者在不同的分辨率层级上射击了双射或满射（应该是满射吧），也即 <span class="math inline">\(f:R^2\rightarrow R\)</span>：</p>
+<p>​
+作者并没有使用稠密的grid结构，稠密的特征grid开销太大了（所以RAFT搞的full
+correlation
+volume到底在干什么），作者在不同的分辨率层级上射击了双射或满射（应该是满射吧），也即
+<span class="math inline">\(f:R^2\rightarrow R\)</span>：</p>
 <ul>
 <li>在低分辨率层级上，由于grid数量本来就较少，那么每个grid足够分配到一个特征向量</li>
-<li>在高分辨率层级上，grid数量多，为了不<span class="math inline">\(O(N^2)\)</span>复杂度增加特征向量，将根据分辨率线性增加特征向量数目，此时可能引发 <u><strong>哈希冲突</strong></u>。</li>
+<li>在高分辨率层级上，grid数量多，为了不<span class="math inline">\(O(N^2)\)</span>复杂度增加特征向量，将根据分辨率线性增加特征向量数目，此时可能引发
+<u><strong>哈希冲突</strong></u>。</li>
 </ul>
-<p>​ 而暴力划分grid，重建精度将会收到grid分辨率影响，作者直接使用临近点线性插值的方式获得更加“精细”的特征，可插值性在本问题中非常有意义，如果在同一个grid（四个角点对应相同的特征向量index）中两个不同点特征向量在网络输出上并没有平滑性，那么将会使学习到的函数（比如SDF或者radiance field）<strong><u>不连续</u></strong>，0阶不连续代表着表面连接特性的跳变，在与深度视觉相关的邻域中，0阶不连续是可以容忍的（毕竟存在不同位置的物体以及遮挡），而在单个物体表面重建或视角合成中将导致结果有问题。至于为什么此结构具有可插值性，我将在后文分析。</p>
+<p>​
+而暴力划分grid，重建精度将会收到grid分辨率影响，作者直接使用临近点线性插值的方式获得更加“精细”的特征，可插值性在本问题中非常有意义，如果在同一个grid（四个角点对应相同的特征向量index）中两个不同点特征向量在网络输出上并没有平滑性，那么将会使学习到的函数（比如SDF或者radiance
+field）<strong><u>不连续</u></strong>，0阶不连续代表着表面连接特性的跳变，在与深度视觉相关的邻域中，0阶不连续是可以容忍的（毕竟存在不同位置的物体以及遮挡），而在单个物体表面重建或视角合成中将导致结果有问题。至于为什么此结构具有可插值性，我将在后文分析。</p>
 <p>​ 最后不同分辨率的特征将被concat在一起。用concat的理由：</p>
 <blockquote>
-<p>First, it allows for independent, fully <strong><u>parallel</u> processing</strong> of each resolution. Second, a reduction of the dimensionality of the encoded result <strong>y</strong> from <em>LF</em> to <em>F</em> may be <strong><u>too small</u></strong> to encode useful information. (要知道F才2)</p>
+<p>First, it allows for independent, fully <strong><u>parallel</u>
+processing</strong> of each resolution. Second, a reduction of the
+dimensionality of the encoded result <strong>y</strong> from <em>LF</em>
+to <em>F</em> may be <strong><u>too small</u></strong> to encode useful
+information. (要知道F才2)</p>
 </blockquote>
 <h3 id="哈希冲突">2.3 哈希冲突</h3>
-<p>​ 作者说自己并不显式处理哈希冲突，因为哈希冲突的解决涉及到较为复杂的逻辑（并且判断是显著增了）。我们知道，在一个wrap中存在逻辑分支，将会引起wrap divergence，对于if/else同等计算量需求的操作，将损失至少50%的计算速度。但不解决哈希冲突将导致 <strong><u>两个不相的grid（甚至可能物理距离就很远）</u></strong>映射到同一个特征向量上（hash出来的index是一致的），理论上来说，这将对反向传播过程产生影响（一个特征向量同时在多个不相关的位置贡献loss）。而实际情况中没有影响主要有这么三个原因：</p>
-<div class="note "><p>​ Multi-resolution 结构。我们已经提到，（1）低分辨率决定了局部趋势（2）低分辨率足够双射。这样一来，低分辨率决定的局部趋势就可以保证正确性。此外，所有可能产生哈希冲突的分辨率层级同时产生哈希冲突是“statistically very unlikely to occur simultaneously”，那么我们就应该看高分辨率下哈希冲突时具体的学习过程。</p>
+<p>​
+作者说自己并不显式处理哈希冲突，因为哈希冲突的解决涉及到较为复杂的逻辑（并且判断是显著增了）。我们知道，在一个wrap中存在逻辑分支，将会引起wrap
+divergence，对于if/else同等计算量需求的操作，将损失至少50%的计算速度。但不解决哈希冲突将导致
+<strong><u>两个不相的grid（甚至可能物理距离就很远）</u></strong>映射到同一个特征向量上（hash出来的index是一致的），理论上来说，这将对反向传播过程产生影响（一个特征向量同时在多个不相关的位置贡献loss）。而实际情况中没有影响主要有这么三个原因：</p>
+<div class="note "><p>​ Multi-resolution
+结构。我们已经提到，（1）低分辨率决定了局部趋势（2）低分辨率足够双射。这样一来，低分辨率决定的局部趋势就可以保证正确性。此外，所有可能产生哈希冲突的分辨率层级同时产生哈希冲突是“statistically
+very unlikely to occur
+simultaneously”，那么我们就应该看高分辨率下哈希冲突时具体的学习过程。</p>
 </div>
-<div class="note "><p>​ 【这部分我感觉作者有点强行解释】：梯度加权平均。作者认为，即使两个不关联点A，B拥有同一个特征向量，A，B最终贡献给loss的大小也几乎不可能相同。比如A接近物体表面，B在empty space中，那么最后loss很可能会更倾向于给A更大的权重，造成：同样一个特征向量产生的两份不同梯度，A的梯度方向占主导地位。最后网络也会自行向与A相关的方向优化。</p>
+<div class="note "><p>​
+【这部分我感觉作者有点强行解释】：梯度加权平均。作者认为，即使两个不关联点A，B拥有同一个特征向量，A，B最终贡献给loss的大小也几乎不可能相同。比如A接近物体表面，B在empty
+space中，那么最后loss很可能会更倾向于给A更大的权重，造成：同样一个特征向量产生的两份不同梯度，A的梯度方向占主导地位。最后网络也会自行向与A相关的方向优化。</p>
 </div>
-<p>​ 但若考虑到产生多次哈希冲突的情况，个人觉得很有可能产生哈希冲突的这些点各自可能的权重 <strong><u>也随机散布在空间中</u></strong>，那最后合成出来的梯度实际上是个四不像梯度... 还是有可能产生奇怪输出的，只不过“statistically very unlikely to occur”罢了。于其说是：“implicit hash collision resolution”，不如说是：我发现不解决哈希冲突本来就基本不可能有啥问题。我个人对这种处理方法的看法是：“mostly elegant, statistically unlikely to be inelegant”。</p>
+<p>​
+但若考虑到产生多次哈希冲突的情况，个人觉得很有可能产生哈希冲突的这些点各自可能的权重
+<strong><u>也随机散布在空间中</u></strong>，那最后合成出来的梯度实际上是个四不像梯度...
+还是有可能产生奇怪输出的，只不过“statistically very unlikely to
+occur”罢了。于其说是：“implicit hash collision
+resolution”，不如说是：我发现不解决哈希冲突本来就基本不可能有啥问题。我个人对这种处理方法的看法是：“mostly
+elegant, statistically unlikely to be inelegant”。</p>
 <h3 id="可插值性与平滑性">2.4 可插值性与平滑性</h3>
-<p>​ 笔者已经在上文解释过了，可插值性是<strong><u>非常重要</u></strong>的。但本设计为什么会存在这种可插值性？有如下几个疑问：</p>
+<p>​
+笔者已经在上文解释过了，可插值性是<strong><u>非常重要</u></strong>的。但本设计为什么会存在这种可插值性？有如下几个疑问：</p>
 <ul>
 <li>此设计是天然具有可插值性（就像CNN的平移不变性以及transformer的置换不变性）还是需要靠其他人为步骤的设计使其具有可插值性？</li>
 <li>如果是后者，这种奇妙功能是如何实现的？</li>
@@ -410,36 +476,55 @@ Figure 3. 整体结构
 </ul>
 <p>​ 作者说：</p>
 <blockquote>
-<p>Interpolating the queried hash table entries ensures that the encoding enc(x; θ), and by the chain rule its composition with the neural network m(enc(x; θ); Φ), are continuous.</p>
+<p>Interpolating the queried hash table entries ensures that the
+encoding enc(x; θ), and by the chain rule its composition with the
+neural network m(enc(x; θ); Φ), are continuous.</p>
 </blockquote>
-<p>​ 也就是说，multi-resolution hash table 本身是没有可插值性的，正是因为我的插值操作使得网络具有了可插值性【Counter-intuitive】。为什么会这样呢？</p>
-<p>​ 对于低分辨率层级来说，可能很多输入点都落于一个grid（或者voxel）内部，这时这些点将会共用grid（或者voxel）的角点index，也就是插值所使用的特征向量索引。由于可以认为，输入点在空间上临近，输出结果也要求需要在空间上临近。举一个这样的例子，假设我需要根据2D图像恢复3D模型，那么2D输入点临近对于一个原本连续的形体，应该就是连续的（对于原本就是不连续的形体则另说）。那么，网络根据A,B,C几个点插值后的特征的相似性，结合输出结果在监督下的ground truth相似性，就能推出此局部是否应该具有可插值性：</p>
+<p>​ 也就是说，multi-resolution hash table
+本身是没有可插值性的，正是因为我的插值操作使得网络具有了可插值性【Counter-intuitive】。为什么会这样呢？</p>
+<p>​
+对于低分辨率层级来说，可能很多输入点都落于一个grid（或者voxel）内部，这时这些点将会共用grid（或者voxel）的角点index，也就是插值所使用的特征向量索引。由于可以认为，输入点在空间上临近，输出结果也要求需要在空间上临近。举一个这样的例子，假设我需要根据2D图像恢复3D模型，那么2D输入点临近对于一个原本连续的形体，应该就是连续的（对于原本就是不连续的形体则另说）。那么，网络根据A,B,C几个点插值后的特征的相似性，结合输出结果在监督下的ground
+truth相似性，就能推出此局部是否应该具有可插值性：</p>
 <ul>
-<li>临近输入导致临近以及相似输出 --- 说明是可插值的，<strong><u>映射函数连续</u></strong></li>
-<li>临近输入导致结果差别大或者不相似 --- 说明局部不可插值（可能分属不同物体或者是一个物体的几个分立子原件），允许映射函数不连续</li>
+<li>临近输入导致临近以及相似输出 ---
+说明是可插值的，<strong><u>映射函数连续</u></strong></li>
+<li>临近输入导致结果差别大或者不相似 ---
+说明局部不可插值（可能分属不同物体或者是一个物体的几个分立子原件），允许映射函数不连续</li>
 </ul>
 <p><img src="/2022/01/23/Instant-Neural-Graphics-Primitives/bunny.png"></p>
 <center>
 Figure 4. 可插值性图示（图源 Stanford bunny）
 </center>
-<p>​ 学习连续性还是较为简单的，只需要设置相应的监督【相似/近输入】--&gt; 【相似/近输出】。而对于高阶平滑，比如SDF就要求一阶（导）连续（代表着可导）作者说有如下两种方法：</p>
+<p>​ 学习连续性还是较为简单的，只需要设置相应的监督【相似/近输入】--&gt;
+【相似/近输出】。而对于高阶平滑，比如SDF就要求一阶（导）连续（代表着可导）作者说有如下两种方法：</p>
 <div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">二次或三次插值</a></li><li class="tab"><a href="#span-unique-name-2">插值近似函数</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>双二次以及双三次插值可以使得导数不再是呈块状的，而是连续的。但是需要的lookup成本变高了，就拿双三次插值来说，双三次插值需要一次采样16个点的特征向量，而双线性只需要四个点，放在3维空间中开销更加难以接受。</p></div><div class="tab-pane" id="span-unique-name-2"><p><span class="math display">\[
 \begin{align}
 &amp;S(x)=x^2(3-2x)\\
 &amp;S&#39;(x)=6x(1-x)
 \end{align}
-\]</span> ​ 作者推荐这样的插值公式，在双（三）线性情况下只采样4（8）个点，又可以：</p>
+\]</span> ​
+作者推荐这样的插值公式，在双（三）线性情况下只采样4（8）个点，又可以：</p>
 <blockquote>
-<p>The derivative of the smoothstep vanishes at 0 and at 1, causing the discontinuity in the derivatives of the encoding to vanish by the chain rule.</p>
+<p>The derivative of the smoothstep vanishes at 0 and at 1, causing the
+discontinuity in the derivatives of the encoding to vanish by the chain
+rule.</p>
 </blockquote>
-<p>​ 意思是：导数在0，1（也就是插值边界处）为0，根据链式求导的导数相乘，使得边界点的导数为0。也即不会因为线性插值这样在边界出现导数不连续的情况。感觉有点妙。</p></div></div></div>
+<p>​
+意思是：导数在0，1（也就是插值边界处）为0，根据链式求导的导数相乘，使得边界点的导数为0。也即不会因为线性插值这样在边界出现导数不连续的情况。感觉有点妙。</p></div></div></div>
 <hr>
 <h2 id="iii.-其他后续">III. 其他后续</h2>
-<p>​ 笔者近几天回到家没有可用设备来训练，想试试demo但没有办法。笔者之后可能写一篇本文官方实现的源码分析，暂定应该是《CUDA踩坑实录【4】》的内容。</p>
+<p>​
+笔者近几天回到家没有可用设备来训练，想试试demo但没有办法。笔者之后可能写一篇本文官方实现的源码分析，暂定应该是《CUDA踩坑实录【4】》的内容。</p>
 <hr>
 <h2 id="reference">Reference</h2>
-<p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf">Mildenhall, Ben, et al. "Nerf: Representing scenes as neural radiance fields for view synthesis." <em>European conference on computer vision</em>. Springer, Cham, 2020</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2021/papers/Takikawa_Neural_Geometric_Level_of_Detail_Real-Time_Rendering_With_Implicit_3D_CVPR_2021_paper.pdf">Takikawa, Towaki, et al. "Neural geometric level of detail: Real-time rendering with implicit 3D shapes." <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em>. 2021.</a></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf">Mildenhall, Ben,
+et al. "Nerf: Representing scenes as neural radiance fields for view
+synthesis." <em>European conference on computer vision</em>. Springer,
+Cham, 2020</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2021/papers/Takikawa_Neural_Geometric_Level_of_Detail_Real-Time_Rendering_With_Implicit_3D_CVPR_2021_paper.pdf">Takikawa,
+Towaki, et al. "Neural geometric level of detail: Real-time rendering
+with implicit 3D shapes." <em>Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition</em>. 2021.</a></p>
 
     </div>
 

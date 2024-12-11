@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Correspondence Problem  I. Intros  The correspondence problem refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due t">
+  <meta name="description" content="Correspondence Problem  I. Intros  The correspondence problem refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Correspondence Problem Papers">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Correspondence Problem  I. Intros  The correspondence problem refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due t">
+<meta property="og:description" content="Correspondence Problem  I. Intros  The correspondence problem refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(1).png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(2).png">
@@ -116,7 +116,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -333,13 +333,23 @@
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
 <blockquote>
-<p>The <strong>correspondence problem</strong> refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due to movement of the camera, the elapse of time, and/or movement of objects in the photos. ---Wikipedia</p>
+<p>The <strong>correspondence problem</strong> refers to the problem of
+ascertaining which parts of one image correspond to which parts of
+another image, where differences are due to movement of the camera, the
+elapse of time, and/or movement of objects in the photos.
+---Wikipedia</p>
 </blockquote>
-<p>​ 最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
-<p>​ 我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV 2005的尤其简单，看完就能写出代码来）：</p>
+<p>​
+最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
+<p>​
+我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV
+2005的尤其简单，看完就能写出代码来）：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV 2005: A Spectral Technique for Correspondence Problems Using Pairwise Constraints</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC: Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV
+2005: A Spectral Technique for Correspondence Problems Using Pairwise
+Constraints</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC:
+Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
 </ul>
 <p>​ 我将本人论文分享时做的PPT贴在本文内。</p>
 <span id="more"></span>
@@ -367,11 +377,14 @@ Figure 5. 论文I存在的问题（毕竟是很老的工作了）
 </center>
 <p><img src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(6).png"></p>
 <center>
-Figure 6. 方法总结：第一部分，包含变换一致性的全局神经网络模块以及种子点选取的特征筛选
+Figure 6.
+方法总结：第一部分，包含变换一致性的全局神经网络模块以及种子点选取的特征筛选
 </center>
 <p><img src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(7).png"></p>
 <center>
-Figure 7. 方法总结：第二部分，KNN子集扩增，NSM概率计算，加权最小二乘，propose and verify
+Figure 7.
+方法总结：第二部分，KNN子集扩增，NSM概率计算，加权最小二乘，propose and
+verify
 </center>
 <hr>
 <h2 id="今日快乐">今日快乐</h2>

@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Rust&#x2F;C++  ​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）">
+  <meta name="description" content="Rust&#x2F;C++  ​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rust C++小记录">
 <meta property="og:url" content="https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Rust&#x2F;C++  ​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）">
+<meta property="og:description" content="Rust&#x2F;C++  ​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-08-20T07:46:13.000Z">
 <meta property="article:modified_time" content="2022-08-20T07:50:27.941Z">
@@ -107,7 +107,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -168,7 +168,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rustc"><span class="nav-text">Rust&#x2F;C++</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rust-%E9%83%A8%E5%88%86"><span class="nav-text">Rust 部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E9%83%A8%E5%88%86"><span class="nav-text">C++部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#unique_lock---lock_guard---shared_mutex---scoped_lock"><span class="nav-text">unique_lock - lock_guard - shared_mutex - scoped_lock</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#stdunique_lock"><span class="nav-text">std::unique_lock</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stdscoped_lock-stdlock_guard"><span class="nav-text">std::scoped_lock &amp; std::lock_guard</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stdshared_mutex"><span class="nav-text">std::shared_mutex</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rustc"><span class="nav-text">Rust&#x2F;C++</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rust-%E9%83%A8%E5%88%86"><span class="nav-text">Rust 部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E9%83%A8%E5%88%86"><span class="nav-text">C++部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#unique_lock---lock_guard---shared_mutex---scoped_lock"><span class="nav-text">unique_lock -
+lock_guard - shared_mutex - scoped_lock</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#stdunique_lock"><span class="nav-text">std::unique_lock</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stdscoped_lock-stdlock_guard"><span class="nav-text">std::scoped_lock &amp;
+std::lock_guard</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stdshared_mutex"><span class="nav-text">std::shared_mutex</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -322,43 +324,59 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="rustc">Rust/C++</h1>
 <hr>
-<p>​ 很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective modern C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）</p>
+<p>​
+很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective
+modern
+C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）</p>
 <span id="more"></span>
 <hr>
 <h2 id="rust-部分">Rust 部分</h2>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-包管理：lib.rs与mod.rs的区别是什么？我在mod.rs或者lib.rs中写什么内容，会如何影响整个包？比如我是否可以在lib.rs或者mod.rs中进行全局的use？</li>
+<li><label><input type="checkbox" checked>包管理：lib.rs与mod.rs的区别是什么？我在mod.rs或者lib.rs中写什么内容，会如何影响整个包？比如我是否可以在lib.rs或者mod.rs中进行全局的use？</label></li>
 </ul>
-<p>​ 个人认为可以这么理解：<code>lib.rs</code>声明了一个crate中所包含的模块，比如下面这个例子：</p>
+<p>​
+个人认为可以这么理解：<code>lib.rs</code>声明了一个crate中所包含的模块，比如下面这个例子：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">├── add.rs</span><br><span class="line">├── sub.rs</span><br><span class="line">├── main.rs</span><br><span class="line">└── lib.rs</span><br></pre></td></tr></table></figure>
-<p>​ 则<code>add,rs</code> 以及<code>sub.rs</code>是此crate的两个模块，在<code>lib.rs</code>对此两模块的“存在性”进行声明。一般是：</p>
+<p>​ 则<code>add,rs</code>
+以及<code>sub.rs</code>是此crate的两个模块，在<code>lib.rs</code>对此两模块的“存在性”进行声明。一般是：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mod</span> add;		<span class="comment">// 可以加pub</span></span><br><span class="line"><span class="keyword">mod</span> sub;		<span class="comment">// 可以加pub</span></span><br></pre></td></tr></table></figure>
-<p>​ 对于与这些模块处于同一目录的<code>main.rs</code>，可以不需要<code>lib.rs</code>就在<code>main.rs</code>中通过<code>mod xxx;</code>的方式声明模块。但如果可执行文件与模块不在同一目录下，貌似（据我所知）只能通过：</p>
+<p>​
+对于与这些模块处于同一目录的<code>main.rs</code>，可以不需要<code>lib.rs</code>就在<code>main.rs</code>中通过<code>mod xxx;</code>的方式声明模块。但如果可执行文件与模块不在同一目录下，貌似（据我所知）只能通过：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> crate_name::add;</span><br><span class="line"><span class="keyword">use</span> crate_name::sub;</span><br></pre></td></tr></table></figure>
-<p>​ 这样的方式调用模块。这样调用模块必须通过<code>lib.rs</code>对模块进行声明！否则编译将出现：找不到模块 的错误。而另一方面，<code>mod.rs</code>是什么？有什么作用？对于一个大型的模块，我们很可能将其拆为多个文件。比如<code>add.rs</code>，我们将其拆分为：<code>add_inplace.rs</code>，<code>add_2_digits.rs</code>，<code>add_more_than2.rs</code>三个文件，我们可以将三个文件按照如下所示的方式进行整理：</p>
+<p>​
+这样的方式调用模块。这样调用模块必须通过<code>lib.rs</code>对模块进行声明！否则编译将出现：找不到模块
+的错误。而另一方面，<code>mod.rs</code>是什么？有什么作用？对于一个大型的模块，我们很可能将其拆为多个文件。比如<code>add.rs</code>，我们将其拆分为：<code>add_inplace.rs</code>，<code>add_2_digits.rs</code>，<code>add_more_than2.rs</code>三个文件，我们可以将三个文件按照如下所示的方式进行整理：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── add</span><br><span class="line">...			├── add_inplace.rs</span><br><span class="line">			├── add_2_digits.rs</span><br><span class="line">			└── add_more_than2.rs</span><br></pre></td></tr></table></figure>
-<p>​ 此时我们需要<code>mod.rs</code>来同一整个模块内部的所有子模块。在<code>add/</code>中建立叫做<code>mod.rs</code>的文件，或者与<code>add/</code>同级建立<code>add.rs</code>目录，内部声明子模块：</p>
+<p>​
+此时我们需要<code>mod.rs</code>来同一整个模块内部的所有子模块。在<code>add/</code>中建立叫做<code>mod.rs</code>的文件，或者与<code>add/</code>同级建立<code>add.rs</code>目录，内部声明子模块：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mod</span> add_inplace;</span><br><span class="line"><span class="keyword">mod</span> add_2_digits;</span><br><span class="line"><span class="keyword">mod</span> add_more_than2;</span><br></pre></td></tr></table></figure>
-<p>​ 故简单来说：<code>lib.rs</code>声明一个crate下的所有模块，<code>mod.rs</code>声明一个模块下的所有子模块。</p>
-<p>​ P.S: 在use语句引入的模块名过长时，可以使用<code>as</code>重命名。例如假设有个叫做<code>numpy</code>的模块，我们可以<code>use numpy as np;</code></p>
+<p>​
+故简单来说：<code>lib.rs</code>声明一个crate下的所有模块，<code>mod.rs</code>声明一个模块下的所有子模块。</p>
+<p>​ P.S:
+在use语句引入的模块名过长时，可以使用<code>as</code>重命名。例如假设有个叫做<code>numpy</code>的模块，我们可以<code>use numpy as np;</code></p>
 <hr>
 <ul>
-<li><p><input type="checkbox" disabled checked>
-const 与 static在Rust中的具体含义，与全局变量之间的关系</p></li>
-<li><p>static定义的值一般是全局变量，具有超长声明周期。注意由于static定义全局 <strong><u>变量</u></strong>，其结果是有地址的。</p></li>
-<li><p>const定义的是真正的常量，是compile time可知的值，类似于C++中的<code>constexpr</code>（大多数情况下，constexpr都是compile time variable）。对应地，Rust也存在<code>const fn</code>，作用类似于C++的<code>constexpr</code>函数。如果要使得一个函数输出const值，则此函数需要是<code>const fn</code>。</p></li>
+<li><p><label><input type="checkbox" checked>const 与
+static在Rust中的具体含义，与全局变量之间的关系</label></p></li>
+<li><p>static定义的值一般是全局变量，具有超长声明周期。注意由于static定义全局
+<strong><u>变量</u></strong>，其结果是有地址的。</p></li>
+<li><p>const定义的是真正的常量，是compile
+time可知的值，类似于C++中的<code>constexpr</code>（大多数情况下，constexpr都是compile
+time
+variable）。对应地，Rust也存在<code>const fn</code>，作用类似于C++的<code>constexpr</code>函数。如果要使得一个函数输出const值，则此函数需要是<code>const fn</code>。</p></li>
 <li><p>在C++中，如果编译器发现我们在给一个<code>constexpr</code>值取地址（<code>&amp;</code>），则编译器将会给此值分配一个地址，否则一般来说，<code>constexpr</code>值不会占用内存。</p></li>
 </ul>
 <hr>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-iter() 与for循环：</li>
+<li><label><input type="checkbox" checked>iter()
+与for循环：</label></li>
 </ul>
-<p>​ 一般来说，除非变量已经是iterator（或者IntoIter等等），for循环一般都是针对<code>x.into_iter()</code>，<code>x.iter_mut()</code>，<code>x.iter()</code>三种形式进行的：</p>
+<p>​
+一般来说，除非变量已经是iterator（或者IntoIter等等），for循环一般都是针对<code>x.into_iter()</code>，<code>x.iter_mut()</code>，<code>x.iter()</code>三种形式进行的：</p>
 <ul>
 <li><code>into_iter</code>返回值视上下文而定。比如某个容器中持有的是reference，那么将返回reference，是值就返回值。<code>into_iter</code>在遍历过程中将发生move，原容器将被consumed，不再有效，但返回的是具有所有权的内容。</li>
-<li><code>iter</code>与<code>iter_mut</code>一般则（分别）返回immutable references 以及 mutable references，不会消耗原有容器。</li>
+<li><code>iter</code>与<code>iter_mut</code>一般则（分别）返回immutable
+references 以及 mutable references，不会消耗原有容器。</li>
 </ul>
 <p>​ iterator内部具有很多有用的函数：</p>
 <ul>
@@ -367,13 +385,15 @@ iter() 与for循环：</li>
 <li>（常用）<code>collect</code>，个人感觉类似于<code>from_iter</code>。事实上，此函数返回一个<code>FromIterator</code>。也即可以由iterator构造一些数据结构，如vec。比如：</li>
 </ul>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">vector</span>: <span class="type">Vec</span>&lt;<span class="type">usize</span>&gt; = (<span class="number">0</span>..=<span class="number">10</span>).<span class="title function_ invoke__">map</span>(|x| &#123;x * x + <span class="number">2</span> * x&#125;).<span class="title function_ invoke__">collect</span>();</span><br></pre></td></tr></table></figure>
-<p>​ 其中，左边的type是必须要确定的，否则collect无法得知自己应该返回什么类型。</p>
+<p>​
+其中，左边的type是必须要确定的，否则collect无法得知自己应该返回什么类型。</p>
 <ul>
 <li><code>chain</code>：类似于<code>extend</code>或者<code>concatenate</code>。<code>a.iter().chain(b.iter())</code>将返回串联的iterator，用于遍历等。</li>
 <li><code>cycle</code>：将iterator首位串接，使得iterator成为环状</li>
 <li>（常用）<code>filter</code>：传入闭包，返回一个新的iterator，新的iterator中只含有闭包函数确定的值。比如一个判定偶数的函数等。</li>
 <li>（常用）<code>filter_map</code>：传入闭包，此闭包函数返回<code>Option</code>。对于返回值为<code>Some&lt;T&gt;</code>的值，将被放入返回的迭代器中。相当于<code>.filter().map()</code></li>
-<li><code>flatten</code>：当结构中存在nested iterator时，可以使用此flatten展平。例如：<code>Vec&lt;Vec&lt;i32&gt;&gt;</code>，可以用flatten先展开（<strong><u>返回IntoIterator</u></strong>），再collect。</li>
+<li><code>flatten</code>：当结构中存在nested
+iterator时，可以使用此flatten展平。例如：<code>Vec&lt;Vec&lt;i32&gt;&gt;</code>，可以用flatten先展开（<strong><u>返回IntoIterator</u></strong>），再collect。</li>
 <li>（常用）<code>fold</code>：对此iterator进行一个压缩操作，例如<code>(0..10).fold(0, |acc, x|&#123;acc + x&#125;)</code>可以求累加操作。</li>
 <li>（常用）<code>for_each</code>：传入一个闭包，对每一个元素执行操作。</li>
 <li>（常用）<code>last</code>：不过注意，这应该是一个O(n)操作</li>
@@ -382,128 +402,193 @@ iter() 与for循环：</li>
 <li><code>product</code>：相当于返回单值的<code>cumprod</code></li>
 <li><code>reduce</code>：使用某一函数将值压缩为一个（与fold几乎是一致的，只不过不需要提供初值）</li>
 <li>（常用）<code>rev</code>：反向迭代。并且注意反向迭代器与正向迭代器不是同一个类型。</li>
-<li><code>skip</code>：输入一个值n，迭代器将从start+n开始（跳过初始值）。<code>skip_while</code>：输入一个闭包（返回true | false），直到闭包返回false之前的所有值都会被跳过。</li>
+<li><code>skip</code>：输入一个值n，迭代器将从start+n开始（跳过初始值）。<code>skip_while</code>：输入一个闭包（返回true
+| false），直到闭包返回false之前的所有值都会被跳过。</li>
 <li><code>step_by</code>：相当于python range(0, end, step)</li>
-<li>（常用）<code>take</code>：传入一个值n，迭代器最多取到start+n （<code>skip</code>的对称操作）。<code>take_while</code>：输入闭包，直到闭包返回false之前的所有值都会被取出到新的iterator中。注意此take与Option的take不同，Option的take应该会使得原值为None（可以认为这是某种意义上的consume），但iterator的take不会修改或消耗原值</li>
+<li>（常用）<code>take</code>：传入一个值n，迭代器最多取到start+n
+（<code>skip</code>的对称操作）。<code>take_while</code>：输入闭包，直到闭包返回false之前的所有值都会被取出到新的iterator中。注意此take与Option的take不同，Option的take应该会使得原值为None（可以认为这是某种意义上的consume），但iterator的take不会修改或消耗原值</li>
 <li>（常用）<code>zip</code>与<code>unzip</code>：类似于python，<code>zip</code>将两个迭代器打包成一个迭代器，此迭代器是两个迭代器元素的tuple。unzip则将这样的迭代器重新拆为两个容器（不一定是迭代器，可以是Vec）</li>
 </ul>
 <hr>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-Rust中的闭包以及程序中的闭包概念</li>
+<li><label><input type="checkbox" checked>Rust中的闭包以及程序中的闭包概念</label></li>
 </ul>
-<p>​ 曾经我想搞清楚为什么我无法确定closure的类型，问题是这样的：我想返回某个iterator经过map后的结果，如：</p>
+<p>​
+曾经我想搞清楚为什么我无法确定closure的类型，问题是这样的：我想返回某个iterator经过map后的结果，如：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">map_test</span>() <span class="punctuation">-&gt;</span> &lt;?&gt; &#123;</span><br><span class="line">    (<span class="number">0</span>..<span class="number">10</span>).<span class="title function_ invoke__">map</span>(|i| &#123;i * <span class="number">2</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 但是一直无法写对返回值。<code>rust-analyzer</code>告诉我，返回值应该是<code>Map&lt;Range&lt;i32&gt;, |i32| -&gt; i32&gt;</code>。我尝试填在返回值type annotation中，报错，无法直接填<code>Map&lt;Range&lt;i32&gt;, |i32| -&gt; i32&gt;</code>，编译器无法解析<code>|i32| -&gt; i32</code>（存在语法错误）。后来我又尝试了一些魔法，诸如：</p>
+<p>​
+但是一直无法写对返回值。<code>rust-analyzer</code>告诉我，返回值应该是<code>Map&lt;Range&lt;i32&gt;, |i32| -&gt; i32&gt;</code>。我尝试填在返回值type
+annotation中，报错，无法直接填<code>Map&lt;Range&lt;i32&gt;, |i32| -&gt; i32&gt;</code>，编译器无法解析<code>|i32| -&gt; i32</code>（存在语法错误）。后来我又尝试了一些魔法，诸如：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">map_test</span>&lt;T&gt;() <span class="punctuation">-&gt;</span> Map&lt;Range&lt;<span class="type">i32</span>&gt;, T&gt; <span class="keyword">where</span> T: <span class="title function_ invoke__">Fn</span>(<span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    (<span class="number">0</span>..<span class="number">10</span>).<span class="title function_ invoke__">map</span>(|i| &#123;i * <span class="number">2</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 还是不行。报错大意：返回值是<code>map(closure xxxxx （文件名，行列号）)</code>而需要<code>T</code>。也就是说，返回值类型不匹配。</p>
-<p>​ 之后我在stackoverflow上偶然看到这样的问题：有人想把匿名闭包推入Vec中，但是Vec无法解析匿名闭包的类型。下面的佬这么回答到：</p>
+<p>​
+还是不行。报错大意：返回值是<code>map(closure xxxxx （文件名，行列号）)</code>而需要<code>T</code>。也就是说，返回值类型不匹配。</p>
+<p>​
+之后我在stackoverflow上偶然看到这样的问题：有人想把匿名闭包推入Vec中，但是Vec无法解析匿名闭包的类型。下面的佬这么回答到：</p>
 <blockquote>
-<p>Each closure has an <strong><u>auto-generated, unique, anonymous type</u></strong>. As soon as you add the first closure to the vector, that is the type of all items in the vector. However, when you try to add the second closure, it has a <strong><u>different auto-generated, unique, anonymous type</u></strong>, and so you get the error listed.</p>
+<p>Each closure has an <strong><u>auto-generated, unique, anonymous
+type</u></strong>. As soon as you add the first closure to the vector,
+that is the type of all items in the vector. However, when you try to
+add the second closure, it has a <strong><u>different auto-generated,
+unique, anonymous type</u></strong>, and so you get the error
+listed.</p>
 </blockquote>
 <p>​ 也就是说，确定closure的类型貌似是不可能的。虽然如下代码：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">f1</span> = |i: <span class="type">i32</span>| <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;i * <span class="number">2</span>&#125;;			<span class="comment">// Ok</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">f2</span> = |i: <span class="type">i32</span>| &#123;i * <span class="number">2</span>&#125;;						<span class="comment">// Ok</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">f3</span> = |i| <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;i * <span class="number">2</span>&#125;;			      <span class="comment">// Err</span></span><br></pre></td></tr></table></figure>
-<p>​ 前两句可以通过编译，<code>rust-analyzer</code>也会推导出<code>|i32| -&gt; i32</code>的类型来，但想要给<code>f1</code>等变量进行type annotation是做不到的。此外注意，如果闭包的输入不进行type annotation（如<code>f3</code>），将会报错。而输出类型可以不要（编译器可以推导出来）。</p>
+<p>​
+前两句可以通过编译，<code>rust-analyzer</code>也会推导出<code>|i32| -&gt; i32</code>的类型来，但想要给<code>f1</code>等变量进行type
+annotation是做不到的。此外注意，如果闭包的输入不进行type
+annotation（如<code>f3</code>），将会报错。而输出类型可以不要（编译器可以推导出来）。</p>
 <hr>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-Trait &amp; impl &amp; Box&lt;dyn TraitObject&gt;</li>
+<li><label><input type="checkbox" checked>Trait &amp; impl &amp;
+Box&lt;dyn TraitObject&gt;</label></li>
 </ul>
-<p>​ Rust Programming Language一书全面地介绍了trait的性质。其基本使用方法是：</p>
+<p>​ Rust Programming
+Language一书全面地介绍了trait的性质。其基本使用方法是：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">TraitName</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">your_method</span>(&lt;args...&gt;) <span class="punctuation">-&gt;</span> ReturnType;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 也即我们可以自定义Trait（替换TraitName），并且限定此trait中的接口。所有具有此trait的类型，都需要自定义这些接口。可以理解为：Trait类似于基类，其中存在虚函数。我们在学习链表时已经接触过，如果需要链表具有迭代器，需要：</p>
+<p>​
+也即我们可以自定义Trait（替换TraitName），并且限定此trait中的接口。所有具有此trait的类型，都需要自定义这些接口。可以理解为：Trait类似于基类，其中存在虚函数。我们在学习链表时已经接触过，如果需要链表具有迭代器，需要：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">LinkIterator</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = ...;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>​ 也即使得类型<code>LinkIterator</code>具有特性Iterator。类似于虚函数实际上是可以有默认定义的，trait method也可以在定义trait时定义默认实现。对于使用此特性的类型，如果要使用默认方法，在<code>impl</code>块中不重定义此trait method即可。特性中的方法，可以类似于结构体方法进行调用<code>.method()</code>，并且，特性方法是可以在类型之间共享的。</p>
-<p>​ 更有趣的来了：在C++泛型编程中，假设我有这样的一个模板函数，此模板函数接受一个类型T，我需要调用类型T中的某个方法<code>.method()</code>，也即类型T必须保证其实现了此方法，应该怎么做？以个人的理解：</p>
+<p>​
+也即使得类型<code>LinkIterator</code>具有特性Iterator。类似于虚函数实际上是可以有默认定义的，trait
+method也可以在定义trait时定义默认实现。对于使用此特性的类型，如果要使用默认方法，在<code>impl</code>块中不重定义此trait
+method即可。特性中的方法，可以类似于结构体方法进行调用<code>.method()</code>，并且，特性方法是可以在类型之间共享的。</p>
+<p>​
+更有趣的来了：在C++泛型编程中，假设我有这样的一个模板函数，此模板函数接受一个类型T，我需要调用类型T中的某个方法<code>.method()</code>，也即类型T必须保证其实现了此方法，应该怎么做？以个人的理解：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SomeBaseClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">SomeBaseClass</span>(<span class="type">int</span> val): <span class="built_in">val</span>(val) &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">printVal</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;val is %d\n&quot;</span>, val);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SomeClass</span> : <span class="keyword">public</span> SomeBaseClass &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">SomeClass</span>(<span class="type">int</span> val): <span class="built_in">SomeBaseClass</span>(val) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MutatedClass</span> : <span class="keyword">public</span> SomeBaseClass &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MutatedClass</span>(<span class="type">int</span> val): <span class="built_in">SomeBaseClass</span>(val) &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">printVal</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;mutated class val is %d\n&quot;</span>, val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">callPrintVal</span><span class="params">(<span class="type">const</span> SomeBaseClass&amp; base)</span> </span>&#123;</span><br><span class="line">    base.<span class="built_in">printVal</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">SomeClass <span class="title">class1</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">    <span class="function">MutatedClass <span class="title">class2</span><span class="params">(<span class="number">6</span>)</span></span>;</span><br><span class="line">    <span class="built_in">callPrintVal</span>(class1);</span><br><span class="line">    <span class="built_in">callPrintVal</span>(class2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 这样可以使得所有继承了<code>SomeBaseClass</code>的子类可以进行调用。而Rust没有struct的继承，也不能这样隐式转换类型，如果我们需要实现类似的功能，使得函数可以操作某一个实现了某一功能的全体类型，应该怎么做？答案是：使用<code>impl TraitObject</code>作为参数，或者使用trait bounds:</p>
+<p>​
+这样可以使得所有继承了<code>SomeBaseClass</code>的子类可以进行调用。而Rust没有struct的继承，也不能这样隐式转换类型，如果我们需要实现类似的功能，使得函数可以操作某一个实现了某一功能的全体类型，应该怎么做？答案是：使用<code>impl TraitObject</code>作为参数，或者使用trait
+bounds:</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">some_func</span>(item: &amp;<span class="keyword">impl</span> <span class="title class_">TraitObject</span>) &#123;</span><br><span class="line">    item.<span class="title function_ invoke__">method</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">some_func</span>&lt;T: TraitObject&gt;(item: &amp;T) &#123;</span><br><span class="line">    item.<span class="title function_ invoke__">method</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">some_func</span>&lt;T&gt;(item: &amp;T) <span class="keyword">where</span> T: TraitObject &#123;</span><br><span class="line">    item.<span class="title function_ invoke__">method</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 故只要知道第一种写法与后两种写法具有类似的功能，只不过后两种写法传入的是类型。而Book则给出了一个具体的区别：</p>
+<p>​
+故只要知道第一种写法与后两种写法具有类似的功能，只不过后两种写法传入的是类型。而Book则给出了一个具体的区别：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>(item1: &amp;<span class="keyword">impl</span> <span class="title class_">Summary</span>, item2: &amp;<span class="keyword">impl</span> <span class="title class_">Summary</span>) &#123;...&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>&lt;T: Summary&gt;(item1: &amp;T, item2: &amp;T) &#123;...&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 上下两行代码均可以接受任意实现了Summary特性的类型，但是第二个函数显式要求了两个参数item1，item2具有相同的类型。</p>
-<p>​ 另一个有趣的方面：返回值是impl TraitObject时？意义类似：我们希望返回值实现了此特性<code>TraitObject</code>。所以我们可以用此方法解决闭包中提到的返回map(闭包)问题：</p>
+<p>​
+上下两行代码均可以接受任意实现了Summary特性的类型，但是第二个函数显式要求了两个参数item1，item2具有相同的类型。</p>
+<p>​ 另一个有趣的方面：返回值是impl
+TraitObject时？意义类似：我们希望返回值实现了此特性<code>TraitObject</code>。所以我们可以用此方法解决闭包中提到的返回map(闭包)问题：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">map_test</span>() <span class="punctuation">-&gt;</span> <span class="keyword">impl</span> <span class="title class_">Iterator</span> &#123;</span><br><span class="line">    (<span class="number">0</span>..<span class="number">10</span>).<span class="title function_ invoke__">map</span>(|i| &#123;i * <span class="number">2</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 但返回值的type提示是：<code>impl Iterator</code>。并且当我想按如下方式进行遍历时，报错了：</p>
+<p>​
+但返回值的type提示是：<code>impl Iterator</code>。并且当我想按如下方式进行遍历时，报错了：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">map_test</span>();</span><br><span class="line"><span class="keyword">for</span> <span class="variable">x</span> <span class="keyword">in</span> result.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 原因很简单：<code>.iter()</code>是 <strong><u>非Iterator对象</u></strong>返回实现了Iterator特性对象时的方法。而由于实现了Iterator特性的对象，可以直接使用for循环遍历，也不必使用<code>.iter()</code>。（事实上，只需要看看<code>result.next</code>存不存在就知道了）。用Rust Reference的一段话总结一下就是：</p>
+<p>​ 原因很简单：<code>.iter()</code>是
+<strong><u>非Iterator对象</u></strong>返回实现了Iterator特性对象时的方法。而由于实现了Iterator特性的对象，可以直接使用for循环遍历，也不必使用<code>.iter()</code>。（事实上，只需要看看<code>result.next</code>存不存在就知道了）。用Rust
+Reference的一段话总结一下就是：</p>
 <blockquote>
-<p><code>impl Trait</code> provides ways to specify <strong><u>unnamed but concrete types that implement a specific trait</u></strong>. It can appear in two sorts of places: argument position (where it can act as an anonymous type parameter to functions), and return position (where it can act as an abstract return type).</p>
+<p><code>impl Trait</code> provides ways to specify <strong><u>unnamed
+but concrete types that implement a specific trait</u></strong>. It can
+appear in two sorts of places: argument position (where it can act as an
+anonymous type parameter to functions), and return position (where it
+can act as an abstract return type).</p>
 </blockquote>
 <hr>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-move：这玩意是干什么的？可以显式转移所有权？</li>
+<li><label><input type="checkbox" checked>move：这玩意是干什么的？可以显式转移所有权？</label></li>
 </ul>
 <p>​ Rust Book如是解释move关键字：</p>
 <blockquote>
 <p>Capture a closure's environment by value.</p>
-<p><code>move</code> converts any variables captured by reference or mutable reference to variables captured by value.</p>
+<p><code>move</code> converts any variables captured by reference or
+mutable reference to variables captured by value.</p>
 </blockquote>
-<p>​ 也即强制持有closure从环境中捕获的变量，将变量所有权转移给closure。关于这一切的解释，stackoverflow上有一个<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/62252966/why-is-the-move-keyword-necessary-when-it-comes-to-threads-why-would-i-ever-n">非常清晰的回答</a>（排名前二的回答都很清晰易懂），并且二楼还顺带介绍了一下<code>FnOnce</code>，<code>Fn</code>，<code>FnMut</code>特性。</p>
+<p>​
+也即强制持有closure从环境中捕获的变量，将变量所有权转移给closure。关于这一切的解释，stackoverflow上有一个<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/62252966/why-is-the-move-keyword-necessary-when-it-comes-to-threads-why-would-i-ever-n">非常清晰的回答</a>（排名前二的回答都很清晰易懂），并且二楼还顺带介绍了一下<code>FnOnce</code>，<code>Fn</code>，<code>FnMut</code>特性。</p>
 <hr>
 <ul class="task-list">
-<li><input type="checkbox" disabled checked>
-dyn：什么时候用？用来做什么？</li>
+<li><label><input type="checkbox" checked>dyn：什么时候用？用来做什么？</label></li>
 </ul>
-<p>​ 很有趣的一个关键字。已知使用<code>impl TraitObject</code>，函数可以返回一个任意实现了<code>TraitObject</code>的类型。但如果我们需要持有数个这样的类型，将其存在容器里应该怎么办呢？尝试：</p>
+<p>​
+很有趣的一个关键字。已知使用<code>impl TraitObject</code>，函数可以返回一个任意实现了<code>TraitObject</code>的类型。但如果我们需要持有数个这样的类型，将其存在容器里应该怎么办呢？尝试：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">vec</span>: <span class="type">Vec</span>&lt;<span class="keyword">impl</span> <span class="title class_">TraitObject</span>&gt; = Vec::<span class="title function_ invoke__">new</span>();	<span class="comment">// Error: `impl Trait` only allowed in function and inherent method return types, not in variable binding</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">vec</span>: <span class="type">Vec</span>&lt;TraitObject&gt; = Vec::<span class="title function_ invoke__">new</span>();	<span class="comment">// Error: trait objects must include the `dyn` keyword</span></span><br></pre></td></tr></table></figure>
-<p>​ 这有两个错：（1）Vec并不知道实现了TraitObject的类型都有些什么，类型是 <strong><u>动态的</u></strong>，故需要使用<code>dyn</code>。（2）实现了<code>TraitObject</code>的类型并没有确定的大小（trait bound <code>Sized</code>没有被满足），故无法放在Vec中。故综上所述，正确的书写应该是：</p>
+<p>​
+这有两个错：（1）Vec并不知道实现了TraitObject的类型都有些什么，类型是
+<strong><u>动态的</u></strong>，故需要使用<code>dyn</code>。（2）实现了<code>TraitObject</code>的类型并没有确定的大小（trait
+bound
+<code>Sized</code>没有被满足），故无法放在Vec中。故综上所述，正确的书写应该是：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">vec</span>: <span class="type">Vec</span>&lt;<span class="type">Box</span>&lt;<span class="keyword">dyn</span> TraitObject&gt;&gt; = Vec::<span class="title function_ invoke__">new</span>();	<span class="comment">// 动态类型 + Box（堆分配）确定大小</span></span><br></pre></td></tr></table></figure>
 <hr>
 <ul>
-<li><p><input type="checkbox" disabled checked>
-self与Self的区别</p></li>
+<li><p><label><input type="checkbox" checked>self与Self的区别</label></p></li>
 <li><p>Self是当前object自身的类型（注意，Rust中只有与类型、特性有关的内容才会有首字母大写，语法提示甚至不建议你使用驼峰命名法）</p></li>
 <li><p>self：当前object</p></li>
-<li><p><input type="checkbox" disabled checked>
-一些函数或者用法：</p></li>
+<li><p><label><input type="checkbox" checked>一些函数或者用法：</label></p></li>
 </ul>
-<p>​ 这里主要讲一下<code>to_owned</code>函数。<code>to_owned</code>是特性<code>std::borrow::ToOwned</code>提供的方法。官方文档是这样说的：</p>
+<p>​
+这里主要讲一下<code>to_owned</code>函数。<code>to_owned</code>是特性<code>std::borrow::ToOwned</code>提供的方法。官方文档是这样说的：</p>
 <blockquote>
 <p>A generalization of <code>Clone</code> to borrowed data.</p>
-<p>Some types make it possible to go from borrowed to owned, usually by implementing the <code>Clone</code> trait. But <code>Clone</code> works only for going from <code>&amp;T</code> to <code>T</code>. The <code>ToOwned</code> trait generalizes <code>Clone</code> to construct owned data from any borrow of a given type.</p>
+<p>Some types make it possible to go from borrowed to owned, usually by
+implementing the <code>Clone</code> trait. But <code>Clone</code> works
+only for going from <code>&amp;T</code> to <code>T</code>. The
+<code>ToOwned</code> trait generalizes <code>Clone</code> to construct
+owned data from any borrow of a given type.</p>
 </blockquote>
-<p>​ 这里不多说了。文档举了两个例子说明clone只能由<code>&amp;T</code>转<code>T</code>，而<code>to_owned</code>灵活多变：</p>
+<p>​
+这里不多说了。文档举了两个例子说明clone只能由<code>&amp;T</code>转<code>T</code>，而<code>to_owned</code>灵活多变：</p>
 <ul>
-<li><code>&amp;str</code>通过<code>to_owned</code>方法转为<code>String</code>  <code>&amp;[i32]</code>（slice）通过<code>to_owned</code>转化为Vec。</li>
+<li><code>&amp;str</code>通过<code>to_owned</code>方法转为<code>String</code>
+ <code>&amp;[i32]</code>（slice）通过<code>to_owned</code>转化为Vec。</li>
 </ul>
 <hr>
 <h2 id="c部分">C++部分</h2>
-<p>​ 最近在看C++与Rust的asynchronous programming部分，加上好久没有写多线程程序了，故简单回顾一下一些基础库。<code>future</code>在这就不提了。</p>
-<h3 id="unique_lock---lock_guard---shared_mutex---scoped_lock">unique_lock - lock_guard - shared_mutex - scoped_lock</h3>
-<p>​ 在讨论到这些锁的时候会讨论到一个概念：RAII（resource acquisition is initialization），RAII的好处是（只是浅显地了解一下）：</p>
+<p>​ 最近在看C++与Rust的asynchronous
+programming部分，加上好久没有写多线程程序了，故简单回顾一下一些基础库。<code>future</code>在这就不提了。</p>
+<h3 id="unique_lock---lock_guard---shared_mutex---scoped_lock">unique_lock -
+lock_guard - shared_mutex - scoped_lock</h3>
+<p>​ 在讨论到这些锁的时候会讨论到一个概念：RAII（resource acquisition is
+initialization），RAII的好处是（只是浅显地了解一下）：</p>
 <ul>
-<li><strong>RAII avoids using objects in an invalid state.</strong> <strong>RAII simplifies cleanup after partial construction.</strong>[1] 比如如果构造函数失败了，此object将不会进行析构（资源在构造函数结束就已经被释放了）</li>
-<li><strong><u>RAII is about scopes</u></strong>。具体指：获取资源时调用constructor，资源无效时（比如删除，或者在范围外）自动调用析构函数。</li>
+<li><strong>RAII avoids using objects in an invalid state.</strong>
+<strong>RAII simplifies cleanup after partial construction.</strong>[1]
+比如如果构造函数失败了，此object将不会进行析构（资源在构造函数结束就已经被释放了）</li>
+<li><strong><u>RAII is about
+scopes</u></strong>。具体指：获取资源时调用constructor，资源无效时（比如删除，或者在范围外）自动调用析构函数。</li>
 <li>RAII是另一种形式的garbage collector，用于申请以及释放资源。</li>
 </ul>
 <p>​ lock的RAII feature则具体指的是以下几个例子：</p>
 <ul>
-<li>std::lock 与 std::unlock都做不到RAII，因为本质上他们是对一个存在的锁对象进行操作。没有RAII意味着如果上锁了，就必须要手动解锁，否则可能出现问题</li>
+<li>std::lock 与
+std::unlock都做不到RAII，因为本质上他们是对一个存在的锁对象进行操作。没有RAII意味着如果上锁了，就必须要手动解锁，否则可能出现问题</li>
 <li>std::lock_guard与std::unique_lock都有RAII属性：lock_guard不仅仅是自动解锁，在构造时还会自动上锁。unique_lock则提供了deferred选项，使得其在构造时不立刻上锁。自动解锁是一个值得拥有的属性。</li>
 </ul>
 <h5 id="stdunique_lock">std::unique_lock</h5>
-<p>​ unique_lock通常与conditional variable一起使用。由于conditional variable（简称cv）使用时通常需要等待一个锁（对应的状态）变为可用：</p>
+<p>​ unique_lock通常与conditional variable一起使用。由于conditional
+variable（简称cv）使用时通常需要等待一个锁（对应的状态）变为可用：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv.<span class="built_in">wait</span>(mut);</span><br></pre></td></tr></table></figure>
-<p>​ 如果<code>mut</code>是普通的mutex，这里会有一个问题：如果wait过程中发生了错误，就会造成mut无法在wait结束进行unlock，这使得出错之后，很难进行exception handling（emmm，大概这就是not exception safe?）。如果使用unique_lock作为mut，unique_lock可以利用RAII特性在exception时进行解锁。并且unique_lock可以很好地保证自身是持有mutex的，以免已有的mutex被删除、move后，尝试对一个不存在的锁进行操作。</p>
-<p>​ unique_lock也可以手动解锁（unlock方法）。lock_guard就没那么方便了。</p>
+<p>​
+如果<code>mut</code>是普通的mutex，这里会有一个问题：如果wait过程中发生了错误，就会造成mut无法在wait结束进行unlock，这使得出错之后，很难进行exception
+handling（emmm，大概这就是not exception
+safe?）。如果使用unique_lock作为mut，unique_lock可以利用RAII特性在exception时进行解锁。并且unique_lock可以很好地保证自身是持有mutex的，以免已有的mutex被删除、move后，尝试对一个不存在的锁进行操作。</p>
+<p>​
+unique_lock也可以手动解锁（unlock方法）。lock_guard就没那么方便了。</p>
 <p>​ 这里补充一下，std::unique_lock以及mutex本身是否可以被引用呢？</p>
-<h5 id="stdscoped_lock-stdlock_guard">std::scoped_lock &amp; std::lock_guard</h5>
-<p>​ stackoverflow上有不止一条答案称std::scoped_lock强于std::lock_guard，建议是：</p>
+<h5 id="stdscoped_lock-stdlock_guard">std::scoped_lock &amp;
+std::lock_guard</h5>
+<p>​
+stackoverflow上有不止一条答案称std::scoped_lock强于std::lock_guard，建议是：</p>
 <blockquote>
 <ol type="1">
-<li><code>lock_guard</code> if you need to lock exactly 1 mutex for an entire scope.</li>
-<li><code>scoped_lock</code> if you need to lock a number of mutexes that is not exactly 1.</li>
-<li><code>unique_lock</code> if you need to unlock within the scope of the block (which includes use with a <code>condition_variable</code>).</li>
+<li><code>lock_guard</code> if you need to lock exactly 1 mutex for an
+entire scope.</li>
+<li><code>scoped_lock</code> if you need to lock a number of mutexes
+that is not exactly 1.</li>
+<li><code>unique_lock</code> if you need to unlock within the scope of
+the block (which includes use with a
+<code>condition_variable</code>).</li>
 </ol>
 </blockquote>
-<p>​ scoped_lock的实现上更倾向于进行多mutex操作（scoped_lock具有可变个数参数模板），unique_lock则已经说了：在与cv一起使用时最大的好处是exception safe并且保证锁的持有（不持有就报错），并且可手动解锁。lock_guard像是一个特例化的scoped_lock。</p>
-<p>​ 不得不说stackoverflow是一个好网站，会有顶尖C++开发者回答你的问题，甚至包括STL标准委员会的大哥：</p>
+<p>​
+scoped_lock的实现上更倾向于进行多mutex操作（scoped_lock具有可变个数参数模板），unique_lock则已经说了：在与cv一起使用时最大的好处是exception
+safe并且保证锁的持有（不持有就报错），并且可手动解锁。lock_guard像是一个特例化的scoped_lock。</p>
+<p>​
+不得不说stackoverflow是一个好网站，会有顶尖C++开发者回答你的问题，甚至包括STL标准委员会的大哥：</p>
 <blockquote>
-<p>When I brought it up in committee, the answer was "nothing." ---<a target="_blank" rel="noopener" href="https://stackoverflow.com/users/576911/howard-hinnant">Howard Hinnant</a></p>
+<p>When I brought it up in committee, the answer was "nothing." ---<a target="_blank" rel="noopener" href="https://stackoverflow.com/users/576911/howard-hinnant">Howard
+Hinnant</a></p>
 </blockquote>
 <h5 id="stdshared_mutex">std::shared_mutex</h5>
-<p>​ shared_mutex 使用场景很明确：读者写者模型。多个读者读时，mutex可以多次上锁（内部有锁计数器？）只有计数器为0时，写者才能写。那么不使用shared_mutex应该如何实现呢？计数器mc锁以及一个计数器cnt</p>
+<p>​ shared_mutex
+使用场景很明确：读者写者模型。多个读者读时，mutex可以多次上锁（内部有锁计数器？）只有计数器为0时，写者才能写。那么不使用shared_mutex应该如何实现呢？计数器mc锁以及一个计数器cnt</p>
 <p>​ 对于读者而言：</p>
 <pre class="mermaid">
 graph TB
@@ -532,10 +617,12 @@ A--&gt;B--&gt;|Yes|C--&gt;D
 B--&gt;|No|D
 
 </pre>
-<p>​ 应该不会存在死锁的问题。对于shared_mutex而言，上述功能被直接包含在了此数据结构中。</p>
+<p>​
+应该不会存在死锁的问题。对于shared_mutex而言，上述功能被直接包含在了此数据结构中。</p>
 <hr>
 <h2 id="reference">Reference</h2>
-<p>[1] https://stackoverflow.com/questions/712639/understanding-the-meaning-of-the-term-and-the-concept-raii-resource-acquisiti#:~:text=RAII%20avoids%20using%20objects%20in,we%20even%20use%20the%20object.&amp;text=There%20are%20three%20error%20cases,but%20copying%20the%20files%20failed.</p>
+<p>[1]
+https://stackoverflow.com/questions/712639/understanding-the-meaning-of-the-term-and-the-concept-raii-resource-acquisiti#:~:text=RAII%20avoids%20using%20objects%20in,we%20even%20use%20the%20object.&amp;text=There%20are%20three%20error%20cases,but%20copying%20the%20files%20failed.</p>
 
     </div>
 

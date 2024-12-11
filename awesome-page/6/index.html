@@ -103,7 +103,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -316,7 +316,10 @@
           <h1 id="svm">SVM</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他考前每天必推一遍SVM原理，不如现在趁《运筹学》还热着，尝试自己推导一遍，并实现这一个经典算法。</p>
+<p>​ SVM (Support Vector Machine 支持向量机)
+曾一度导致深度学习的退潮（1995）。Geoffrey
+Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。
+恰好大三下学期有《模式识别》课，且有学长说他考前每天必推一遍SVM原理，不如现在趁《运筹学》还热着，尝试自己推导一遍，并实现这一个经典算法。</p>
 <p><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/history.jpg"></p>
 <center>
 Figure 1. 深度学习的发展历程 以及95年SVM带来的冲击（图源不明）
@@ -426,7 +429,10 @@ Figure 1. 深度学习的发展历程 以及95年SVM带来的冲击（图源不�
           <h1 id="capsule">Capsule</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ Geoffrey Hinton (他的团队 ? 挂名论文 ? ) 在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文 <strong><em>Dynamic Routing Between Capsules</em></strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.09829.pdf">【arxiv链接🔗】</a> 的总结，也包含了复现论文中遇到过的问题的分析。</p>
+<p>​ Geoffrey Hinton (他的团队 ? 挂名论文 ? )
+在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文
+<strong><em>Dynamic Routing Between Capsules</em></strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.09829.pdf">【arxiv链接🔗】</a>
+的总结，也包含了复现论文中遇到过的问题的分析。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/20/CNN-Capsule-Neural-Networks/#more" rel="contents">
@@ -532,12 +538,18 @@ Figure 1. 深度学习的发展历程 以及95年SVM带来的冲击（图源不�
           <h1 id="volume2d">Volume2D</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ 最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。</p>
+<p>​
+最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。</p>
 <p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png"></p>
 <center>
 Figure 1. 我的世界光影
 </center>
-<p>​ 实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在"Gods' Ray"的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光影，我也很想自己实现一个光线效果（大一写的游戏<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">Ethians alpha 1.1🔗</a>中有阴影计算的算法（FOV shadow casting），但结果是基于栅格的，而不是基于像素的）。综合以上的想法 + 想精进一下C++ STL技术，我设计了一个这样的问题。</p>
+<p>​
+实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在"Gods'
+Ray"的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光影，我也很想自己实现一个光线效果（大一写的游戏<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">Ethians alpha
+1.1🔗</a>中有阴影计算的算法（FOV shadow
+casting），但结果是基于栅格的，而不是基于像素的）。综合以上的想法 +
+想精进一下C++ STL技术，我设计了一个这样的问题。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/#more" rel="contents">
@@ -643,7 +655,12 @@ Figure 1. 我的世界光影
           <h1 id="cyclegan">CycleGAN</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ GAN常用作风格迁移或者是object transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object transfiguration中，A-&gt;B集合映射过程可以通过此网络实现，但B集合进入网络后，生成出来的（例应是原始的B）却与原始B相差很远。当然，在object transfiguration中，更加有挑战性的问题是，对于pix2pix论文提出的成对图像转换而言，成对图像一般很难获得。如果只有两个集合A / B，A / B内的对象为不同属性的，那么在没有预先产生匹配关系的情况如何将A / B集合内的物体互相映射呢？</p>
+<p>​ GAN常用作风格迁移或者是object
+transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object
+transfiguration中，A-&gt;B集合映射过程可以通过此网络实现，但B集合进入网络后，生成出来的（例应是原始的B）却与原始B相差很远。当然，在object
+transfiguration中，更加有挑战性的问题是，对于pix2pix论文提出的成对图像转换而言，成对图像一般很难获得。如果只有两个集合A
+/ B，A / B内的对象为不同属性的，那么在没有预先产生匹配关系的情况如何将A
+/ B集合内的物体互相映射呢？</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/10/CycleGAN-Paper-Summary/#more" rel="contents">

@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法">
+  <meta name="description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Particle Filter Simulation">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法">
+<meta property="og:description" content="Particle Filter  I. Introduction ​ 大二买了一本 Probability Robotics(of Sebastian Thrun, et al)，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/ray2.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/img1.png">
@@ -50,8 +50,8 @@
 <meta property="article:published_time" content="2021-08-07T14:13:02.000Z">
 <meta property="article:modified_time" content="2021-08-11T15:58:14.282Z">
 <meta property="article:author" content="Enigmatisms">
-<meta property="article:tag" content="knowings">
 <meta property="article:tag" content="SLAM">
+<meta property="article:tag" content="knowings">
 <meta property="article:tag" content="概率论">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/ray2.png">
@@ -114,7 +114,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -336,7 +336,11 @@
         <h1 id="particle-filter">Particle Filter</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 大二买了一本 <em>Probability Robotics(of Sebastian Thrun, et al)</em>，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法可以应用粒子滤波，于是实现了一版。半天写完，效果不错，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/ParticleFilter">[Github Repo🔗:Enigmatisms/ParticleFilter]</a>：</p>
+<p>​ 大二买了一本 <em>Probability Robotics(of Sebastian Thrun, et
+al)</em>，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了
+Volume2D
+Shader，突然想到一个很好的方法可以应用粒子滤波，于是实现了一版。半天写完，效果不错，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/ParticleFilter">[Github
+Repo🔗:Enigmatisms/ParticleFilter]</a>：</p>
 <p><img src="/2021/08/07/Particle-Filter-Simulation/ray2.png"></p>
 <center>
 Figure 1. Particle Filter 中使用Volume2D Shader进行的激光雷达scan仿真
@@ -345,7 +349,8 @@ Figure 1. Particle Filter 中使用Volume2D Shader进行的激光雷达scan仿�
 <hr>
 <h2 id="ii.-理论推导">II. 理论推导</h2>
 <h3 id="目标">2.1 目标</h3>
-<p>​ 我仅仅讨论粒子滤波在localization中的作用，虽然localization只是PF理论应用的一个小方向。如果没有给定初值，也没有很好地利用观测信息，localization基本就是在乱猜其在空间中的位置。并且，通常情况下，只使用当前scan也无法准确获得定位，因为可能存在大量的重复地图特征。</p>
+<p>​
+我仅仅讨论粒子滤波在localization中的作用，虽然localization只是PF理论应用的一个小方向。如果没有给定初值，也没有很好地利用观测信息，localization基本就是在乱猜其在空间中的位置。并且，通常情况下，只使用当前scan也无法准确获得定位，因为可能存在大量的重复地图特征。</p>
 <p>​ 好在我们有连续的观测以及连续的控制，假设控制与观测序列：</p>
 <ul>
 <li>控制序列: <span class="math inline">\(U_t:\{u_1,u_2,...u_{t}\}\)</span>​​，<span class="math inline">\(u_t\)</span>​表示从状态<span class="math inline">\(x_{t-1}\)</span>​过渡到<span class="math inline">\(x_t\)</span>​的控制​</li>
@@ -355,8 +360,11 @@ Figure 1. Particle Filter 中使用Volume2D Shader进行的激光雷达scan仿�
 \begin{equation}\label{post}
 x_t^* = \mathop{\arg \max}_{x_t}P(x_t|Z_t,U_t)
 \end{equation}
-\]</span> ​ 实际上，可以说公式<span class="math inline">\(\eqref{post}\)</span>定义的是一个后验概率。也就是最大化一个后验概率了，啊这不就是 贝叶斯滤波吗？确实，粒子滤波就是贝叶斯滤波的一个非参数实现。</p>
-<p>​ 但是一般来说，没有马尔可夫假设，事情会变得很复杂，如果我们需要对一大串控制 / 状态序列进行处理，应该怎么做？</p>
+\]</span> ​ 实际上，可以说公式<span class="math inline">\(\eqref{post}\)</span>定义的是一个后验概率。也就是最大化一个后验概率了，啊这不就是
+贝叶斯滤波吗？确实，粒子滤波就是贝叶斯滤波的一个非参数实现。</p>
+<p>​
+但是一般来说，没有马尔可夫假设，事情会变得很复杂，如果我们需要对一大串控制
+/ 状态序列进行处理，应该怎么做？</p>
 <h3 id="粒子与采样">2.2 粒子与采样</h3>
 <p>​ 这是不是自然计算？粒子是一个个的可能状态：<span class="math inline">\(x_{t,1},x_{t,2},...x_{t,k}\)</span>​，假设我们有k个假设的状态。此时我们应该运用贝叶斯学派知识，首先由信息包含关系（之前的观测与控制包含在状态<span class="math inline">\(x_{t-1,i}\)</span>中） <span class="math display">\[
 \begin{equation}\label{info}
@@ -364,11 +372,14 @@ P(x_{t,i}|Z_t,U_t,x_{0,i})=P(x_{t,i}|z_t,u_t,x_{t-1,i})
 \end{equation}
 \]</span> ​ 接下来的贝叶斯滤波变换可以说很妙了： <span class="math display">\[
 \begin{equation}
-P(x_{t,i}|z_t,u_t,x_{t-1,i}) = \frac{P(x_{t,i}, z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}
+P(x_{t,i}|z_t,u_t,x_{t-1,i}) = \frac{P(x_{t,i},
+z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}
 \end{equation}
-\]</span> ​ 既然是要使用贝叶斯，那么就要想办法把观测和状态互换位置： <span class="math display">\[
+\]</span> ​ 既然是要使用贝叶斯，那么就要想办法把观测和状态互换位置：
+<span class="math display">\[
 \begin{equation}\label{eqn4}
-\frac{P(x_{t,i}, z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}=\frac{P(z_t|x_{t,i},u_t,x_{t-1,i})P(x_{t,i},u_t,x_{t-1,i})}{P(z_t|u_t,x_{t-1,i})P(x_{t-1,i},u_t)}
+\frac{P(x_{t,i},
+z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_{t-1,i})}=\frac{P(z_t|x_{t,i},u_t,x_{t-1,i})P(x_{t,i},u_t,x_{t-1,i})}{P(z_t|u_t,x_{t-1,i})P(x_{t-1,i},u_t)}
 =\frac{P(z_t|x_{t,i},u_t,x_{t-1,i})P(x_{t,i}|u_t,x_{t-1,i})}{P(z_t|u_t,x_{t-1,i})}
 \end{equation}
 \]</span> ​ 注意，我们有如下两个论断成立： <span class="math display">\[
@@ -389,22 +400,29 @@ P(x_{t,i}|z_t,u_t,x_{t-1,i}) = \frac{P(x_{t,i}, z_t,u_t,x_{t-1,i})}{P(z_t,u_t,x_
 <p>​ 在2.5小节里，我简单地说一下我是如何对这个问题进行建模的。</p>
 <h3 id="分布变换">2.3 分布变换</h3>
 <p>​ 粒子滤波实际上是用粒子与采样来近似任意分布，在公式<span class="math inline">\(\eqref{eqn7}\)</span>​​​中，已经说明了<span class="math inline">\(P(x_{t,i}|x_{t-1,i},z_t,u_t)\)</span>​的组成成分。粒子滤波实际上还做了一个这样的事情，我们知道概率论中，概率是需要归一化的，而归一化因子在连续PDF中一般都涉及到积分。很多时候，积分是很难的，不一定能积出来。要获取目标分布，就存在一定难度了。这个时候，粒子滤波可以通过一个简单的建议分布，去推导一个复杂的目标分布。</p>
-<p>​ 我们重新定义一下问题。<span class="math inline">\(P(x_{t,i}|x_{t-1,i},z_t,u_t)\)</span>是当前点的存在置信度，而我们希望，算法可以是迭代式（马尔可夫）的，也就是要从上一个迭代的粒子对应的置信度，计算本次迭代对应粒子的置信度。于是根据控制状态转移分布，可以得到建议分布： <span class="math display">\[
+<p>​ 我们重新定义一下问题。<span class="math inline">\(P(x_{t,i}|x_{t-1,i},z_t,u_t)\)</span>是当前点的存在置信度，而我们希望，算法可以是迭代式（马尔可夫）的，也就是要从上一个迭代的粒子对应的置信度，计算本次迭代对应粒子的置信度。于是根据控制状态转移分布，可以得到建议分布：
+<span class="math display">\[
 P(x_{t,i}|x_{t-1,i},z_t,u_t)=P(x_{t,i}|x_{t-1,i},u_t)P(x_{t-1,i}|x_{t-2,i},z_{t-1},u_{t-1})
-\]</span> ​ 可以发现，等号右边第二项就是上一次迭代对应粒子的分布。根据状态转移进行了分布变换，得到了新的建议分布。<strong><u>但是我们并非直接接受新的建议分布，</u></strong>为什么？</p>
+\]</span> ​
+可以发现，等号右边第二项就是上一次迭代对应粒子的分布。根据状态转移进行了分布变换，得到了新的建议分布。<strong><u>但是我们并非直接接受新的建议分布，</u></strong>为什么？</p>
 <blockquote>
 <p>状态的转移带来新的信息。通俗地说，到一个新的地点，就可以从不同的角度观察环境。</p>
 </blockquote>
-<p>​ 我们可以通过新的观测，来衡量，这些新的点是否适合？原来的粒子，是分布的采样。那么，符合新的观测的粒子，自然可以给一个大权重，而不符合新观测的粒子，自然也就不那么重视。这就涉及到对粒子进行加权以及重采样。</p>
+<p>​
+我们可以通过新的观测，来衡量，这些新的点是否适合？原来的粒子，是分布的采样。那么，符合新的观测的粒子，自然可以给一个大权重，而不符合新观测的粒子，自然也就不那么重视。这就涉及到对粒子进行加权以及重采样。</p>
 <h3 id="加权-重采样">2.4 加权 重采样</h3>
-<p>​ 我们希望给粒子impose一个权重。但是粒子已经是分布的一个例化了（采样），这个时候有两种方案：</p>
+<p>​
+我们希望给粒子impose一个权重。但是粒子已经是分布的一个例化了（采样），这个时候有两种方案：</p>
 <ul>
 <li>每个粒子维护一个权重，每次更新权重</li>
 <li>每次重新生成一群粒子，根据权重进行生成</li>
 </ul>
-<p>​ 第一种思想很好理解。比如在localization问题中，我在位姿空间中有很多位姿的估计粒子，那么最后粒子求加权平均应该就是结果。</p>
-<p>​ 而第二种思想，则是把权重隐含在粒子数量中，这种思想是真正符合“粒子是对应分布的采样”的。显然，在N维空间中某个区域粒子数多，自然此处分布就应该比较大。</p>
-<p>​ 直接进行随机的Metropolis-Hasting采样，需要的时间开销比较大？为什么？根据这篇文章[2]，里面说：</p>
+<p>​
+第一种思想很好理解。比如在localization问题中，我在位姿空间中有很多位姿的估计粒子，那么最后粒子求加权平均应该就是结果。</p>
+<p>​
+而第二种思想，则是把权重隐含在粒子数量中，这种思想是真正符合“粒子是对应分布的采样”的。显然，在N维空间中某个区域粒子数多，自然此处分布就应该比较大。</p>
+<p>​
+直接进行随机的Metropolis-Hasting采样，需要的时间开销比较大？为什么？根据这篇文章[2]，里面说：</p>
 <blockquote>
 <p>简单随机重采样：（1）生成N个均匀分布随机数（2）随机数数列排序（3）根据随机数数列以及粒子的权重进行重采样。</p>
 </blockquote>
@@ -413,48 +431,61 @@ P(x_{t,i}|x_{t-1,i},z_t,u_t)=P(x_{t,i}|x_{t-1,i},u_t)P(x_{t-1,i}|x_{t-2,i},z_{t-
 <li>不能保证数据集的遍历性，有些数据可能根本没有办法被采样到</li>
 <li>计算复杂度大，大型采样时间消耗大。</li>
 </ul>
-<p>​ 更好的算法，这里就不再赘述了，详见《概率机器人》第四章。我的实现中，使用的就是《概率机器人》中的“低方差采样”，时间复杂度为O(N)，并且是遍历性的。</p>
-<p>​ 重采样的目的就是使得建议分布转化为目标分布。对于粒子滤波，如果我们这样理解问题：滤波的完整迭代过程（从0到收敛有t个迭代），那么希望最大化： <span class="math display">\[
+<p>​
+更好的算法，这里就不再赘述了，详见《概率机器人》第四章。我的实现中，使用的就是《概率机器人》中的“低方差采样”，时间复杂度为O(N)，并且是遍历性的。</p>
+<p>​
+重采样的目的就是使得建议分布转化为目标分布。对于粒子滤波，如果我们这样理解问题：滤波的完整迭代过程（从0到收敛有t个迭代），那么希望最大化：
+<span class="math display">\[
 \begin{equation}\label{new_obj}
 P(x_{0:t,i}|z_{1:t},u_{1:t})
 \end{equation}
-\]</span> ​ 以localization任务来说。如果一个状态是比较正确的，那么不管如何迭代，其置信度在不同的迭代中都应该比较大。那么根据公式<span class="math inline">\(\eqref{eqn7}\)</span>​​，可以展开为类似的结构（这是目标分布）： <span class="math display">\[
+\]</span> ​
+以localization任务来说。如果一个状态是比较正确的，那么不管如何迭代，其置信度在不同的迭代中都应该比较大。那么根据公式<span class="math inline">\(\eqref{eqn7}\)</span>​​，可以展开为类似的结构（这是目标分布）：
+<span class="math display">\[
 \begin{equation}\label{eqn11}
 \eta P(z_t|x_{0:t,i}, z_{1:t},u_{1:t})P(x_{0:t,i}|u_t,z_{1:t-1,i})
 \end{equation}
-\]</span> ​ 进一步根据贝叶斯和马尔可夫性，可以作进一步展开，可得到建议分布与目标分布之比与<span class="math inline">\(P(z_t|x_{t_i})\)</span>​成正比。</p>
+\]</span> ​
+进一步根据贝叶斯和马尔可夫性，可以作进一步展开，可得到建议分布与目标分布之比与<span class="math inline">\(P(z_t|x_{t_i})\)</span>​成正比。</p>
 <h3 id="简单建模">2.5 简单建模</h3>
-<p>​ 此部分，我简要介绍一下在基于Volume2D Shader的激光雷达模拟器中，如何建模一些分布。最为重要的首先就是似然<span class="math inline">\(P(z_t|x_t)\)</span>，也即，给定状态下，产生观测<span class="math inline">\(z_t\)</span>的可能性。此处我将其建模为：</p>
+<p>​ 此部分，我简要介绍一下在基于Volume2D
+Shader的激光雷达模拟器中，如何建模一些分布。最为重要的首先就是似然<span class="math inline">\(P(z_t|x_t)\)</span>，也即，给定状态下，产生观测<span class="math inline">\(z_t\)</span>的可能性。此处我将其建模为：</p>
 <ul>
 <li>给定<span class="math inline">\(x_t\)</span>（状态，也即粒子对应的位姿），我在此处模拟一个激光点云（因为已知地图），与实际的观测<span class="math inline">\(z_t\)</span>进行比较。相似则对应的概率大，不相似则概率小。</li>
 <li>那么相似性的比较，则是基于模拟激光点云对应角度上的range差值。其实只要理解似然在此处的作用，这个模型很好建立。</li>
 </ul>
-<p>​ 另一方面，是状态转移模型。此处直接使用了一个方差与移动大小相关的高斯噪声。</p>
+<p>​
+另一方面，是状态转移模型。此处直接使用了一个方差与移动大小相关的高斯噪声。</p>
 <hr>
 <h2 id="iii.-结果">III. 结果</h2>
 <table>
+<colgroup>
+<col style="width: 49%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img1.png"></th>
 <th style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img3.png"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">长走廊问题 初始化</td>
 <td style="text-align: center;">长走廊问题 第三次迭代（移动3次）</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img9.png"></td>
 <td style="text-align: center;"><img src="/2021/08/07/Particle-Filter-Simulation/img16.png"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">长走廊问题 第九次迭代（移动9次）</td>
 <td style="text-align: center;">长走廊问题 第十六次迭代（移动16次）</td>
 </tr>
 </tbody>
 </table>
-<p>​ 对于不完全的长走廊问题（虽然相似但是还有一定区别的环境），粒子滤波还是可以应对的。（2000个粒子）。</p>
+<p>​
+对于不完全的长走廊问题（虽然相似但是还有一定区别的环境），粒子滤波还是可以应对的。（2000个粒子）。</p>
 <video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
 </video>
 <center>
@@ -495,8 +526,8 @@ Video 2. 随机地图定位问题（慢速）
 </div>
 
           <div class="post-tags">
-              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
               <a href="/tags/SLAM/" rel="tag"><i class="fa fa-tag"></i> SLAM</a>
+              <a href="/tags/knowings/" rel="tag"><i class="fa fa-tag"></i> knowings</a>
               <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 概率论</a>
           </div>
 

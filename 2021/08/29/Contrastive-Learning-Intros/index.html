@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="CL  I. Introduction ​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门">
+  <meta name="description" content="CL  I. Introduction ​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Contrastive Learning Intros">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/08/29/Contrastive-Learning-Intros/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="CL  I. Introduction ​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门">
+<meta property="og:description" content="CL  I. Introduction ​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/29/Contrastive-Learning-Intros/1.PNG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/29/Contrastive-Learning-Intros/2.PNG">
@@ -116,7 +116,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -338,20 +338,29 @@
         <h1 id="cl">CL</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门了一下无监督学习（入门水准），这个领域里面有些很有趣的理论以及思想值得借鉴。本文在回顾了一下一些概率论理论之后，内容主要有：</p>
+<p>​
+根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是
+empirical
+xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门了一下无监督学习（入门水准），这个领域里面有些很有趣的理论以及思想值得借鉴。本文在回顾了一下一些概率论理论之后，内容主要有：</p>
 <ul>
 <li>Contrastive Predictive Coding (CPC) 论文的理解</li>
-<li>何恺明大神（同样姓何为何我这么菜）Momentum Contrast (MoCo) 论文的理解</li>
+<li>何恺明大神（同样姓何为何我这么菜）Momentum Contrast (MoCo)
+论文的理解</li>
 <li>MoCo实现以及与基于ResNet思想的baseline模型比较（实现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/MoCo">🔗Enigmatisms/MoCo</a>）</li>
 </ul>
 <span id="more"></span>
 <hr>
 <h2 id="ii.-两个曾经的sota">II. 两个曾经的SOTA</h2>
 <h3 id="nce">2.1 NCE？</h3>
-<p>​ 在之前我们已经介绍了CL的工作原理：对输入数据进行encode，在某一个高维metric space下对两个输入encode后的特征向量进行相似度比较。给定正负样本（正负样本的获得是无监督的）后，我们需要通过训练集来优化我们的encoder，使得经过encode之后，原空间下就相似的样本能在变换后也十分相似（表现在内积上）。那么这就要求我们使用一个loss来优化encoder，论文中使用的是InfoNCE。</p>
-<div class="note warning"><p><strong><u>注意，NCE不是 negative cross entropy！（这是开始时本人认为的东西）</u></strong>。但是既然那么有缘，还是复习一下NCE相关的知识。</p>
+<p>​
+在之前我们已经介绍了CL的工作原理：对输入数据进行encode，在某一个高维metric
+space下对两个输入encode后的特征向量进行相似度比较。给定正负样本（正负样本的获得是无监督的）后，我们需要通过训练集来优化我们的encoder，使得经过encode之后，原空间下就相似的样本能在变换后也十分相似（表现在内积上）。那么这就要求我们使用一个loss来优化encoder，论文中使用的是InfoNCE。</p>
+<div class="note warning"><p><strong><u>注意，NCE不是 negative cross
+entropy！（这是开始时本人认为的东西）</u></strong>。但是既然那么有缘，还是复习一下NCE相关的知识。</p>
 </div>
-<p>​ 首先简单地回忆一下交叉熵与KL散度（长时间不用就容易忘），首先是信息熵（与最小编码有关） <span class="math display">\[
+<p>​
+首先简单地回忆一下交叉熵与KL散度（长时间不用就容易忘），首先是信息熵（与最小编码有关）
+<span class="math display">\[
 \begin{equation}\label{ent}
 H(x)=-\sum p(x)\log\left(p(x)\right)
 \end{equation}
@@ -359,42 +368,63 @@ H(x)=-\sum p(x)\log\left(p(x)\right)
 \begin{equation}\label{kl}
 D_{KL}(P||Q)=\sum P(x)\log\frac{P(x)}{Q(x)}
 \end{equation}
-\]</span> ​ 在之前的一些博文中我们分析过，KL散度是用来衡量两个分布的近似程度的。</p>
-<div class="note info"><p>​ 原始的信息论问题是：对于两个不同概率分布的字母表P, Q，如果已经在Q上计算出了最优编码，那么只要字母表P的分布越接近Q，那么编码整个字母表P所需的平均信息就越接近Q的理论最小值。显然，这个问题的推广就是衡量两个分布的近似性。</p>
+\]</span> ​
+在之前的一些博文中我们分析过，KL散度是用来衡量两个分布的近似程度的。</p>
+<div class="note info"><p>​ 原始的信息论问题是：对于两个不同概率分布的字母表P,
+Q，如果已经在Q上计算出了最优编码，那么只要字母表P的分布越接近Q，那么编码整个字母表P所需的平均信息就越接近Q的理论最小值。显然，这个问题的推广就是衡量两个分布的近似性。</p>
 </div>
 <p>​ 而交叉熵可以用KL散度来定义（Wiki上说的）： <span class="math display">\[
 \begin{equation}\label{ce}
 \text{CE}(x)=H(p)+D_{KL}(p||q)=-\sum P(x)\log{Q(x)}
 \end{equation}
-\]</span> ​ 那么请问此式的意义应该如何解读？由于<span class="math inline">\(P(x),Q(x)\)</span>都是概率分布，越接近1则<span class="math inline">\(-\log f(x)\)</span>越小，那么以下两种极端情况可以定性解释这个loss的正确性：</p>
+\]</span> ​ 那么请问此式的意义应该如何解读？由于<span class="math inline">\(P(x),Q(x)\)</span>都是概率分布，越接近1则<span class="math inline">\(-\log
+f(x)\)</span>越小，那么以下两种极端情况可以定性解释这个loss的正确性：</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/1.PNG"></p>
-<p>​ 如果如上左图，两个分布相差较大，那么会有这样的情况：<span class="math inline">\(-\log Q(x)\)</span>较大时（也就是<span class="math inline">\(Q(x)\)</span>较小），<span class="math inline">\(P(x)\)</span>恰好较大，相当于对大值，加大权重。那么最后的loss很大。如果分布较为相似，那么则相反，对大值加小权，对小值加大权，这样得到的loss很小，也就直观上说明了Cross Entropy的作用方式。而二分类中，交叉熵的写法如下： <span class="math display">\[
+<p>​ 如果如上左图，两个分布相差较大，那么会有这样的情况：<span class="math inline">\(-\log Q(x)\)</span>较大时（也就是<span class="math inline">\(Q(x)\)</span>较小），<span class="math inline">\(P(x)\)</span>恰好较大，相当于对大值，加大权重。那么最后的loss很大。如果分布较为相似，那么则相反，对大值加小权，对小值加大权，这样得到的loss很小，也就直观上说明了Cross
+Entropy的作用方式。而二分类中，交叉熵的写法如下： <span class="math display">\[
 \begin{equation}\label{cel}
 \text{CEL}(x)=-(y\log(p)+(1-y)\log(1-p))
 \end{equation}
-\]</span> ​ 为什么会是这样的呢？显然，二分类情况下，只有错分才会有loss。根据交叉熵表达式<span class="math inline">\(\eqref{ce}\)</span>，假定<span class="math inline">\(P(x)\)</span>是真实分布，<span class="math inline">\(Q(x)\)</span>是估计分布。</p>
-<p>​ 讲完了CE，要来讲讲真正的NCE与InfoNCE是什么了，在这里我只简要说说，因为我也是查出来的（精力有限，不能过分地递归学习），知乎上有篇文章讲得还行[1]。在这个文章中，作者开始就从NLP切入，我觉得这个切入点还不错，因为NLP中很多问题都是和序列有关的，于是存在这种：context，通过context来进行推断的语言模型之类的东西。那么InfoNCE的作用原理是什么？首先给出公式： <span class="math display">\[
+\]</span> ​
+为什么会是这样的呢？显然，二分类情况下，只有错分才会有loss。根据交叉熵表达式<span class="math inline">\(\eqref{ce}\)</span>，假定<span class="math inline">\(P(x)\)</span>是真实分布，<span class="math inline">\(Q(x)\)</span>是估计分布。</p>
+<p>​
+讲完了CE，要来讲讲真正的NCE与InfoNCE是什么了，在这里我只简要说说，因为我也是查出来的（精力有限，不能过分地递归学习），知乎上有篇文章讲得还行[1]。在这个文章中，作者开始就从NLP切入，我觉得这个切入点还不错，因为NLP中很多问题都是和序列有关的，于是存在这种：context，通过context来进行推断的语言模型之类的东西。那么InfoNCE的作用原理是什么？首先给出公式：
+<span class="math display">\[
 \begin{equation}\label{infonce}
-L_q=-\log\frac{\exp(q\cdot k_{+}/\tau)}{\sum_{i=0}^K\exp{(q\cdot k_i/\tau})}
+L_q=-\log\frac{\exp(q\cdot k_{+}/\tau)}{\sum_{i=0}^K\exp{(q\cdot
+k_i/\tau})}
 \end{equation}
-\]</span> ​ 其中，<span class="math inline">\(k_+\)</span>是与query <span class="math inline">\(q\)</span> 能够match的正sample key。其余的都是负sample key。可以发现这种 Q K V 设计还是非常普遍的，对每一个需要使用的value，都存在一个对应的key，以应对不同query，虽然在CL问题中没有显式的value，因为value就是key。</p>
-<p>​ 那么上式就是一个负对数表达，因为概率越小 loss越大。在MoCo中，个人的理解是：由于MoCo的queue以及momentum update设计，使得key dictionary相对不变，提供的key相对稳定，在假设key正确的情况下，需要找到一个好的encoder参数<span class="math inline">\(f_q\)</span>使得产生的<span class="math inline">\(q\)</span>能够与其中一个key完成匹配。不过这个<span class="math inline">\(k_{+}\)</span>的选取倒是没有说过。</p>
+\]</span> ​ 其中，<span class="math inline">\(k_+\)</span>是与query <span class="math inline">\(q\)</span> 能够match的正sample
+key。其余的都是负sample key。可以发现这种 Q K V
+设计还是非常普遍的，对每一个需要使用的value，都存在一个对应的key，以应对不同query，虽然在CL问题中没有显式的value，因为value就是key。</p>
+<p>​ 那么上式就是一个负对数表达，因为概率越小
+loss越大。在MoCo中，个人的理解是：由于MoCo的queue以及momentum
+update设计，使得key
+dictionary相对不变，提供的key相对稳定，在假设key正确的情况下，需要找到一个好的encoder参数<span class="math inline">\(f_q\)</span>使得产生的<span class="math inline">\(q\)</span>能够与其中一个key完成匹配。不过这个<span class="math inline">\(k_{+}\)</span>的选取倒是没有说过。</p>
 <h3 id="infonce-in-cpc">2.2 InfoNCE in CPC</h3>
-<p>​ CPC[3]论文中明确定义了InfoNCE（应该是首次出现）。这篇文章的理论部分更加清楚，并且用到了一些概率论知识，我重点理解和推导一下。首先需要搞清楚的是：什么是context，关于context，CPC论文中说了它具体的产生：</p>
+<p>​
+CPC[3]论文中明确定义了InfoNCE（应该是首次出现）。这篇文章的理论部分更加清楚，并且用到了一些概率论知识，我重点理解和推导一下。首先需要搞清楚的是：什么是context，关于context，CPC论文中说了它具体的产生：</p>
 <blockquote>
-<p>Next, an autoregressive model gar summarizes all z≤t in the latent space and produces a context latent representation ct = gar(z≤t).</p>
+<p>Next, an autoregressive model gar summarizes all z≤t in the latent
+space and produces a context latent representation ct = gar(z≤t).</p>
 </blockquote>
-<p>​ 那么可以认为，context实际上就是对一个序列信息（或者有顺序关联性的信息），前述信息的一个提炼，相当于提供了一个背景。CPC后文中提到的使用上下文指导的prediction，可以佐证这样的理解：context信息就是生成对应prediction的背景信息，只有给定背景，predict才不会漫无目的地乱猜。于是才会有两种不同的概率：</p>
+<p>​
+那么可以认为，context实际上就是对一个序列信息（或者有顺序关联性的信息），前述信息的一个提炼，相当于提供了一个背景。CPC后文中提到的使用上下文指导的prediction，可以佐证这样的理解：context信息就是生成对应prediction的背景信息，只有给定背景，predict才不会漫无目的地乱猜。于是才会有两种不同的概率：</p>
 <ul>
-<li>条件概率<span class="math inline">\(P(x_{t+k}|c_t)\)</span>，<span class="math inline">\(c_t\)</span>可以认为是截止到t时刻的上下文信息，<span class="math inline">\(x_{t+k}\)</span>是一个正样本（为什么？等会儿说）（prediction），或者就如论文自己说的：理解成一个生成式模型，根据latent vector <span class="math inline">\(c_t\)</span>来生成prediction的一个分布模型</li>
+<li>条件概率<span class="math inline">\(P(x_{t+k}|c_t)\)</span>，<span class="math inline">\(c_t\)</span>可以认为是截止到t时刻的上下文信息，<span class="math inline">\(x_{t+k}\)</span>是一个正样本（为什么？等会儿说）（prediction），或者就如论文自己说的：理解成一个生成式模型，根据latent
+vector <span class="math inline">\(c_t\)</span>来生成prediction的一个分布模型</li>
 <li>直接概率<span class="math inline">\(P(x_{t+k})\)</span>则是被预测量的分布，是我们想知道的那个分布吗？并不是这样理解的，论文中自己说到了：</li>
 </ul>
 <blockquote>
 <p>N-1 negative samples from the ’proposal’ distribution <span class="math inline">\(p(x_{t+k})\)</span></p>
 </blockquote>
-<p>​ 这个<span class="math inline">\(P(x_{t+k})\)</span>就是我们随机采样的 <u><strong>噪声建议分布</strong></u>。</p>
-<p>​ 当时觉得，诶有点似曾相识。当我看到论文中写到importance sampling以及"proposal distribution"的时候我感觉，坏了，开始有点像粒子滤波了。那么可以结合起来理解，只需要简单回顾一下重要性采样即可。</p>
-<div class="note success"><p>回顾一下重要性采样，也就是“建议分布 (proposal) ”如何转向“目标分布”</p>
+<p>​ 这个<span class="math inline">\(P(x_{t+k})\)</span>就是我们随机采样的
+<u><strong>噪声建议分布</strong></u>。</p>
+<p>​ 当时觉得，诶有点似曾相识。当我看到论文中写到importance
+sampling以及"proposal
+distribution"的时候我感觉，坏了，开始有点像粒子滤波了。那么可以结合起来理解，只需要简单回顾一下重要性采样即可。</p>
+<div class="note success"><p>回顾一下重要性采样，也就是“建议分布 (proposal)
+”如何转向“目标分布”</p>
 </div>
 <p>​ 假设我们需要计算关于<span class="math inline">\(f(x)\)</span>的某个积分（比如期望），但是要么<span class="math inline">\(f(x)\)</span> 是高维复杂分布，要么<span class="math inline">\(f(x)\)</span>难以积分，总之就是不方便从此分布中直接采样，而同时我们又有另一个简单的分布<span class="math inline">\(g(x)\)</span>，那么有： <span class="math display">\[
 \begin{equation}\label{imp}
@@ -407,58 +437,87 @@ I(x,c)=\sum_{x,c}p(x,c)\log\frac{p(x|c)}{p(x)}
 \end{equation}
 \]</span> ​ 作者显式地去建模<span class="math inline">\(p(x|c)/p(x)\)</span>，并且作者使用的这个比值不一定需要有归一化属性，只需要建模一个函数<span class="math inline">\(f(x)\)</span>与<span class="math inline">\(p(x|c)/p(x)\)</span>成正比即可。关于公式<span class="math inline">\(\eqref{info}\)</span>，作者自己是这么说的：</p>
 <blockquote>
-<p>By using a density ratio <span class="math inline">\(f(x_{t+k},c)\)</span> and inferring $ {z_{t+k}}$ with an encoder, we relieve the model from modeling the <strong><u>high dimensional distribution</u></strong> <span class="math inline">\(x_{t+k}\)</span>. Although we cannot evaluate p(x) or p(x|c) directly, we can use samples from these distributions, allowing us to use techniques such as Noise-Contrastive Estimation and <u><strong>Importance Sampling</strong></u> that are based on comparing the target value with randomly sampled negative values.</p>
+<p>By using a density ratio <span class="math inline">\(f(x_{t+k},c)\)</span> and inferring $ {z_{t+k}}$
+with an encoder, we relieve the model from modeling the <strong><u>high
+dimensional distribution</u></strong> <span class="math inline">\(x_{t+k}\)</span>. Although we cannot evaluate p(x)
+or p(x|c) directly, we can use samples from these distributions,
+allowing us to use techniques such as Noise-Contrastive Estimation and
+<u><strong>Importance Sampling</strong></u> that are based on comparing
+the target value with randomly sampled negative values.</p>
 </blockquote>
-<p>​ 确实，作者没有用生成式模型去直接建模概率分布，而是使用类似重要性采样的方式去保证互信息可以得到尽可能大的值。</p>
+<p>​
+确实，作者没有用生成式模型去直接建模概率分布，而是使用类似重要性采样的方式去保证互信息可以得到尽可能大的值。</p>
 <h3 id="cpcmoco的基本思想">2.3 CPC/MoCo的基本思想</h3>
-<p>​ 是啊，理论很妙，是啊。。。但是？他们用这些理论在干什么来着？推了那么久公式，我们仿佛忘记了他们的目标究竟是什么。注意CPC中使用了NCE（<strong><u>Noise Contrastive</u></strong> Estimation），并且也要记住，这种<strong><u>无监督的</u></strong>对比学习方法核心就在于【对比】。那么和谁对比？<strong><u>噪声分布</u></strong>的数据对比，所以会有NCE。</p>
+<p>​
+是啊，理论很妙，是啊。。。但是？他们用这些理论在干什么来着？推了那么久公式，我们仿佛忘记了他们的目标究竟是什么。注意CPC中使用了NCE（<strong><u>Noise
+Contrastive</u></strong>
+Estimation），并且也要记住，这种<strong><u>无监督的</u></strong>对比学习方法核心就在于【对比】。那么和谁对比？<strong><u>噪声分布</u></strong>的数据对比，所以会有NCE。</p>
 <ul>
 <li><span class="math inline">\(P(x_{t+k}|c_t)\)</span>是根据上下文进行的采样，采样得到的结果就是正样本</li>
 <li><span class="math inline">\(P(x_{t+k})\)</span>是负样本的来源分布</li>
 </ul>
-<p>​ 最大化正样本和负样本之间的互信息（衡量两个随机变量的独立性，或者说观察其中一个变量可以得到另一个变量的信息）。这里是在最大化<span class="math inline">\(x_{t+k}\)</span>与<span class="math inline">\(c_t\)</span>这两个随机变量的互信息，我们希望，根据上下文信息<span class="math inline">\(c_t\)</span>就能很好地对<span class="math inline">\(x_{t+k}\)</span>进行预测。但是在对比学习里面，预测并不是我们的目的。个人认为，对比学习的目的应该是：</p>
-<div class="note primary"><p>​ 为了更好地区分正负样本，需要一个特征向量提取器，将所有输入映射为某个metric space中的一些向量。将这些向量用在下游任务上，比如用一个简单的MLP接受CL输出的向量的输出进行分类。（我在写这个的时候，我还完全没有实现过，并且也没有看到两篇论文的实验部分）。</p>
+<p>​
+最大化正样本和负样本之间的互信息（衡量两个随机变量的独立性，或者说观察其中一个变量可以得到另一个变量的信息）。这里是在最大化<span class="math inline">\(x_{t+k}\)</span>与<span class="math inline">\(c_t\)</span>这两个随机变量的互信息，我们希望，根据上下文信息<span class="math inline">\(c_t\)</span>就能很好地对<span class="math inline">\(x_{t+k}\)</span>进行预测。但是在对比学习里面，预测并不是我们的目的。个人认为，对比学习的目的应该是：</p>
+<div class="note primary"><p>​
+为了更好地区分正负样本，需要一个特征向量提取器，将所有输入映射为某个metric
+space中的一些向量。将这些向量用在下游任务上，比如用一个简单的MLP接受CL输出的向量的输出进行分类。（我在写这个的时候，我还完全没有实现过，并且也没有看到两篇论文的实验部分）。</p>
 </div>
 <p>​ 为了实现以上目的，两篇论文使用了不同的方法。</p>
 <h4 id="cpc总体思想">2.3.1 CPC总体思想</h4>
-<p>​ CPC最后希望生成encoder或者autoregressive model，来接收一个数据或者是一个数据序列，生成高维表征。CPC对于InfoNCE的优化，实际上是在优化一个交叉熵函数（二分类），由于二分类的交叉熵函数可以被写为：</p>
+<p>​ CPC最后希望生成encoder或者autoregressive
+model，来接收一个数据或者是一个数据序列，生成高维表征。CPC对于InfoNCE的优化，实际上是在优化一个交叉熵函数（二分类），由于二分类的交叉熵函数可以被写为：</p>
 <p><span class="math display">\[
 \begin{equation}\label{infonce2}
-p(d=i|X,c_t)=\frac{p(x_i|c_t)\prod_{l\neq i}p(x_l)}{\sum_{j=1}^N p(x_j|c_t)\prod_{l\neq j}p(x_l)}
+p(d=i|X,c_t)=\frac{p(x_i|c_t)\prod_{l\neq i}p(x_l)}{\sum_{j=1}^N
+p(x_j|c_t)\prod_{l\neq j}p(x_l)}
 \end{equation}
-\]</span> ​ <span class="math inline">\(p(x_i|c_t)\prod_{l\neq i}p(x_l)\)</span>表示了当<span class="math inline">\(x_i\)</span>是从正样本的上下文条件分布中采样得到，而其他的<span class="math inline">\(x_j\)</span>都是噪声采样时的概率。上式的所有连乘中均缺少本<span class="math inline">\(p(x_i)\)</span>，于是可以很容易写成<span class="math inline">\({p(x|c)}/{p(x)}\)</span>的形式。写成这个形式就可以使用CPC中对这个比值的建模了。总之也是构建encoder，encoder最终输出<span class="math inline">\(f(x_{t+k},c_t)\)</span>而中间产生的变量<span class="math inline">\(z_t\)</span>（隐变量）可以拿去用。</p>
+\]</span> ​ <span class="math inline">\(p(x_i|c_t)\prod_{l\neq
+i}p(x_l)\)</span>表示了当<span class="math inline">\(x_i\)</span>是从正样本的上下文条件分布中采样得到，而其他的<span class="math inline">\(x_j\)</span>都是噪声采样时的概率。上式的所有连乘中均缺少本<span class="math inline">\(p(x_i)\)</span>，于是可以很容易写成<span class="math inline">\({p(x|c)}/{p(x)}\)</span>的形式。写成这个形式就可以使用CPC中对这个比值的建模了。总之也是构建encoder，encoder最终输出<span class="math inline">\(f(x_{t+k},c_t)\)</span>而中间产生的变量<span class="math inline">\(z_t\)</span>（隐变量）可以拿去用。</p>
 <h4 id="moco总体思想">2.3.2 MoCo总体思想</h4>
-<p>​ 对于CPC而言，其encoder每个minibatch都会更新，变化很快，可能就是属于MoCo论文中三种分类的第一种。</p>
+<p>​
+对于CPC而言，其encoder每个minibatch都会更新，变化很快，可能就是属于MoCo论文中三种分类的第一种。</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/2.PNG" style="zoom: 50%;"></p>
 <center>
 Figure 2. MoCo论文中对CL结构的三种分类
 </center>
-<p>​ 为了避免end2end造成的不稳定性（没有一致性），MoCo的key encoder相当于是在query encoder上做了一个指数平均（低通滤波），使得key encoder的参数变化很平滑。使得更新具有一致性。MoCo其他方面的基本思想与CPC也类似：</p>
+<p>​ 为了避免end2end造成的不稳定性（没有一致性），MoCo的key
+encoder相当于是在query encoder上做了一个指数平均（低通滤波），使得key
+encoder的参数变化很平滑。使得更新具有一致性。MoCo其他方面的基本思想与CPC也类似：</p>
 <ul>
 <li>对一个batch中的每一张图片，自身的增强为正样本，其他图片的增强为负样本</li>
 <li>优化InfoNCE定义的函数：使得正样本最能被正确区分出来</li>
-<li>使用query encoder的参数缓慢更新key encoder，并且key encoder不参与反向传播</li>
+<li>使用query encoder的参数缓慢更新key encoder，并且key
+encoder不参与反向传播</li>
 </ul>
 <hr>
 <h2 id="iii.-实现---moco">III. 实现 - MoCo</h2>
-<p>​ Momentum contrast 的实现非常简单，论文中也提供了pseudo code，所以在实现过程中并没有遇到什么十分困难的问题。我倒是在训练过程中遇上了一些问题。首先，我实现了一个Encoder（轻量级的具有一些Residual Blocks的网络），结构大概是这样的：</p>
+<p>​ Momentum contrast 的实现非常简单，论文中也提供了pseudo
+code，所以在实现过程中并没有遇到什么十分困难的问题。我倒是在训练过程中遇上了一些问题。首先，我实现了一个Encoder（轻量级的具有一些Residual
+Blocks的网络），结构大概是这样的：</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/3.PNG"></p>
 <center>
 Figure 3. Encoder网络
 </center>
-<p>​ 因为我料到我可能跑不动论文里说的ResNet50以及ImageNet的巨大数据集，所以我针对CIFAR10设计了一个无监督pretext task。本来就是打算用这个网络结构当encoder来跑MoCo，但是发现，这个网络会使得loss一直卡在一个值上不动（极其长的时间，长到我没有耐心等待）并且波动很小。我怀疑这不能成功地训练，所以用这个网络直接做了一个Baseline训练了一下，emmm，结果很不错：大约96%的测试集准确率，虽然我不知道这是怎么算出超过1来的。不过训练集的准确率有时甚至可以达到1.00，说明这个网络还是有能力做好分类的。</p>
+<p>​
+因为我料到我可能跑不动论文里说的ResNet50以及ImageNet的巨大数据集，所以我针对CIFAR10设计了一个无监督pretext
+task。本来就是打算用这个网络结构当encoder来跑MoCo，但是发现，这个网络会使得loss一直卡在一个值上不动（极其长的时间，长到我没有耐心等待）并且波动很小。我怀疑这不能成功地训练，所以用这个网络直接做了一个Baseline训练了一下，emmm，结果很不错：大约96%的测试集准确率，虽然我不知道这是怎么算出超过1来的。不过训练集的准确率有时甚至可以达到1.00，说明这个网络还是有能力做好分类的。</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/4.PNG"></p>
 <center>
 Figure 4. 简单ResNet结构的Baseline
 </center>
 <p>​ 我最后因为受不了垃圾MX150显卡，跑去租了一个云电脑。很爽啊，推荐<a target="_blank" rel="noopener" href="http://gpu.ai-galaxy.cn/console">【智星云】</a>✨。租了一个这玩意：</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/5.PNG"></p>
-<p>​ 3.5元1h，不知道算不算便宜。我知道这个设备肯定能跑更强的网络，于是用torchvision内置的ResNet18（没有预训练）+一个从1000到128的ReLU FC层，训练了200个epochs，batch size为100。确实还挺快的，1秒多一个batch，要我的渣机跑可能得10s一个batch。训练的Loss结果如下。这个loss就比较符合预期了。</p>
+<p>​
+3.5元1h，不知道算不算便宜。我知道这个设备肯定能跑更强的网络，于是用torchvision内置的ResNet18（没有预训练）+一个从1000到128的ReLU
+FC层，训练了200个epochs，batch
+size为100。确实还挺快的，1秒多一个batch，要我的渣机跑可能得10s一个batch。训练的Loss结果如下。这个loss就比较符合预期了。</p>
 <p><img src="/2021/08/29/Contrastive-Learning-Intros/6.PNG"></p>
 <center>
 Figure 5. ResNet18 MoCo Encoder loss训练成果
 </center>
-<p>​ 随后，使用这个训练好的Encoder，固定参数进行下游任务：有监督的MLP分类训练。MLP结构是128-&gt;64-&gt;64-&gt;32-&gt;10。结果挺 拉的💢，完全比不上Baseline，不知道为什么，个人觉得可能有几个tricks没用：</p>
+<p>​
+随后，使用这个训练好的Encoder，固定参数进行下游任务：有监督的MLP分类训练。MLP结构是128-&gt;64-&gt;64-&gt;32-&gt;10。结果挺
+拉的💢，完全比不上Baseline，不知道为什么，个人觉得可能有几个tricks没用：</p>
 <ul>
 <li>loss是单向的，也就是说，生成出的q就当q用，k就当k用，只存k不存q，虽然q，k是不同的两次transform，但是没有做反向的loss</li>
 <li>Shuffle BN，整个resnet内部都使用了BN，作者说直接使用BN是不好的</li>
@@ -470,9 +529,15 @@ Figure 5. MLP 有监督evaluation 45 epochs batch_size 50
 </center>
 <hr>
 <h2 id="reference">Reference</h2>
-<p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/334772391">Noise Contrastive Estimation 前世今生——从 NCE 到 InfoNCE</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_CVPR_2020/html/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.html">He K, Fan H, Wu Y, et al. Momentum contrast for unsupervised visual representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020: 9729-9738.</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1807.03748.pdf?fbclid=IwAR2G_jEkb54YSIvN0uY7JbW9kfhogUq9KhKrmHuXPi34KYOE8L5LD1RGPTo">Oord A, Li Y, Vinyals O. Representation learning with contrastive predictive coding[J]. arXiv preprint arXiv:1807.03748, 2018.</a></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/334772391">Noise
+Contrastive Estimation 前世今生——从 NCE 到 InfoNCE</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_CVPR_2020/html/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.html">He
+K, Fan H, Wu Y, et al. Momentum contrast for unsupervised visual
+representation learning[C]//Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition. 2020: 9729-9738.</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1807.03748.pdf?fbclid=IwAR2G_jEkb54YSIvN0uY7JbW9kfhogUq9KhKrmHuXPi34KYOE8L5LD1RGPTo">Oord
+A, Li Y, Vinyals O. Representation learning with contrastive predictive
+coding[J]. arXiv preprint arXiv:1807.03748, 2018.</a></p>
 
     </div>
 

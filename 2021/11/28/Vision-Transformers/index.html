@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="ViT  I. Intros ​ 去年的一个工作[1]，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文[2]（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive b">
+  <meta name="description" content="ViT  I. Intros ​ 去年的一个工作[1]，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文[2]（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Vision Transformers">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/11/28/Vision-Transformers/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="ViT  I. Intros ​ 去年的一个工作[1]，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文[2]（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive b">
+<meta property="og:description" content="ViT  I. Intros ​ 去年的一个工作[1]，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文[2]（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/11/28/Vision-Transformers/train.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/11/28/Vision-Transformers/test.png">
@@ -120,7 +120,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -181,7 +181,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vit"><span class="nav-text">ViT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-a-few-points"><span class="nav-text">II. A Few Points</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inductive-bias"><span class="nav-text">2.1 Inductive Bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%AF%87%E8%AE%BA%E6%96%87%E7%9A%84%E6%80%9D%E6%83%B3"><span class="nav-text">2.2 两篇论文的思想</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E8%AE%AD%E7%BB%83tricks"><span class="nav-text">III. 训练tricks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-text">3.1 写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#adamw"><span class="nav-text">3.2 AdamW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cosineannealingwarmrestarts"><span class="nav-text">3.3 CosineAnnealingWarmRestarts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#labelsmoothingce"><span class="nav-text">3.4 LabelSmoothingCE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%80%9F"><span class="nav-text">3.5 加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mixup"><span class="nav-text">3.6 Mixup</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E5%A4%8D%E7%8E%B0%E7%BB%93%E6%9E%9C"><span class="nav-text">IV. 复现结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0"><span class="nav-text">12.8 更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vit"><span class="nav-text">ViT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-a-few-points"><span class="nav-text">II. A Few Points</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inductive-bias"><span class="nav-text">2.1 Inductive Bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%AF%87%E8%AE%BA%E6%96%87%E7%9A%84%E6%80%9D%E6%83%B3"><span class="nav-text">2.2 两篇论文的思想</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E8%AE%AD%E7%BB%83tricks"><span class="nav-text">III. 训练tricks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-text">3.1 写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#adamw"><span class="nav-text">3.2 AdamW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cosineannealingwarmrestarts"><span class="nav-text">3.3
+CosineAnnealingWarmRestarts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#labelsmoothingce"><span class="nav-text">3.4 LabelSmoothingCE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%80%9F"><span class="nav-text">3.5 加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mixup"><span class="nav-text">3.6 Mixup</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-%E5%A4%8D%E7%8E%B0%E7%BB%93%E6%9E%9C"><span class="nav-text">IV. 复现结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0"><span class="nav-text">12.8 更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -342,16 +343,22 @@
         <h1 id="vit">ViT</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 去年的一个工作<a href="#refs">[1]</a>，Vision Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文<a href="#refs">[2]</a>（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive bias的方法。论文提出的网络复现起来很简单，毕竟不是什么大型网络以及复杂架构，但是要复现其结果感觉还是挺吃经验的。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit">[Github🔗:Enigmatisms/Maevit]</a></p>
+<p>​ 去年的一个工作<a href="#refs">[1]</a>，Vision
+Transformer的成功带动了变形金刚在视觉邻域的应用。CNN-based的backbone可能就快败在NAS以及ViT衍生模型手下了。为了回顾transformer以及加深理解，我复现了这篇论文<a href="#refs">[2]</a>（其中的ViT-Lite以及CCT）。这个工作是对ViT进行轻型化，并且作者也提出了使用卷积加入inductive
+bias的方法。论文提出的网络复现起来很简单，毕竟不是什么大型网络以及复杂架构，但是要复现其结果感觉还是挺吃经验的。复现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit">[Github🔗:Enigmatisms/Maevit]</a></p>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/11/28/Vision-Transformers/train.png"></th>
 <th style="text-align: center;"><img src="/2021/11/28/Vision-Transformers/test.png"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">最终（无mixup）训练集准确率（约99.8%）</td>
 <td style="text-align: center;">最终（无mixup）测试集准确率（约94.5%）</td>
 </tr>
@@ -364,139 +371,211 @@ Figure 1. CIFAR-10实验，官方实现显示的最终acc约为94.7%
 <hr>
 <h2 id="ii.-a-few-points">II. A Few Points</h2>
 <h3 id="inductive-bias">2.1 Inductive Bias</h3>
-<p>​ 按照Wikipedia的定义，归纳偏置其实就是 为了处理没有见过的数据而在学习器上做的假设。</p>
+<p>​ 按照Wikipedia的定义，归纳偏置其实就是
+为了处理没有见过的数据而在学习器上做的假设。</p>
 <blockquote>
-<p>The <strong>inductive bias</strong> (also known as <strong>learning bias</strong>) of a learning algorithm is the set of assumptions that the learner uses to predict outputs of given inputs that it has not encountered.</p>
+<p>The <strong>inductive bias</strong> (also known as <strong>learning
+bias</strong>) of a learning algorithm is the set of assumptions that
+the learner uses to predict outputs of given inputs that it has not
+encountered.</p>
 </blockquote>
-<p>​ 维基以奥卡姆剃刀原理作为了其中一个例子。事实上，奥卡姆剃刀原理这种归纳偏置实际上是 权重正则化的底层思想：模型不应该过于复杂。</p>
+<p>​
+维基以奥卡姆剃刀原理作为了其中一个例子。事实上，奥卡姆剃刀原理这种归纳偏置实际上是
+权重正则化的底层思想：模型不应该过于复杂。</p>
 <blockquote>
-<p>A classical example of an inductive bias is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Occam&#39;s_razor">Occam's razor</a>, assuming that the simplest consistent hypothesis about the target function is actually the best. Here <em>consistent</em> means that the hypothesis of the learner yields correct outputs for all of the examples that have been given to the algorithm.</p>
+<p>A classical example of an inductive bias is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Occam&#39;s_razor">Occam's
+razor</a>, assuming that the simplest consistent hypothesis about the
+target function is actually the best. Here <em>consistent</em> means
+that the hypothesis of the learner yields correct outputs for all of the
+examples that have been given to the algorithm.</p>
 </blockquote>
 <p>​ ViT论文中提到：</p>
 <blockquote>
-<p>We note that Vision Transformer has much less image-specific inductive bias than CNNs. In CNNs, locality, two-dimensional neighborhood structure, and translation equivariance are baked into each layer throughout the whole model.</p>
+<p>We note that Vision Transformer has much less image-specific
+inductive bias than CNNs. In CNNs, locality, two-dimensional
+neighborhood structure, and translation equivariance are baked into each
+layer throughout the whole model.</p>
 </blockquote>
-<p>​ 此处所说的inductive bias实际上是卷积神经网络的特性。由于卷积核每次操作都是针对某个位置领域的像素（或特征）进行运算，卷积操作也就包含了一个这样的假设：一个像素（特征）的信息一般与其周围的像素（特征）存在一定的关联性（当然，如果你非要对每个图像位置，取出其周围的像素，过MLP，然后说MLP也有这样的inductive bias，那我也没办法）。</p>
-<p>​ 相比之下，Transformer看什么都具有全局眼光。Transformer 这种从NLP过来的结构，本来用于处理语句token的embeddings，语言这种东西就会存在长距离的关联关系，如果要使用卷积（比如一维卷积），可能层数得非常深才能使感受野足够大。于是，卷积层的领域信息综合这种inductive bias在transformers中是找不到的。所以说，ViT-Lite的作者希望自己能把更多传统CNN模型的inductive bias融合到ViT模型中（毕竟patch化以及插值是唯二利用率空间邻域信息的操作）实际上做的工作非常浅层：</p>
+<p>​ 此处所说的inductive
+bias实际上是卷积神经网络的特性。由于卷积核每次操作都是针对某个位置领域的像素（或特征）进行运算，卷积操作也就包含了一个这样的假设：一个像素（特征）的信息一般与其周围的像素（特征）存在一定的关联性（当然，如果你非要对每个图像位置，取出其周围的像素，过MLP，然后说MLP也有这样的inductive
+bias，那我也没办法）。</p>
+<p>​ 相比之下，Transformer看什么都具有全局眼光。Transformer
+这种从NLP过来的结构，本来用于处理语句token的embeddings，语言这种东西就会存在长距离的关联关系，如果要使用卷积（比如一维卷积），可能层数得非常深才能使感受野足够大。于是，卷积层的领域信息综合这种inductive
+bias在transformers中是找不到的。所以说，ViT-Lite的作者希望自己能把更多传统CNN模型的inductive
+bias融合到ViT模型中（毕竟patch化以及插值是唯二利用率空间邻域信息的操作）实际上做的工作非常浅层：</p>
 <ul>
 <li>我在输入Transformer前，让生成embeddings的网络具有卷积层不就行了吗？看起来像小打小闹。</li>
 </ul>
 <h3 id="两篇论文的思想">2.2 两篇论文的思想</h3>
-<p>​ 论文思想其实并没有什么好说的，就是Transformer模型在视觉中的应用：</p>
-<div class="note danger no-icon"><p>ViT将图像进行了分块操作（patch），每个patch进行tokenize，形成了一串embeddings序列。而CVT以及CCT实际上是将tokenize的分块操作变成了卷积操作，以此引入inductive bias，CCT做得更加彻底，使得positional embeddings不是很必要（但是从我自己的复现实验上看，结论好像有点不同？）</p>
+<p>​
+论文思想其实并没有什么好说的，就是Transformer模型在视觉中的应用：</p>
+<div class="note danger no-icon"><p>ViT将图像进行了分块操作（patch），每个patch进行tokenize，形成了一串embeddings序列。而CVT以及CCT实际上是将tokenize的分块操作变成了卷积操作，以此引入inductive
+bias，CCT做得更加彻底，使得positional
+embeddings不是很必要（但是从我自己的复现实验上看，结论好像有点不同？）</p>
 </div>
-<div class="note warning no-icon"><p>Embeddings 过多个transformer layer（自注意力 + Feed forward）。当然，在embeddings输入之前，可以加positional embeddings信息。</p>
+<div class="note warning no-icon"><p>Embeddings 过多个transformer layer（自注意力 + Feed
+forward）。当然，在embeddings输入之前，可以加positional
+embeddings信息。</p>
 </div>
-<div class="note info no-icon"><p>ViT遵循BERT的模式，输出class token进行分类。而CVT CCT使用 sequential pooling（实际上。。。就是一种注意力pooling机制，使得不定长的sequence可以输出一个单个的embeddings进行分类），相当于是隐式使用class token了。</p>
+<div class="note info no-icon"><p>ViT遵循BERT的模式，输出class token进行分类。而CVT CCT使用 sequential
+pooling（实际上。。。就是一种注意力pooling机制，使得不定长的sequence可以输出一个单个的embeddings进行分类），相当于是隐式使用class
+token了。</p>
 </div>
-<div class="note success no-icon"><p>一层线性层完成分类。（ViT imagenet预训练时使用的MLP稍微深一丢丢）。</p>
+<div class="note success no-icon"><p>一层线性层完成分类。（ViT
+imagenet预训练时使用的MLP稍微深一丢丢）。</p>
 </div>
-<p>​ 值得一提的是，原论文名字叫做：An Image is Worth 16X16 Words....。可以从中看出其“patchify”过程，实际上是固定patch个数的。这使得ViT不适用于不同的数据集：</p>
+<p>​ 值得一提的是，原论文名字叫做：An Image is Worth 16X16
+Words....。可以从中看出其“patchify”过程，实际上是固定patch个数的。这使得ViT不适用于不同的数据集：</p>
 <ul>
-<li>CIFAR10大小只有32 * 32，那么一个patch只有四个像素，能有多少信息？不会要我上采样吧</li>
+<li>CIFAR10大小只有32 *
+32，那么一个patch只有四个像素，能有多少信息？不会要我上采样吧</li>
 <li>MNIST更不用说了</li>
-<li>ImageNet？真是谁有钱谁work啊，不是人人都能训的动image net这种贵物的。我们将这种人称之为：卡怪。ViT是一个大模型，参数很多（ViT-base效果不太可，ViT-胡歌效果才SOTA，但是胡歌（huge）版参数已经超ResNet-1001了，我没理解错的话，ResNet-1001是个千层面网络）。</li>
+<li>ImageNet？真是谁有钱谁work啊，不是人人都能训的动image
+net这种贵物的。我们将这种人称之为：卡怪。ViT是一个大模型，参数很多（ViT-base效果不太可，ViT-胡歌效果才SOTA，但是胡歌（huge）版参数已经超ResNet-1001了，我没理解错的话，ResNet-1001是个千层面网络）。</li>
 <li>CCT就相对轻型很多了，而且可以适用于小数据集。我自己做实验使用的就是CIFAR-10。</li>
 </ul>
 <hr>
 <h2 id="iii.-训练tricks">III. 训练tricks</h2>
 <h3 id="写在前面">3.1 写在前面</h3>
-<p>​ 我自己本身很反感调参。在我看来，<strong><u>人工智能训练师</u></strong>就是初中毕业就能干的活，但不管怎么样，打不过的时候，该加入还是要加入，至少了解使自己恶心的事物到底恶心在哪，才有机会去改变吧。由于之前一直被设备以及这种恶心感限制，一直没怎么了解训练tricks，这次花了一点时间稍微涉及了一点点。</p>
+<p>​
+我自己本身很反感调参。在我看来，<strong><u>人工智能训练师</u></strong>就是初中毕业就能干的活，但不管怎么样，打不过的时候，该加入还是要加入，至少了解使自己恶心的事物到底恶心在哪，才有机会去改变吧。由于之前一直被设备以及这种恶心感限制，一直没怎么了解训练tricks，这次花了一点时间稍微涉及了一点点。</p>
 <blockquote>
 <p>人工智能训练师和驯兽师没有区别，训练的客体都是能力未知的对象，训练主体都不需要特别高的智力。乐观地说，人类还是有机会理解自己的创造的，但调参怪没有这个机会。悲观地说，你猜世界上有多少炼丹师是调参怪？</p>
 </blockquote>
 <h3 id="adamw">3.2 AdamW</h3>
-<p>​ 之前在自建网络解决一个二分类问题时，遇到了很严重的过拟合。当时Google到的其中一种方案是：使用weight-decay，在优化器里直接设置即可。Weight decay 实际上就是 L2正则化（in SGD），很简单： <span class="math display">\[
+<p>​
+之前在自建网络解决一个二分类问题时，遇到了很严重的过拟合。当时Google到的其中一种方案是：使用weight-decay，在优化器里直接设置即可。Weight
+decay 实际上就是 L2正则化（in SGD），很简单： <span class="math display">\[
 \begin{align}
 &amp;L_{\text{final}}=L+L_{\text{L2 Reg}}=L+\alpha\sum_{i=1}^nw_i^2\\
 &amp;\frac {d L_{\text{final}}}{dw_i}=\text{grad}+2\alpha w_i\\
 &amp;w_{t+1,i}=w_{t,i}-\text{lr}\times (\text{grad}+2\alpha w_i)
 \end{align}
-\]</span> ​ 也就是说，每一次更新，权重都会根据上一次的权重进行一定的衰减。</p>
-<p>​ 至少，weight decay = L2 regularization在 SGD中成立。在一些复杂的优化器，又有momentum又有平均的的（比如Adam），weight decay实际上和L2 regularization是不一样的。</p>
+\]</span> ​
+也就是说，每一次更新，权重都会根据上一次的权重进行一定的衰减。</p>
+<p>​ 至少，weight decay = L2 regularization在
+SGD中成立。在一些复杂的优化器，又有momentum又有平均的的（比如Adam），weight
+decay实际上和L2 regularization是不一样的。</p>
 <p><img src="/2021/11/28/Vision-Transformers/Adamw.png"></p>
 <center>
 Figure 2. AdamW以及Adam的对比<a href="#refs">[4]</a>
 </center>
 <blockquote>
-<p>We note that common implementations of adaptive gradient algorithms, such as Adam, <strong><u>limit the potential benefit</u></strong> of weight decay regularization, because the weights do not decay multiplicatively (as would be expected for standard weight decay) but by an <strong><u>additive constant factor</u></strong>. <a href="#refs">[4]</a></p>
+<p>We note that common implementations of adaptive gradient algorithms,
+such as Adam, <strong><u>limit the potential benefit</u></strong> of
+weight decay regularization, because the weights do not decay
+multiplicatively (as would be expected for standard weight decay) but by
+an <strong><u>additive constant factor</u></strong>. <a href="#refs">[4]</a></p>
 </blockquote>
-<p>​ 这个优化器在之前的某个二分类任务中我已经用过了。关于AdamW的更多信息，可以查看<a href="#refs">[5]</a></p>
-<h3 id="cosineannealingwarmrestarts">3.3 CosineAnnealingWarmRestarts</h3>
-<p>​ Torch自带的cosineLR好像并不是我想要的样子，因为lr_scheduler.CosineAnnealingWarmRestarts出来的是这样的结果（下图绿色）：</p>
+<p>​
+这个优化器在之前的某个二分类任务中我已经用过了。关于AdamW的更多信息，可以查看<a href="#refs">[5]</a></p>
+<h3 id="cosineannealingwarmrestarts">3.3
+CosineAnnealingWarmRestarts</h3>
+<p>​
+Torch自带的cosineLR好像并不是我想要的样子，因为lr_scheduler.CosineAnnealingWarmRestarts出来的是这样的结果（下图绿色）：</p>
 <p><img src="/2021/11/28/Vision-Transformers/LEC.png"></p>
 <center>
 Figure 3. CosineAnnealingWarmRestarts以及我自定义的学习率
 </center>
-<p>​ 绿色的曲线其学习率是一直在回跳到最大初始学习率，这好吗？我没有在API里找到任何关于学习率变小的设置。并且，这个学习率设置还有个这样的问题：如果设置T_mult（也就是让restart频率越来越低，cosine周期越来越长的一个因子），很难控制其在一定epochs后，学习率降到最低（一般来说，最好降到最低才是最好的）。</p>
-<p>​ 所以我用LambdaLR设计了一个余弦学习率曲线，波动是为了其有一定的退火能力，而我同时希望：</p>
+<p>​
+绿色的曲线其学习率是一直在回跳到最大初始学习率，这好吗？我没有在API里找到任何关于学习率变小的设置。并且，这个学习率设置还有个这样的问题：如果设置T_mult（也就是让restart频率越来越低，cosine周期越来越长的一个因子），很难控制其在一定epochs后，学习率降到最低（一般来说，最好降到最低才是最好的）。</p>
+<p>​
+所以我用LambdaLR设计了一个余弦学习率曲线，波动是为了其有一定的退火能力，而我同时希望：</p>
 <ul>
 <li>学习率不断减小</li>
 <li>波动频率不断减小，并且在指定的epoch减到最小</li>
 </ul>
-<p>​ 我将这个学习率称为（xxx-Decay-Cosine-Annealing-Warm-Restart），xxx可以是线性，也可以是指数。思想很简单，学习率曲线被两条曲线夹住（不是渐近线，渐近线很难求，但是可以按照渐近线理解）。一条确定学习率最大值（可以是线性衰减或者指数衰减），另一条确定学习率下界（指数衰减），可以根据初值、终值以及epochs计算所有参数。详情见：(<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/blob/master/py/LECosineAnnealing.py">LECosineAnnealing.py</a>)</p>
-<p>​ Timm (Pytorch Image Models)是个好东西，里面提供了可以衰减的CosineAnnealingWarmRestarts:</p>
+<p>​
+我将这个学习率称为（xxx-Decay-Cosine-Annealing-Warm-Restart），xxx可以是线性，也可以是指数。思想很简单，学习率曲线被两条曲线夹住（不是渐近线，渐近线很难求，但是可以按照渐近线理解）。一条确定学习率最大值（可以是线性衰减或者指数衰减），另一条确定学习率下界（指数衰减），可以根据初值、终值以及epochs计算所有参数。详情见：(<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Maevit/blob/master/py/LECosineAnnealing.py">LECosineAnnealing.py</a>)</p>
+<p>​ Timm (Pytorch Image
+Models)是个好东西，里面提供了可以衰减的CosineAnnealingWarmRestarts:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> timm.scheduler <span class="keyword">import</span> CosineLRScheduler</span><br><span class="line">lec_sch_func = CosineLRScheduler(opt, t_initial = epochs // <span class="number">2</span>, t_mul = <span class="number">1</span>, lr_min = min_max_ratio, decay_rate = <span class="number">0.1</span>, warmup_lr_init = min_max_ratio, warmup_t = <span class="number">10</span>, cycle_limit = <span class="number">2</span>, t_in_epochs = <span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 <p>​ 学习率曲线是这样的：</p>
 <p><img src="/2021/11/28/Vision-Transformers/lr.png"></p>
 <center>
 Figure 4. CosineAnnealingWarmRestarts in timm
 </center>
-<p>​ Restart不是瞬间的，而是线性增大的（只不过很快速）。其中涉及到这么一些概念：</p>
+<p>​
+Restart不是瞬间的，而是线性增大的（只不过很快速）。其中涉及到这么一些概念：</p>
 <ul>
 <li>warmup-epoch：热身阶段。一般用于train-from-the-scratch（从头训练），开始的学习率小，是因为初始化模型时，参数随机，梯度也基本上是随机的。如果学习率太大，梯度乱飞，可能导致NaN。小学习率使得梯度稳定，开始时向正确方向移动。</li>
 <li>cooldown-epoch：冷静期。学习率减小到最小时（一般是周期性学习率scheduler结束），需要冷静一下，度过一段贤者时间，以小学习率训练一段时间。</li>
 </ul>
 <h3 id="labelsmoothingce">3.4 LabelSmoothingCE</h3>
-<p>​ 分类问题，标签是硬的。而神经网络输出，是模拟量，用模拟过程拟合离散过程存在一定难度（参考：正弦波无限叠加生成方波的吉布斯效应）。有可能在网络设计得不好时，分类很难是正确的。这个时候我们可以把硬的变成软的：</p>
+<p>​
+分类问题，标签是硬的。而神经网络输出，是模拟量，用模拟过程拟合离散过程存在一定难度（参考：正弦波无限叠加生成方波的吉布斯效应）。有可能在网络设计得不好时，分类很难是正确的。这个时候我们可以把硬的变成软的：</p>
 <ul>
 <li>Label本身转化成置信度（之前在二分类任务中用过）</li>
 <li>在计算loss时进行label平滑。平滑嘛，那其目的离不开：防止过拟合，本质就是正则化手段，涨点tricks了</li>
 <li>Timm已经实现了这个loss，可以直接使用</li>
 </ul>
 <h3 id="加速">3.5 加速</h3>
-<p>​ 开始时我太笨？了？5个batch就很着急地eval一次，实际上没有必要，一次eval需要花费5-6s（CIFAR-10），那么batch size（开始时用的是64）情况下782个batch共需要eval 150多次，每个epoch训练的时间增加了10分多钟，太傻了。很显然这并不是我要说的加速。</p>
+<p>​
+开始时我太笨？了？5个batch就很着急地eval一次，实际上没有必要，一次eval需要花费5-6s（CIFAR-10），那么batch
+size（开始时用的是64）情况下782个batch共需要eval
+150多次，每个epoch训练的时间增加了10分多钟，太傻了。很显然这并不是我要说的加速。</p>
 <p>​ 加速有这么几种方法：</p>
 <ol type="1">
-<li>混合精度：我们已经知道（在我的CUDA第二篇学习博客中），双精度 非常拉，单精度还行，要是使用float16就更快了。pytorch提供一种混合精度的方式：AMP（Automatic Mixed Precision），自动确定哪些浮点可以简化。</li>
+<li>混合精度：我们已经知道（在我的CUDA第二篇学习博客中），双精度
+非常拉，单精度还行，要是使用float16就更快了。pytorch提供一种混合精度的方式：AMP（Automatic
+Mixed Precision），自动确定哪些浮点可以简化。</li>
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># From [6]</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="comment"># Creates once at the beginning of training</span></span><br><span class="line">scaler = torch.cuda.amp.GradScaler()</span><br><span class="line"><span class="keyword">for</span> data, label <span class="keyword">in</span> data_iter:</span><br><span class="line">   optimizer.zero_grad()</span><br><span class="line">   <span class="comment"># Casts operations to mixed precision</span></span><br><span class="line">   <span class="keyword">with</span> torch.cuda.amp.autocast():</span><br><span class="line">      loss = model(data)</span><br><span class="line">   <span class="comment"># Scales the loss, and calls backward()</span></span><br><span class="line">   <span class="comment"># to create scaled gradients</span></span><br><span class="line">   scaler.scale(loss).backward()</span><br><span class="line">   <span class="comment"># Unscales gradients and calls</span></span><br><span class="line">   <span class="comment"># or skips optimizer.step()</span></span><br><span class="line">   scaler.step(optimizer)</span><br><span class="line">   <span class="comment"># Updates the scale for next iteration</span></span><br><span class="line">   scaler.update()</span><br></pre></td></tr></table></figure>
 <ul>
-<li>当然，timm实现了更好的接口（NativeScaler），就不需要调用什么scale(loss).backward(), step之类的了：</li>
+<li>当然，timm实现了更好的接口（NativeScaler），就不需要调用什么scale(loss).backward(),
+step之类的了：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">amp_scaler(loss, opt, clip_grad=<span class="literal">None</span>, parameters = model_parameters(model), create_graph = <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
 <ol start="2" type="1">
 <li>cuDNN</li>
 </ol>
-<p>​ 之前一直不知道这个能怎么用，反正CSDN只顾授人以鱼嘛，告诉你装吧，也不告诉你装来干啥，粪坑实锤了（越用越觉得粪坑，实力坑菜逼）。cuDNN能加速一些运算，DL中，典型的卷积运算是会被加速的，cuDNN自动benchmark卷积，找到最好的卷积实现给你用。只需：</p>
+<p>​
+之前一直不知道这个能怎么用，反正CSDN只顾授人以鱼嘛，告诉你装吧，也不告诉你装来干啥，粪坑实锤了（越用越觉得粪坑，实力坑菜逼）。cuDNN能加速一些运算，DL中，典型的卷积运算是会被加速的，cuDNN自动benchmark卷积，找到最好的卷积实现给你用。只需：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.backends.cudnn.benchmark = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 <ol start="3" type="1">
 <li>工人阶级的力量</li>
 </ol>
-<p>​ 数据集加载（Dataloader），使用多个workers。这里遇到了一些这样的问题：</p>
+<p>​
+数据集加载（Dataloader），使用多个workers。这里遇到了一些这样的问题：</p>
 <ul>
 <li>dataloader实际上在搞多进程，多进程默认是开子进程的（fork），但是：</li>
 </ul>
 <blockquote>
-<p>The CUDA runtime does not support the <code>fork</code> start method; either the <code>spawn</code> or <code>forkserver</code> start method are required to use CUDA in subprocesses. ---- <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/notes/multiprocessing.html">Pytorch Document</a></p>
+<p>The CUDA runtime does not support the <code>fork</code> start method;
+either the <code>spawn</code> or <code>forkserver</code> start method
+are required to use CUDA in subprocesses. ---- <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/notes/multiprocessing.html">Pytorch
+Document</a></p>
 </blockquote>
-<p>​ 如果在主进程中初始化了torch.cuda程序（先于dataloader有除了model.cuda()的别的cuda操作【？为什么model可以调cuda，难道因为它是进程间共享的？】），就会报错，说不能在fork的subprocess中初始化CUDA。解决方法确实就是，用spawn方法生成新的进程：</p>
+<p>​
+如果在主进程中初始化了torch.cuda程序（先于dataloader有除了model.cuda()的别的cuda操作【？为什么model可以调cuda，难道因为它是进程间共享的？】），就会报错，说不能在fork的subprocess中初始化CUDA。解决方法确实就是，用spawn方法生成新的进程：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.multiprocessing.set_start_method(<span class="string">&#x27;spawn&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>​ spawn和fork的区别：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64095876/multiprocessing-fork-vs-spawn">stackoverflow.com: multiprocessing fork() vs spawn()</a>。这里不多讲，spawn方式生成进程貌似炸了我的显存（<strong><u>原因可能有两点：</u></strong>1. spawn本身特性，会大量复制资源，每个新启动的python3解释进程都占用部分资源 2. 在CUDA误初始化，如果是这样的话，误初始化问题解决应该不会炸显存了）。炸显存的问题，<a target="_blank" rel="noopener" href="https://blog.csdn.net/YNNAD1997/article/details/113829532">这位CSDN老哥</a>也碰到了，但他貌似没有解决。</p>
-<p>​ 开始时我一直没能用成fork，都使用spawn（启动很慢，而且还炸显存）。我发现官方实现可以使用fork方式，这让我感到很奇怪，查错最后发现是：RandomErase（Dataloader数据增强的transform）默认使用了CUDA，设置device为cpu就可以解决问题了。</p>
+<p>​ spawn和fork的区别：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64095876/multiprocessing-fork-vs-spawn">stackoverflow.com:
+multiprocessing fork() vs
+spawn()</a>。这里不多讲，spawn方式生成进程貌似炸了我的显存（<strong><u>原因可能有两点：</u></strong>1.
+spawn本身特性，会大量复制资源，每个新启动的python3解释进程都占用部分资源
+2.
+在CUDA误初始化，如果是这样的话，误初始化问题解决应该不会炸显存了）。炸显存的问题，<a target="_blank" rel="noopener" href="https://blog.csdn.net/YNNAD1997/article/details/113829532">这位CSDN老哥</a>也碰到了，但他貌似没有解决。</p>
+<p>​
+开始时我一直没能用成fork，都使用spawn（启动很慢，而且还炸显存）。我发现官方实现可以使用fork方式，这让我感到很奇怪，查错最后发现是：RandomErase（Dataloader数据增强的transform）默认使用了CUDA，设置device为cpu就可以解决问题了。</p>
 <h3 id="mixup">3.6 Mixup</h3>
-<p>​ 我超。我不知道这个工作：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09412">[mixup: Beyond Empirical Risk Minimization]</a>。这个工作貌似是一种终极数据增强方法。</p>
-<p>​ 我超。这篇论文我看了30s之后就已经感觉有点6了，mixup就是将两个训练样本叠在一起，label可以不一样，叠加是加权的，最后形成加权的label，让网络去学。作者认为：</p>
+<p>​ 我超。我不知道这个工作：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09412">[mixup: Beyond Empirical Risk
+Minimization]</a>。这个工作貌似是一种终极数据增强方法。</p>
+<p>​
+我超。这篇论文我看了30s之后就已经感觉有点6了，mixup就是将两个训练样本叠在一起，label可以不一样，叠加是加权的，最后形成加权的label，让网络去学。作者认为：</p>
 <ul>
 <li>虽然普通的数据增强确实使得训练数据增多了，但是数据增强并不是在数据的真实分布附近采样，而是加了一些随机噪声，只是增强了抗干扰能力</li>
 <li>简单地说，考虑一个多峰分布，mixup可以在峰与峰之间的某个位置采样，使得label和样本在另一种意义上被平滑了。Mixup的作者说到，mixup可被理解为是：</li>
 </ul>
 <blockquote>
-<p>A form of <strong><u>data augmentation</u></strong> that encourages the model f to behave <strong><u>linearly in-between training examples</u></strong></p>
+<p>A form of <strong><u>data augmentation</u></strong> that encourages
+the model f to behave <strong><u>linearly in-between training
+examples</u></strong></p>
 </blockquote>
 <hr>
 <h2 id="iv.-复现结果">IV. 复现结果</h2>
-<p>​ 我怀疑我复现结果不如官方实现的原因是我并没有使用mixup策略，我使用的是传统的数据增强。我今晚（2021-12-05）尝试了一下mixup，但貌似（可能是没有用好，也可能是才训练了100个epoch，出不了结果）很拉，mixup参数与官方实现一致，就是没有直接调用timm库生成PrefetchLoader（因为没有时间去看文档）。无mixup训练的最佳结果是：训练集acc接近1，测试集acc 94.5%，过拟合还是有点严重：</p>
+<p>​
+我怀疑我复现结果不如官方实现的原因是我并没有使用mixup策略，我使用的是传统的数据增强。我今晚（2021-12-05）尝试了一下mixup，但貌似（可能是没有用好，也可能是才训练了100个epoch，出不了结果）很拉，mixup参数与官方实现一致，就是没有直接调用timm库生成PrefetchLoader（因为没有时间去看文档）。无mixup训练的最佳结果是：训练集acc接近1，测试集acc
+94.5%，过拟合还是有点严重：</p>
 <p><img src="/2021/11/28/Vision-Transformers/first.png"></p>
 <center>
 Figure 5. 刚开始训练（MultiStepLR，并且实现有点问题）
@@ -510,21 +589,26 @@ Figure 6. CosineAnnealingWarmRestarts
 Figure 7. 自定义学习率
 </center>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 49%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/11/28/Vision-Transformers/train.png"></th>
 <th style="text-align: center;"><img src="/2021/11/28/Vision-Transformers/test.png"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">最终（无mixup版本）训练集准确率</td>
 <td style="text-align: center;">最终（无mixup版本）测试集准确率</td>
 </tr>
 </tbody>
 </table>
 <h3 id="更新">12.8 更新</h3>
-<p>​ 我尝试了一下Mixup（想要脱离timm库用mixup还是有点麻烦的，比如timm中的mixup把输入转换成了numpy。。。为的就是用里面的贝塞尔分布？所以不得不写一个可以把tensor转换成对应numpy格式的函数）。用mixup会使训练时的效果明显变差，但是一取消mixup，效果就很好：</p>
+<p>​
+我尝试了一下Mixup（想要脱离timm库用mixup还是有点麻烦的，比如timm中的mixup把输入转换成了numpy。。。为的就是用里面的贝塞尔分布？所以不得不写一个可以把tensor转换成对应numpy格式的函数）。用mixup会使训练时的效果明显变差，但是一取消mixup，效果就很好：</p>
 <p><img src="/2021/11/28/Vision-Transformers/Screenshot%20from%202021-12-07%2019-40-38.png"></p>
 <center>
 Figure 8. 带mixup，最后约94%
@@ -532,12 +616,23 @@ Figure 8. 带mixup，最后约94%
 <hr>
 <h2 id="reference">Reference</h2>
 <p><span id="refs"></span></p>
-<p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.11929.pdf">Dosovitskiy A, Beyer L, Kolesnikov A, et al. An image is worth 16x16 words: Transformers for image recognition at scale[J]. arXiv preprint arXiv:2010.11929, 2020.</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.05704.pdf">Hassani A, Walton S, Shah N, et al. Escaping the big data paradigm with compact transformers[J]. arXiv preprint arXiv:2104.05704, 2021.</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[C]//Advances in neural information processing systems. 2017: 5998-6008.</a></p>
-<p>[4] <a target="_blank" rel="noopener" href="https://openreview.net/pdf?id=rk6qdGgCZ">Fixing Weight Decay Regularization In Adam</a></p>
-<p>[5] <a target="_blank" rel="noopener" href="https://www.fast.ai/2018/07/02/adam-weight-decay/">AdamW and Super-convergence is now the fastest way to train neural nets</a></p>
-<p>[6] <a target="_blank" rel="noopener" href="https://efficientdl.com/faster-deep-learning-in-pytorch-a-guide/#4-use-automatic-mixed-precision-amp-">Faster Deep Learning Training with PyTorch – a 2021 Guide</a></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.11929.pdf">Dosovitskiy A,
+Beyer L, Kolesnikov A, et al. An image is worth 16x16 words:
+Transformers for image recognition at scale[J]. arXiv preprint
+arXiv:2010.11929, 2020.</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.05704.pdf">Hassani A, Walton
+S, Shah N, et al. Escaping the big data paradigm with compact
+transformers[J]. arXiv preprint arXiv:2104.05704, 2021.</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Vaswani A, Shazeer N,
+Parmar N, et al. Attention is all you need[C]//Advances in neural
+information processing systems. 2017: 5998-6008.</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://openreview.net/pdf?id=rk6qdGgCZ">Fixing Weight
+Decay Regularization In Adam</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://www.fast.ai/2018/07/02/adam-weight-decay/">AdamW
+and Super-convergence is now the fastest way to train neural
+nets</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://efficientdl.com/faster-deep-learning-in-pytorch-a-guide/#4-use-automatic-mixed-precision-amp-">Faster
+Deep Learning Training with PyTorch – a 2021 Guide</a></p>
 <p></p>
 
     </div>

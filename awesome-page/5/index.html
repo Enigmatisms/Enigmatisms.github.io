@@ -103,7 +103,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -316,16 +316,20 @@
           <h1 id="volume2d-pro">Volume2D Pro</h1>
 <hr>
 <h2 id="i.-preface">I. Preface</h2>
-<p>​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
+<p>​
+觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github
+Repo：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
 <video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
 </video>
 <center>
 Video 1. 不规则障碍物体积光算法效果
 </center>
-<p>​ 不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
+<p>​
+不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
 <details class="note primary"><summary><p>什么叫叠buff式编程</p>
 </summary>
-<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自 HQY）</p>
+<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自
+HQY）</p>
 
 </details>
           <!--noindex-->
@@ -427,7 +431,9 @@ Video 1. 不规则障碍物体积光算法效果
           <h1 id="scae">SCAE</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 在复现完CapsNet第一版之后，想复现这篇论文（第三版CapsNet：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.06818"><em>Stacked Capsule Autoencoders, Adam R. Kosiorek, et al.</em></a>）。复现的基础是看懂，理解其意义。本篇博客为我读这篇论文时的一些思考，其中当然还有些(很多)不够透彻的地方。要是完全透彻了我估计就可以直接动手复现了。</p>
+<p>​ 在复现完CapsNet第一版之后，想复现这篇论文（第三版CapsNet：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.06818"><em>Stacked Capsule
+Autoencoders, Adam R. Kosiorek, et
+al.</em></a>）。复现的基础是看懂，理解其意义。本篇博客为我读这篇论文时的一些思考，其中当然还有些(很多)不够透彻的地方。要是完全透彻了我估计就可以直接动手复现了。</p>
 <p><img src="/2021/07/18/%E8%A2%ABSCAE%E6%8A%98%E7%A3%A8%E7%9A%84%E4%B8%80%E5%A4%A9/2.PNG"></p>
 <center>
 Figure 1.Stacked Capsule Autoencoders网络结构图
@@ -536,18 +542,27 @@ Figure 1.Stacked Capsule Autoencoders网络结构图
     <div class="post-body" itemprop="articleBody">
           <h1 id="capsules-network">Capsules Network</h1>
 <hr>
-<p>​ 上一次看这篇论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between Capsules</em></a> 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
+<p>​ 上一次看这篇论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between
+Capsules</em></a>
+的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps
+net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1101.jpg" alt="G_1101" style="zoom:150%;"></th>
 <th style="text-align: center;"><img src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1151.jpg" alt="G_1151" style="zoom:150%;"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: center;">根据digital capsule重建（MNIST 7 epochs）</td>
-<td style="text-align: center;">根据digital capsule重建（MNIST 7 epochs）</td>
+<tr>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
 </tr>
 </tbody>
 </table>
@@ -659,11 +674,15 @@ Figure 1.Stacked Capsule Autoencoders网络结构图
     <div class="post-body" itemprop="articleBody">
           <h1 id="为什么我不能乱链接">为什么我不能乱链接</h1>
 <h2 id="i.-缘从何起">I. 缘从何起？</h2>
-<p>​ 机队的小伙伴问了我一个问题，说是在一个<code>.hpp</code>文件中，定义了一个namespace，<code>.hpp</code>也有头文件保护，在namespace下也<strong><u>定义（声明 / 定义都在这个文件里）</u></strong>了几个函数（非类函数），<code>.hpp</code>文件中同时还有一个类的定义。那么自然这个文件会被至少两个<code>.cc</code>文件给include：</p>
+<p>​
+机队的小伙伴问了我一个问题，说是在一个<code>.hpp</code>文件中，定义了一个namespace，<code>.hpp</code>也有头文件保护，在namespace下也<strong><u>定义（声明
+/
+定义都在这个文件里）</u></strong>了几个函数（非类函数），<code>.hpp</code>文件中同时还有一个类的定义。那么自然这个文件会被至少两个<code>.cc</code>文件给include：</p>
 <ul>
 <li>类定义文件 / main函数所在的可执行文件</li>
 </ul>
-<p>​ 结果编译的时候报了redefined的错误，说是namespace下面的函数重复定义了。小伙伴很疑惑。我也很疑惑，开始我觉得是不应该把定义写在<code>.hpp</code>中，但想到类函数好像可以这么做啊？作为一个没有学过编译原理的自动化学生（请问自动化学生都在学些啥啊？），感到疑惑，于是查了点资料。</p>
+<p>​
+结果编译的时候报了redefined的错误，说是namespace下面的函数重复定义了。小伙伴很疑惑。我也很疑惑，开始我觉得是不应该把定义写在<code>.hpp</code>中，但想到类函数好像可以这么做啊？作为一个没有学过编译原理的自动化学生（请问自动化学生都在学些啥啊？），感到疑惑，于是查了点资料。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/07/16/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%B0%8F%E7%9F%A5%E8%AF%86/#more" rel="contents">
@@ -769,7 +788,8 @@ Figure 1.Stacked Capsule Autoencoders网络结构图
           <h1 id="filtering-kalman">Filtering &amp; Kalman</h1>
 <hr>
 <h2 id="i.-引入">I. 引入</h2>
-<p>​ 2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。</p>
+<p>​
+2021赛季充分认识到滤波的美妙之处。虽然只前学了DSP，但是在进行实际系统控制的时候，很少有意识地进行滤波或者平滑。2020赛季中设置过一个静止目标滑动平均，在此前没有做过非常大量的滤波。</p>
 <p><img src="/2021/05/31/%E6%BB%A4%E6%B3%A2%EF%BC%86%E5%8D%A1%E5%B0%94%E6%9B%BC/disp-1622393689154.png"></p>
 <center>
 Figure 1. 单方向ARKF滤波预测
@@ -883,12 +903,22 @@ Figure 1. 单方向ARKF滤波预测
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="neuralstyle"># NeuralStyle</h2>
-<p>My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) with good interpretability.</p>
+<p>My own implementation of CVPR 2016 paper: Image Style Transfer Using
+Convolutional Neural Networks. This work is, I think, simple but elegant
+(I mean the paper, not my implementation) with good
+interpretability.</p>
 <ul>
-<li>CVPR 2016 OpenAccess Link is here: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">CVPR 2016 open access</a></li>
-<li>Personal understanding of this paper [Chinese]: <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">Blog of Enigmatisms/CNN Style Transfer论文复现</a></li>
+<li>CVPR 2016 OpenAccess Link is here: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">CVPR
+2016 open access</a></li>
+<li>Personal understanding of this paper [Chinese]: <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">Blog
+of Enigmatisms/CNN Style Transfer论文复现</a></li>
 </ul>
-<div class="note success"><p>2021.11.15 complement: I have no intention to analyze and explain this paper, because I think it's simple, and I have a deep impression of this, therefore there is no point recording anything on the blog. Original Github Repo: <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeuralStyle">Github🔗: Enigmatisms/NeuralStyle</a>. This post is exactly the README.md of the repo.</p>
+<div class="note success"><p>2021.11.15 complement: I have no intention to analyze and explain
+this paper, because I think it's simple, and I have a deep impression of
+this, therefore there is no point recording anything on the blog.
+Original Github Repo: <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeuralStyle">Github🔗:
+Enigmatisms/NeuralStyle</a>. This post is exactly the README.md of the
+repo.</p>
 </div>
           <!--noindex-->
             <div class="post-button">
@@ -993,7 +1023,9 @@ Figure 1. 单方向ARKF滤波预测
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="矩阵分析-优化">矩阵分析 &amp; 优化</h1>
-<p>​ 最近接触了一些有趣的 机器学习 / 控制算法，其中的数学原理非常有意思，大多数都涉及到了矩阵分解以及线性代数解析解的求取。推导这些理论可以帮助深入理解矩阵分解（以及分解后子矩阵的数学意义）以及 矩阵分析和优化理论的数学联系，这些理论都非常优雅而且美妙。</p>
+<p>​ 最近接触了一些有趣的 机器学习 /
+控制算法，其中的数学原理非常有意思，大多数都涉及到了矩阵分解以及线性代数解析解的求取。推导这些理论可以帮助深入理解矩阵分解（以及分解后子矩阵的数学意义）以及
+矩阵分析和优化理论的数学联系，这些理论都非常优雅而且美妙。</p>
 <p><img src="/2021/04/03/%E4%BC%98%E9%9B%85%E7%BA%BF%E4%BB%A3%E4%B8%8E%E7%BE%8E%E5%A6%99%E4%BC%98%E5%8C%96/decomp.jpg"></p>
 <center>
 Figure 1. 矩阵分解的真谛：图为 上三角分解
@@ -1326,12 +1358,15 @@ Figure 1. 2D-2D单应匹配
           <h1 id="纯理论分析">纯理论分析</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ 周志华老师的《机器学习》看到了第五章，可总感觉看得太快了（可惜起步太晚了，大三下才系统地学ML）。个人认为走马观花地看完全没有用处，最好是能自己将所有碰到的轮子都写一遍（理想情况），但人的精力毕竟有限，开学了时间也比较紧张，实现这一步就先跳过吧，而细致的理论分析与理解是完全必要的。LDA之前实现过<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/blob/master/py/LDA/lda_learn.py">Github Algorithm-Plus🔗</a>，决策树倒是连理论都没怎么细看，只调过库。为了不当调库侠，有写轮子的能力，个人将对这两章进行一下梳理，写一下自己的理解。</p>
+<p>​
+周志华老师的《机器学习》看到了第五章，可总感觉看得太快了（可惜起步太晚了，大三下才系统地学ML）。个人认为走马观花地看完全没有用处，最好是能自己将所有碰到的轮子都写一遍（理想情况），但人的精力毕竟有限，开学了时间也比较紧张，实现这一步就先跳过吧，而细致的理论分析与理解是完全必要的。LDA之前实现过<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus/blob/master/py/LDA/lda_learn.py">Github
+Algorithm-Plus🔗</a>，决策树倒是连理论都没怎么细看，只调过库。为了不当调库侠，有写轮子的能力，个人将对这两章进行一下梳理，写一下自己的理解。</p>
 <p><img src="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/melon.jpg"></p>
 <center>
 Figure 1. 西瓜
 </center>
-<p>​ LDA（消歧义：Linear Discriminant Analysis，不是Latent Dirichlet Allocation）和决策树都是两个非常简单但是又很优雅的分类器。</p>
+<p>​ LDA（消歧义：Linear Discriminant Analysis，不是Latent Dirichlet
+Allocation）和决策树都是两个非常简单但是又很优雅的分类器。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/02/%E7%BA%BF%E6%80%A7-%E6%A0%91%E5%9E%8B%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E7%BA%AF%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90/#more" rel="contents">

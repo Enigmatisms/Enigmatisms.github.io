@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Taichi Lang I  I. Intros ​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：  Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019  ​ 刚好最近工作与图形学高度相关，并且一直觉得自己Pyth">
+  <meta name="description" content="Taichi Lang I  I. Intros ​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：  Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019  ​ 刚好最近工作与图形学高度相关，并且一直觉得自己Py">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Taichi Learning I">
 <meta property="og:url" content="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Taichi Lang I  I. Intros ​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：  Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019  ​ 刚好最近工作与图形学高度相关，并且一直觉得自己Pyth">
+<meta property="og:description" content="Taichi Lang I  I. Intros ​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：  Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019  ​ 刚好最近工作与图形学高度相关，并且一直觉得自己Py">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/logo.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2023/01/11/Taichi-Learning-I/image-20230111101008259.png">
@@ -116,7 +116,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -177,7 +177,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#taichi-lang-i"><span class="nav-text">Taichi Lang I</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-taichi-scope"><span class="nav-text">II. Taichi scope</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5-%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98"><span class="nav-text">2.1 概念 &amp; 调用问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E9%97%AE%E9%A2%98---python-scope%E5%81%9A%E4%B8%8D%E5%88%B0%E7%9A%84%E4%BA%8B"><span class="nav-text">2.2 反向问题 - Python scope做不到的事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E4%B8%8E%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-text">2.3 泛型与编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#why-type-annotation"><span class="nav-text">2.3.1 Why type annotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">2.3.2 编译过程在做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#interesting-bls"><span class="nav-text">2.3.3 Interesting BLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-python%E7%9B%B2%E5%8C%BA---decorator"><span class="nav-text">III. Python盲区 - decorator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-show-cases"><span class="nav-text">IV. Show Cases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#taichi-lang-i"><span class="nav-text">Taichi Lang I</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-taichi-scope"><span class="nav-text">II. Taichi scope</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5-%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98"><span class="nav-text">2.1 概念 &amp; 调用问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E9%97%AE%E9%A2%98---python-scope%E5%81%9A%E4%B8%8D%E5%88%B0%E7%9A%84%E4%BA%8B"><span class="nav-text">2.2 反向问题 - Python
+scope做不到的事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E4%B8%8E%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-text">2.3 泛型与编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#why-type-annotation"><span class="nav-text">2.3.1 Why type annotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">2.3.2 编译过程在做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#interesting-bls"><span class="nav-text">2.3.3 Interesting BLS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-python%E7%9B%B2%E5%8C%BA---decorator"><span class="nav-text">III. Python盲区 - decorator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-show-cases"><span class="nav-text">IV. Show Cases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -340,9 +341,14 @@
 <h2 id="i.-intros">I. Intros</h2>
 <p>​ 巨佬们的工作（胡渊明，李子懋 both from MIT CSAIL）：</p>
 <ul>
-<li>Taichi: A Language for High-Performance Computation on Spatially Sparse Data Structures. ToG 2019</li>
+<li>Taichi: A Language for High-Performance Computation on Spatially
+Sparse Data Structures. ToG 2019</li>
 </ul>
-<p>​ 刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的 path tracer 出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python decorator补充（4）自己做的一些小demo。</p>
+<p>​
+刚好最近工作与图形学高度相关，并且一直觉得自己Python方面的技术栈太浅了（语法、代码加速了解得不够深入），于是想了解一下这个语言（与Python高度耦合）。这个语言在前年七月我刚开始做毕设的时候Dinger就在絮絮叨叨说Taichi怎么怎么香了，当时也玩了几个demo，但没有去了解语言本身。最近开始了解后觉得，要深入了解这个语言还是需要一些外围知识的辅助（比如，学了CUDA、LLVM等则会觉得接受其设计思想是一件比较容易的事情）。学这个语言的目标当然是用Taichi写一个简单的
+path tracer
+出来叻...。本文的主要内容有：（1）这几天学习时遇到的问题（2）一些Taichi底层原理（3）Python
+decorator补充（4）自己做的一些小demo。</p>
 <center>
 <img src="/2023/01/11/Taichi-Learning-I/logo.png" style="zoom: 50%;">
 </center>
@@ -352,81 +358,135 @@ Figure 1. 混元形意太极 闪电五连鞭
 <span id="more"></span>
 <h2 id="ii.-taichi-scope">II. Taichi scope</h2>
 <h3 id="概念-调用问题">2.1 概念 &amp; 调用问题</h3>
-<p>​ 首先，我们需要明确Taichi scope与Python scope的定义（之后会给出一些由于我没有彻底搞清楚定义而犯错的例子）。根据官方文档：</p>
+<p>​ 首先，我们需要明确Taichi scope与Python
+scope的定义（之后会给出一些由于我没有彻底搞清楚定义而犯错的例子）。根据官方文档：</p>
 <div class="note warning"><ul>
-<li>The code inside a kernel or a Taichi function is in the <em>Taichi scope</em>. The code in the Taichi scope is <strong><u>compiled</u></strong> by Taichi's runtime and <strong><u>executed in parallel</u></strong> on multi-core CPU or GPU devices for high-performance computation. The Taichi scope corresponds to the <code>__device__</code> side in CUDA.</li>
-<li>Code outside of the Taichi scope is in the <em>Python scope</em>. The code in the Python scope is native Python and executed by Python's <strong><u>virtual machine</u></strong>, <em>not</em> by Taichi's runtime. The Python scope corresponds to the <code>__host__</code> side in CUDA.</li>
+<li>The code inside a kernel or a Taichi function is in the <em>Taichi
+scope</em>. The code in the Taichi scope is
+<strong><u>compiled</u></strong> by Taichi's runtime and
+<strong><u>executed in parallel</u></strong> on multi-core CPU or GPU
+devices for high-performance computation. The Taichi scope corresponds
+to the <code>__device__</code> side in CUDA.</li>
+<li>Code outside of the Taichi scope is in the <em>Python scope</em>.
+The code in the Python scope is native Python and executed by Python's
+<strong><u>virtual machine</u></strong>, <em>not</em> by Taichi's
+runtime. The Python scope corresponds to the <code>__host__</code> side
+in CUDA.</li>
 </ul>
 </div>
-<p>​ 我进行了一些小标注（<code>__device__</code>, <code>__host__</code>）。就语言特性而言，与我的理解（类似CUDA）基本是一致的，甚至连kernel call的方式也非常类似：kernel function只能在Python scope中被调用，不可以在kernel或者<code>ti.func</code>中进行调用。CUDA实际上支持这一操作（dynamic parallelism），但需要特殊的编译技术以及足够高的arch（而且从我之前的经验来看，动态并行的kernel调kernel技术不一定有多快）。</p>
+<p>​ 我进行了一些小标注（<code>__device__</code>,
+<code>__host__</code>）。就语言特性而言，与我的理解（类似CUDA）基本是一致的，甚至连kernel
+call的方式也非常类似：kernel function只能在Python
+scope中被调用，不可以在kernel或者<code>ti.func</code>中进行调用。CUDA实际上支持这一操作（dynamic
+parallelism），但需要特殊的编译技术以及足够高的arch（而且从我之前的经验来看，动态并行的kernel调kernel技术不一定有多快）。</p>
 <p>​ 下面给出一个例子以说明如下问题：</p>
 <blockquote>
-<p>A kernel can take multiple arguments. Note that you <em>cannot</em> pass any arbitrary Python object to a kernel because Python objects can be <strong>highly dynamic</strong> and may hold data that Taichi's compiler cannot recognize.</p>
+<p>A kernel can take multiple arguments. Note that you <em>cannot</em>
+pass any arbitrary Python object to a kernel because Python objects can
+be <strong>highly dynamic</strong> and may hold data that Taichi's
+compiler cannot recognize.</p>
 </blockquote>
 <p>​ 我在写SDF marching squares时由于有如下需求：</p>
 <ul>
-<li>可视化的SDF颜色是不同物体颜色的混合，混合策略基于SDF（或者距离值）的大小。如果是简单的SDF marching squares算法，只需要把不同物体SDF加在一起即可。但由于有颜色混合需求，每一个物体的SDF需要被保存（以供后续使用，重算当然会更耗时）</li>
-<li>我一开始直接用一个Python <code>list</code> 存储<code>taichi.field</code>，相当于：</li>
+<li>可视化的SDF颜色是不同物体颜色的混合，混合策略基于SDF（或者距离值）的大小。如果是简单的SDF
+marching
+squares算法，只需要把不同物体SDF加在一起即可。但由于有颜色混合需求，每一个物体的SDF需要被保存（以供后续使用，重算当然会更耗时）</li>
+<li>我一开始直接用一个Python <code>list</code>
+存储<code>taichi.field</code>，相当于：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sdf_maps = [ti.field(dtype = ti.f32, (width, hieght)) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(ball_num)]</span><br></pre></td></tr></table></figure>
-<p>​ 一开始，我在Python shell中进行了简单的验证（是否会报错，是否可以修改其中的项），发现无问题。在实际运行时则报错（报错信息大概是）。首先简单提一下报错处的逻辑：</p>
+<p>​ 一开始，我在Python
+shell中进行了简单的验证（是否会报错，是否可以修改其中的项），发现无问题。在实际运行时则报错（报错信息大概是）。首先简单提一下报错处的逻辑：</p>
 <ul>
-<li><code>@ti.kernel</code> 函数，函数传入一个<code>i32</code>（作为当前处理物体的index）。那么如果需要计算对应index物体的SDF，则需要<code>sdf_maps[index]</code>，将field从list中取出。</li>
+<li><code>@ti.kernel</code>
+函数，函数传入一个<code>i32</code>（作为当前处理物体的index）。那么如果需要计算对应index物体的SDF，则需要<code>sdf_maps[index]</code>，将field从list中取出。</li>
 </ul>
 <p>​ 很快啊，直接报错：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: list indices must be integers or slices, not Expr</span><br></pre></td></tr></table></figure>
-<p>​ 我大为不解。我传入的index都已经进行annotation叻，为什么说index是一个表达式？各种尝试无果，最后把<code>list of 2D ti.field</code> 换成了一个3D <code>ti.field</code>（我一开始的color mapindexing也是这样的）。一个minimal的例子：</p>
+<p>​
+我大为不解。我传入的index都已经进行annotation叻，为什么说index是一个表达式？各种尝试无果，最后把<code>list of 2D ti.field</code>
+换成了一个3D <code>ti.field</code>（我一开始的color
+mapindexing也是这样的）。一个minimal的例子：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ti.init()</span><br><span class="line">glob = [ti.field(ti.f32, (<span class="number">20</span>, <span class="number">20</span>)) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>)]</span><br><span class="line"></span><br><span class="line"><span class="meta">@ti.kernel</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">indexing</span>(<span class="params">idx: <span class="built_in">int</span></span>):</span><br><span class="line">    field = glob[idx % <span class="number">8</span>]</span><br><span class="line">    <span class="keyword">for</span> i, j <span class="keyword">in</span> field:</span><br><span class="line">        field[i, j] = <span class="built_in">float</span>(idx)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">    indexing(i)</span><br></pre></td></tr></table></figure>
-<p>​ 第五行的<code>idx: int</code>换成<code>idx: ti.i32</code>结果都是一样的。从报错的位置来看：</p>
+<p>​
+第五行的<code>idx: int</code>换成<code>idx: ti.i32</code>结果都是一样的。从报错的位置来看：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ast\ast_transformer.py&quot;, line 250, in build_Subscript get_ref=get_ref)</span><br><span class="line">impl.py&quot;, line 149, in subscript return value[_indices[0]]</span><br></pre></td></tr></table></figure>
 <p>​ 应该是在进行一些魔法编译或者LLVM转换。对此，Github的一个issue是<a target="_blank" rel="noopener" href="https://github.com/taichi-dev/taichi/issues/2104">[这样解释的]</a>。</p>
 <blockquote>
-<p>This is because Taichi doesn't like Python lists as data storage. The <code>Expr</code> here is acutually a <strong>Taichi integer</strong>, not Python integer, therefore cannot pass (原文打错了，达成了ass♂) as index to a Python list.</p>
+<p>This is because Taichi doesn't like Python lists as data storage. The
+<code>Expr</code> here is acutually a <strong>Taichi integer</strong>,
+not Python integer, therefore cannot pass (原文打错了，达成了ass♂) as
+index to a Python list.</p>
 </blockquote>
-<p>​ なるほど! 此即一个典型的例子：Python与Taichi数据结构最好不要混用。Python可以轻易访问Taichi的数据结构（比如在<code>ti.init</code>之后创建一个<code>ti.Vector.field</code>，通过indexing可以很简单访问），但在kernel中却无法很好地对Python的动态数据结构进行访问。而且动态意味着，编译时所处理的内容都是不确定的，谁能知道for循环内要对什么样的变量进行遍历呢？</p>
+<p>​ なるほど!
+此即一个典型的例子：Python与Taichi数据结构最好不要混用。Python可以轻易访问Taichi的数据结构（比如在<code>ti.init</code>之后创建一个<code>ti.Vector.field</code>，通过indexing可以很简单访问），但在kernel中却无法很好地对Python的动态数据结构进行访问。而且动态意味着，编译时所处理的内容都是不确定的，谁能知道for循环内要对什么样的变量进行遍历呢？</p>
 <p>​ 顺便提一句，kernel要求还挺多：</p>
 <ul>
 <li>只能有一个return语句（很久之前的CUDA好像也是这样的）</li>
 <li>只能返回一个变量（不像python可以pack成一个tuple）</li>
 <li>返回变量的元素不要超过30（... 为什么，出于性能考虑么）</li>
-<li>返回值可以进行类型转换（比如我返回一个Vector，但是返回的type annotation是i32... 这样的cast做不到）</li>
+<li>返回值可以进行类型转换（比如我返回一个Vector，但是返回的type
+annotation是i32... 这样的cast做不到）</li>
 <li>kernel函数输入变量有大小限制（啊这）：OpenGL为32个element，其他为64个。</li>
-<li>kernel会将全局变量视为常量（不当指针），应当只有field做得到非常量：<code>Vector</code>, <code>Matrix</code>, <code>Ndarray</code> 都是无法进行kernel内indexing的，会报错如下错误。</li>
+<li>kernel会将全局变量视为常量（不当指针），应当只有field做得到非常量：<code>Vector</code>,
+<code>Matrix</code>, <code>Ndarray</code>
+都是无法进行kernel内indexing的，会报错如下错误。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AssertionError: __getitem__ cannot be called in Taichi-scope</span><br></pre></td></tr></table></figure>
-<div class="note danger"><p>​ 关于这一点，我多嘴几句。Taichi有强制 loop unrolling 机制（使得for loop无需判断循环条件，更快），所以在kernel中的 Vector, Matrix，其indices都需要是编译期常量（compile-time constants）。也即：</p>
+<div class="note danger"><p>​ 关于这一点，我多嘴几句。Taichi有强制 loop unrolling 机制（使得for
+loop无需判断循环条件，更快），所以在kernel中的 Vector,
+Matrix，其indices都需要是编译期常量（compile-time
+constants）。也即：</p>
 <ul>
 <li>field 可以使用变量进行indexing操作</li>
-<li>Vector，Matrix在Taichi scope中只能用常量进行indexing。不是特别方便，阻止了任意的向量、矩阵操作（只能使用内置的函数操作），CUDA至少还有很高的自由度（对应的开发难度当然也比较高）。</li>
+<li>Vector，Matrix在Taichi
+scope中只能用常量进行indexing。不是特别方便，阻止了任意的向量、矩阵操作（只能使用内置的函数操作），CUDA至少还有很高的自由度（对应的开发难度当然也比较高）。</li>
 </ul>
 </div>
 <ul>
 <li>scope local variable，看下面一个例子：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vec = ti.Vector([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="meta">@ti.kernel</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_vec</span>():</span><br><span class="line">    <span class="comment"># global vec</span></span><br><span class="line">    vec = ti.Vector([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Process started: <span class="subst">&#123;vec&#125;</span>&quot;</span>)</span><br><span class="line">set_vec()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Process completed: <span class="subst">&#123;vec&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>​ 输出将会全都是<code>[1 2 3]</code>。感觉很奇怪？不奇怪，对Pythoner来说很奇怪：C/C++中重名的local variable优先级都会更高，由于Taichi是编译式的，<code>vec</code>在kernel内定义了一个重名的local variable，改变它的值当然不会影响global变量。而如果你想要改变global变量，在Python中我们学过<code>global</code>关键字，但在Taichi中被ban叻（会报错）：</p>
+<p>​
+输出将会全都是<code>[1 2 3]</code>。感觉很奇怪？不奇怪，对Pythoner来说很奇怪：C/C++中重名的local
+variable优先级都会更高，由于Taichi是编译式的，<code>vec</code>在kernel内定义了一个重名的local
+variable，改变它的值当然不会影响global变量。而如果你想要改变global变量，在Python中我们学过<code>global</code>关键字，但在Taichi中被ban叻（会报错）：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unsupported node &quot;Global&quot;</span><br></pre></td></tr></table></figure>
 <p>​ 而<code>@ti.func</code>的要求则很宽松。</p>
-<h3 id="反向问题---python-scope做不到的事">2.2 反向问题 - Python scope做不到的事</h3>
-<p>​ 最简单的：Python scope中无法调用<code>@ti.func</code>修饰的函数，正如CUDA中，CPU无法调用<code>__device__</code>声明的函数而只能由<code>__global__</code>或者另一个<code>__device__</code>函数调用一样。从现在遇到的问题来看，这部分可以说的内容并不多：</p>
+<h3 id="反向问题---python-scope做不到的事">2.2 反向问题 - Python
+scope做不到的事</h3>
+<p>​ 最简单的：Python
+scope中无法调用<code>@ti.func</code>修饰的函数，正如CUDA中，CPU无法调用<code>__device__</code>声明的函数而只能由<code>__global__</code>或者另一个<code>__device__</code>函数调用一样。从现在遇到的问题来看，这部分可以说的内容并不多：</p>
 <ul>
-<li><code>ti.random</code> 不可在python scope中被调用（此外需要说明的是，这个函数只接受primitive types, 比如float, int之类的，假设我需要一个random matrix，最简单的办法可能是用<code>numpy</code>再利用Taichi的<code>from_numpy</code>接口）。</li>
+<li><code>ti.random</code> 不可在python
+scope中被调用（此外需要说明的是，这个函数只接受primitive types,
+比如float, int之类的，假设我需要一个random
+matrix，最简单的办法可能是用<code>numpy</code>再利用Taichi的<code>from_numpy</code>接口）。</li>
 <li>原子操作（<code>atomic_xxx</code>系列），看下面一个例子：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_atomic</span>():</span><br><span class="line">    field = ti.field(ti.i32, (<span class="number">20</span>, <span class="number">20</span>))</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @ti.kernel</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">increment</span>():</span><br><span class="line">         <span class="keyword">for</span> i, j <span class="keyword">in</span> field:</span><br><span class="line">             ti.atomic_add(field[i, j], <span class="number">1</span>)</span><br><span class="line">            </span><br><span class="line">    increment()</span><br><span class="line">    ti.atomic_add(field[<span class="number">0</span>, <span class="number">0</span>], <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p>​ 注意，第九行可以顺利执行，结果也是正确的（虽然这里用原子操作并没有什么意义，原始代码就不会有什么race condition）。而第十行会报错：</p>
+<p>​
+注意，第九行可以顺利执行，结果也是正确的（虽然这里用原子操作并没有什么意义，原始代码就不会有什么race
+condition）。而第十行会报错：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...\taichi\lang\ops.py&quot;, line 1235, in atomic_add</span><br><span class="line">    expr.Expr(_ti_core.expr_atomic_add(x.ptr, y.ptr), tb=stack_info()))</span><br><span class="line">AttributeError: &#x27;int&#x27; object has no attribute &#x27;ptr&#x27;</span><br></pre></td></tr></table></figure>
-<p>​ 个人认为原因与kernel编译机制有关：直接在Python scope中运行使用的是Python虚拟机以及解释器，可能不存在指针这种玩意？而如果在Taichi scope中执行，会先编译并转为对应backend（如果是C++后端则可以有指针设计）。这个例子中，原子操作并没有被直接禁止（<code>ti.random</code>则直接报错说不能在Python scope中被调用）。</p>
-<p>​ 此外注意，某些函数在<code>ti.init</code>调用之前不能调用（可能，所有函数吧），举个例子：<code>ti.field</code>创建一个field，这个函数不能先于<code>ti.init</code>调用，但<code>ti.Vector</code>之类的数据结构（Taichi基本结构，在<code>ti.types</code>中可以找到类型的，是可以的）：</p>
+<p>​ 个人认为原因与kernel编译机制有关：直接在Python
+scope中运行使用的是Python虚拟机以及解释器，可能不存在指针这种玩意？而如果在Taichi
+scope中执行，会先编译并转为对应backend（如果是C++后端则可以有指针设计）。这个例子中，原子操作并没有被直接禁止（<code>ti.random</code>则直接报错说不能在Python
+scope中被调用）。</p>
+<p>​
+此外注意，某些函数在<code>ti.init</code>调用之前不能调用（可能，所有函数吧），举个例子：<code>ti.field</code>创建一个field，这个函数不能先于<code>ti.init</code>调用，但<code>ti.Vector</code>之类的数据结构（Taichi基本结构，在<code>ti.types</code>中可以找到类型的，是可以的）：</p>
 <ul>
 <li>比如<code>ti.VectorNdarray</code>，<code>ti.MatrixNdarray</code>，在<code>ti.types</code>中没有，虽然在没有init时调用不会告诉你<code>May be call ti.init() first?</code>，但由于在构造函数中都有：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.arr = impl.get_runtime().prog.....</span><br></pre></td></tr></table></figure>
-<p>​ <code>get_runtime()</code>在<code>ti.init</code>被调用前是<code>None</code>，所以其实隐式要求了init。</p>
+<p>​
+<code>get_runtime()</code>在<code>ti.init</code>被调用前是<code>None</code>，所以其实隐式要求了init。</p>
 <h3 id="泛型与编译过程">2.3 泛型与编译过程</h3>
-<p>​ 我还没有深入到泛型的使用，故本节只简单提一些设计以及逻辑层面的内容。</p>
+<p>​
+我还没有深入到泛型的使用，故本节只简单提一些设计以及逻辑层面的内容。</p>
 <h4 id="why-type-annotation">2.3.1 Why type annotation</h4>
-<p>​ C++的泛型还不是特别熟（use case不多，练得少，设计泛型小项目有点... 困难？费脑子？），只能进行一些基础编程。唔，现在接触了三种泛型，三种都是浅尝辄止（淦，感觉万金油什么都不会捏）：</p>
+<p>​ C++的泛型还不是特别熟（use case不多，练得少，设计泛型小项目有点...
+困难？费脑子？），只能进行一些基础编程。唔，现在接触了三种泛型，三种都是浅尝辄止（淦，感觉万金油什么都不会捏）：</p>
 <ul>
 <li>C++ meta-programming</li>
 <li>Rust generics (Rust太久没写了，有点忘了)</li>
@@ -435,12 +495,19 @@ Figure 1. 混元形意太极 闪电五连鞭
 <p>​ （<strong><u>正文开始</u></strong>）官方文档上有这样的一段话：</p>
 <div class="note info"><ul>
 <li>Type hinting in Python is recommended, <em>not</em> mandatory.</li>
-<li>Taichi makes it mandatory that you type hint the arguments and the return value of a kernel unless it does not have an argument or a return statement.</li>
+<li>Taichi makes it mandatory that you type hint the arguments and the
+return value of a kernel unless it does not have an argument or a return
+statement.</li>
 </ul>
 </div>
-<p>​ 也即要求进行显式的type annotation（在编译时Taichi backend编译相当于类型声明）。为什么要这样？原因其实很简单，类型推断不是一件简单的事情。我们在C++中接触了很多类型推断的case，举个例子：</p>
+<p>​ 也即要求进行显式的type annotation（在编译时Taichi
+backend编译相当于类型声明）。为什么要这样？原因其实很简单，类型推断不是一件简单的事情。我们在C++中接触了很多类型推断的case，举个例子：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Ty1&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">inference_case1</span><span class="params">(Ty1&amp; val)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>&amp; a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">inference_case1</span>(a);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Ty2&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">inference_case2</span><span class="params">(Ty2 val)</span></span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> b = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">inference_case2</span>(b);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Ty3, <span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">inference_case3</span><span class="params">(<span class="type">const</span> std::vector&lt;Ty3&gt;&amp; vec, T idx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> vec.<span class="built_in">begin</span>() + idx;</span><br><span class="line">&#125;</span><br><span class="line">std::vector&lt;<span class="type">size_t</span>&gt; vec = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="type">uint32_t</span> idx = <span class="number">2</span>; </span><br><span class="line"><span class="keyword">auto</span> result = <span class="built_in">inference_case3</span>(vec, idx);</span><br></pre></td></tr></table></figure>
-<p>​ 问上述<code>Ty1</code>，<code>Ty2</code>，<code>idx</code>分别推导出来是什么类型？这里只给出结论，不清楚的话自己去补：<code>Ty1 = const int</code>，<code>Ty2 = int</code>，<code>std::vector&lt;int&gt;::const_iterator</code>。但从这样的简单例子可以发现（我的目前的理解，可能是错的，毕竟我泛型学得不深），C++可以进行类型推断一定在于参与推导的类型一定是编译期可知的（直接，或间接）。对于Taichi而言，由于kernel function是从Python scope中调用的，Python作为弱类型动态语言，类型是不定的，你要让Taichi编译器无中生有，从你都不一定知道是个啥的类型中推出来简直是强人锁♂男。所以参数、返回值需要强制type hint（返回值的话，我总感觉可以推出来的样子？乍一想脑子里没有很好的无法推出的例子...）。</p>
+<p>​
+问上述<code>Ty1</code>，<code>Ty2</code>，<code>idx</code>分别推导出来是什么类型？这里只给出结论，不清楚的话自己去补：<code>Ty1 = const int</code>，<code>Ty2 = int</code>，<code>std::vector&lt;int&gt;::const_iterator</code>。但从这样的简单例子可以发现（我的目前的理解，可能是错的，毕竟我泛型学得不深），C++可以进行类型推断一定在于参与推导的类型一定是编译期可知的（直接，或间接）。对于Taichi而言，由于kernel
+function是从Python
+scope中调用的，Python作为弱类型动态语言，类型是不定的，你要让Taichi编译器无中生有，从你都不一定知道是个啥的类型中推出来简直是强人锁♂男。所以参数、返回值需要强制type
+hint（返回值的话，我总感觉可以推出来的样子？乍一想脑子里没有很好的无法推出的例子...）。</p>
 <h4 id="编译过程在做什么">2.3.2 编译过程在做什么</h4>
 <p>​ 粗浅理解一下，这里只提一些重要过程：</p>
 <pre class="mermaid">
@@ -452,14 +519,21 @@ A(Python code)--&gt;|AST transformation|B(Python&#x2F;Taichi AST)--&gt;|Optimiza
 <center>
 Figure 2. 编译过程重要事件（个人理解）
 </center>
-<p>​ 首先是AST transformation（Abstract Syntax Tree），相当于将Python code组织成更容易分析、跟踪的表征（比如，清楚地记录每个symbol在第几行第几列，属于调用、函数名、变量还是什么其他的类型），这是Python code在进入解释器之前的一步重要操作（可以看作是一种“编译”），详见<a target="_blank" rel="noopener" href="https://medium.com/@wshanshan/intro-to-python-ast-module-bbd22cd505f7">[这篇文章]</a>。Taichi也会生成对应的AST，对AST进行分析，生成Taichi中间表示（IR - intermediate representation），与LLVM不同，Taichi中间表示更加“高级”（high-level），粒度更大、更加抽象，所以保留了很多原有的信息，对Taichi IR先进行一次优化可以得到更好的优化效果：</p>
+<p>​ 首先是AST transformation（Abstract Syntax Tree），相当于将Python
+code组织成更容易分析、跟踪的表征（比如，清楚地记录每个symbol在第几行第几列，属于调用、函数名、变量还是什么其他的类型），这是Python
+code在进入解释器之前的一步重要操作（可以看作是一种“编译”），详见<a target="_blank" rel="noopener" href="https://medium.com/@wshanshan/intro-to-python-ast-module-bbd22cd505f7">[这篇文章]</a>。Taichi也会生成对应的AST，对AST进行分析，生成Taichi中间表示（IR
+- intermediate
+representation），与LLVM不同，Taichi中间表示更加“高级”（high-level），粒度更大、更加抽象，所以保留了很多原有的信息，对Taichi
+IR先进行一次优化可以得到更好的优化效果：</p>
 <center>
 <img src="/2023/01/11/Taichi-Learning-I/image-20230111101008259.png" alt="image-20230111101008259" style="zoom:67%;">
 </center>
 <center>
-Figure 3. 可分析度与优化力度的trade-off：越底层越容易进行优化，但越顶层信息越多、可以进行优化质量越高
+Figure 3.
+可分析度与优化力度的trade-off：越底层越容易进行优化，但越顶层信息越多、可以进行优化质量越高
 </center>
-<p>​ 胡渊明在其PPT中提了一些有趣的点，用以佐证“信息越多，优化机会越多”这一观点：</p>
+<p>​
+胡渊明在其PPT中提了一些有趣的点，用以佐证“信息越多，优化机会越多”这一观点：</p>
 <ul>
 <li>指针名不可相互覆盖：<code>a</code>就是<code>a</code>，<code>b</code>就是<code>b</code>，除非两者相同，否则两者不会指向同一位置</li>
 <li>内存访问全经手<code>field[indices]</code>：C中的指针可以灵活地cast，“几乎任意地”指向任何object，这会给优化造成麻烦，而Taichi中，指向的object以及类型都是固定的（const以及类型已知的指针）</li>
@@ -467,54 +541,82 @@ Figure 3. 可分析度与优化力度的trade-off：越底层越容易进行优�
 <li>读操作不会修改任何内容：不报错，也不会在超界时“智能地”new一个object出来</li>
 </ul>
 <h4 id="interesting-bls">2.3.3 Interesting BLS</h4>
-<p>​ 此处真就几句话带过：Block local storage（目前还没用到，但读docs时看到这个feature，觉得非常有意思），假如你明白CUDA内存机制，这个概念就非常简单，下面以CUDA内存机制进行类比：</p>
+<p>​ 此处真就几句话带过：Block local
+storage（目前还没用到，但读docs时看到这个feature，觉得非常有意思），假如你明白CUDA内存机制，这个概念就非常简单，下面以CUDA内存机制进行类比：</p>
 <ul>
-<li>GPU的两类内存：global memory（顾名思义，任何block、线程均可访问），shared memory（一个block内的线程共享，不同block之间不可相互访问）</li>
-<li>global memory巨慢无比，shared memory访问速度可达global memory的20-100倍（通常，10个cycles内，相比于200cycles以上的global memory）</li>
-<li><strong><u>需要反复读取或者写入的变量</u></strong>：如果不存在寄存器上，就可以存在shared memory上加速访问。</li>
+<li>GPU的两类内存：global
+memory（顾名思义，任何block、线程均可访问），shared
+memory（一个block内的线程共享，不同block之间不可相互访问）</li>
+<li>global memory巨慢无比，shared memory访问速度可达global
+memory的20-100倍（通常，10个cycles内，相比于200cycles以上的global
+memory）</li>
+<li><strong><u>需要反复读取或者写入的变量</u></strong>：如果不存在寄存器上，就可以存在shared
+memory上加速访问。</li>
 </ul>
 <p>​ Taichi也有类似操作，见下图，这里我就不展开讲了：</p>
 <p><img src="/2023/01/11/Taichi-Learning-I/image-20230111105501475.png" alt="image-20230111105501475" style="zoom: 67%;"></p>
 <center>
 Figure 4. CUDA！（幻视）
 </center>
-<p>​ 虽然Taichi没有CUDA底层那么灵活，但它效率高啊，我是经历过这种事情的（见下图），之后需要好好研究一下<code>ti.cache_shared</code>以及一些进阶加速写法。</p>
+<p>​
+虽然Taichi没有CUDA底层那么灵活，但它效率高啊，我是经历过这种事情的（见下图），之后需要好好研究一下<code>ti.cache_shared</code>以及一些进阶加速写法。</p>
 <p><img src="/2023/01/11/Taichi-Learning-I/image-20230111105638243.png" alt="image-20230111105638243" style="zoom: 75%;"></p>
 <center>
 Figure 5. 感觉像是中译英词数爆炸
 </center>
 <hr>
 <h2 id="iii.-python盲区---decorator">III. Python盲区 - decorator</h2>
-<p>​ 遥想公瑾当年，看不懂decorator的燃情岁月，仿佛就在昨天。当年对语言、算法的敏感度都没有今天那么高（相对高，绝对低），看不明白是很正常的事情，加上笔者比较笨、急躁，看两眼就润了...</p>
-<p>​ decorator其实很简单，不懂的时候觉得装逼，懂了就觉得挺语法糖的（毕竟减少了代码重复率），对于简单的用法，其本质就是：由于函数也是object，可以赋值来赋值去的，一个“修饰函数”可以接收函数object作为参数，在原函数的基础上增加一些功能（但保持原函数代码不变性），内部实现就是一个函数wrapper：</p>
+<p>​
+遥想公瑾当年，看不懂decorator的燃情岁月，仿佛就在昨天。当年对语言、算法的敏感度都没有今天那么高（相对高，绝对低），看不明白是很正常的事情，加上笔者比较笨、急躁，看两眼就润了...</p>
+<p>​
+decorator其实很简单，不懂的时候觉得装逼，懂了就觉得挺语法糖的（毕竟减少了代码重复率），对于简单的用法，其本质就是：由于函数也是object，可以赋值来赋值去的，一个“修饰函数”可以接收函数object作为参数，在原函数的基础上增加一些功能（但保持原函数代码不变性），内部实现就是一个函数wrapper：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">init_notify</span>(<span class="params">init_func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner_wrapper</span>(<span class="params">*args, **kwargs</span>):		<span class="comment"># I will skip this unpacking syntax</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Intialization process started.&quot;</span>)</span><br><span class="line">        ret = init_func(*args, **kwargs)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Intialization process completed.&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line">   	<span class="keyword">return</span> inner_wrapper</span><br><span class="line">        </span><br><span class="line"><span class="meta">@init_notify</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">initialize</span>():</span><br><span class="line">    <span class="comment"># some bad-ass class initialization code</span></span><br></pre></td></tr></table></figure>
-<p>​ 实际上，<code>@init_notify</code>过程就是把initialize包了一层，等同于<code>init_notify(initialize)</code>，但是<code>init_notify(initialize)</code>写法也太函数式叻（假设我有很多wrapper，每个都要包一层，看起来就跟洋葱似的）。注意，如果修饰器要带参数输入（带参数修饰），则更加复杂，由于作为修饰器本身的函数只能接收一个参数：<code>@init_notify</code> 是修饰器函数，其本身的参数就是下面的initialize函数，跟在<code>@</code>后面的这一块是一个 <strong><u>单一参数函数</u></strong>，那么我们只需要设计一个函数，返回一个单一参数函数但同时支持输入我们需要的内容就可以：</p>
+<p>​
+实际上，<code>@init_notify</code>过程就是把initialize包了一层，等同于<code>init_notify(initialize)</code>，但是<code>init_notify(initialize)</code>写法也太函数式叻（假设我有很多wrapper，每个都要包一层，看起来就跟洋葱似的）。注意，如果修饰器要带参数输入（带参数修饰），则更加复杂，由于作为修饰器本身的函数只能接收一个参数：<code>@init_notify</code>
+是修饰器函数，其本身的参数就是下面的initialize函数，跟在<code>@</code>后面的这一块是一个
+<strong><u>单一参数函数</u></strong>，那么我们只需要设计一个函数，返回一个单一参数函数但同时支持输入我们需要的内容就可以：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">notify</span>(<span class="params">name: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">init_notify</span>(<span class="params">init_func</span>):</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">inner_wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span> process started.&quot;</span>)</span><br><span class="line">            ret = init_func(*args, **kwargs)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span> process completed.&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> ret</span><br><span class="line">        <span class="keyword">return</span> inner_wrapper</span><br><span class="line"><span class="keyword">return</span> init_notify</span><br></pre></td></tr></table></figure>
-<p>​ 调用很简单：<code>@notify("Initialization")</code>。别以为这里的修饰器函数带了参数，修饰器函数不是<code>notify</code>，而是<code>notify</code>的返回值（一个单参数函数）。</p>
-<p>​ 参考Taichi的源码，查了一下<code>@ti.func / @ti.kernel</code>，代码中用到了<code>functools</code>的<code>wraps</code>函数：</p>
+<p>​
+调用很简单：<code>@notify("Initialization")</code>。别以为这里的修饰器函数带了参数，修饰器函数不是<code>notify</code>，而是<code>notify</code>的返回值（一个单参数函数）。</p>
+<p>​
+参考Taichi的源码，查了一下<code>@ti.func / @ti.kernel</code>，代码中用到了<code>functools</code>的<code>wraps</code>函数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@functools.wraps(<span class="params">func</span>)</span></span><br></pre></td></tr></table></figure>
-<p>​ 这个函数的作用就是将输入函数的部分信息迁移到修饰后函数，由于修饰后函数实际上是返回的<code>inner_wrapper</code>函数，其名字（<code>__name__</code>），help文档（<code>__doc__</code>）都无了，故可以用<code>wraps</code>函数修饰<code>inner_wrapper</code>（直接在<code>def inner_wrapper</code>上方加<code>@functools.wraps(func)</code>）。</p>
-<div class="note warning"><p>​ 注意，Taichi的修饰器函数貌似有两个输入参数。有默认参数则没有问题，代码中也给出了True的修饰方法：</p>
+<p>​
+这个函数的作用就是将输入函数的部分信息迁移到修饰后函数，由于修饰后函数实际上是返回的<code>inner_wrapper</code>函数，其名字（<code>__name__</code>），help文档（<code>__doc__</code>）都无了，故可以用<code>wraps</code>函数修饰<code>inner_wrapper</code>（直接在<code>def inner_wrapper</code>上方加<code>@functools.wraps(func)</code>）。</p>
+<div class="note warning"><p>​
+注意，Taichi的修饰器函数貌似有两个输入参数。有默认参数则没有问题，代码中也给出了True的修饰方法：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">fn, is_real_function=<span class="literal">False</span></span>):</span><br><span class="line">    	<span class="comment">#...</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">real_func</span>(<span class="params">fn</span>):</span><br><span class="line">    <span class="keyword">return</span> func(fn, is_real_function=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-<p>​ 也就是说：<code>@real_func</code>就行了。不过我现在还没查到什么是real function</p>
+<p>​
+也就是说：<code>@real_func</code>就行了。不过我现在还没查到什么是real
+function</p>
 </div>
-<p>​ 这里提供一个小sidenote：<code>@pyfunc</code>修饰：表示被修饰函数可以在Taichi  Python scope中调用：</p>
+<p>​
+这里提供一个小sidenote：<code>@pyfunc</code>修饰：表示被修饰函数可以在Taichi
+ Python scope中调用：</p>
 <ul>
 <li>在Taichi scope中调用时，会进行编译</li>
-<li>在Python scope中调用时，直接就是原始Python code的执行方式。这么看来，相当于<code>__device__ __host__</code>修饰的CUDA函数，可以同时在host以及device上调用，不过CUDA会编译生成两份代码（一份是NVCC编译生成的GPU代码，另一部分是C编译器生成的CPU代码）。</li>
+<li>在Python scope中调用时，直接就是原始Python
+code的执行方式。这么看来，相当于<code>__device__ __host__</code>修饰的CUDA函数，可以同时在host以及device上调用，不过CUDA会编译生成两份代码（一份是NVCC编译生成的GPU代码，另一部分是C编译器生成的CPU代码）。</li>
 </ul>
 <hr>
 <h2 id="iv.-show-cases">IV. Show Cases</h2>
-<p>​ 很垃圾的玩意，刚学，技术很差。不过Taich确实强，SDF这个比我之前用OpenCV写得快多了（虽然逻辑不是特别一样，但功能更强了，OpenCV那一版本只能绘制zero level set，这一版本我可以混合颜色）。具体的代码见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/learn_taichi">Github: Enigmatisms/learn_taichi</a></p>
+<p>​
+很垃圾的玩意，刚学，技术很差。不过Taich确实强，SDF这个比我之前用OpenCV写得快多了（虽然逻辑不是特别一样，但功能更强了，OpenCV那一版本只能绘制zero
+level set，这一版本我可以混合颜色）。具体的代码见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/learn_taichi">Github:
+Enigmatisms/learn_taichi</a></p>
 <table>
+<colgroup>
+<col style="width: 64%">
+<col style="width: 35%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;">Distance Field visualization</th>
 <th style="text-align: center;">SDF marching squares</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2023/01/11/Taichi-Learning-I/DF.gif" style="zoom:166.67%;"></td>
 <td style="text-align: center;"><img src="/2023/01/11/Taichi-Learning-I/ms-sdf.gif"></td>
 </tr>
@@ -522,9 +624,15 @@ Figure 5. 感觉像是中译英词数爆炸
 </table>
 <hr>
 <h2 id="reference">Reference</h2>
-<p>[1] Hu, Yuanming, et al. "Taichi: a language for high-performance computation on spatially sparse data structures." <em>ACM Transactions on Graphics (TOG)</em> 38.6 (2019): 1-16.</p>
-<p>[2] <a target="_blank" rel="noopener" href="https://yuanming.taichi.graphics/publication/2020-life-of-kernel/life_of_a_taichi_kernel.pdf">Yuanming Hu: Life of a Taichi Kernel</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="https://yuanming.taichi.graphics/publication/2020-taichi-tutorial/taichi-tutorial.pdf">Hu, Yuanming. "The Taichi Programming Language: A Hands-on Tutorial." ACM| Special Interest Group on Computer Graphics and Interactive Techniques Conference Courses, 2020.</a></p>
+<p>[1] Hu, Yuanming, et al. "Taichi: a language for high-performance
+computation on spatially sparse data structures." <em>ACM Transactions
+on Graphics (TOG)</em> 38.6 (2019): 1-16.</p>
+<p>[2] <a target="_blank" rel="noopener" href="https://yuanming.taichi.graphics/publication/2020-life-of-kernel/life_of_a_taichi_kernel.pdf">Yuanming
+Hu: Life of a Taichi Kernel</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://yuanming.taichi.graphics/publication/2020-taichi-tutorial/taichi-tutorial.pdf">Hu,
+Yuanming. "The Taichi Programming Language: A Hands-on Tutorial." ACM|
+Special Interest Group on Computer Graphics and Interactive Techniques
+Conference Courses, 2020.</a></p>
 <p>[4] <a target="_blank" rel="noopener" href="https://docs.taichi-lang.org/">Taichi lang docs</a></p>
 
     </div>

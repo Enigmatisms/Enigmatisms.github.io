@@ -103,7 +103,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -316,8 +316,14 @@
           <h1 id="cuda-ii">CUDA II</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用... 等等。</p>
-<p>​ 为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的<a href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">【Particle Filter Simulation】</a>这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为 <strong><u>激光雷达仿真器LiDARSim2D</u></strong>的一个补充模块，现在更新在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">[仿真器repo：LiDARSim2D]</a>下。</p>
+<p>​
+CUDA十分有趣。因为我基本就是做算法和软件的，所以对于计算机体系结构，硬件设计等等了解得不多。尽管个人这方面知识有限，我仍然觉得这方面知识十分必要。Profiler能帮助我们在数据驱动的形式下优化代码，但并不会有助于我一开始就写出高质量、符合相应设备特性的代码。而深入了解CUDA对理解计算机内部一些底层的实现非常有帮助，比如说：内存访问，存储结构，流水线设计，带宽利用...
+等等。</p>
+<p>​
+为了进一步精进CUDA技术，我又设计了一个新的项目：粒子滤波加速。本来是想给之前的<a href="https://enigmatisms.github.io/2021/08/07/Particle-Filter-Simulation/">【Particle
+Filter
+Simulation】</a>这篇博文中使用的Volume2D算法进行加速，但做着做着就发现该算法不适合加速，遂推倒重来，重构的过程中学习了很多新的知识。整个项目作为
+<strong><u>激光雷达仿真器LiDARSim2D</u></strong>的一个补充模块，现在更新在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">[仿真器repo：LiDARSim2D]</a>下。</p>
 <p><img src="/2021/10/15/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%902%E3%80%91/pic1.png"></p>
 <center>
 Figure 1. 粒子广场
@@ -422,13 +428,23 @@ Figure 1. 粒子广场
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
 <blockquote>
-<p>The <strong>correspondence problem</strong> refers to the problem of ascertaining which parts of one image correspond to which parts of another image, where differences are due to movement of the camera, the elapse of time, and/or movement of objects in the photos. ---Wikipedia</p>
+<p>The <strong>correspondence problem</strong> refers to the problem of
+ascertaining which parts of one image correspond to which parts of
+another image, where differences are due to movement of the camera, the
+elapse of time, and/or movement of objects in the photos.
+---Wikipedia</p>
 </blockquote>
-<p>​ 最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
-<p>​ 我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV 2005的尤其简单，看完就能写出代码来）：</p>
+<p>​
+最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
+<p>​
+我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV
+2005的尤其简单，看完就能写出代码来）：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV 2005: A Spectral Technique for Correspondence Problems Using Pairwise Constraints</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC: Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV
+2005: A Spectral Technique for Correspondence Problems Using Pairwise
+Constraints</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC:
+Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
 </ul>
 <p>​ 我将本人论文分享时做的PPT贴在本文内。</p>
           <!--noindex-->
@@ -536,12 +552,17 @@ Figure 1. 粒子广场
           <h1 id="cuda-i">CUDA I</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 在复现<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.07516"><strong>A Decomposition Model for Stereo Matching</strong></a>这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA extension。出于以下目的：</p>
+<p>​ 在复现<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.07516"><strong>A
+Decomposition Model for Stereo
+Matching</strong></a>这篇论文的时候，发现其Sparse
+matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA
+extension。出于以下目的：</p>
 <ul>
 <li>复习CUDA（特别是在学习完GPU存储结构与计算之后，急需实践）</li>
 <li>学习setuptools的使用以及torch的CUDA extension写法</li>
 </ul>
-<p>​ 我给自己定了一个小型的CUDA任务，与SDF以及marching cubes算法十分相关。项目见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CuTorch">[🔗Enigmatisms/CuTorch]</a></p>
+<p>​ 我给自己定了一个小型的CUDA任务，与SDF以及marching
+cubes算法十分相关。项目见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CuTorch">[🔗Enigmatisms/CuTorch]</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/#more" rel="contents">
@@ -646,8 +667,10 @@ Figure 1. 粒子广场
     <div class="post-body" itemprop="articleBody">
           <h1 id="stereo">Stereo!</h1>
 <hr>
-<p>​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
-<p>​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
+<p>​
+最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
+<p>​
+本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/#more" rel="contents">
@@ -752,7 +775,8 @@ Figure 1. 粒子广场
     <div class="post-body" itemprop="articleBody">
           <h1 id="gpu">GPU</h1>
 <hr>
-<p>​ 懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：</p>
+<p>​
+懂GPU加速必须要懂GPU设计，GPU和CPU太不一样了。之前写CUDA的时候感觉都是瞎写。在开学花个时间补了补，花一天时间（没有实践的那种）看完了加州理工的CS179以及一些附属资料：</p>
 <center>
 <img src="/2021/09/03/GPU-Architecture-Intros/amd.gif" style="zoom:120%;">
 </center>
@@ -864,10 +888,14 @@ Figure 1. 什么？CUDA是Nvidia的？
           <h1 id="cl">CL</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是 empirical xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门了一下无监督学习（入门水准），这个领域里面有些很有趣的理论以及思想值得借鉴。本文在回顾了一下一些概率论理论之后，内容主要有：</p>
+<p>​
+根据个人粗浅的了解，有监督的简单图像分类在高一些奇怪的东西，比如我觉得Inception就很奇怪，强行变宽，更不要说它的改进了。新的网络结构感觉就是，没什么理论道理，全是
+empirical
+xxxx的，让人看得一头雾水，做这样的浅层次理解或者是复现也没有什么太大意思，只能让Pytorch技术更加熟练罢了，没有别的作用。为了寻找新的有趣理论，我入门了一下无监督学习（入门水准），这个领域里面有些很有趣的理论以及思想值得借鉴。本文在回顾了一下一些概率论理论之后，内容主要有：</p>
 <ul>
 <li>Contrastive Predictive Coding (CPC) 论文的理解</li>
-<li>何恺明大神（同样姓何为何我这么菜）Momentum Contrast (MoCo) 论文的理解</li>
+<li>何恺明大神（同样姓何为何我这么菜）Momentum Contrast (MoCo)
+论文的理解</li>
 <li>MoCo实现以及与基于ResNet思想的baseline模型比较（实现见：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/MoCo">🔗Enigmatisms/MoCo</a>）</li>
 </ul>
           <!--noindex-->
@@ -974,17 +1002,23 @@ Figure 1. 什么？CUDA是Nvidia的？
     <div class="post-body" itemprop="articleBody">
           <h1 id="d-lidar-simulator-v-1.0">2D LiDAR Simulator V 1.0</h1>
 <hr>
-<p>2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: <a href>Github🔗: Enigamtisms/Volume2D</a>, which is, recently, updated. This simulator contains:</p>
+<p>2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: <a href>Github🔗: Enigamtisms/Volume2D</a>, which is, recently, updated.
+This simulator contains:</p>
 <ul>
-<li><strong><u>map editor</u></strong>🎛 (with which you can build your own map),</li>
+<li><strong><u>map editor</u></strong>🎛 (with which you can build your
+own map),</li>
 <li><strong><u>ROS integration</u></strong>🚀:
 <ul>
 <li>rosbag generation without publishing</li>
 <li>rviz visualization for LaserScan, tf, Odometry (perturbed)</li>
 <li>Direct message publishing</li>
 </ul></li>
-<li><strong><u>Easy-to-use</u></strong>👌 roslaunch <strong><u>parameter setting</u></strong>🗝 for simulated LiDAR and other perimeter settings.</li>
-<li>Fluent opencv-based k<strong><u>eyboard / mouse control</u></strong>⌨🖱 with <strong><u>high FPS</u></strong>⏲, visualizing free space and scan.</li>
+<li><strong><u>Easy-to-use</u></strong>👌 roslaunch <strong><u>parameter
+setting</u></strong>🗝 for simulated LiDAR and other perimeter
+settings.</li>
+<li>Fluent opencv-based k<strong><u>eyboard / mouse
+control</u></strong>⌨🖱 with <strong><u>high FPS</u></strong>⏲,
+visualizing free space and scan.</li>
 </ul>
 <p>Some demo pictures are shown as follows:</p>
 <p><img src="/2021/08/28/2D-LiDAR-Simulator-Release-Notice/1.png"></p>
@@ -1097,7 +1131,8 @@ Figure 1. 什么？CUDA是Nvidia的？
     <div class="post-body" itemprop="articleBody">
           <h1 id="untitled-no.1">Untitled-NO.1</h1>
 <hr>
-<p>​ 在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。</p>
+<p>​
+在构建2D激光雷达模拟器的时候，在某个自定义地图中碰上一个奇怪的bug。当然，我从现在完全弄明白这个问题的角度出发，这个bug一点也不奇怪，反倒是警示我要多查cppreference，使用一个STL提供的工具就要看一份文档。</p>
 <center>
 <a class="btn" target="_blank" rel="noopener" href="https://en.cppreference.com/w/"><i class="fa fa-circle-notch"></i>CPP Reference</a>
 </center>
@@ -1206,12 +1241,19 @@ Figure 1. 什么？CUDA是Nvidia的？
           <h1 id="transformer">Transformer</h1>
 <hr>
 <h2 id="i.-引入">I. 引入</h2>
-<p>​ 在NLP（Natural Language Processing 而不是 Non-Linear Programming）问题中，经常涉及到sequence to sequence的问题，在这种问题上最广为人知的应用就是【机器翻译】：</p>
+<p>​ 在NLP（Natural Language Processing 而不是 Non-Linear
+Programming）问题中，经常涉及到sequence to
+sequence的问题，在这种问题上最广为人知的应用就是【机器翻译】：</p>
 <blockquote>
 <p>Watch out everybody, the potato is really hot. Nice.</p>
 <p>大家快看外面有一个特别性感的土豆。好棒啊。</p>
 </blockquote>
-<p>​ 而RNN及其变体如GRU/LSTM，既然属于RNN范畴，那就免不了<strong><u>串行</u></strong>以及自递归（auto-regression）。在数字信号处理课程中学的知识：自递归对应了IIR，时域上比FIR复杂一些。由于这两个显著的弱点，导致其慢并且长距离下的语义解析能力差，Vaswani等人提出了一种新的 基于注意力机制的可并行处理框架 - the 变形金刚。在此基础上，Juho-Lee等人构建了一种对集合数据具有置换不变性的网络（集合无序，输入顺序不影响输出）。因为从小就是看变形金刚系列电影长大的（？），我实现了这两篇论文中提到的神经网络结构，用在了Set Transformer论文中的Toy Problem - Max regression 上。结果如下图，本文是对Transformer相关理论以及实现的总结，实现已经挂在Github上了，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Set-Transformer">Github🔗：Enigmatisms/Set-Transformer</a>。</p>
+<p>​
+而RNN及其变体如GRU/LSTM，既然属于RNN范畴，那就免不了<strong><u>串行</u></strong>以及自递归（auto-regression）。在数字信号处理课程中学的知识：自递归对应了IIR，时域上比FIR复杂一些。由于这两个显著的弱点，导致其慢并且长距离下的语义解析能力差，Vaswani等人提出了一种新的
+基于注意力机制的可并行处理框架 - the
+变形金刚。在此基础上，Juho-Lee等人构建了一种对集合数据具有置换不变性的网络（集合无序，输入顺序不影响输出）。因为从小就是看变形金刚系列电影长大的（？），我实现了这两篇论文中提到的神经网络结构，用在了Set
+Transformer论文中的Toy Problem - Max regression
+上。结果如下图，本文是对Transformer相关理论以及实现的总结，实现已经挂在Github上了，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Set-Transformer">Github🔗：Enigmatisms/Set-Transformer</a>。</p>
 <p><img src="/2021/08/20/%E5%85%B3%E4%BA%8E%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/1.png" style="zoom:75%;"></p>
 <center>
 Figure 1. Set Transformer Max Regression Problem实验结果
@@ -1321,7 +1363,11 @@ Figure 1. Set Transformer Max Regression Problem实验结果
           <h1 id="particle-filter">Particle Filter</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 大二买了一本 <em>Probability Robotics(of Sebastian Thrun, et al)</em>，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了 Volume2D Shader，突然想到一个很好的方法可以应用粒子滤波，于是实现了一版。半天写完，效果不错，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/ParticleFilter">[Github Repo🔗:Enigmatisms/ParticleFilter]</a>：</p>
+<p>​ 大二买了一本 <em>Probability Robotics(of Sebastian Thrun, et
+al)</em>，其中粒子滤波的概率论知识讲得很清楚。大二学完概率论之后给我看明白了，人生第一次在理论学习上那么有成就感。但是看完之后总觉得干巴巴的，不知道如何应用。最近写完了
+Volume2D
+Shader，突然想到一个很好的方法可以应用粒子滤波，于是实现了一版。半天写完，效果不错，见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/ParticleFilter">[Github
+Repo🔗:Enigmatisms/ParticleFilter]</a>：</p>
 <p><img src="/2021/08/07/Particle-Filter-Simulation/ray2.png"></p>
 <center>
 Figure 1. Particle Filter 中使用Volume2D Shader进行的激光雷达scan仿真

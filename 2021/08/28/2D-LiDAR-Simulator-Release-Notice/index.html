@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="2D LiDAR Simulator V 1.0  2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: Github🔗: Enigamtisms&#x2F;Volume2D, which is, recently, updated. This simulator contains:  map editor🎛 (with whi">
+  <meta name="description" content="2D LiDAR Simulator V 1.0  2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: Github🔗: Enigamtisms&#x2F;Volume2D, which is, recently, updated. This simulator contains:  map editor🎛 (with wh">
 <meta property="og:type" content="website">
 <meta property="og:title" content="2D LiDAR Simulator Release Notice">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/08/28/2D-LiDAR-Simulator-Release-Notice/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="2D LiDAR Simulator V 1.0  2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: Github🔗: Enigamtisms&#x2F;Volume2D, which is, recently, updated. This simulator contains:  map editor🎛 (with whi">
+<meta property="og:description" content="2D LiDAR Simulator V 1.0  2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: Github🔗: Enigamtisms&#x2F;Volume2D, which is, recently, updated. This simulator contains:  map editor🎛 (with wh">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/28/2D-LiDAR-Simulator-Release-Notice/1.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/28/2D-LiDAR-Simulator-Release-Notice/2.png">
@@ -110,7 +110,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -331,17 +331,23 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="d-lidar-simulator-v-1.0">2D LiDAR Simulator V 1.0</h1>
 <hr>
-<p>2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: <a href>Github🔗: Enigamtisms/Volume2D</a>, which is, recently, updated. This simulator contains:</p>
+<p>2D LiDAR Simulator V 1.0🎇 is built upon the repository🎉🎉: <a href>Github🔗: Enigamtisms/Volume2D</a>, which is, recently, updated.
+This simulator contains:</p>
 <ul>
-<li><strong><u>map editor</u></strong>🎛 (with which you can build your own map),</li>
+<li><strong><u>map editor</u></strong>🎛 (with which you can build your
+own map),</li>
 <li><strong><u>ROS integration</u></strong>🚀:
 <ul>
 <li>rosbag generation without publishing</li>
 <li>rviz visualization for LaserScan, tf, Odometry (perturbed)</li>
 <li>Direct message publishing</li>
 </ul></li>
-<li><strong><u>Easy-to-use</u></strong>👌 roslaunch <strong><u>parameter setting</u></strong>🗝 for simulated LiDAR and other perimeter settings.</li>
-<li>Fluent opencv-based k<strong><u>eyboard / mouse control</u></strong>⌨🖱 with <strong><u>high FPS</u></strong>⏲, visualizing free space and scan.</li>
+<li><strong><u>Easy-to-use</u></strong>👌 roslaunch <strong><u>parameter
+setting</u></strong>🗝 for simulated LiDAR and other perimeter
+settings.</li>
+<li>Fluent opencv-based k<strong><u>eyboard / mouse
+control</u></strong>⌨🖱 with <strong><u>high FPS</u></strong>⏲,
+visualizing free space and scan.</li>
 </ul>
 <p>Some demo pictures are shown as follows:</p>
 <p><img src="/2021/08/28/2D-LiDAR-Simulator-Release-Notice/1.png"></p>
@@ -349,24 +355,25 @@
 <span id="more"></span>
 <hr>
 <h2 id="dependencies">Dependencies</h2>
-<p>The implementations are done in Ubuntu 18.04, under some of the key libraries:</p>
+<p>The implementations are done in Ubuntu 18.04, under some of the key
+libraries:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Library name</th>
 <th>Version</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ROS</td>
 <td>Melodic (for Ubuntu 18.04)</td>
 </tr>
-<tr class="even">
+<tr>
 <td>OpenCV</td>
 <td>3.x.x or above</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Eigen</td>
 <td>Usually bond with ROS</td>
 </tr>
@@ -375,38 +382,71 @@
 <p>For compilation, C++ 17 standards are recommended.</p>
 <hr>
 <h2 id="download-compile">Download &amp; Compile</h2>
-<p>In the repository <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">Enigmatisms/LiDAR2DSim</a>, click clone would suffice.</p>
+<p>In the repository <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/LiDARSim2D">Enigmatisms/LiDAR2DSim</a>,
+click clone would suffice.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:Enigmatisms/LiDARSim2D.git</span><br><span class="line">cd LiDARSim2D</span><br></pre></td></tr></table></figure>
-<p>Usually, for a ROS package we can compile the code via <code>catkin_make</code>. Yet, sometimes we want to compile A debug version, i.e. <code>-DCMAKE_BUILD_TYPE=DEBUG</code> and a release version at the same time for debugging convenience, therefore, <code>catkin_make</code> might not be quick to use. I have written a shell script named <code>make.sh</code> in the root directory, you can thereby run:</p>
+<p>Usually, for a ROS package we can compile the code via
+<code>catkin_make</code>. Yet, sometimes we want to compile A debug
+version, i.e. <code>-DCMAKE_BUILD_TYPE=DEBUG</code> and a release
+version at the same time for debugging convenience, therefore,
+<code>catkin_make</code> might not be quick to use. I have written a
+shell script named <code>make.sh</code> in the root directory, you can
+thereby run:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 777 ./make.sh</span><br><span class="line">./make.sh &lt;thread num for compilation&gt; &lt;if not empty, DCMAKE_BUILD_TYPE=DEBUG&gt;</span><br></pre></td></tr></table></figure>
-<p>This script receives two params (the second one is optional). The former one declares the number of thread for compilation and the latter one is for debug mode specification. <code>make.sh</code> is simply an encapsulation of <code>catkin_make</code>.</p>
-<p>Notice that if debug mode is on, cmake files will be output to folder <code>build_debug</code>, <code>devel</code> thereby contains the executable file of the most recent compilation (regardless of compilation mode <code>DCMAKE_BUILD_TYPE</code>)</p>
+<p>This script receives two params (the second one is optional). The
+former one declares the number of thread for compilation and the latter
+one is for debug mode specification. <code>make.sh</code> is simply an
+encapsulation of <code>catkin_make</code>.</p>
+<p>Notice that if debug mode is on, cmake files will be output to folder
+<code>build_debug</code>, <code>devel</code> thereby contains the
+executable file of the most recent compilation (regardless of
+compilation mode <code>DCMAKE_BUILD_TYPE</code>)</p>
 <hr>
 <h2 id="run">Run</h2>
 <p>Before run any of the code, make sure to:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$ </span><span class="language-bash">~/LiDAR2DSim: <span class="built_in">source</span> devel/setup.bash</span></span><br></pre></td></tr></table></figure>
 <p>Otherwise, ROS package <code>lidar_sim</code> will not be found.</p>
 <h3 id="the-editor">1. The Editor</h3>
-<p>​ Map editor is for the people who want to create their own maps. Run:</p>
+<p>​ Map editor is for the people who want to create their own maps.
+Run:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch lidar_sim editor.launch</span><br></pre></td></tr></table></figure>
-<p>​ You can find the param settings in <code>src/lidar_sim/launch/editor.launch</code></p>
+<p>​ You can find the param settings in
+<code>src/lidar_sim/launch/editor.launch</code></p>
 <ul>
-<li>map_name: specified output file name in folder <code>maps</code> ( <code>maps</code> is in the root directory)</li>
+<li>map_name: specified output file name in folder <code>maps</code> (
+<code>maps</code> is in the root directory)</li>
 </ul>
 <p>​ There are some other things to be noticed:</p>
 <ul>
-<li>The outer boundaries are given (30-pixel-thin), therefore don't draw anything in the border.</li>
-<li>Objects (Obstacles) are <strong>directional</strong> (all the points of each any one of the obstacles should be drawn in a anti-clockwise way)</li>
-<li><strong><u>Press left button of the mouse</u></strong> to add a new point.</li>
-<li><strong><u>Press <code>E</code></u></strong> if one obstacle is drawn, and it will automatically enclose itself.</li>
-<li><strong><u>Press <code>S</code></u></strong> to save the map and quit.</li>
-<li><strong><u>Press <code>P</code></u></strong> to pop the points added, if the new points are empty, the enclosed objects will be popped.</li>
-<li><strong><u>Press <code>ESC</code></u></strong> to exit without saving the map.</li>
+<li>The outer boundaries are given (30-pixel-thin), therefore don't draw
+anything in the border.</li>
+<li>Objects (Obstacles) are <strong>directional</strong> (all the points
+of each any one of the obstacles should be drawn in a anti-clockwise
+way)</li>
+<li><strong><u>Press left button of the mouse</u></strong> to add a new
+point.</li>
+<li><strong><u>Press <code>E</code></u></strong> if one obstacle is
+drawn, and it will automatically enclose itself.</li>
+<li><strong><u>Press <code>S</code></u></strong> to save the map and
+quit.</li>
+<li><strong><u>Press <code>P</code></u></strong> to pop the points
+added, if the new points are empty, the enclosed objects will be
+popped.</li>
+<li><strong><u>Press <code>ESC</code></u></strong> to exit without
+saving the map.</li>
 </ul>
 <h3 id="particle-filter">2. Particle filter</h3>
-<p>This repository is once a repo for <strong><u>Particle filter</u></strong>, I implemented one simple particle filter for localization purposes. Therefore you can play with it.</p>
-<p>This particle filter includes a <strong>2D LiDAR simulator</strong>, which is based on the <strong>Volume2D Shader of mine</strong>[<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">Github Repo: Enigmatisms/Volume]</a>. Using this LiDAR simulator, I implemented an interesting little localization program via <strong>Particle Filter</strong>. The localization experiments are only done in a 2D-2DoF (translation position x and y) problem.</p>
-<p>Under the condition of 2000 particles, the FPS of this algorithm is about 16-50 hz, and the convergence is fast and accurate. Run:</p>
+<p>This repository is once a repo for <strong><u>Particle
+filter</u></strong>, I implemented one simple particle filter for
+localization purposes. Therefore you can play with it.</p>
+<p>This particle filter includes a <strong>2D LiDAR simulator</strong>,
+which is based on the <strong>Volume2D Shader of mine</strong>[<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">Github Repo:
+Enigmatisms/Volume]</a>. Using this LiDAR simulator, I implemented an
+interesting little localization program via <strong>Particle
+Filter</strong>. The localization experiments are only done in a 2D-2DoF
+(translation position x and y) problem.</p>
+<p>Under the condition of 2000 particles, the FPS of this algorithm is
+about 16-50 hz, and the convergence is fast and accurate. Run:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch lidar_sim filter.launch</span><br></pre></td></tr></table></figure>
 <p>To find out.</p>
 <h3 id="scan-simulator">3. Scan simulator</h3>
@@ -414,23 +454,29 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch lidar_sim scan.launch</span><br></pre></td></tr></table></figure>
 <p>On initialization, two new windows will pop up:</p>
 <ul>
-<li>An opencv window for free space, LiDAR scan visualization and scanner controlling.</li>
+<li>An opencv window for free space, LiDAR scan visualization and
+scanner controlling.</li>
 <li>An rviz window for sensor_msgs / nav_msgs visualization</li>
 </ul>
-<p>Check the launch file, you can find <strong><u>a lot of</u></strong> params.</p>
+<p>Check the launch file, you can find <strong><u>a lot of</u></strong>
+params.</p>
 <ul>
 <li>Controller settings:
 <ul>
-<li>trans_speed: translation speed (pixel per move, which is 2cm per move)</li>
-<li>rot_vel: rotation velocity, in degree, which is only available in keyboard control</li>
+<li>trans_speed: translation speed (pixel per move, which is 2cm per
+move)</li>
+<li>rot_vel: rotation velocity, in degree, which is only available in
+keyboard control</li>
 <li>init_x, init_y: initial position of the scanner</li>
-<li>kp, ki, kd: PID parameters for mouse controller, which allows smooth control.</li>
+<li>kp, ki, kd: PID parameters for mouse controller, which allows smooth
+control.</li>
 </ul></li>
 <li>LiDAR settings
 <ul>
 <li>angle_min, angle_max: angle range in rad</li>
 <li>angle_incre: angle resolution (increment) in rad</li>
-<li>lidar_noise: noise level (gaussian sigma) for the noise in <strong><u>range.</u></strong></li>
+<li>lidar_noise: noise level (gaussian sigma) for the noise in
+<strong><u>range.</u></strong></li>
 <li>lidar_fps: frame rate of LiDAR</li>
 </ul></li>
 <li>Odometry settings: for nav_msgs::Odometry publishing
@@ -442,7 +488,9 @@
 <ul>
 <li>map_name: which map to run</li>
 <li>bag_name: the name of output rosbag</li>
-<li>skip_selection: if true, the program will not ask you to select the initial position of the scanner, (init_x, init_y) will come into use.</li>
+<li>skip_selection: if true, the program will not ask you to select the
+initial position of the scanner, (init_x, init_y) will come into
+use.</li>
 <li>direct_pub: publish the ROS messages in the program</li>
 </ul></li>
 </ul>

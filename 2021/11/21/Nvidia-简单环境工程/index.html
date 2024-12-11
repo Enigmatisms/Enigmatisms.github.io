@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Ampere Pytorch  I. Introduction ​ 近日训练神经网络花了五六十块钱，在智星云平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元&#x2F;h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：  RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子 环境非常">
+  <meta name="description" content="Ampere Pytorch  I. Introduction ​ 近日训练神经网络花了五六十块钱，在智星云平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元&#x2F;h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：  RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子 环境">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Nvidia 简单环境工程">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Ampere Pytorch  I. Introduction ​ 近日训练神经网络花了五六十块钱，在智星云平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元&#x2F;h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：  RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子 环境非常">
+<meta property="og:description" content="Ampere Pytorch  I. Introduction ​ 近日训练神经网络花了五六十块钱，在智星云平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元&#x2F;h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：  RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子 环境">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/smi.png">
@@ -109,7 +109,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -325,12 +325,18 @@
         <h1 id="ampere-pytorch">Ampere Pytorch</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 近日训练神经网络花了五六十块钱，在<a target="_blank" rel="noopener" href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX 3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
+<p>​ 近日训练神经网络花了五六十块钱，在<a target="_blank" rel="noopener" href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX
+3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
 <ul>
-<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX 3090没有3090的样子</li>
-<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch 1.4.0，直接没办法跑</li>
+<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX
+3090没有3090的样子</li>
+<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch
+1.4.0，直接没办法跑</li>
 </ul>
-<p>​ 于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX 3060，对应架构为安培（Ampere sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
+<p>​
+于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX
+3060，对应架构为安培（Ampere
+sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
 <center>
 <img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
 </center>
@@ -350,32 +356,66 @@ Figure 1. 看起来很便宜 黄仁勋Yes
 <center>
 Figure 2. nvidia-smi版本号
 </center>
-<p>​ 但这只是该驱动（426.00）可以支持的 <strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
+<p>​ 但这只是该驱动（426.00）可以支持的
+<strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
-<p>​ 然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
+<p>​
+然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
 <h3 id="乱搞驱动">2.2 乱搞驱动</h3>
-<p>​ 我选择的是CUDA 11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu 18.04端我选择的是脚本文件安装(.run 文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
+<p>​ 我选择的是CUDA
+11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu
+18.04端我选择的是脚本文件安装(.run
+文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
 <blockquote>
-<p>Existing package manager found... (然后建议你在继续安装前remove这个existing package manager of the driver).</p>
+<p>Existing package manager found...
+(然后建议你在继续安装前remove这个existing package manager of the
+driver).</p>
 </blockquote>
-<p>​ <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
-<p>​ <strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
+<p>​ <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask
+Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
+<p>​
+<strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">下面这一句为了看看这个电脑上都装了哪些CUDA相关库</span></span><br><span class="line">dpkg -l | grep &quot;cuda&quot;</span><br><span class="line"><span class="meta"># </span><span class="language-bash">删除CUDA相关包以及其配置文件</span></span><br><span class="line">sudo apt-get remove cuda*</span><br><span class="line">sudo apt-get purge cuda*</span><br><span class="line"><span class="meta"># </span><span class="language-bash">不要随便用autoremove！除非你知道你在干什么或者你对autoremove的包进行仔细的检查</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">CSDN上就有autoremove，评论区已经有崩溃老哥说自己autoremove了一些重要包不得不重装系统了</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">显卡驱动，删除</span></span><br><span class="line">sudo apt-get remove nvidia*</span><br><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
 <p>​ 执行结束之后，reboot。</p>
 <h3 id="安装驱动">2.3 安装驱动</h3>
-<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了 ，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
-<p>​ 进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
+<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了
+，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu
+Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
+<p>​
+进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:...</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:...</span><br></pre></td></tr></table></figure>
-<p>​ 检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
+<p>​
+检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
 <h3 id="安装pytorch">2.4 安装Pytorch</h3>
-<p>​ Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code> is not a supported architecture for Pytorch, among [... up to sm_70] blahblahblah。在这里我遇到了两个坑：</p>
+<p>​
+Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code>
+is not a supported architecture for Pytorch, among [... up to sm_70]
+blahblahblah。在这里我遇到了两个坑：</p>
 <h4 id="多重pytorch">2.4.1 多重Pytorch</h4>
-<p>​ 我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code> 之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code> 三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
+<p>​
+我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code>
+之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code>
+三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
 <h4 id="cuda-wheel">2.4.2 CUDA Wheel</h4>
-<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4 支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成 <code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3 不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了 pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA 踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch / python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag 则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义 <code>-arch=sm_86</code> 就能使得 <code>sm_86</code> 架构得到支持。也就是说，我们在安装的过程中需要选择CUDA Wheels，也就是手动写一个（+xxx）：</p>
+<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4
+支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成
+<code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3
+不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了
+pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA
+踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch /
+python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag
+则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义
+<code>-arch=sm_86</code> 就能使得 <code>sm_86</code>
+架构得到支持。也就是说，我们在安装的过程中需要选择CUDA
+Wheels，也就是手动写一个（+xxx）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install torch==1.10.0+cu113</span><br></pre></td></tr></table></figure>
-<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3 wheels，应该就是说，本库的编译是有 CUDA 11.3 完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种 <code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
-<p>​ 另一种方法，可以直接使用本地 CUDA 完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用 nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
+<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3
+wheels，应该就是说，本库的编译是有 CUDA 11.3
+完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种
+<code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
+<p>​ 另一种方法，可以直接使用本地 CUDA
+完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用
+nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
 <h3 id="验证">2.5 验证</h3>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tmp = torch.zeros(<span class="number">1</span>).cuda()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
 <p>​ 只要没有任何warning或者error，就是成功。</p>

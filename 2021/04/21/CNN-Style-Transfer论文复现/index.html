@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) w">
+  <meta name="description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CNN Style Transfer论文复现">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) w">
+<meta property="og:description" content="# NeuralStyle My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation)">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/training.JPG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_71.jpg">
@@ -122,7 +122,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -342,18 +342,31 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="neuralstyle"># NeuralStyle</h2>
-<p>My own implementation of CVPR 2016 paper: Image Style Transfer Using Convolutional Neural Networks. This work is, I think, simple but elegant (I mean the paper, not my implementation) with good interpretability.</p>
+<p>My own implementation of CVPR 2016 paper: Image Style Transfer Using
+Convolutional Neural Networks. This work is, I think, simple but elegant
+(I mean the paper, not my implementation) with good
+interpretability.</p>
 <ul>
-<li>CVPR 2016 OpenAccess Link is here: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">CVPR 2016 open access</a></li>
-<li>Personal understanding of this paper [Chinese]: <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">Blog of Enigmatisms/CNN Style Transfer论文复现</a></li>
+<li>CVPR 2016 OpenAccess Link is here: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">CVPR
+2016 open access</a></li>
+<li>Personal understanding of this paper [Chinese]: <a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">Blog
+of Enigmatisms/CNN Style Transfer论文复现</a></li>
 </ul>
-<div class="note success"><p>2021.11.15 complement: I have no intention to analyze and explain this paper, because I think it's simple, and I have a deep impression of this, therefore there is no point recording anything on the blog. Original Github Repo: <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeuralStyle">Github🔗: Enigmatisms/NeuralStyle</a>. This post is exactly the README.md of the repo.</p>
+<div class="note success"><p>2021.11.15 complement: I have no intention to analyze and explain
+this paper, because I think it's simple, and I have a deep impression of
+this, therefore there is no point recording anything on the blog.
+Original Github Repo: <a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeuralStyle">Github🔗:
+Enigmatisms/NeuralStyle</a>. This post is exactly the README.md of the
+repo.</p>
 </div>
 <span id="more"></span>
 <hr>
 <h3 id="to-run-the-code">To run the code</h3>
-<p>Make sure to have Pytorch / Tensorboard on your device, CUDA is available too yet I failed to use it (GPU memory not enough, yet API is good to go). I am currently using Pytorch 1.7.0 + CU101.</p>
-<p>On Init, it might require you to download pretrained VGG-19 network, which requires network connection.</p>
+<p>Make sure to have Pytorch / Tensorboard on your device, CUDA is
+available too yet I failed to use it (GPU memory not enough, yet API is
+good to go). I am currently using Pytorch 1.7.0 + CU101.</p>
+<p>On Init, it might require you to download pretrained VGG-19 network,
+which requires network connection.</p>
 <hr>
 <h3 id="tree---working-directory">Tree - Working Directory</h3>
 <ul>
@@ -361,14 +374,17 @@
 <li>folder <code>imgs</code>: To which the output goes.</li>
 <li>folder <code>style</code>:
 <ul>
-<li><code>lossTerm.py</code>: Style loss and Content loss are implemented here.</li>
-<li><code>precompute.py</code>: VGG-19 utilization, style and content extractors.</li>
+<li><code>lossTerm.py</code>: Style loss and Content loss are
+implemented here.</li>
+<li><code>precompute.py</code>: VGG-19 utilization, style and content
+extractors.</li>
 <li><strong><code>transfer.py</code></strong>: executable script.</li>
 </ul></li>
 </ul>
 <hr>
 <h3 id="a-little-help">A Little Help</h3>
-<p>Always run <code>transfer.py</code> in folder <code>style/</code>, using <code>python ./transfer.py -h</code>， you'll get:</p>
+<p>Always run <code>transfer.py</code> in folder <code>style/</code>,
+using <code>python ./transfer.py -h</code>， you'll get:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">usage: transfer.py [-h] [--alpha ALPHA] [--epoches EPOCHES]</span><br><span class="line">                   [--max_iter MAX_ITER] [--save_time SAVE_TIME] [-d] [-g]</span><br><span class="line">                   [-c]</span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  --alpha ALPHA         Ratio of content loss in the total loss</span><br><span class="line">  --epoches EPOCHES     Training lasts for . epoches (for LBFGS)</span><br><span class="line">  --max_iter MAX_ITER   LBFGS max iteration number</span><br><span class="line">  --save_time SAVE_TIME</span><br><span class="line">                        Save image every &lt;save_time&gt; epoches</span><br><span class="line">  -d, --del_dir         Delete dir ./logs and start new tensorboard records</span><br><span class="line">  -g, --gray            Using grayscale image as initialization for generated</span><br><span class="line">                        image</span><br><span class="line">  -c, --cuda            Use CUDA to speed up training</span><br></pre></td></tr></table></figure>
 <hr>
 <h3 id="requirements">Requirements</h3>
@@ -380,25 +396,32 @@
 <hr>
 <h3 id="training-process">Training Process</h3>
 <ul>
-<li>Something strange happened. Loss exploded twice (but recovered.). Tensorboard graphs:</li>
+<li>Something strange happened. Loss exploded twice (but recovered.).
+Tensorboard graphs:</li>
 </ul>
 <p><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/training.JPG"></p>
-<p>Therefore, parameter images change like this (Initialized with grayscale image).</p>
+<p>Therefore, parameter images change like this (Initialized with
+grayscale image).</p>
 <table>
+<colgroup>
+<col style="width: 31%">
+<col style="width: 35%">
+<col style="width: 32%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_71.jpg"></th>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_221.jpg"></th>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_481.jpg"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_11.jpg"></td>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_181.jpg"></td>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_241.jpg"></td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;">First few epochs</td>
 <td style="text-align: center;">Exploded, for 2th row image</td>
 <td style="text-align: center;">Recovered</td>
@@ -408,23 +431,29 @@
 <hr>
 <h3 id="results">Results</h3>
 <ul>
-<li>CPU training is tooooooo slow. Took me <strong><u>2+ hours</u></strong> for 800 iterations. (i5-8250U 8th Gen @ 1.60Hz)</li>
+<li>CPU training is tooooooo slow. Took me <strong><u>2+
+hours</u></strong> for 800 iterations. (i5-8250U 8th Gen @ 1.60Hz)</li>
 </ul>
 <table>
+<colgroup>
+<col style="width: 39%">
+<col style="width: 29%">
+<col style="width: 31%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/star.jpg" style="zoom:80%;"></th>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg"></th>
 <th style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_star_801.jpg"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/chaos.jpg" style="zoom:80%;"></td>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/content.jpg"></td>
 <td style="text-align: center;"><img src="/2021/04/21/CNN-Style-Transfer%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/G_chaos_801.jpg"></td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;">Style</td>
 <td style="text-align: center;">Content</td>
 <td style="text-align: center;">Output(800 Iterations)</td>
@@ -432,13 +461,14 @@
 </tbody>
 </table>
 <ul>
-<li>I've also done the style transfer of Van Gogh's self portrait for my dad, which is not appropriate to display, but worked.</li>
+<li>I've also done the style transfer of Van Gogh's self portrait for my
+dad, which is not appropriate to display, but worked.</li>
 </ul>
 <hr>
 <h3 id="possible-todos">Possible TODOs</h3>
 <ul class="task-list">
-<li><input type="checkbox" disabled>
-Try adding InstanceNorm into VGG-19 ? Useful ? Meaningful ?</li>
+<li><label><input type="checkbox">Try adding InstanceNorm into VGG-19
+? Useful ? Meaningful ?</label></li>
 </ul>
 
     </div>

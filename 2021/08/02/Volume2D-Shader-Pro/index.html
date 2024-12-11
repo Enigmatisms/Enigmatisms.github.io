@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Volume2D Pro  I. Preface ​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：[Enigmatisms&#x2F;Volume]    Video 1. 不规则障碍物体积光算法效果">
+  <meta name="description" content="Volume2D Pro  I. Preface ​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：[Enigmatisms&#x2F;Volume]    Video 1. 不规则障碍物体积光算法">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Volume2D Shader Pro">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/08/02/Volume2D-Shader-Pro/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Volume2D Pro  I. Preface ​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：[Enigmatisms&#x2F;Volume]    Video 1. 不规则障碍物体积光算法效果">
+<meta property="og:description" content="Volume2D Pro  I. Preface ​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：[Enigmatisms&#x2F;Volume]    Video 1. 不规则障碍物体积光算法">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/02/Volume2D-Shader-Pro/cases.PNG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/08/02/Volume2D-Shader-Pro/proj.PNG">
@@ -115,7 +115,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -337,16 +337,20 @@
         <h1 id="volume2d-pro">Volume2D Pro</h1>
 <hr>
 <h2 id="i.-preface">I. Preface</h2>
-<p>​ 觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github Repo：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
+<p>​
+觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github
+Repo：<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
 <video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
 </video>
 <center>
 Video 1. 不规则障碍物体积光算法效果
 </center>
-<p>​ 不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
+<p>​
+不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
 <details class="note primary"><summary><p>什么叫叠buff式编程</p>
 </summary>
-<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自 HQY）</p>
+<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自
+HQY）</p>
 
 </details>
 <span id="more"></span>
@@ -354,27 +358,36 @@ Video 1. 不规则障碍物体积光算法效果
 <h2 id="ii.-算法设计简介">II. 算法设计简介</h2>
 <h3 id="数据表示">2.1 数据表示</h3>
 <div class="tabs" id="two-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#two-unique-name-1">Edge</a></li><li class="tab"><a href="#two-unique-name-2">Object</a></li></ul><div class="tab-content"><div class="tab-pane active" id="two-unique-name-1"><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Edge</span>: <span class="keyword">public</span> std::deque&lt;Eigen::Vector3d&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; proj_ids;           <span class="comment">// 待投影点的id</span></span><br><span class="line">    <span class="type">double</span> min_dist = <span class="number">1e9</span>;</span><br><span class="line">    <span class="type">bool</span> valid = <span class="literal">true</span>;                      <span class="comment">// 是否完全被遮挡</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​ Edge是一个继承了<code>std::vector&lt;Eigen::Vector3d&gt;</code>的类，除了包含vector的所有特性之外，还实现了一些方法，诸如<strong><u>旋转数组二分查找</u></strong>，带奇异性的角度判定等等。Edge实际上就是每一条参与投影的边，在Edge之上有Object来进行管理。Edge是<strong><u>不断开的，面向光源的障碍物边界部分</u></strong>。</p>
-<p>​ Vector3d在此处表示的是：x，y，角度（点到观测点形成的向量，求反正切的角度）。</p></div><div class="tab-pane" id="two-unique-name-2"><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Object</span> &#123;</span><br><span class="line"><span class="keyword">using</span> HeapType = std::priority_queue&lt;<span class="type">size_t</span>, std::vector&lt;<span class="type">size_t</span>&gt;, EdgeCompFunctor&gt;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">bool</span> valid;</span><br><span class="line">    <span class="type">double</span> min_dist;</span><br><span class="line">    std::vector&lt;Edge&gt; edges;</span><br><span class="line">    std::pair&lt;<span class="type">double</span>, <span class="type">double</span>&gt; angle_range;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​ Object是Edge的集合体，除了Edge之外还封装了一些附加信息，用于判定：</p>
+<p>​
+Edge是一个继承了<code>std::vector&lt;Eigen::Vector3d&gt;</code>的类，除了包含vector的所有特性之外，还实现了一些方法，诸如<strong><u>旋转数组二分查找</u></strong>，带奇异性的角度判定等等。Edge实际上就是每一条参与投影的边，在Edge之上有Object来进行管理。Edge是<strong><u>不断开的，面向光源的障碍物边界部分</u></strong>。</p>
+<p>​
+Vector3d在此处表示的是：x，y，角度（点到观测点形成的向量，求反正切的角度）。</p></div><div class="tab-pane" id="two-unique-name-2"><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Object</span> &#123;</span><br><span class="line"><span class="keyword">using</span> HeapType = std::priority_queue&lt;<span class="type">size_t</span>, std::vector&lt;<span class="type">size_t</span>&gt;, EdgeCompFunctor&gt;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">bool</span> valid;</span><br><span class="line">    <span class="type">double</span> min_dist;</span><br><span class="line">    std::vector&lt;Edge&gt; edges;</span><br><span class="line">    std::pair&lt;<span class="type">double</span>, <span class="type">double</span>&gt; angle_range;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​
+Object是Edge的集合体，除了Edge之外还封装了一些附加信息，用于判定：</p>
 <ul>
 <li>哪些Edge先参与投影</li>
 <li>哪些Edge完全被遮挡等等</li>
 </ul>
-<p>​ Object内部有一个Edge的堆，堆结构在Volume2D中也曾使用，本次使用了双层堆，并且堆称为了临时变量（因为调试过程中发现全局堆有些问题）。</p></div></div></div>
+<p>​
+Object内部有一个Edge的堆，堆结构在Volume2D中也曾使用，本次使用了双层堆，并且堆称为了临时变量（因为调试过程中发现全局堆有些问题）。</p></div></div></div>
 <h3 id="边界分割">2.2 边界分割</h3>
 <p>​ 之前在做点云相关工作的时候，知道：</p>
 <blockquote>
 <p>LaserScan内部的点都是具有方向性的，可根据两个点形成线段的法向量判定面向激光器与背向激光器的scan</p>
 </blockquote>
-<p>​ 和Volume 2D一样，我也不希望太多无效的边界参与投影过程，进行“Back Culling”理论上可以减少一半的计算量（障碍物面向以及背向光源的部分正常来说各占一半）。故在做边界分割时，只保留面向光源边对应的点。</p>
-<p>​ 此外由于边界是使用vector进行顺序保存的，存在以下的几种情况需要考虑：</p>
+<p>​ 和Volume 2D一样，我也不希望太多无效的边界参与投影过程，进行“Back
+Culling”理论上可以减少一半的计算量（障碍物面向以及背向光源的部分正常来说各占一半）。故在做边界分割时，只保留面向光源边对应的点。</p>
+<p>​
+此外由于边界是使用vector进行顺序保存的，存在以下的几种情况需要考虑：</p>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/cases.PNG"></p>
 <center>
 Figure 1. 三种不同的情况
 </center>
-<div class="tabs" id="fourth-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-unique-name-1">最简单的情形</a></li><li class="tab"><a href="#fourth-unique-name-2">循环添加1</a></li><li class="tab"><a href="#fourth-unique-name-3">循环添加2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-unique-name-1"><p>​ 最简单的显然就是：需要添加的边从front()或者中间位置开始，最多需要添加到back()处的点。这种情况下可以直接遍历添加，无需下标循环。</p></div><div class="tab-pane" id="fourth-unique-name-2"><p>​ 第二种情况在开始撰写代码时考虑到了，觉得可能会有这种需要从front()到back()循环连接的情况。所以一开始设计Edge类就使用了双端队列（真的号用）。因为已知：同一个Object上由于中间有不可视（背向光源）的段，可能会将一条完整的边界分割为若干段面向光源的edges，那：front()处加入的点留在对应的edge种，而back()对应的edges则需要反向加入到front()对应edge的头部。也就像这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Edge::const_reverse_iterator rit = to_add.<span class="built_in">crbegin</span>(); rit != to_add.<span class="built_in">crend</span>(); rit++)</span><br><span class="line">	front.<span class="built_in">push_front</span>(*rit);</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-unique-name-3"><p>​ 第三种情况开始没有考虑到（不周啊），头部只有一个点加入。我的逻辑是不会保存孤立点的（形成Edge至少要两个点），而如果front()确实应该加入，但遍历时，front()联系的边都是背向边，那么可能会错误地丢弃front()。最后是多加入了几个判断才完成这部分。</p></div></div></div>
+<div class="tabs" id="fourth-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-unique-name-1">最简单的情形</a></li><li class="tab"><a href="#fourth-unique-name-2">循环添加1</a></li><li class="tab"><a href="#fourth-unique-name-3">循环添加2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-unique-name-1"><p>​
+最简单的显然就是：需要添加的边从front()或者中间位置开始，最多需要添加到back()处的点。这种情况下可以直接遍历添加，无需下标循环。</p></div><div class="tab-pane" id="fourth-unique-name-2"><p>​
+第二种情况在开始撰写代码时考虑到了，觉得可能会有这种需要从front()到back()循环连接的情况。所以一开始设计Edge类就使用了双端队列（真的号用）。因为已知：同一个Object上由于中间有不可视（背向光源）的段，可能会将一条完整的边界分割为若干段面向光源的edges，那：front()处加入的点留在对应的edge种，而back()对应的edges则需要反向加入到front()对应edge的头部。也就像这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Edge::const_reverse_iterator rit = to_add.<span class="built_in">crbegin</span>(); rit != to_add.<span class="built_in">crend</span>(); rit++)</span><br><span class="line">	front.<span class="built_in">push_front</span>(*rit);</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-unique-name-3"><p>​
+第三种情况开始没有考虑到（不周啊），头部只有一个点加入。我的逻辑是不会保存孤立点的（形成Edge至少要两个点），而如果front()确实应该加入，但遍历时，front()联系的边都是背向边，那么可能会错误地丢弃front()。最后是多加入了几个判断才完成这部分。</p></div></div></div>
 <h3 id="内外投影">2.3 内外投影</h3>
 <h4 id="内外投影简介">2.3.1 内外投影简介</h4>
 <p>​ 已知，我的算法对于Edge的管理基于类Object，其逻辑是：</p>
@@ -382,32 +395,40 @@ Figure 1. 三种不同的情况
 <li>内投影：首先选择离光源最近的物体，计算该物体内部的遮挡（内部的形状复杂时）</li>
 <li>外投影：此物体如何影响别的物体，如何判定遮挡关系</li>
 </ul>
-<p>​ 为什么要区分内外投影呢？内投影与外投影有什么关系呢？在我最初的构想中，区别挺大的，但仔细思考后发现，内外都会有如下的情况发生：</p>
+<p>​
+为什么要区分内外投影呢？内投影与外投影有什么关系呢？在我最初的构想中，区别挺大的，但仔细思考后发现，内外都会有如下的情况发生：</p>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/proj.PNG" style="zoom:67%;"></p>
 <center>
 Figure 2. 两种内部遮挡情况
 </center>
-<p>​ 尤其是第一种，开始时我认为第一种情况是不会出在内投影的情况中的，我开始认为：内部不会有切分一条边为两条的情况。（我对应的切分函数<code>breakEdge</code>开始是给外部投影实现的），但事实上是，都有可能。</p>
+<p>​
+尤其是第一种，开始时我认为第一种情况是不会出在内投影的情况中的，我开始认为：内部不会有切分一条边为两条的情况。（我对应的切分函数<code>breakEdge</code>开始是给外部投影实现的），但事实上是，都有可能。</p>
 <h4 id="两个设计">2.3.2 两个设计</h4>
 <h5 id="proj_ids">proj_ids</h5>
-<p>​ proj_ids是每一个Edge都携带的结构，是一个<code>std::pair&lt;int, int&gt;</code>。使用这个pair可以快速查找，此edge有哪些是需要参与后续内外投影的点。示意图如下：</p>
+<p>​
+proj_ids是每一个Edge都携带的结构，是一个<code>std::pair&lt;int, int&gt;</code>。使用这个pair可以快速查找，此edge有哪些是需要参与后续内外投影的点。示意图如下：</p>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/examples.PNG"></p>
 <center>
 Figure 3. proj_ids 使用
 </center>
-<p>​ 图中蓝色点是投影形成的点，在判断外部遮挡时，显然应该由外侧点（意味着范围更大）来进行投影（也就是红色点）。也就是说，蓝色点只保存，不参与后续的投影，但是红色点与后续投影有很大的关系。蓝色点不参与计算可以减少部分计算负担。</p>
+<p>​
+图中蓝色点是投影形成的点，在判断外部遮挡时，显然应该由外侧点（意味着范围更大）来进行投影（也就是红色点）。也就是说，蓝色点只保存，不参与后续的投影，但是红色点与后续投影有很大的关系。蓝色点不参与计算可以减少部分计算负担。</p>
 <h5 id="eigenvector3d">Eigen::Vector3d</h5>
-<p>​ 为什么不好好地使用Eigen::Vector2d，反倒要使用Vector3d，保存一个角度？首先我对问题做了一个这样的假设：</p>
+<p>​
+为什么不好好地使用Eigen::Vector2d，反倒要使用Vector3d，保存一个角度？首先我对问题做了一个这样的假设：</p>
 <blockquote>
 <p>我们的每一个edge，上面每一个点的角度（相对于观测点的反正切角度）都不同，并且由于做了背面剔除，在非奇异（atan函数角度从<span class="math inline">\(-\pi\)</span>到<span class="math inline">\(\pi\)</span>的奇异跃迁）情况下，是一个按角度递增的数组。存在奇异的情况下，是一个旋转数组，front()必然大于back()</p>
 </blockquote>
-<p>​ 顺序化或者旋转顺序化的数据结构可以使用二分查找或是旋转数组二分查找，在障碍物表面特别不平（比如激光点云）时，可以显著加快交点搜索速度。此处我们使用旋转数组二分查找，查找投影关系：</p>
+<p>​
+顺序化或者旋转顺序化的数据结构可以使用二分查找或是旋转数组二分查找，在障碍物表面特别不平（比如激光点云）时，可以显著加快交点搜索速度。此处我们使用旋转数组二分查找，查找投影关系：</p>
 <ul>
-<li>主投影边src上的点，如何投影到被投影边dst上，src的front() / back() 角度对应到dst的哪两个点之间？</li>
+<li>主投影边src上的点，如何投影到被投影边dst上，src的front() / back()
+角度对应到dst的哪两个点之间？</li>
 <li>使用这两个点以及已知的src投影光线，进行交点计算</li>
 </ul>
 <h4 id="主要函数-projedge2edge">2.3.2 主要函数 projEdge2Edge</h4>
-<p>​ <code>projEdge2Edge</code>是用于投影的主要函数，此函数适用于内外投影。其主要逻辑是：</p>
+<p>​
+<code>projEdge2Edge</code>是用于投影的主要函数，此函数适用于内外投影。其主要逻辑是：</p>
 <div class="note info"><p>首先规定：主投影边（产生遮挡的边）为src，dst则为被遮挡的边。一般来说，主投影边的min_dist（内部点到光源的最小距离）会比dst的min_dist更小，但是也有例外。见下图。</p>
 </div>
 <center>
@@ -416,25 +437,31 @@ Figure 3. proj_ids 使用
 <center>
 Figure 4. 按照最小距离建立堆产生的问题
 </center>
-<p>​ 上图首先选中更长的边（蓝色线连接的长边），因为最小距离长边对应最小（观测点选得好就会这样）。那么场边会先于两个实际上应该判定为更近的小障碍物进行投影，这样就会出现问题。比如：</p>
+<p>​
+上图首先选中更长的边（蓝色线连接的长边），因为最小距离长边对应最小（观测点选得好就会这样）。那么场边会先于两个实际上应该判定为更近的小障碍物进行投影，这样就会出现问题。比如：</p>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/Screenshot from 2021-08-02 02-13-46.png" style="zoom:60%;"></p>
 <center>
 Figure 5. 边异常消失问题
 </center>
-<p>​ 可能原因是，由于开始的实现是：只要dst在src的角度范围内（角度上完全覆盖），那么dst就会被设为valid = false（完全覆盖不需要再投影）。但是如果src选错，就会出现如上问题。</p>
+<p>​
+可能原因是，由于开始的实现是：只要dst在src的角度范围内（角度上完全覆盖），那么dst就会被设为valid
+= false（完全覆盖不需要再投影）。但是如果src选错，就会出现如上问题。</p>
 <p>​ 本函数的逻辑为：</p>
 <ul>
 <li>首先判定src可用投影点数为（proj_ids中有多少个大于等于0者），如果有两个，可能出现breakEdge的情况（投影产生新的Edge）</li>
 <li>如果只有一个可用点，需要判定（实际逻辑比下面简介的复杂得多，因为情况太多了）：
 <ul>
-<li>src / dst首尾两点到观测点的连线夹角是否小于90度？不小于则可能是反方向的障碍物，不应该参与</li>
+<li>src /
+dst首尾两点到观测点的连线夹角是否小于90度？不小于则可能是反方向的障碍物，不应该参与</li>
 <li>判定src是否完全覆盖dst。为了避免atan角度奇异性，这里使用了基于内积的相对判定方法。具体实现不讲了。</li>
 <li>如果可能存在完全覆盖，需要反向筛查（查找dst首尾两点会被src内部那两对点“夹住”），如果存在这样的点对，才能认为是完全覆盖的。</li>
 </ul></li>
 <li>根据计算结果求解交点（省略了很多逻辑，不想讲，逻辑太复杂了，包括奇异处理，裕量处理，一些意想不到的情况）</li>
 </ul>
 <h4 id="交点求解">2.4 交点求解</h4>
-<p>​ 求解两对点对应的两条直线的交点，只需要一些数学上的处理。首先我们知道，不能使用斜截式，因为 <strong><u>在本问题中，可能存在斜率无穷大的直线，导致病态</u></strong>。而另一方面，我们知道线段上一点可以使用线段的法向量表示：</p>
+<p>​
+求解两对点对应的两条直线的交点，只需要一些数学上的处理。首先我们知道，不能使用斜截式，因为
+<strong><u>在本问题中，可能存在斜率无穷大的直线，导致病态</u></strong>。而另一方面，我们知道线段上一点可以使用线段的法向量表示：</p>
 <blockquote>
 <p>直线上一点(x, y)到直线上已知一点<span class="math inline">\((x_0,y_0)\)</span>的向量会垂直于法向量</p>
 </blockquote>
@@ -444,9 +471,11 @@ Figure 5. 边异常消失问题
 &amp; (-v_y,v_x)\cdot(x-x_0,y-y_0)=0\tag{eq 1}\\
 &amp; (-u_y,u_x)\cdot(x-x_1,y-y_1)=0\tag{eq 2}
 \end{align}
-\]</span> ​ 由(eq 1), (eq 2)组成两个方程，可以解出<span class="math inline">\((x, y)\)</span>，只需判定对应齐次方程系数矩阵行列式是否很小（不可逆），如果不可逆，直接返回被投影点更近的那个点，如果可逆，那么解出的<span class="math inline">\((x,y)\)</span>就是结果。</p>
+\]</span> ​ 由(eq 1), (eq 2)组成两个方程，可以解出<span class="math inline">\((x,
+y)\)</span>，只需判定对应齐次方程系数矩阵行列式是否很小（不可逆），如果不可逆，直接返回被投影点更近的那个点，如果可逆，那么解出的<span class="math inline">\((x,y)\)</span>就是结果。</p>
 <h4 id="其他">2.5 其他</h4>
-<p>​ 还有很多！逻辑是真的很复杂，情况很多，我不想写这个，要一一解释太麻烦了。</p>
+<p>​
+还有很多！逻辑是真的很复杂，情况很多，我不想写这个，要一一解释太麻烦了。</p>
 <hr>
 <h2 id="iii.-效果一览">III. 效果一览</h2>
 <video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
@@ -462,11 +491,13 @@ Video 2. 更多障碍物下的表现
 <p>​ 边界计算结果使用截图的方式记录了一下：</p>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-49-37.png"></p>
 <center>
-Figure 6. 边界计算（demo1），图中绿色点是观测点，黄色是计算最后需要绘制的边
+Figure 6.
+边界计算（demo1），图中绿色点是观测点，黄色是计算最后需要绘制的边
 </center>
 <p><img src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-50-01.png"></p>
 <center>
-Figure 7. 边界计算（demo2），图中绿色点是观测点，黄色是计算最后需要绘制的边
+Figure 7.
+边界计算（demo2），图中绿色点是观测点，黄色是计算最后需要绘制的边
 </center>
 <hr>
 <h2 id="iv.-库的使用">IV. 库的使用</h2>
@@ -475,15 +506,20 @@ Figure 7. 边界计算（demo2），图中绿色点是观测点，黄色是计�
 <h3 id="reference">Reference</h3>
 <p>​ 关于<code>EdgeCompFunctor</code>这个还是有必要说一下的：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">EdgeCompFunctor</span>&#123;</span><br><span class="line">    <span class="built_in">EdgeCompFunctor</span>(<span class="type">const</span> std::vector&lt;Edge&gt;&amp; _egs): <span class="built_in">egs</span>(_egs) &#123;&#125;</span><br><span class="line">    <span class="type">const</span> std::vector&lt;Edge&gt;&amp; egs;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="type">const</span> <span class="type">size_t</span>&amp; e1, <span class="type">const</span> <span class="type">size_t</span>&amp; e2)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> egs[e1].min_dist &gt; egs[e2].min_dist;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​ std::priority_queue接收一个自定义的比较函数，由于C++高版本的匿名函数特性很不错，一般都使用匿名函数来填充这个自定义比较函数，但也可以使用较为老式的Functor写法。而此处，我更改了在Volume2D算法中使用的“保存Edge*”的实现，因为已知保存在堆中的指针没有办法正确指向vector。原因我哥已经帮我解释了：</p>
+<p>​
+std::priority_queue接收一个自定义的比较函数，由于C++高版本的匿名函数特性很不错，一般都使用匿名函数来填充这个自定义比较函数，但也可以使用较为老式的Functor写法。而此处，我更改了在Volume2D算法中使用的“保存Edge*”的实现，因为已知保存在堆中的指针没有办法正确指向vector。原因我哥已经帮我解释了：</p>
 <blockquote>
 <ul>
 <li>因为vector的内部存储的地址是会变的</li>
-<li>比如resize的时候 它会构造一个新的数组 把原来的数据复制进去 然后销毁之前的数组 这样地址就变了</li>
+<li>比如resize的时候 它会构造一个新的数组 把原来的数据复制进去
+然后销毁之前的数组 这样地址就变了</li>
 <li>如果直接存指针 是会失效的</li>
 </ul>
 </blockquote>
-<p>​ 这种携带了一个常引用，初始化EdgeCompFunctor时需要传入edges这个vector常应用的写法来自于<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/8372918/c-std-list-sort-with-custom-comparator-that-depends-on-an-member-variable-for">[stackoverflow/C++ std list sort with custom comparator that depends on an member variable for the object instance]</a>。显然，保存索引比保存指针优雅多了。</p>
+<p>​
+这种携带了一个常引用，初始化EdgeCompFunctor时需要传入edges这个vector常应用的写法来自于<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/8372918/c-std-list-sort-with-custom-comparator-that-depends-on-an-member-variable-for">[stackoverflow/C++
+std list sort with custom comparator that depends on an member variable
+for the object instance]</a>。显然，保存索引比保存指针优雅多了。</p>
 
     </div>
 

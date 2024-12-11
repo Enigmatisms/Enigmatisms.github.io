@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="SVM  Preface ​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他考前每">
+  <meta name="description" content="SVM  Preface ​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他">
 <meta property="og:type" content="website">
 <meta property="og:title" content="SVM算法与实现">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="SVM  Preface ​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他考前每">
+<meta property="og:description" content="SVM  Preface ​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/history.jpg">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/svm.JPG">
@@ -118,7 +118,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -340,13 +340,17 @@
         <h1 id="svm">SVM</h1>
 <hr>
 <h2 id="preface">Preface</h2>
-<p>​ SVM (Support Vector Machine 支持向量机) 曾一度导致深度学习的退潮（1995）。Geoffrey Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。 恰好大三下学期有《模式识别》课，且有学长说他考前每天必推一遍SVM原理，不如现在趁《运筹学》还热着，尝试自己推导一遍，并实现这一个经典算法。</p>
+<p>​ SVM (Support Vector Machine 支持向量机)
+曾一度导致深度学习的退潮（1995）。Geoffrey
+Hinton提出BP之后，遇到了sigmoid激活函数梯度消失问题，恰好此时Vapnik提出统计学习理论，正式提出非线性SVM并将其应用，使得这个分类器盛行了20年？直到DL的梅开三度。
+恰好大三下学期有《模式识别》课，且有学长说他考前每天必推一遍SVM原理，不如现在趁《运筹学》还热着，尝试自己推导一遍，并实现这一个经典算法。</p>
 <p><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/history.jpg"></p>
 <center>
 Figure 1. 深度学习的发展历程 以及95年SVM带来的冲击（图源不明）
 </center>
 <span id="more"></span>
-<p>​ SVM作为经典的“最大间隔”（maximum margin）分类器，除了其精巧的数学变换（Lagrange对偶，可能是因为我自己推出来了所以觉得很妙吧:laughing:）之外，“支持向量”的思想是最妙之处。这种方法大大减少了训练时使用的维数，避免了内存爆炸问题，并且可以使用少量样本进行训练。</p>
+<p>​ SVM作为经典的“最大间隔”（maximum
+margin）分类器，除了其精巧的数学变换（Lagrange对偶，可能是因为我自己推出来了所以觉得很妙吧:laughing:）之外，“支持向量”的思想是最妙之处。这种方法大大减少了训练时使用的维数，避免了内存爆炸问题，并且可以使用少量样本进行训练。</p>
 <hr>
 <h2 id="超平面的意义">超平面的意义</h2>
 <p>​ 假设一个平面，其到原点的法向量为<span class="math inline">\(\pmb{w}\)</span>，到原点的距离为<span class="math inline">\(b\)</span>，那么平面方程应该是： <span class="math display">\[
@@ -357,7 +361,8 @@ Figure 1. 深度学习的发展历程 以及95年SVM带来的冲击（图源不�
 \begin{equation}\label{equ:plain}
 Ax+By+Cz+....+b=0
 \end{equation}
-\]</span> ​ 进行的推广，那么对于公式<span class="math inline">\(\eqref{equ:hyper}\)</span>，如此定义方式为什么可以定义一个平面？x为什么一定在一个由<span class="math inline">\(\pmb{w}\)</span>以及<span class="math inline">\(b\)</span>定义的唯一平面上？推导如下，如图(1)，过原点做垂直于超平面的垂线，设交点为P，平面上一点x相对于P点的相对向向量为x'。那么有： <span class="math display">\[
+\]</span> ​ 进行的推广，那么对于公式<span class="math inline">\(\eqref{equ:hyper}\)</span>，如此定义方式为什么可以定义一个平面？x为什么一定在一个由<span class="math inline">\(\pmb{w}\)</span>以及<span class="math inline">\(b\)</span>定义的唯一平面上？推导如下，如图(1)，过原点做垂直于超平面的垂线，设交点为P，平面上一点x相对于P点的相对向向量为x'。那么有：
+<span class="math display">\[
 \begin{align}
 &amp; \pmb{v}=\vert b\vert\frac{\pmb{w}}{\Vert\pmb{w}\Vert} \\
 &amp; \pmb{x}=\pmb{x}&#39;+\pmb{v}      \\
@@ -368,37 +373,53 @@ Ax+By+Cz+....+b=0
 <center>
 Figure 2. 超平面数学意义探究
 </center>
-<p>​ 如果要推算一个点到超平面的距离，比如上图的点y到超平面的距离，相当于是：y交超平面于y'点，而由于y'在超平面上，于是有<span class="math inline">\(\pmb{w}^T\pmb{y}&#39;+b=0\)</span>，那么由于<span class="math inline">\(\pmb{y} = \pmb{y}&#39;+\pmb{y}&#39;&#39;\)</span>，那么可以知道： <span class="math display">\[
+<p>​
+如果要推算一个点到超平面的距离，比如上图的点y到超平面的距离，相当于是：y交超平面于y'点，而由于y'在超平面上，于是有<span class="math inline">\(\pmb{w}^T\pmb{y}&#39;+b=0\)</span>，那么由于<span class="math inline">\(\pmb{y} =
+\pmb{y}&#39;+\pmb{y}&#39;&#39;\)</span>，那么可以知道： <span class="math display">\[
 \begin{equation}\label{equ:predist}
 \pmb{w}^T\pmb{y}+b=\pmb{w}^T\pmb{y}&#39;&#39;
 \end{equation}
-\]</span> ​ 而公式<span class="math inline">\(\eqref{equ:predist}\)</span>右侧相当于是y''在未单位化的方向向量上的投影，单位化之后可以得到距离。那么整个点到超平面距离公式如下： <span class="math display">\[
+\]</span> ​ 而公式<span class="math inline">\(\eqref{equ:predist}\)</span>右侧相当于是y''在未单位化的方向向量上的投影，单位化之后可以得到距离。那么整个点到超平面距离公式如下：
+<span class="math display">\[
 d = \frac{\vert \pmb{w}^T\pmb{x}+b\vert}{\Vert \pmb{w}\Vert}
 \]</span></p>
 <hr>
 <h2 id="目标函数导出">目标函数导出</h2>
-<p>​ 对于一个二分类的SVM，我们希望找到<strong>一个</strong>超平面，能够最优地将两类数据分开。如下图所示，图片来源见reference[1]。</p>
+<p>​
+对于一个二分类的SVM，我们希望找到<strong>一个</strong>超平面，能够最优地将两类数据分开。如下图所示，图片来源见reference[1]。</p>
 <p><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/margin.png"></p>
 <center>
 Figure 3. SVM与超平面
 </center>
-<p>​ 联系以下其他的分类方法，比如说LDA（Linear Discriminative Analysis），在算法构建时就存在一点就是：使类间方差是最大的。也就是希望两类之间的间隔是最大的。在SVM中，不衡量类间方差，衡量的是“margin”（就是Figure 3中的黄色区域）。</p>
-<p>​ 从简单的例子引入，我们讨论二分类线性分类器。对于一个线性可分的待分类数据集，两个类别间需要找一个超平面。显然，两个类别都会有离这个超平面距离最近的数据点，这个最短距离（表征的是一种错误容限，如果为0则恰好在不可判定的边界上）如果记为<span class="math inline">\(d_1, d_2\)</span>的话，我们显然是希望<span class="math inline">\(d_1, d_2\)</span>尽可能大的（最容易出现错误的数据点（离分类超平面最近的点）离分类界限越远）。像这样可以定义超平面所在位置的数据点（最容易出现分类错误，最应该被讨论），被称为“支持向量（support vector）”，此后讨论的都是支持向量确定的超平面间的距离间隔。如何衡量这个距离？显然可以使用几何距离的推广（维数上的推广）。可以通过2-范数来定义空间中两个点之间的距离，但由于这是点与平面之间的距离，需要点与平面的距离公式。</p>
-<p>​ 从我们上面所说的：“希望最可能分类错误的数据点对应的最短超平面距离间隔-是-最大的”这个想法上来看我们应该将距离的生成分为两步：</p>
+<p>​ 联系以下其他的分类方法，比如说LDA（Linear Discriminative
+Analysis），在算法构建时就存在一点就是：使类间方差是最大的。也就是希望两类之间的间隔是最大的。在SVM中，不衡量类间方差，衡量的是“margin”（就是Figure
+3中的黄色区域）。</p>
+<p>​
+从简单的例子引入，我们讨论二分类线性分类器。对于一个线性可分的待分类数据集，两个类别间需要找一个超平面。显然，两个类别都会有离这个超平面距离最近的数据点，这个最短距离（表征的是一种错误容限，如果为0则恰好在不可判定的边界上）如果记为<span class="math inline">\(d_1, d_2\)</span>的话，我们显然是希望<span class="math inline">\(d_1,
+d_2\)</span>尽可能大的（最容易出现错误的数据点（离分类超平面最近的点）离分类界限越远）。像这样可以定义超平面所在位置的数据点（最容易出现分类错误，最应该被讨论），被称为“支持向量（support
+vector）”，此后讨论的都是支持向量确定的超平面间的距离间隔。如何衡量这个距离？显然可以使用几何距离的推广（维数上的推广）。可以通过2-范数来定义空间中两个点之间的距离，但由于这是点与平面之间的距离，需要点与平面的距离公式。</p>
+<p>​
+从我们上面所说的：“希望最可能分类错误的数据点对应的最短超平面距离间隔-是-最大的”这个想法上来看我们应该将距离的生成分为两步：</p>
 <ul>
 <li>给定超平面时，如何衡量哪个数据点是最容易分类错误的？</li>
 <li>在给定支持向量时，如何进行超平面参数的确定与优化？</li>
 </ul>
-<p>​ 开始时个人感觉，这个问题<strong><u>有点自循环的感觉</u></strong>。超平面确定依赖支持向量？支持向量给定后才能确定超平面参数？这不就产生了鸡生蛋 蛋生鸡的悖论了吗？有关这个问题的讨论，在处理完目标函数的数学变换之后我再从数学的角度上谈一下我个人的理解。</p>
+<p>​
+开始时个人感觉，这个问题<strong><u>有点自循环的感觉</u></strong>。超平面确定依赖支持向量？支持向量给定后才能确定超平面参数？这不就产生了鸡生蛋
+蛋生鸡的悖论了吗？有关这个问题的讨论，在处理完目标函数的数学变换之后我再从数学的角度上谈一下我个人的理解。</p>
 <h3 id="距离衡量">距离衡量</h3>
-<p>​ 对于一个二分类问题，超平面已经定义为：<span class="math inline">\(\pmb w^Tx+b = 0\)</span>，那么如果所有数据都能正确分类，两个数据集的数据点一定会呈现：一个类别的数据在超平面的“上方”（正方向上），另一个类别则全部在“下方”。相应地，<span class="math inline">\(\pmb w^Tx+b\)</span>可能大于0或者小于0。也就是说： <span class="math display">\[
+<p>​ 对于一个二分类问题，超平面已经定义为：<span class="math inline">\(\pmb w^Tx+b =
+0\)</span>，那么如果所有数据都能正确分类，两个数据集的数据点一定会呈现：一个类别的数据在超平面的“上方”（正方向上），另一个类别则全部在“下方”。相应地，<span class="math inline">\(\pmb w^Tx+b\)</span>可能大于0或者小于0。也就是说：
+<span class="math display">\[
 \left\{
 \begin{array}{l}
 \pmb w^Tx+b &gt; 0,\large{\text{正类}} &amp;\\
 \pmb w^Tx+b &lt; 0,\large{\text{负类}} &amp;
 \end{array}
 \right.
-\]</span> ​ 而很明显，我们的样本点是有限的，也就是说，每个一定会存在一个点，在正类中，正值最小，负类中赋值最小。那么可以根据这两个最小值进行尺度归一化： <span class="math display">\[
+\]</span> ​
+而很明显，我们的样本点是有限的，也就是说，每个一定会存在一个点，在正类中，正值最小，负类中赋值最小。那么可以根据这两个最小值进行尺度归一化：
+<span class="math display">\[
 \left\{
 \begin{array}{l}
 \pmb w^Tx+b \ge 1,\large{\text{正类}} &amp;\\
@@ -407,9 +428,12 @@ Figure 3. SVM与超平面
 \right.
 \]</span> ​ 那么使用一个小trick，用sgn(·) 函数处理以上式子： <span class="math display">\[
 \begin{equation}\label{equ:dist}
-d_f=y_i(\pmb w^Tx+b),\text{ where } y_i =1 \text{ if 正类 otherwise } y_i = -1
+d_f=y_i(\pmb w^Tx+b),\text{ where } y_i =1 \text{ if 正类 otherwise }
+y_i = -1
 \end{equation}
-\]</span> ​ 这样可以保证：<span class="math inline">\(d_f\)</span>在分类正确时恒为正值，并且让问题尽可能简单化。（<span class="math inline">\(y_i\)</span>当然可以不取正负1，但是取其他的值让问题形式稍微复杂了一点点，没有什么必要）。根据在之前小节讨论的超平面距离公式，已知<span class="math inline">\(\vert\pmb w^Tx+b=1\vert\)</span>（对于支持向量而言），那么两个类距离超平面的距离是各为<span class="math inline">\(1/\Vert\pmb{w}\Vert\)</span>。那么优化问题即为： $$ <span class="math display">\[\begin{equation}\label{equ:simple}
+\]</span> ​ 这样可以保证：<span class="math inline">\(d_f\)</span>在分类正确时恒为正值，并且让问题尽可能简单化。（<span class="math inline">\(y_i\)</span>当然可以不取正负1，但是取其他的值让问题形式稍微复杂了一点点，没有什么必要）。根据在之前小节讨论的超平面距离公式，已知<span class="math inline">\(\vert\pmb
+w^Tx+b=1\vert\)</span>（对于支持向量而言），那么两个类距离超平面的距离是各为<span class="math inline">\(1/\Vert\pmb{w}\Vert\)</span>。那么优化问题即为：
+$$ <span class="math display">\[\begin{equation}\label{equ:simple}
 \left\{
 \begin{array}{l}
 \text{max }\frac{2}{\Vert\pmb{w}\Vert} &amp;\\
@@ -427,8 +451,13 @@ d_f=y_i(\pmb w^Tx+b),\text{ where } y_i =1 \text{ if 正类 otherwise } y_i = -1
 \right.
 \end{equation}\]</span> $$ ​ 理想情况下，需要优化的问题就是按照公式<span class="math inline">\(\eqref{equ:simple}\)</span>定义的。</p>
 <h3 id="非理想情况">非理想情况</h3>
-<p>​ 哪有那么多线性可分的数据集？分类错误在大多数情况下都无法避免（他们中出了一个叛徒）。原有的线性可分条件太强了，需要进行一定的松弛才具有泛化能力。聪明的数学家们想到的办法是：设定一个容限<span class="math inline">\(\zeta_i\)</span>，也就是一个松弛因子，不追求找到最小的那对。反之，我们需要在超平面间隔宽度以及允许的错分类深度（某个数据集误入敌营的距离）之间进行权衡。</p>
-<p>​ 由于<span class="math inline">\(y_i(\pmb w^Tx+b) \ge 1\)</span>很难达成，那么总可以<span class="math inline">\(y_i(\pmb w^Tx+b) \ge 1 - \zeta_i，\zeta_i \ge 0\)</span>吧。那么，所有<span class="math inline">\(\zeta_i\)</span>的和（它们都是非负的）显然反映了对这个分类器的松弛程度。问题就在于，我们希望 松弛一点，泛化能力强一点？还是严格一点，正确率高一点？通过一个可调的系数来决定： <span class="math display">\[
+<p>​
+哪有那么多线性可分的数据集？分类错误在大多数情况下都无法避免（他们中出了一个叛徒）。原有的线性可分条件太强了，需要进行一定的松弛才具有泛化能力。聪明的数学家们想到的办法是：设定一个容限<span class="math inline">\(\zeta_i\)</span>，也就是一个松弛因子，不追求找到最小的那对。反之，我们需要在超平面间隔宽度以及允许的错分类深度（某个数据集误入敌营的距离）之间进行权衡。</p>
+<p>​ 由于<span class="math inline">\(y_i(\pmb w^Tx+b) \ge
+1\)</span>很难达成，那么总可以<span class="math inline">\(y_i(\pmb
+w^Tx+b) \ge 1 - \zeta_i，\zeta_i \ge 0\)</span>吧。那么，所有<span class="math inline">\(\zeta_i\)</span>的和（它们都是非负的）显然反映了对这个分类器的松弛程度。问题就在于，我们希望
+松弛一点，泛化能力强一点？还是严格一点，正确率高一点？通过一个可调的系数来决定：
+<span class="math display">\[
 \sum_{i=1}^n\zeta_i+\frac{\lambda}{2}\Vert\pmb{w} \Vert^2
 \]</span> ​ <span class="math inline">\(\lambda\)</span>就是起权衡作用的加权系数。</p>
 <hr>
@@ -437,46 +466,71 @@ d_f=y_i(\pmb w^Tx+b),\text{ where } y_i =1 \text{ if 正类 otherwise } y_i = -1
 \begin{equation}\label{equ:tar1}
 \left\{
 \begin{array}{l}
-    \text{min } \frac 1n \sum_{i=1}^n\zeta_i+\frac{\lambda}{2}\Vert\pmb{w} \Vert^2 &amp;\\
-    \text{s.t. }y_i(\pmb{w}^T\pmb{x}_i+b) \ge 1-\zeta_i,\zeta_i\ge0\text{ for }i\in1,2,...n &amp;\\
-\text{where } \zeta_i \text{ is max} (0, 1-y_i(\pmb{w}^T\pmb{x}_i+b)) &amp;
+    \text{min } \frac 1n
+\sum_{i=1}^n\zeta_i+\frac{\lambda}{2}\Vert\pmb{w} \Vert^2 &amp;\\
+    \text{s.t. }y_i(\pmb{w}^T\pmb{x}_i+b) \ge
+1-\zeta_i,\zeta_i\ge0\text{ for }i\in1,2,...n &amp;\\
+\text{where } \zeta_i \text{ is max} (0, 1-y_i(\pmb{w}^T\pmb{x}_i+b))
+&amp;
 \end{array}
 \right.
 \end{equation}
-\]</span> ​ 由于这是一个多变量有约束优化问题。可以使用Lagrange乘子法写出其Lagrange乘子函数。根据运筹学学过的知识（运筹学 第三章第五讲 有约束最优化问题的KKT方法）：</p>
+\]</span> ​
+由于这是一个多变量有约束优化问题。可以使用Lagrange乘子法写出其Lagrange乘子函数。根据运筹学学过的知识（运筹学
+第三章第五讲 有约束最优化问题的KKT方法）：</p>
 <p><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/or.JPG"></p>
 <center>
 Figure 4. 来自西安交大 运筹学课程 翟桥柱老师等
 </center>
-<p>​ 需要注意的是，虽然<span class="math inline">\(\zeta_i \text{ = max} (0, 1-y_i(\pmb{w}^T\pmb{x}_i+b))\)</span>成立，<span class="math inline">\(\zeta_i\)</span>仍然是一个人为选取的参数，用于规定：第i个数据点相对边界的偏离（进入错误分类区的深度）大小容许值，所以实际上<span class="math inline">\(\zeta_i\)</span>并不是<span class="math inline">\(\pmb{w}\)</span>或者<span class="math inline">\(b\)</span>的函数。 <span class="math display">\[
+<p>​ 需要注意的是，虽然<span class="math inline">\(\zeta_i \text{ = max}
+(0, 1-y_i(\pmb{w}^T\pmb{x}_i+b))\)</span>成立，<span class="math inline">\(\zeta_i\)</span>仍然是一个人为选取的参数，用于规定：第i个数据点相对边界的偏离（进入错误分类区的深度）大小容许值，所以实际上<span class="math inline">\(\zeta_i\)</span>并不是<span class="math inline">\(\pmb{w}\)</span>或者<span class="math inline">\(b\)</span>的函数。 <span class="math display">\[
 \begin{equation}\label{equ:lag}
-L(\pmb{w},b, \zeta_i,\lambda_i,\mu_i)=\frac 1n \sum_{i=1}^n\zeta_i+\frac{\lambda}{2}\Vert\pmb{w} \Vert^2-\sum_{i=1}^n\lambda_i[y_i(\pmb{w}^T\pmb{x}_i+b)+\zeta_i-1]-\sum_{i=0}^n\mu_i\zeta_i
+L(\pmb{w},b, \zeta_i,\lambda_i,\mu_i)=\frac 1n
+\sum_{i=1}^n\zeta_i+\frac{\lambda}{2}\Vert\pmb{w}
+\Vert^2-\sum_{i=1}^n\lambda_i[y_i(\pmb{w}^T\pmb{x}_i+b)+\zeta_i-1]-\sum_{i=0}^n\mu_i\zeta_i
 \end{equation}
-\]</span> ​ 则由KKT条件，需要对<span class="math inline">\(\eqref{equ:lag}\)</span>定义的<span class="math inline">\(L(\pmb{w},b, \zeta_i,\lambda_i,\mu_i)\)</span>进行微分操作。也即所有偏导数都应该是0： <span class="math display">\[
+\]</span> ​ 则由KKT条件，需要对<span class="math inline">\(\eqref{equ:lag}\)</span>定义的<span class="math inline">\(L(\pmb{w},b,
+\zeta_i,\lambda_i,\mu_i)\)</span>进行微分操作。也即所有偏导数都应该是0：
+<span class="math display">\[
 \begin{align}
-&amp;\frac{\partial L}{\partial \pmb{w}} = \lambda\pmb{w} - \sum_{i=1}^n\lambda_iy_i\pmb{x_i} = 0\rightarrow\lambda\pmb{w} =\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\label{equ:pw}\\
-&amp;\frac{\partial L}{\partial b} =\sum_{i=1}^n \lambda_iy_i = 0\label{equ:pb}\\
-&amp;\frac{\partial L}{\partial \zeta_i} = \frac 1n -\lambda_i-\mu_i = 0\label{equ:pz}
+&amp;\frac{\partial L}{\partial \pmb{w}} = \lambda\pmb{w} -
+\sum_{i=1}^n\lambda_iy_i\pmb{x_i} = 0\rightarrow\lambda\pmb{w}
+=\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\label{equ:pw}\\
+&amp;\frac{\partial L}{\partial b} =\sum_{i=1}^n \lambda_iy_i =
+0\label{equ:pb}\\
+&amp;\frac{\partial L}{\partial \zeta_i} = \frac 1n -\lambda_i-\mu_i =
+0\label{equ:pz}
 \end{align}
-\]</span> ​ 将公式<span class="math inline">\(\eqref{equ:pw}\eqref{equ:pb}\eqref{equ:pz}\)</span>带入到公式<span class="math inline">\(\eqref{equ:lag}\)</span>中，可以得到Lagrange对偶问题，显然有： <span class="math display">\[
+\]</span> ​ 将公式<span class="math inline">\(\eqref{equ:pw}\eqref{equ:pb}\eqref{equ:pz}\)</span>带入到公式<span class="math inline">\(\eqref{equ:lag}\)</span>中，可以得到Lagrange对偶问题，显然有：
+<span class="math display">\[
 \begin{align}
-&amp;\sum_{i=1}^n\lambda_i[y_i(\pmb{w}^T\pmb{x}_i+b)+\zeta_i-1] = 0 \quad\text{(KKT条件)}\\ 
+&amp;\sum_{i=1}^n\lambda_i[y_i(\pmb{w}^T\pmb{x}_i+b)+\zeta_i-1] = 0
+\quad\text{(KKT条件)}\\
 &amp;\begin{array}
-&amp;L=\sum_{i=1}^n(\frac 1n-\lambda_i-\mu_i)\zeta_i+\frac{\lambda}{2}\Vert\pmb{w} \Vert^2-\sum_{i=1}^n\lambda_iy_i(\pmb{w}^T\pmb{x}_i+b)+\sum_{i=0}^n\lambda_i\\=\frac{\lambda}{2}\Vert\pmb{w} \Vert^2-\sum_{i=1}^n\lambda_iy_i\pmb{w}^T\pmb{x}_i+\sum_{i=0}^n\lambda_i
+&amp;L=\sum_{i=1}^n(\frac
+1n-\lambda_i-\mu_i)\zeta_i+\frac{\lambda}{2}\Vert\pmb{w}
+\Vert^2-\sum_{i=1}^n\lambda_iy_i(\pmb{w}^T\pmb{x}_i+b)+\sum_{i=0}^n\lambda_i\\=\frac{\lambda}{2}\Vert\pmb{w}
+\Vert^2-\sum_{i=1}^n\lambda_iy_i\pmb{w}^T\pmb{x}_i+\sum_{i=0}^n\lambda_i
 \end{array}\\
-&amp;L=\frac{1}{2\lambda}\left (\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\right)^T\sum_{i=1}^n\lambda_iy_i\pmb{x_i}-
+&amp;L=\frac{1}{2\lambda}\left
+(\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\right)^T\sum_{i=1}^n\lambda_iy_i\pmb{x_i}-
 \frac{1}{\lambda}\sum_{i=1}^n\lambda_iy_i\left(\sum_{j=1}^n\lambda_jy_j\pmb{x_j}\right)^T\pmb{x}_i+\sum_{i=0}^n\lambda_i
 \end{align}
-\]</span> ​ 最后化简得到，相对于原问题（Primal），此为Lagrange对偶问题，注意在对偶讨论下，需要进行最大化。 <span class="math display">\[
+\]</span> ​
+最后化简得到，相对于原问题（Primal），此为Lagrange对偶问题，注意在对偶讨论下，需要进行最大化。
+<span class="math display">\[
 \begin{equation}\label{equ:dual}
-L&#39;(\lambda_i)=\sum_{i=0}^n\lambda_i - \frac{1}{2\lambda}\left (\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\right)^T\sum_{i=1}^n\lambda_iy_i\pmb{x_i}
+L&#39;(\lambda_i)=\sum_{i=0}^n\lambda_i - \frac{1}{2\lambda}\left
+(\sum_{i=1}^n\lambda_iy_i\pmb{x_i}\right)^T\sum_{i=1}^n\lambda_iy_i\pmb{x_i}
 \end{equation}
 \]</span> ​ 约束条件如何变换？也就是此处每个<span class="math inline">\(\lambda_i\)</span>的约束条件是？首先，公式<span class="math inline">\(\eqref{equ:pb}\)</span>定义的约束没有能够带入原问题中，于是称为对偶问题的一个约束项，并且<span class="math inline">\(\lambda_i\)</span>本身就是大于等于0的。那么它有上界吗？有的，由于公式<span class="math inline">\(\eqref{equ:pz}\)</span>中<span class="math inline">\(\mu_i\)</span>是非负的，可以得到： <span class="math display">\[
 \begin{equation}\label{equ:cond}
-\text{s.t. }\sum_{i=1}^n \lambda_iy_i = 0 \text{ and } 0\le\lambda_i\le\frac 1n
+\text{s.t. }\sum_{i=1}^n \lambda_iy_i = 0 \text{ and }
+0\le\lambda_i\le\frac 1n
 \end{equation}
 \]</span></p>
-<p>​ 而实际上，只要能求出公式<span class="math inline">\(\eqref{equ:dual}\)</span>对应的对偶问题的解（<span class="math inline">\(\lambda_i\)</span>），也就可以根据公式<span class="math inline">\(\eqref{equ:pw}\)</span>计算出<span class="math inline">\(\pmb{w}\)</span>，而由所有的support vector以及<span class="math inline">\(\pmb{w}\)</span>可以求出b，也就唯一确定了超平面。之所以进行对偶变换，是因为原问题太难以讨论了，原问题并不是简单的二次规划问题，并且存在烦人的<span class="math inline">\(\zeta_i\)</span>，约束条件也令人难受，而对偶之后，约束变成了线性的，并且目标函数的形式变得简单了，可以使用一些二次规划的算法求出<span class="math inline">\(\lambda_i\)</span>。</p>
+<p>​ 而实际上，只要能求出公式<span class="math inline">\(\eqref{equ:dual}\)</span>对应的对偶问题的解（<span class="math inline">\(\lambda_i\)</span>），也就可以根据公式<span class="math inline">\(\eqref{equ:pw}\)</span>计算出<span class="math inline">\(\pmb{w}\)</span>，而由所有的support
+vector以及<span class="math inline">\(\pmb{w}\)</span>可以求出b，也就唯一确定了超平面。之所以进行对偶变换，是因为原问题太难以讨论了，原问题并不是简单的二次规划问题，并且存在烦人的<span class="math inline">\(\zeta_i\)</span>，约束条件也令人难受，而对偶之后，约束变成了线性的，并且目标函数的形式变得简单了，可以使用一些二次规划的算法求出<span class="math inline">\(\lambda_i\)</span>。</p>
 <hr>
 <h2 id="逻辑自循环">逻辑自循环？</h2>
 <p>​ 开始我对这个算法的思想非常不理解。我起初认为：</p>
@@ -486,41 +540,61 @@ L&#39;(\lambda_i)=\sum_{i=0}^n\lambda_i - \frac{1}{2\lambda}\left (\sum_{i=1}^n\
 <li>给定了支持向量，才能求出超平面参数来（间隔最大嘛）</li>
 </ul>
 </blockquote>
-<p>​ 这两点看起来就跟悖论一样，解决其中一点仿佛是要基于另一点的解决。但最后我们化简得到的目标函数却很有趣：<span class="math inline">\(\eqref{equ:dual}\)</span>中并没有出现【（1）超平面参数（2）选谁为支持向量 】的信息。</p>
+<p>​
+这两点看起来就跟悖论一样，解决其中一点仿佛是要基于另一点的解决。但最后我们化简得到的目标函数却很有趣：<span class="math inline">\(\eqref{equ:dual}\)</span>中并没有出现【（1）超平面参数（2）选谁为支持向量
+】的信息。</p>
 <p>​ 解开这个“自循环”的关键在于对偶问题的<span class="math inline">\(\lambda_i\)</span>，对偶问题的解决确实是不依赖于以上信息的，它是根据所有的训练样本点优化出来的，而这个<span class="math inline">\(\lambda_i\)</span>实际上就蕴含了支持向量的信息。假设<span class="math inline">\(\lambda_k = 0\)</span>，由公式<span class="math inline">\(\eqref{equ:pw}\)</span>知，样本<span class="math inline">\(x_k\)</span>就不影响<span class="math inline">\(\pmb{w}\)</span>的计算了，也就是说<span class="math inline">\(x_k\)</span>就不是支持向量。<span class="math inline">\(\lambda_i\)</span>不为0的数据才是我们需要的支持向量，他们才参与计算，决定超平面。</p>
-<p>​ 也就是说：算法的推导逻辑有赖于这样的一个“逻辑自循环”，因为只要循环之中的一个环节被解决了，另一个环节也就随之解决了。而通过巧妙的数学变换，我们可以找到绕开“自循环”的方法，通过优化先求出蕴含了支持向量选取意义的<span class="math inline">\(\lambda_i\)</span>，再求出超平面参数<span class="math inline">\(\pmb{w},b\)</span>。</p>
+<p>​
+也就是说：算法的推导逻辑有赖于这样的一个“逻辑自循环”，因为只要循环之中的一个环节被解决了，另一个环节也就随之解决了。而通过巧妙的数学变换，我们可以找到绕开“自循环”的方法，通过优化先求出蕴含了支持向量选取意义的<span class="math inline">\(\lambda_i\)</span>，再求出超平面参数<span class="math inline">\(\pmb{w},b\)</span>。</p>
 <hr>
 <h2 id="smo-二次规划求解">SMO 二次规划求解</h2>
-<p>​ SMO（Sequential Minimal Optimization）<a href="#ref">[3]</a> 是一个SVM算法对偶问题的快速计算方法，它可以极大地减小内存空间消耗，并且其解是解析的，而不需要对QP对偶问题<span class="math inline">\(\eqref{equ:dual}\)</span>进行复杂的数值解计算。SMO的两大精髓思想是：</p>
+<p>​ SMO（Sequential Minimal Optimization）<a href="#ref">[3]</a>
+是一个SVM算法对偶问题的快速计算方法，它可以极大地减小内存空间消耗，并且其解是解析的，而不需要对QP对偶问题<span class="math inline">\(\eqref{equ:dual}\)</span>进行复杂的数值解计算。SMO的两大精髓思想是：</p>
 <ul>
-<li>参数迭代计算“分治”得到一个个的QP sub-problems，每个sub-problem只需要解一个两参数QP优化问题。</li>
+<li>参数迭代计算“分治”得到一个个的QP
+sub-problems，每个sub-problem只需要解一个两参数QP优化问题。</li>
 <li>使用一个启发式算法，选择每次进行迭代的两个参数。</li>
 </ul>
 <p>​ 由于论文<a href="#ref">[3]</a>中，启发式算法部分我没怎么看懂，只看懂子问题分割部分，所以在接下来的算法实现过程中，只实现非启发式（随机的）参数选择，也就是一个非启发的SMO，效率上可能会低一些。</p>
 <blockquote>
-<p>In order to speed convergence, SMO uses heuristics to choose which two Lagrange multipliers to jointly optimize.</p>
+<p>In order to speed convergence, SMO uses heuristics to choose which
+two Lagrange multipliers to jointly optimize.</p>
 </blockquote>
-<p>​ 有关KKT条件不满足点的删除以及非边界点的处理这里没有看懂（不是很清楚这样做的理由究竟是什么，可能对KKT条件的理解不够深入吧，不太能想清楚 不满足KKT条件对优化的影响）。所以整个2.2小节读完之后，在实现中都略过了。</p>
+<p>​
+有关KKT条件不满足点的删除以及非边界点的处理这里没有看懂（不是很清楚这样做的理由究竟是什么，可能对KKT条件的理解不够深入吧，不太能想清楚
+不满足KKT条件对优化的影响）。所以整个2.2小节读完之后，在实现中都略过了。</p>
 <h3 id="kernel-非线性">Kernel 非线性</h3>
-<p>​ 为了使讨论不失一般性，上来就应该讨论核函数表示下的SVM，而非之前小节中推导的线性SVM（线性SVM也就是核函数是标准内积的情况）。</p>
-<p>​ 之前我们介绍的都是标准内积核，也就是两个向量直接进行内积操作。在公式<span class="math inline">\(\eqref{equ:dual}\)</span>中，用到了内积，因为公式<span class="math inline">\(\eqref{equ:dual}\)</span>实际可以写为： <span class="math display">\[
+<p>​
+为了使讨论不失一般性，上来就应该讨论核函数表示下的SVM，而非之前小节中推导的线性SVM（线性SVM也就是核函数是标准内积的情况）。</p>
+<p>​
+之前我们介绍的都是标准内积核，也就是两个向量直接进行内积操作。在公式<span class="math inline">\(\eqref{equ:dual}\)</span>中，用到了内积，因为公式<span class="math inline">\(\eqref{equ:dual}\)</span>实际可以写为： <span class="math display">\[
 \begin{equation}\label{equ:dot}
 L&#39;(\lambda_i)=\sum_{i=0}^n\lambda_i
 -\frac{1}{2\lambda}\sum_{i=1}^{n}\sum_{j=1}^n\lambda_i\lambda_jy_iy_j\pmb{x}_i^T\pmb{x}_j
 \end{equation}
-\]</span> ​ 而直接内积对应的是线性的空间。如果对x做非线性变换，达到空间变换的目的，在变换后的空间下是线性的超平面，但在原空间下已经变成别的形状，使得原本线性不可分的数据在新空间下可分。 <span class="math display">\[
+\]</span> ​
+而直接内积对应的是线性的空间。如果对x做非线性变换，达到空间变换的目的，在变换后的空间下是线性的超平面，但在原空间下已经变成别的形状，使得原本线性不可分的数据在新空间下可分。
+<span class="math display">\[
 \begin{equation}\label{equ:kernel}
 k(\pmb{x}_i, \pmb{x}_j)=\phi(\pmb{x}_i)\phi(\pmb{x}_j)
 \end{equation}
 \]</span> ​ 公式<span class="math inline">\(\eqref{equ:dot}\)</span>中的内积项替换为公式<span class="math inline">\(\eqref{equ:kernel}\)</span>的核函数即可。</p>
 <h3 id="参数分治">参数“分治”</h3>
-<p>​ SMO算法在干什么呢？个人感觉这有点像coordinate descent，但是感觉简单的coordinate descent无法胜任SVM对偶问题的求解。因为式<span class="math inline">\(\eqref{equ:cond}\)</span>中定义了线性约束，coordinate descent没有办法直接满足线性约束。在论文中（SMO算法论文），作者也说到 问题的最小讨论参数个数为2，因为只讨论一个参数时无法满足线性约束条件。于是作者真就两个两个参数进行讨论，作者说到：</p>
+<p>​ SMO算法在干什么呢？个人感觉这有点像coordinate
+descent，但是感觉简单的coordinate
+descent无法胜任SVM对偶问题的求解。因为式<span class="math inline">\(\eqref{equ:cond}\)</span>中定义了线性约束，coordinate
+descent没有办法直接满足线性约束。在论文中（SMO算法论文），作者也说到
+问题的最小讨论参数个数为2，因为只讨论一个参数时无法满足线性约束条件。于是作者真就两个两个参数进行讨论，作者说到：</p>
 <blockquote>
-<p>The advantage of SMO lies in the fact that solving for two Lagrange multipliers can be done analytically.</p>
+<p>The advantage of SMO lies in the fact that solving for two Lagrange
+multipliers can be done analytically.</p>
 </blockquote>
-<p>​ 确实如此，并且这个解析解的推导还算比较简单。由于SMO中sub-problem求解的论文思路是比较清晰的，在此处只简单回顾一下论文的方法。</p>
+<p>​
+确实如此，并且这个解析解的推导还算比较简单。由于SMO中sub-problem求解的论文思路是比较清晰的，在此处只简单回顾一下论文的方法。</p>
 <h4 id="i.-约束确定">I. 约束确定</h4>
-<p>​ 由于只选取两个参数，维度好低啊，可以进行可视化。注意我自己的推导和《模式识别》书以及SMO论文上的问题形式均不同，书以及论文均是<span class="math inline">\(C\)</span>定义的，也就是下式定义的loss，为了与论文一致，我现在就讨论公式<span class="math inline">\(\eqref{equ:book}\)</span>）定义的loss导出的对偶问题： <span class="math display">\[
+<p>​
+由于只选取两个参数，维度好低啊，可以进行可视化。注意我自己的推导和《模式识别》书以及SMO论文上的问题形式均不同，书以及论文均是<span class="math inline">\(C\)</span>定义的，也就是下式定义的loss，为了与论文一致，我现在就讨论公式<span class="math inline">\(\eqref{equ:book}\)</span>）定义的loss导出的对偶问题：
+<span class="math display">\[
 \begin{equation}\label{equ:book}
 C\sum_{i=1}^n\zeta_i+\frac{1}{2}\Vert\pmb{w} \Vert^2
 \end{equation}
@@ -531,13 +605,17 @@ Figure 5. 二维约束可视化
 </center>
 <p>​ 每次只需在这斜率为<span class="math inline">\(\pm1\)</span>的线段上求约束极小值（二次函数（线性核）或是其他凸问题（非线性核））即可。</p>
 <h4 id="ii.-极值求解">II. 极值求解</h4>
-<p>​ 显然，由于只有两个参数时，根据线性约束，一个参数可以使用另一个参数表示，使得我们可以先更新一个参数，再根据更新值求另一个参数的值，完成迭代。那么在求其中一个参数时，根据线性约束，问题就优点类似于coordinate descent了。</p>
+<p>​
+显然，由于只有两个参数时，根据线性约束，一个参数可以使用另一个参数表示，使得我们可以先更新一个参数，再根据更新值求另一个参数的值，完成迭代。那么在求其中一个参数时，根据线性约束，问题就优点类似于coordinate
+descent了。</p>
 <ul>
 <li>首先确定带优化参数的值区间(L, H)</li>
 <li>求一维最小值问题的极值点<span class="math inline">\(\alpha^{new}\)</span></li>
-<li><span class="math inline">\(\alpha^{new}\)</span>可能不在(L, H)范围内，根据单峰以及凸性需要进行clipping
+<li><span class="math inline">\(\alpha^{new}\)</span>可能不在(L,
+H)范围内，根据单峰以及凸性需要进行clipping
 <ul>
-<li><span class="math inline">\(\alpha^{new} &gt; H\)</span>，则最小值在H处取得</li>
+<li><span class="math inline">\(\alpha^{new} &gt;
+H\)</span>，则最小值在H处取得</li>
 <li>反之<span class="math inline">\(\alpha^{new}&lt;L\)</span>则最小值在L处取得</li>
 <li>否则 <span class="math inline">\(\alpha^{new}\in(L,H)\)</span>，最后的极小值点就是<span class="math inline">\(\alpha^{new}\)</span></li>
 </ul></li>
@@ -545,72 +623,88 @@ Figure 5. 二维约束可视化
 <p><span class="math display">\[
 \begin{equation}\label{equ:update}
 \alpha_2^{new}=\alpha_2+\frac{y_2(E_1-E_2)}{\eta}\\
-\text{where } \eta = k(\pmb{x}_1, \pmb{x}_1)+k(\pmb{x}_2, \pmb{x}_2)-2k(\pmb{x}_1, \pmb{x}_2)
+\text{where } \eta = k(\pmb{x}_1, \pmb{x}_1)+k(\pmb{x}_2,
+\pmb{x}_2)-2k(\pmb{x}_1, \pmb{x}_2)
 \end{equation}
 \]</span></p>
-<p>​ 此处<span class="math inline">\(\eta\)</span>是公式<span class="math inline">\(\eqref{equ:dot}\)</span>在核函数替换下的目标函数的 二阶导。E则是预测误差<span class="math inline">\(u_{pred}-y_i\)</span>。感觉更新式<span class="math inline">\(\eqref{equ:update}\)</span>有点像牛顿法的迭代过程。则根据线性约束，<span class="math inline">\(\alpha_1\)</span>更新后的值也可以写出来。</p>
+<p>​ 此处<span class="math inline">\(\eta\)</span>是公式<span class="math inline">\(\eqref{equ:dot}\)</span>在核函数替换下的目标函数的
+二阶导。E则是预测误差<span class="math inline">\(u_{pred}-y_i\)</span>。感觉更新式<span class="math inline">\(\eqref{equ:update}\)</span>有点像牛顿法的迭代过程。则根据线性约束，<span class="math inline">\(\alpha_1\)</span>更新后的值也可以写出来。</p>
 <h4 id="iii.-计算需要的结果">III. 计算需要的结果</h4>
-<p>​ 每一步<span class="math inline">\(\alpha_1,\alpha_2\)</span>更新都可以根据新的值计算一次<span class="math inline">\(\pmb{w},b\)</span>。当所有参数计算完毕之后，算法也就结束了。<span class="math inline">\(\pmb{w}^{new}\)</span>怎么来的很好懂，而<span class="math inline">\(b\)</span>的更新迭代过程相对麻烦一些。由于<span class="math inline">\(b=\pmb{w}^Tx_i-y_i\)</span>成立，在kernel存在的情况下，b是： <span class="math display">\[
+<p>​ 每一步<span class="math inline">\(\alpha_1,\alpha_2\)</span>更新都可以根据新的值计算一次<span class="math inline">\(\pmb{w},b\)</span>。当所有参数计算完毕之后，算法也就结束了。<span class="math inline">\(\pmb{w}^{new}\)</span>怎么来的很好懂，而<span class="math inline">\(b\)</span>的更新迭代过程相对麻烦一些。由于<span class="math inline">\(b=\pmb{w}^Tx_i-y_i\)</span>成立，在kernel存在的情况下，b是：
+<span class="math display">\[
 b=\left[
 \sum_{i=1}^n\lambda_iy_ik(\pmb{x}_j, \pmb{x}_i)
 \right] -y_i
 \]</span> ​ 根据上式进行更新，写出相对值表达式即可。</p>
 <hr>
 <h2 id="实现smo算法">实现SMO算法</h2>
-<p>​ 论文中给出了 给定两个数据时计算的伪代码。按照论文进行实现，代码见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/TorchLearning/blob/master/optim/svm.py">Github Repository 🔗:TorchLearning</a>，结果如下：</p>
+<p>​ 论文中给出了 给定两个数据时计算的伪代码。按照论文进行实现，代码见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/TorchLearning/blob/master/optim/svm.py">Github
+Repository 🔗:TorchLearning</a>，结果如下：</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/res1.png"></th>
 <th style="text-align: center;"><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/res2.png"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">距离适中</td>
 <td style="text-align: center;">距离较远</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;"><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/res3.png"></td>
 <td style="text-align: center;"><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/res4.png"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">存在较大重叠</td>
 <td style="text-align: center;">存在较小重叠</td>
 </tr>
 </tbody>
 </table>
-<p>​ 在使用不同的随机数据进行超平面求解时发现，存在当C过大时，导致计算的超平面完全错误的问题。SMO算法的收敛速度看起来极快，通常只需要迭代3-6次就能收敛。注意，在这里数据点并不算多：</p>
+<p>​
+在使用不同的随机数据进行超平面求解时发现，存在当C过大时，导致计算的超平面完全错误的问题。SMO算法的收敛速度看起来极快，通常只需要迭代3-6次就能收敛。注意，在这里数据点并不算多：</p>
 <ul>
 <li>维数3，正负类总和只有84个样本。</li>
 </ul>
 <hr>
 <h2 id="其他的讨论">其他的讨论</h2>
 <h3 id="空间变换">空间变换</h3>
-<p>​ 之前我就听说，SVM是将低维数据升维到高维空间，低维中不好进行分类的数据，高维下可能可以很好分开。但是读完原理，实现完代码之后也没有发现哪里有维度的升高。</p>
+<p>​
+之前我就听说，SVM是将低维数据升维到高维空间，低维中不好进行分类的数据，高维下可能可以很好分开。但是读完原理，实现完代码之后也没有发现哪里有维度的升高。</p>
 <p>​ 实际上，维度的升高在核函数中“有所体现”，在<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57648645">【这篇文章】</a>中，作者提到：</p>
 <blockquote>
-<p>那我们我们是否可以将数据映射到高维空间呢？即创建一些新的特征。我们可以创建特征 <span class="math inline">\(x_3=x^2,x_4=y^2\)</span></p>
+<p>那我们我们是否可以将数据映射到高维空间呢？即创建一些新的特征。我们可以创建特征
+<span class="math inline">\(x_3=x^2,x_4=y^2\)</span></p>
 </blockquote>
-<p>​ 虽然看起来维数从(x, y)变为了<span class="math inline">\((x, y, x_3, x_4)\)</span>，但是<span class="math inline">\(x_3,x_4\)</span>并不是独立的维度，个人倾向于认为这是在原空间对数据的空间分布进行了变换。比如说将两类环形（同心圆）分布的数据变换到相同维度的另一个空间下，但是在这个空间下两类数据是线性可分的。当然，非要说这是高维空间，应该也可以吧。</p>
-<p>​ 核函数方法固然是线性的非线性迈出的一大步，但是个人感觉核函数的选择有赖于数据的空间分布。在不明分布的情况下，随意选择核函数将会造成分类能力的下降，靠人工比较选择显然不是个很好的办法。</p>
+<p>​ 虽然看起来维数从(x, y)变为了<span class="math inline">\((x, y, x_3,
+x_4)\)</span>，但是<span class="math inline">\(x_3,x_4\)</span>并不是独立的维度，个人倾向于认为这是在原空间对数据的空间分布进行了变换。比如说将两类环形（同心圆）分布的数据变换到相同维度的另一个空间下，但是在这个空间下两类数据是线性可分的。当然，非要说这是高维空间，应该也可以吧。</p>
+<p>​
+核函数方法固然是线性的非线性迈出的一大步，但是个人感觉核函数的选择有赖于数据的空间分布。在不明分布的情况下，随意选择核函数将会造成分类能力的下降，靠人工比较选择显然不是个很好的办法。</p>
 <h3 id="多分类问题">多分类问题</h3>
-<p>​ SVM是典型的二分类分类器，但我们用的SVM却有多分类的能力。关于多分类，个人的想法是：</p>
+<p>​
+SVM是典型的二分类分类器，但我们用的SVM却有多分类的能力。关于多分类，个人的想法是：</p>
 <ul>
 <li>对每个类，只需要区分本类和其他即可。构建一个个的本类以及其他类的二分类问题应该就可以。</li>
 </ul>
 <p>​ 维基上说：</p>
 <blockquote>
-<p>Building binary classifiers that distinguish between one of the labels and the rest (<em>one-versus-all</em>) or between every pair of classes (<em>one-versus-one</em>).</p>
+<p>Building binary classifiers that distinguish between one of the
+labels and the rest (<em>one-versus-all</em>) or between every pair of
+classes (<em>one-versus-one</em>).</p>
 </blockquote>
-<p>​ 个人更倾向于one-versus-one形式的。在《模式识别》一书上介绍了如何处理多分类问题（感觉像是one-versus-all形式的）。而one-versus-one存在这样的特点（个人认为）：</p>
+<p>​
+个人更倾向于one-versus-one形式的。在《模式识别》一书上介绍了如何处理多分类问题（感觉像是one-versus-all形式的）。而one-versus-one存在这样的特点（个人认为）：</p>
 <ul>
 <li>实现简单，不需要做过多算法改动，可以直接由多个二分类SVM组合（优点）</li>
 <li>内存/计算资源消耗大，每两个数据类别之间都需要计算/储存一个<span class="math inline">\(\pmb{w},b\)</span>（缺点）</li>
 </ul>
-<p>​ 根据one-versus-one思想以及二分类SVM构建的一个多分类SVM结果如下（只画出超平面 / 数据），如果需要进行predict，predict思想如下：</p>
+<p>​
+根据one-versus-one思想以及二分类SVM构建的一个多分类SVM结果如下（只画出超平面
+/ 数据），如果需要进行predict，predict思想如下：</p>
 <ul>
-<li>求所有的二分类SVM predict，对每一类进行累加（可以用一个list保存每一类累加结果）</li>
+<li>求所有的二分类SVM
+predict，对每一类进行累加（可以用一个list保存每一类累加结果）</li>
 <li>取累加值最大的类（简单的想法，对于一个数据点，其落在正确的类中时，在每个二分类SVM中的输出应该都为1）作为predict值。</li>
 </ul>
 <p><img src="/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/res5.png"></p>
@@ -621,8 +715,11 @@ Figure 6. 多分类one-versus-one的超平面
 <h2 id="reference">Reference</h2>
 <p><span id="ref"></span></p>
 <p>[1] By Larhmam - Own work, CC BY-SA 4.0,<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/w/index.php?curid=73710028">link🔗</a></p>
-<p>[2] Wikipedia, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Support-vector_machine">Support-vector machine</a></p>
-<p>[3] Platt, John (1998). <a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-98-14.pdf">"Sequential Minimal Optimization: A Fast Algorithm for Training Support Vector Machines"</a></p>
+<p>[2] Wikipedia, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Support-vector_machine">Support-vector
+machine</a></p>
+<p>[3] Platt, John (1998). <a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-98-14.pdf">"Sequential
+Minimal Optimization: A Fast Algorithm for Training Support Vector
+Machines"</a></p>
 <p>[4] 张学工（编著），模式识别（第三版），清华大学出版社</p>
 <p></p>
 

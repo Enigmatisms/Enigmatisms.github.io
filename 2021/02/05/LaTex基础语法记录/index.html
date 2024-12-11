@@ -110,7 +110,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -334,10 +334,12 @@
 <hr>
 <h2 id="一些关键词">一些关键词</h2>
 <p><strong><code>\lipsum</code></strong></p>
-<p>​ <code>\lipsum</code>是宏包<code>&#123;lipsum&#125;</code>中的命令，用于生成随机的文本。一般用于模板的演示。</p>
+<p>​
+<code>\lipsum</code>是宏包<code>&#123;lipsum&#125;</code>中的命令，用于生成随机的文本。一般用于模板的演示。</p>
 <p>​ 对于宏包而言，可以使用<code>\usepackage</code>调用</p>
 <p><strong>倾斜与加粗</strong></p>
-<p>​ <code>\emph&#123;% text %&#125;</code>是将text变为斜体，但是<code>\emph&#123;&#125;</code>适合单行，<code>\em ... \em</code>回对两个成对的<code>\em</code>之间的所有字体（包括标题）进行斜体化。</p>
+<p>​
+<code>\emph&#123;% text %&#125;</code>是将text变为斜体，但是<code>\emph&#123;&#125;</code>适合单行，<code>\em ... \em</code>回对两个成对的<code>\em</code>之间的所有字体（包括标题）进行斜体化。</p>
 <p>​ <code>\textbf</code>是 文字粗体（text bold font）<span class="math inline">\(\textbf{Like: Test}\)</span> &lt;-&gt; <span class="math inline">\(\text{Like: test}\)</span>。</p>
 <p>​ <code>\mathbf</code> 是tex中的数学粗体，<span class="math inline">\(\text{vector }\mathbf{a,b,A}\)</span></p>
 <p>​ <code>\pmb</code> 是粗斜体：<span class="math inline">\(\pmb{b}=\pmb{Ax}\)</span></p>
@@ -345,31 +347,40 @@
 <p>（1）字体大小更换 (定性) <span class="math display">\[
 \begin{align}
 &amp;\tiny \text{\tiny font for the things I have written. 1234567890}\\
-&amp;\scriptsize  \text{\scriptsize font for the things I have written. 1234567890}\\
-&amp;\small \text{\small font for the things I have written. 1234567890}\\
-&amp;\normalsize  \text{\normalsize font for the things I have written. 1234567890}\\
-&amp;\large \text{\large font for the things I have written. 1234567890}\\
-&amp;\Large \text{\Large font for the things I have written. 1234567890}\\
-&amp;\LARGE \text{\LARGE font for the things I have written. 1234567890}\\
+&amp;\scriptsize  \text{\scriptsize font for the things I have written.
+1234567890}\\
+&amp;\small \text{\small font for the things I have written.
+1234567890}\\
+&amp;\normalsize  \text{\normalsize font for the things I have written.
+1234567890}\\
+&amp;\large \text{\large font for the things I have written.
+1234567890}\\
+&amp;\Large \text{\Large font for the things I have written.
+1234567890}\\
+&amp;\LARGE \text{\LARGE font for the things I have written.
+1234567890}\\
 &amp;\huge \text{\huge font. 1234567890}\\
 &amp;\Huge \text{\Huge font. 1234567890}\\
 \end{align}
 \]</span> ​ 使用一些常用的大小描述词即可。</p>
 <p>（2）字体大小更换（定量）</p>
-<p>​ <code>\fontsize</code>是可以调整字体大小的，但貌似不是很好用。对于公式<code>\begin&#123;align&#125;</code>以及<code>\emph</code>中的字体大小可以进行更改，但是对于<code>\text</code>内部的字体，无法很好地修改。</p>
+<p>​
+<code>\fontsize</code>是可以调整字体大小的，但貌似不是很好用。对于公式<code>\begin&#123;align&#125;</code>以及<code>\emph</code>中的字体大小可以进行更改，但是对于<code>\text</code>内部的字体，无法很好地修改。</p>
 <p>（3）字体切换： <span class="math display">\[
 \begin{align}
 \sf {\text{That is the most wonderful thing I know. \sf} } \\
 \tt {\text{That is the most wonderful thing I know. \tt}} \\
 \rm {\text{That is the most wonderful thing I know. \rm}}
 \end{align}
-\]</span> ​ <code>\sf</code> 为sans-serif字体集合，<code>\tt</code>为typewriter字体，<code>\rm</code>为罗马字体集。</p>
+\]</span> ​ <code>\sf</code>
+为sans-serif字体集合，<code>\tt</code>为typewriter字体，<code>\rm</code>为罗马字体集。</p>
 <p>（4）矩阵的书写</p>
 <ul>
 <li><code>matrix</code>: 无框matrix</li>
 <li><code>pmatrix</code>: 圆括号matrix</li>
 <li><code>vmatrix</code>: 行列式matrix</li>
-<li><code>bmatrix</code>与<code>Bmatrix</code>: 中括号matrix与大括号matrix</li>
+<li><code>bmatrix</code>与<code>Bmatrix</code>:
+中括号matrix与大括号matrix</li>
 </ul>
 <p><span class="math display">\[
 \begin{pmatrix}\label{mats}
@@ -411,74 +422,74 @@
 <col style="width: 50%">
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>命令</th>
 <th>作用</th>
 <th>示例</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>\newpage</code></td>
 <td>直接换页（相当于html的 div always）</td>
 <td>markdown不支持</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\item</code></td>
 <td>分点，加小圆点</td>
 <td><code>\begin&#123;itemize&#125; \item ... \item ...  \end&#123;itemize&#125;</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\section&#123;name&#125;</code></td>
 <td>一级标题（1. ）</td>
 <td><code>\section&#123;Header&#125;</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\subsection&#123;name&#125;</code></td>
 <td>二级标题（1.1.）</td>
 <td><code>\subsection&#123;Header&#125;</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\subsubsection&#123;n&#125;</code></td>
 <td>三级标题（1.1.1.）</td>
 <td><code>\subsubsection&#123;Header&#125;</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\begin&#123;Lemma&#125;</code></td>
 <td>引理开始</td>
 <td><code>\begin&#123;Lemma&#125; \label&#123;name&#125;... \end&#123;Lemma&#125;</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\begin&#123;Theorem&#125;</code></td>
 <td>定理开始</td>
 <td><code>\begin&#123;Theorem&#125; \label&#123;name&#125;... \end&#123;Theorem&#125;</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\eqref</code></td>
 <td>公式引用，相当于设置内部链接</td>
 <td><span class="math inline">\(\eqref{mats}\)</span>，<code>\eqref&#123;mats&#125;</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\ref</code></td>
 <td>非公式引用</td>
 <td><span class="math inline">\(\ref{mats}\)</span>，<code>\ref&#123;mats&#125;</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\url</code></td>
 <td>链接</td>
 <td><code>\url&#123;http://www.latexstudio.net/&#125;</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\eqno</code></td>
 <td>在非编号模式下，可以进行编号</td>
 <td><code>\eqno&#123;(1)&#125;</code>，<code>\eqno</code>可以无视原有的标号，并且支持字符串</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>\vspace&#123;&#125;</code></td>
 <td>插入竖直方向的空行</td>
 <td>比如<code>\vspace&#123;\parskip&#125;</code>，跳过的距离相当于两个段落之间的距离</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>\textcolor[rgb]&#123;r,g,b&#125;</code></td>
 <td>修改字体颜色</td>
 <td><span class="math inline">\(\textcolor[rgb]{0,0,1}{1,2,3}\)</span>.<code>$\textcolor[rgb]&#123;0,0,1&#125;&#123;1,2,3&#125;$</code></td>
@@ -486,21 +497,29 @@
 </tbody>
 </table>
 <ul>
-<li>对于引用而言，提到公式就需要进行<code>\eqref</code>，其他的如见figure x，也需要用到<code>\ref</code></li>
+<li>对于引用而言，提到公式就需要进行<code>\eqref</code>，其他的如见figure
+x，也需要用到<code>\ref</code></li>
 </ul>
 <hr>
 <h2 id="图片操作">图片操作</h2>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[h]		<span class="comment">% 如果没有[h] LaTex可能会自动排版</span></span><br><span class="line"><span class="keyword">\centering</span>				<span class="comment">% 一般都是需要居中的</span></span><br><span class="line"><span class="keyword">\includegrahics</span>[width=xxcm]&#123;name<span class="built_in">_</span>of<span class="built_in">_</span>the<span class="built_in">_</span>pic.jpg&#125;</span><br><span class="line"><span class="keyword">\caption</span>&#123;test the fig&#125; <span class="keyword">\label</span>&#123;fig:test1&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 按照以上语法可以插入一张图片，并且，对于第三行的include graphics，会按照宽度自动横向，竖向编排。如果需要多图，可以多个<code>\includegraphics</code>，当然也可以使用子图：主要是minipage的使用与subfigure</p>
+<p>​ 按照以上语法可以插入一张图片，并且，对于第三行的include
+graphics，会按照宽度自动横向，竖向编排。如果需要多图，可以多个<code>\includegraphics</code>，当然也可以使用子图：主要是minipage的使用与subfigure</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% latex 竖排操作</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[h]</span><br><span class="line"><span class="keyword">\centering</span></span><br><span class="line"><span class="keyword">\subfigure</span>[line1]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line2]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line3]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line4]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\caption</span>&#123;multiple dogs&#125; <span class="keyword">\label</span>&#123;fig:dogs&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br></pre></td></tr></table></figure>
 <p>显示的结果如下：</p>
 <p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/dogs.JPG"></p>
 <h3 id="相关代码理解">相关代码理解</h3>
-<p>​ <code>\subfigure[name]&#123;&#125;</code> 花括号内的内容与普通的<code>\begin&#123;figure&#125;[xxx]</code>内部的内容极其相似，甚至可以一样。比如说我不需要多图（上述代码是4*4 多图显示的情况），我只需要每列一张图片，那么minipage完全不需要使用（<code>\minipage</code>相当于将页面分割为更小的页面）。只需按照如下方式书写即可：</p>
+<p>​ <code>\subfigure[name]&#123;&#125;</code>
+花括号内的内容与普通的<code>\begin&#123;figure&#125;[xxx]</code>内部的内容极其相似，甚至可以一样。比如说我不需要多图（上述代码是4*4
+多图显示的情况），我只需要每列一张图片，那么minipage完全不需要使用（<code>\minipage</code>相当于将页面分割为更小的页面）。只需按照如下方式书写即可：</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\subfigure</span>[name]&#123;</span><br><span class="line">	<span class="keyword">\includegraphics</span>[width=xxxcm]&#123;name.jpg&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 对于<code>\minipage</code>的设置，<code>\begin&#123;minipage&#125;[b]&#123;0.23\linewidth&#125;</code>其中<code>[b]</code>可能与位置设置有关，只要所有minipage的设置一致就不会出现图片错位的问题。而<code>&#123;0.23\linewidth&#125;</code>表示的是当前的【正文的，原page的】linewidth（行的宽度（跨度））的0.23倍。也就是设置这个minipage的宽度大小。由于4 * 4，所以设置约1/4，需要留一定余量。</p>
-<p>​ 而由于在<code>\minipage</code>花括号之内，<code>\linewidth</code>将与定义的minipage一致，那么可以简单地写为：插入图片的宽度就为<code>\linewidth</code>，占满整个minipage行宽即可。</p>
-<p>​ 图片的插入并非什么困难的问题，主要是图片的排版。排版的话，传统的<code>\begin&#123;figure&#125;[htbp]</code>用处不大，可以考虑：</p>
+<p>​
+对于<code>\minipage</code>的设置，<code>\begin&#123;minipage&#125;[b]&#123;0.23\linewidth&#125;</code>其中<code>[b]</code>可能与位置设置有关，只要所有minipage的设置一致就不会出现图片错位的问题。而<code>&#123;0.23\linewidth&#125;</code>表示的是当前的【正文的，原page的】linewidth（行的宽度（跨度））的0.23倍。也就是设置这个minipage的宽度大小。由于4
+* 4，所以设置约1/4，需要留一定余量。</p>
+<p>​
+而由于在<code>\minipage</code>花括号之内，<code>\linewidth</code>将与定义的minipage一致，那么可以简单地写为：插入图片的宽度就为<code>\linewidth</code>，占满整个minipage行宽即可。</p>
+<p>​
+图片的插入并非什么困难的问题，主要是图片的排版。排版的话，传统的<code>\begin&#123;figure&#125;[htbp]</code>用处不大，可以考虑：</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;float&#125;		<span class="comment">% 图片浮动宏包</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[H]		<span class="comment">% 图片定位在当前位置</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如图所示：</p>
 <p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/float.JPG"></p>
@@ -511,12 +530,17 @@
 <p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/table.JPG"></p>
 <h3 id="相关代码理解-1">相关代码理解</h3>
 <p><strong>- 为什么要用<code>&#123;tabular\*&#125;</code>?</strong></p>
-<p>​ <code>&#123;tabular\*&#125;</code>是可以进行线表宽度调整的，比如表格太小了，希望宽度方向能占更大的空间，需要使用语法：<code>\begin&#123;tabular*&#125;&#123;宽度&#125;[位置]&#123;对齐样式与列数&#125;</code></p>
-<p>​ 普通的<code>&#123;tabular&#125;</code>只需要：<code>\begin&#123;tabular&#125;[位置]&#123;对齐样式与列数&#125;</code>。这样的表格是根据内容自适应调整大小的。</p>
-<p>​ 其中<code>&#123;cccc&#125;</code>表示4列，每列都是举中对齐。如果需要左边对齐，使用llll。</p>
+<p>​
+<code>&#123;tabular\*&#125;</code>是可以进行线表宽度调整的，比如表格太小了，希望宽度方向能占更大的空间，需要使用语法：<code>\begin&#123;tabular*&#125;&#123;宽度&#125;[位置]&#123;对齐样式与列数&#125;</code></p>
+<p>​
+普通的<code>&#123;tabular&#125;</code>只需要：<code>\begin&#123;tabular&#125;[位置]&#123;对齐样式与列数&#125;</code>。这样的表格是根据内容自适应调整大小的。</p>
+<p>​
+其中<code>&#123;cccc&#125;</code>表示4列，每列都是举中对齐。如果需要左边对齐，使用llll。</p>
 <p><strong>- 线表样式</strong></p>
-<p>​ <code>\hline</code>表示插入一根横向线，<code>\vline</code>可以在cell元素值内部使用，相当于竖线。</p>
-<p>​ <code>\vspace</code>一般用于调整间距，<code>&amp;</code> 用于分割。</p>
+<p>​
+<code>\hline</code>表示插入一根横向线，<code>\vline</code>可以在cell元素值内部使用，相当于竖线。</p>
+<p>​ <code>\vspace</code>一般用于调整间距，<code>&amp;</code>
+用于分割。</p>
 
     </div>
 

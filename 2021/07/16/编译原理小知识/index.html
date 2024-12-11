@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="为什么我不能乱链接 I. 缘从何起？ ​ 机队的小伙伴问了我一个问题，说是在一个.hpp文件中，定义了一个namespace，.hpp也有头文件保护，在namespace下也定义（声明 &#x2F; 定义都在这个文件里）了几个函数（非类函数），.hpp文件中同时还有一个类的定义。那么自然这个文件会被至少两个.cc文件给include：  类定义文件 &#x2F; main函数所在的可执行文件  ​ 结果编">
+  <meta name="description" content="为什么我不能乱链接 I. 缘从何起？ ​ 机队的小伙伴问了我一个问题，说是在一个.hpp文件中，定义了一个namespace，.hpp也有头文件保护，在namespace下也定义（声明 &#x2F; 定义都在这个文件里）了几个函数（非类函数），.hpp文件中同时还有一个类的定义。那么自然这个文件会被至少两个.cc文件给include：  类定义文件 &#x2F; main函数所在的可执行文件  ​">
 <meta property="og:type" content="website">
 <meta property="og:title" content="编译原理小知识">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/07/16/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%B0%8F%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="为什么我不能乱链接 I. 缘从何起？ ​ 机队的小伙伴问了我一个问题，说是在一个.hpp文件中，定义了一个namespace，.hpp也有头文件保护，在namespace下也定义（声明 &#x2F; 定义都在这个文件里）了几个函数（非类函数），.hpp文件中同时还有一个类的定义。那么自然这个文件会被至少两个.cc文件给include：  类定义文件 &#x2F; main函数所在的可执行文件  ​ 结果编">
+<meta property="og:description" content="为什么我不能乱链接 I. 缘从何起？ ​ 机队的小伙伴问了我一个问题，说是在一个.hpp文件中，定义了一个namespace，.hpp也有头文件保护，在namespace下也定义（声明 &#x2F; 定义都在这个文件里）了几个函数（非类函数），.hpp文件中同时还有一个类的定义。那么自然这个文件会被至少两个.cc文件给include：  类定义文件 &#x2F; main函数所在的可执行文件  ​">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-16T13:38:07.000Z">
 <meta property="article:modified_time" content="2021-07-18T09:58:31.187Z">
@@ -107,7 +107,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -332,19 +332,29 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="为什么我不能乱链接">为什么我不能乱链接</h1>
 <h2 id="i.-缘从何起">I. 缘从何起？</h2>
-<p>​ 机队的小伙伴问了我一个问题，说是在一个<code>.hpp</code>文件中，定义了一个namespace，<code>.hpp</code>也有头文件保护，在namespace下也<strong><u>定义（声明 / 定义都在这个文件里）</u></strong>了几个函数（非类函数），<code>.hpp</code>文件中同时还有一个类的定义。那么自然这个文件会被至少两个<code>.cc</code>文件给include：</p>
+<p>​
+机队的小伙伴问了我一个问题，说是在一个<code>.hpp</code>文件中，定义了一个namespace，<code>.hpp</code>也有头文件保护，在namespace下也<strong><u>定义（声明
+/
+定义都在这个文件里）</u></strong>了几个函数（非类函数），<code>.hpp</code>文件中同时还有一个类的定义。那么自然这个文件会被至少两个<code>.cc</code>文件给include：</p>
 <ul>
 <li>类定义文件 / main函数所在的可执行文件</li>
 </ul>
-<p>​ 结果编译的时候报了redefined的错误，说是namespace下面的函数重复定义了。小伙伴很疑惑。我也很疑惑，开始我觉得是不应该把定义写在<code>.hpp</code>中，但想到类函数好像可以这么做啊？作为一个没有学过编译原理的自动化学生（请问自动化学生都在学些啥啊？），感到疑惑，于是查了点资料。</p>
+<p>​
+结果编译的时候报了redefined的错误，说是namespace下面的函数重复定义了。小伙伴很疑惑。我也很疑惑，开始我觉得是不应该把定义写在<code>.hpp</code>中，但想到类函数好像可以这么做啊？作为一个没有学过编译原理的自动化学生（请问自动化学生都在学些啥啊？），感到疑惑，于是查了点资料。</p>
 <span id="more"></span>
 <hr>
 <h2 id="ii.-编译单元">II. 编译单元</h2>
 <p>​ 首先，一个名词：translation unit</p>
 <blockquote>
-<p>A translation unit is the basic unit of compilation in C++. It consists of the contents of a single <strong><u>source file</u></strong>, <strong><u>plus</u></strong> the contents of any <strong><u>header files</u></strong> directly or indirectly included by it, <strong><u>minus</u></strong> those lines that were ignored using <strong><u>conditional preprocessing statements</u></strong>.</p>
+<p>A translation unit is the basic unit of compilation in C++. It
+consists of the contents of a single <strong><u>source
+file</u></strong>, <strong><u>plus</u></strong> the contents of any
+<strong><u>header files</u></strong> directly or indirectly included by
+it, <strong><u>minus</u></strong> those lines that were ignored using
+<strong><u>conditional preprocessing statements</u></strong>.</p>
 </blockquote>
-<p>​ 也即，一个translation unit包含源文件，直接或者间接include的头文件以及排除通过头文件保护排除的文件。</p>
+<p>​ 也即，一个translation
+unit包含源文件，直接或者间接include的头文件以及排除通过头文件保护排除的文件。</p>
 <p>​ 而编译形成最终的可执行文件需要通过：</p>
 <ul>
 <li>编译+汇编（分别编译，汇编形成各自的机器指令文件）</li>
@@ -355,9 +365,14 @@
 <li>main.cc 文件（主函数，将会产生一个translation unit）</li>
 <li>xxx.cc 文件（类定义，将会产生一个translation unit）</li>
 </ul>
-<p>​ 最终在链接阶段会将两个translation unit<strong><u>内容合并</u></strong>（链接过程工作的通俗说法）。但是很不巧，你的namespace下的函数<strong><u>同时进入了两个</u></strong>translation unit中。</p>
-<p>​ 也就是在两个translation unit中，各被编译一次。如果两个translation unit分属不同的可执行文件（不被链接到一块儿去），那还好说。但是现在他们被链接到一起去了，也就形成了重定义，两个translation unit中各有一份定义。</p>
-<p>​ 也就是说，最好的解决方案是：<strong><u>只在hpp中声明函数，在cc中定义函数，这样不会错。</u></strong></p>
+<p>​ 最终在链接阶段会将两个translation
+unit<strong><u>内容合并</u></strong>（链接过程工作的通俗说法）。但是很不巧，你的namespace下的函数<strong><u>同时进入了两个</u></strong>translation
+unit中。</p>
+<p>​ 也就是在两个translation unit中，各被编译一次。如果两个translation
+unit分属不同的可执行文件（不被链接到一块儿去），那还好说。但是现在他们被链接到一起去了，也就形成了重定义，两个translation
+unit中各有一份定义。</p>
+<p>​
+也就是说，最好的解决方案是：<strong><u>只在hpp中声明函数，在cc中定义函数，这样不会错。</u></strong></p>
 <hr>
 <h2 id="iii.-头文件保护">III. 头文件保护？</h2>
 <p>​ 头文件保护作用与单一的translation unit中。也即，比如：</p>
@@ -369,22 +384,31 @@
 <li><code>test.c</code> 中</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;b.h&quot;</span></span></span><br></pre></td></tr></table></figure>
-<p>​ 那么两次include导致<code>a.h</code>两次代码复制到<code>test.c</code>，将由头文件保护的存在而不被编译两次。头文件保护和跨translation unit的链接没有关系，它只是防止一个translation unit内部，不因为多重间接include导致重定义。</p>
-<p>​ 不仅是namespace不行，直接裸函数定义在 <code>.hpp</code> 中，之后又被多重引用 + 链接到同一个可执行文件中，也会导致问题，比如我试了试：</p>
+<p>​
+那么两次include导致<code>a.h</code>两次代码复制到<code>test.c</code>，将由头文件保护的存在而不被编译两次。头文件保护和跨translation
+unit的链接没有关系，它只是防止一个translation
+unit内部，不因为多重间接include导致重定义。</p>
+<p>​ 不仅是namespace不行，直接裸函数定义在 <code>.hpp</code>
+中，之后又被多重引用 +
+链接到同一个可执行文件中，也会导致问题，比如我试了试：</p>
 <ul>
 <li><code>name.hpp</code> 内容如下</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __NAME_HPP</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __NAME_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sub</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  <span class="comment">//__NAME_HPP</span></span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>此后在<code>test.cc</code> , <code>main.cc</code>两个文件都 include<code>name.hpp</code>，进行编译，输出结果如下：</li>
+<li>此后在<code>test.cc</code> , <code>main.cc</code>两个文件都
+include<code>name.hpp</code>，进行编译，输出结果如下：</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="language-bash">&gt;&gt; g++ ./main.cc ./test.cc -o main.exe</span></span><br><span class="line"></span><br><span class="line">~\ccMq7p5P.o:test.cc:(.text+0x0): multiple definition of `sub(int, int)&#x27;</span><br><span class="line">~\cces7mzx.o:main.cc:(.text+0x0): first defined here</span><br><span class="line">collect2.exe: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
 <p>​ 也直接报错了。</p>
 <hr>
 <h2 id="iv.-class可以在hpp内定义">IV. class可以在hpp内定义</h2>
-<p>​ class可以在 hpp 内定义函数，同样都是被<code>定义.cc</code>， <code>主函数.cc</code>include，为什么类函数可以过编译？</p>
-<p>​ 因为类函数有<strong><u>特殊性</u></strong>：声明 和 定义放在一起时，函数<strong><u>自动内联</u></strong>（inline）。inline函数在多重定义存在时，只会处理inline声明位置的定义。</p>
-<p>​ 所以，另一种解决方案是：在namespace下的函数前面加上 <strong><u>inline</u></strong>。但是我个人非常不建议这么做。</p>
+<p>​ class可以在 hpp 内定义函数，同样都是被<code>定义.cc</code>，
+<code>主函数.cc</code>include，为什么类函数可以过编译？</p>
+<p>​ 因为类函数有<strong><u>特殊性</u></strong>：声明 和
+定义放在一起时，函数<strong><u>自动内联</u></strong>（inline）。inline函数在多重定义存在时，只会处理inline声明位置的定义。</p>
+<p>​ 所以，另一种解决方案是：在namespace下的函数前面加上
+<strong><u>inline</u></strong>。但是我个人非常不建议这么做。</p>
 
     </div>
 

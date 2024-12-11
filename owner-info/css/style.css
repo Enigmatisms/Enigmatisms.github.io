@@ -1,0 +1,507 @@
+body {
+    margin: 20px 0px 20px 0px;
+    padding: 0;
+    font-family: latoregular,sans-serif;
+    font-size: 8pt;
+    background: #333333;
+}
+
+@media (max-width: 1000px) {
+    body {
+        margin: 0;
+        background: #FFFFFF;
+    }
+}
+
+:focus {
+    outline: 0;
+}
+
+a {
+    color: #448fff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+a:hover {
+    color: #448fff;
+    text-decoration: underline;
+    transition: 0.5s;
+}
+
+h1, h2 {
+    color: #333333;
+    font-family: merriweatherbold,serif;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 25pt;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+h1 a {
+    color: #333333;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 17pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+h2 a {
+    color: #333333;
+    text-decoration: none;
+}
+
+h2 a:hover {
+    text-decoration: none;
+}
+
+dl {
+    margin: 0px 15px 0 35px;
+    font-size: 8pt;
+}
+
+dt {
+    margin-top: 8px;
+    font-size: 10pt;
+}
+
+dd {
+    margin: 0px 25px 3px 25px;
+}
+
+p {
+    margin: 0em 0em 0em 0em;
+    line-height: unset;
+    font-size: unset;
+}
+
+.mainbody {
+    position: relative;
+    margin: auto;
+    padding: 10px;
+    max-width: 1000px;
+    background: #FFFFFF;
+    font-size: 11pt;
+    line-height: 1.5;
+    text-align: justify;
+    box-shadow: 0px 3px 15px #181818;
+    border-radius: 30px;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 1000px) {
+    .mainbody {
+        border-radius: 0;
+        padding: 0px;
+        box-shadow: 0px 0px 0px #181818;
+    }
+}
+
+.avatar {
+    margin: 10px 15px 15px 20px;
+    height: 250px;
+    width: 250px;
+    float: right;
+    border-radius: 30px;
+    /* -webkit-shape-outside: circle();
+    shape-outside: circle(); */
+}
+
+@media (max-width: 500px) {
+    .avatar {
+        float: none;
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+}
+
+.content {
+    margin: 30px 0px 0px 0px;
+    min-height: 10px;
+    width: inherit;
+}
+
+.content p {
+    margin: 8px 15px 8px 15px;
+}
+
+.content h1, .content h2 {
+    margin-left: 15px;
+    margin-right: 15px;
+    text-align: left;
+}
+
+.femto-content h1, .femto-content h2, .femto-content p {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.femto-content table {
+    width: 100%;
+}
+
+.femto-content textarea {
+    font-family: "Arial Grande",Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 8pt;
+}
+
+.femto-content input, .femto-content select {
+    border: 1px solid #e2959c;
+    font-size: 100%;
+    border-radius: 3px;
+}
+
+.femto-content input:focus {
+    outline: 0;
+    color: #333;
+    border-color: #ed5565;
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(236, 82, 82, 0.6);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(236, 82, 82, 0.6);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(236, 82, 82, 0.6);
+}
+
+.femto-content input[type="button"] {
+    background-color: #EEE;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+}
+
+.femto-content input[type="button"]:hover {
+    background-color: #ed5565;
+}
+
+div.femto-content {
+    margin: 15px;
+}
+
+.play-button {
+    position: relative;
+    bottom: 10px;
+    width: 40px;
+    height: 20px;
+    background: #EEE;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.play-button label {
+    position: absolute;
+    top: 5px;
+    left: 14px;
+    cursor: pointer;
+}
+
+.play-button input[type=checkbox] {
+    visibility: hidden;
+}
+
+.play-button input[type=checkbox]:checked + label {
+    width: 4px;
+    height: 10px;
+    border-right: 4px solid #000;
+    border-left: 4px solid #000;
+}
+
+.play-button input[type=checkbox]:not(:checked) + label {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 13px solid #000;
+    border-bottom: 5px solid transparent;
+}
+
+.play-button:hover {
+    background: #ed5565;
+}
+
+.femto-loading {
+    width: 100%;
+    height: 607px;
+    padding-top: 210px;
+}
+
+.femto-loading p {
+    text-align: center;
+}
+
+.femto-stats {
+    width: 100%;
+    color: rgba(255, 255, 255, 0.80);
+    text-shadow: rgb(0, 0, 0) 0px 0px 3px;
+    position: relative;
+    bottom: 17px;
+    right: 6px;
+    height: 0px;
+    pointer-events: none
+}
+
+.femto-stats p {
+    text-align: right;
+    font-size: 8pt;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.about {
+    margin-bottom: 20px;
+}
+
+.about a {
+    font-weight: bold;
+    letter-spacing: -0.03em;
+}
+
+.resourcelist {
+    text-align: left;
+}
+
+.resourcelist a {
+    font-weight: bold;
+    letter-spacing: -0.03em;
+    border-radius: 5px;
+    font-size: 10pt;
+    border-color: #448fff;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.resourcelist a:link, .resourcelist a:visited {
+    background-color: #ffffff;
+    color: #448fff;
+    padding: 1px 4px;
+    margin: 2px 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.resourcelist a:hover, .resourcelist a:active {
+    color: #ffffff;
+    background-color: #448fff;
+}
+
+.portfolio-item {
+    margin: 20px 0 20px 0;
+    clear: both;
+}
+
+.portfolio-item h2, .portfolio-item p {
+    text-align: left;
+}
+
+.portfolio-text {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.portfolio-item img, .portfolio-item video {
+    height: auto;
+    width: 384px;
+    float: left;
+    margin: 0 20px 0 15px;
+    box-shadow: 0px 0px 0px #ffffff;
+    border-radius: 15px;
+    border-color: #ffffff;
+}
+
+@media (max-width: 850px) {
+    .portfolio-text {
+        margin: 20px 0 40px 0;
+    }
+
+    .portfolio-item img, .portfolio-item video {
+        width: calc(100% - 30px);
+        float: none;
+        display: block;
+        margin: 0 15px;
+    }
+}
+
+.authorlist {
+    color: #999999;
+    line-height: 1.3;
+}
+
+.authorlist a {
+    color: #999999;
+}
+
+.authorlist a:hover {
+    color: #448fff;
+}
+
+.venue {
+    color: #333333;
+    line-height: 1.3;
+}
+
+.venue a {
+    color: #333333;
+}
+
+.venue a:hover {
+    color: #448fff;
+}
+
+.authors {
+    text-align: center;
+    font-size: 13pt;
+    margin: 0px 0px 30px 0px;
+}
+
+.authors table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.erratum h1 {
+    margin: 0px 25px 0px 25px;
+}
+
+.erratum table {
+    width: 75%;
+    margin: 40px auto;
+}
+
+.erratum th h1, .erratum tr {
+    text-align: center;
+}
+
+.erratum p {
+    margin: 5px 25px;
+}
+
+.teaser {
+    text-align: center;
+}
+
+.teaser img {
+    width: 94%;
+}
+
+.teaser p {
+    font-style: italic;
+    text-align: justify;
+    margin: 0em 2em 2em 2em;
+}
+
+.desc {
+    text-align: center;
+    font-weight: normal;
+    width: 256px;
+    margin: 5px;
+}
+
+.menu {
+    margin: 10px 0 30px 0;
+    text-align: center;
+    height: 29px;
+}
+
+.header-content {
+    text-align: center;
+}
+
+.header-content h1 {
+    font-size: 35pt;
+    font-family: merriweatherblack,serif;
+}
+
+.header-content h2 {
+    color: #333333;
+}
+
+.line {
+    height: 5px;
+    color: white;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,1+50,0+75 */
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(25%,rgba(0,0,0,0)), color-stop(50%,rgba(0,0,0,1)), color-stop(75%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0))); /* Chrome4-9,Safari4-5 */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* Opera 11.10-11.50 */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* IE10 preview */
+    background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+.thinline {
+    height: 1px;
+    color: white;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,1+50,0+75 */
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(25%,rgba(0,0,0,0)), color-stop(50%,rgba(0,0,0,1)), color-stop(75%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0))); /* Chrome4-9,Safari4-5 */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* Opera 11.10-11.50 */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* IE10 preview */
+    background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,1) 50%,rgba(0,0,0,0) 75%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+.footer {
+    clear: both;
+    background-repeat: no-repeat;
+}
+
+.footer-content {
+    font-size: 8pt;
+    margin-top: 50px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: #555555;
+}
+
+.form {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer-content .thinline {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+div.femto-content {
+    margin: 20px;
+}
+
+div.widget {
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    position: relative;
+}
+
+div.widget > div {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.widget canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.slider {
+    visibility: hidden;
+}

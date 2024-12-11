@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;Axis">
+  <meta name="description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;A">
 <meta property="og:type" content="website">
 <meta property="og:title" content="位姿变换与六轴仿真">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;Axis">
+<meta property="og:description" content="Axis6  ​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn&#39;t know how to pronounce: ɡəˈziːboʊ，重音在前），代码放在了[Github🔗:Enigmatisms&#x2F;A">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png">
@@ -113,7 +113,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -334,7 +334,10 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="axis6">Axis6</h1>
 <hr>
-<p>​ 稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo: for those who doesn't know how to pronounce: <code>ɡəˈziːboʊ</code>，重音在前），代码放在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Axis6">[Github🔗:Enigmatisms/Axis6]</a>。本文包含如下内容：</p>
+<p>​
+稚晖君牛逼。看了他的六轴机器人之后，我感觉自己没学过自动化。为了证明自己是自动化专业的学生，我尝试学习以及手推了一下正逆运动学公式，手写了一个六轴机器人的控制、仿真（rviz以及Gazebo:
+for those who doesn't know how to pronounce:
+<code>ɡəˈziːboʊ</code>，重音在前），代码放在了<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Axis6">[Github🔗:Enigmatisms/Axis6]</a>。本文包含如下内容：</p>
 <ul>
 <li>位姿变换/正逆运动学的一些基本知识</li>
 <li>Gazebo的配置使用</li>
@@ -342,14 +345,18 @@
 </ul>
 <p>​ 这里放两张图：</p>
 <table>
+<colgroup>
+<col style="width: 63%">
+<col style="width: 36%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/rviz.png" style="zoom:85%;"></th>
 <th style="text-align: center;"><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/gazebo.png"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">rviz仿真结果</td>
 <td style="text-align: center;">Gazebo仿真结果</td>
 </tr>
@@ -363,15 +370,20 @@ Figure 1. 仿真效果图
 <h2 id="ii.-前置知识">II. 前置知识</h2>
 <h3 id="位姿变换左右乘">2.1 位姿变换左右乘</h3>
 <p>​ 这个问题个人之前一直没有搞清楚，也没有静下心来推过。</p>
-<p>​ 给定空间中一个点p以及一个位姿变换<span class="math inline">\(T=[R\quad t]\)</span>（非齐次），点p经过位姿变换的结果应该是： <span class="math display">\[
+<p>​ 给定空间中一个点p以及一个位姿变换<span class="math inline">\(T=[R\quad
+t]\)</span>（非齐次），点p经过位姿变换的结果应该是： <span class="math display">\[
 \begin{equation}\label{basic}
 p&#39;=Rp+t
 \end{equation}
-\]</span> ​ 那么现在有这样一个问题，如果我想对点p进行多次变换？或者是进行一次<strong><u>两个位姿变换合成</u></strong>对应的变换？应该怎么做？假设我们有两个位姿变换：<span class="math inline">\(T_1 = [R_1\quad t_1]\)</span>以及<span class="math inline">\(T_2 = [R_2\quad t_2]\)</span>，乍一看应该这么做： <span class="math display">\[
+\]</span> ​
+那么现在有这样一个问题，如果我想对点p进行多次变换？或者是进行一次<strong><u>两个位姿变换合成</u></strong>对应的变换？应该怎么做？假设我们有两个位姿变换：<span class="math inline">\(T_1 = [R_1\quad t_1]\)</span>以及<span class="math inline">\(T_2 = [R_2\quad t_2]\)</span>，乍一看应该这么做：
+<span class="math display">\[
 \begin{equation}\label{composite}
 p&#39;=R_2(R_1p+t_1)+t_2=R_2R_1p+R_2t_1+t_2
 \end{equation}
-\]</span> ​ 上面这个公式，思想非常直白。不是要多次变换吗？不是要合成吗？那就直接先变换一次，再对结果变换一次就行了。但是<strong><u>实际上，对于位姿变换合成问题而言，这是错的结果</u></strong>。首先，我在这里给出结论： <span class="math display">\[
+\]</span> ​
+上面这个公式，思想非常直白。不是要多次变换吗？不是要合成吗？那就直接先变换一次，再对结果变换一次就行了。但是<strong><u>实际上，对于位姿变换合成问题而言，这是错的结果</u></strong>。首先，我在这里给出结论：
+<span class="math display">\[
 \begin{align}
 &amp;p&#39;=R_1(R_2p+t_2)+t_1=R_1R_2p+(R_1t_2+t_1)\tag{合成变换}\\
 &amp;p&#39;=R_2(R_1p+t_1)+t_2=R_1R_2p+R_2t_1+t_2\tag{变换的复合}
@@ -380,7 +392,13 @@ p&#39;=R_2(R_1p+t_1)+t_2=R_2R_1p+R_2t_1+t_2
 合成变换，与变换的复合是两回事。
 </center>
 </div></p>
-<p>​ 很多时候，我们接触的都会是合成变换。举一个例子：点云配准。假设点云A到点云B的位姿变换为T（点云A对应的激光器坐标系 需要经过变换T才能变换到点云B对应的激光器坐标系位置），已经存在一个粗糙的初始位姿变换：<span class="math inline">\(T_0\)</span>，这个变换可以是里程计或者一些算法给出的，需要 <strong><u>精配准</u></strong> 来修正这个位姿变换，使之更符合实际观测，那么假设这个精配准模块求出，点云在位姿<span class="math inline">\(T_0\)</span>下，还需要进行的变换<span class="math inline">\(\Delta T\)</span>，最后合成<span class="math inline">\(T_0\)</span>与<span class="math inline">\(\Delta T\)</span>得到最终的变换。 ​ 合成变换与变换复合的本质区别是：<strong>讨论的坐标系不同</strong>。变换的复合具有非常简单的思想，正如函数的复合，对输出进行一次新的变换。<strong><u>两次变换都是在同一个坐标系下讨论的</u></strong>，可以认为：</p>
+<p>​
+很多时候，我们接触的都会是合成变换。举一个例子：点云配准。假设点云A到点云B的位姿变换为T（点云A对应的激光器坐标系
+需要经过变换T才能变换到点云B对应的激光器坐标系位置），已经存在一个粗糙的初始位姿变换：<span class="math inline">\(T_0\)</span>，这个变换可以是里程计或者一些算法给出的，需要
+<strong><u>精配准</u></strong>
+来修正这个位姿变换，使之更符合实际观测，那么假设这个精配准模块求出，点云在位姿<span class="math inline">\(T_0\)</span>下，还需要进行的变换<span class="math inline">\(\Delta T\)</span>，最后合成<span class="math inline">\(T_0\)</span>与<span class="math inline">\(\Delta
+T\)</span>得到最终的变换。 ​
+合成变换与变换复合的本质区别是：<strong>讨论的坐标系不同</strong>。变换的复合具有非常简单的思想，正如函数的复合，对输出进行一次新的变换。<strong><u>两次变换都是在同一个坐标系下讨论的</u></strong>，可以认为：</p>
 <div class="note info"><p>参与变换复合的两个变换，是两个互不相关的，在同一个坐标系下讨论的绝对位姿变换，之间没有相对性。</p>
 </div>
 <p>​ 而合成变换，则具有相对性。仍然以上面的点云配准为例子，<span class="math inline">\(\Delta T\)</span>变换是在<span class="math inline">\(T_0\)</span>变换的基础上进行的，是在<span class="math inline">\(T_0\)</span>对应的坐标系下的一个变换，而<span class="math inline">\(T_0\)</span>是相对于另一个坐标系（比如全局坐标系或者子地图坐标系而言）。也就是说：</p>
@@ -402,44 +420,61 @@ p&#39;=R_2(R_1p+t_1)+t_2=R_2R_1p+R_2t_1+t_2
 <center>
 Figure 2. 位姿变换示意图
 </center>
-<p>​ 坐标系1经过位姿变换T变换到坐标系2，那么对于两个系中定义的一些点，其坐标变换公式是什么？假设点p在坐标系i下的坐标是<span class="math inline">\(p_i\)</span>：（为了方便起见，这两个坐标都是齐次坐标） <span class="math display">\[
+<p>​
+坐标系1经过位姿变换T变换到坐标系2，那么对于两个系中定义的一些点，其坐标变换公式是什么？假设点p在坐标系i下的坐标是<span class="math inline">\(p_i\)</span>：（为了方便起见，这两个坐标都是齐次坐标）
+<span class="math display">\[
 \begin{align}
 &amp;p_1=Tp_2\label{p1}\\
 &amp;p_2=T^{-1}p_1\label{p2}
 \end{align}
-\]</span> ​ 从坐标系1变到坐标系2是变换T，而坐标系1点变换到坐标系2就是<span class="math inline">\(T^{-1}\)</span>。这也可以用左右乘推出的公式来讨论：假设两个坐标系都是相对于一个绝对的坐标系，两个坐标系相对绝对坐标系的变换分别为<span class="math inline">\(T_1, T_2\)</span>，那么对于点p，两个坐标系对应的坐标转换到绝对坐标系下应该是相等的，因为描述的都是绝对坐标系下的点<span class="math inline">\(p^{*}\)</span> <span class="math display">\[
+\]</span> ​
+从坐标系1变到坐标系2是变换T，而坐标系1点变换到坐标系2就是<span class="math inline">\(T^{-1}\)</span>。这也可以用左右乘推出的公式来讨论：假设两个坐标系都是相对于一个绝对的坐标系，两个坐标系相对绝对坐标系的变换分别为<span class="math inline">\(T_1,
+T_2\)</span>，那么对于点p，两个坐标系对应的坐标转换到绝对坐标系下应该是相等的，因为描述的都是绝对坐标系下的点<span class="math inline">\(p^{*}\)</span> <span class="math display">\[
 \begin{equation}
 T_1T_{1-p}p^*=T_2T_{2-p}p^*
 \end{equation}
 \]</span> ​ 因为<span class="math inline">\(T_{1-p}p^*=p_1\)</span>且<span class="math inline">\(T_{2-p}p^*=p_2\)</span>，而上式是由右乘（相对变换）得到的，可以推出公式<span class="math inline">\(\eqref{p1}\)</span>，<span class="math inline">\(\eqref{p2}\)</span>来。</p>
 <h3 id="正逆运动学">2.3 正逆运动学</h3>
-<p>​ 关于D-H坐标与正逆运动学，这个人的博客讲得很清楚（非常推荐，他的博客写得不错，上一个我觉得写得不错的博客是苏剑林的）：</p>
+<p>​
+关于D-H坐标与正逆运动学，这个人的博客讲得很清楚（非常推荐，他的博客写得不错，上一个我觉得写得不错的博客是苏剑林的）：</p>
 <div class="note success"><center>
 <a target="_blank" rel="noopener" href="http://gaoyichao.com/Xiaotu/?book=math_physics_for_robotics&title=inverse_kinematics">无处不在的小土</a>
 </center>
 </div>
-<p>​ 关于正逆运动学的原理以及D-H坐标表示，我就不赘述了，上面链接的博客已经有了。我实现的六轴机器人，正逆运动学的思想是从以上博客以及Wikipedia中学来的，使用的是一个类似PUMA 560的简单带球腕六轴机器人，但是所有的关节中，link twist都与常见模型相反，所以运动学不得不自己推。</p>
+<p>​
+关于正逆运动学的原理以及D-H坐标表示，我就不赘述了，上面链接的博客已经有了。我实现的六轴机器人，正逆运动学的思想是从以上博客以及Wikipedia中学来的，使用的是一个类似PUMA
+560的简单带球腕六轴机器人，但是所有的关节中，link
+twist都与常见模型相反，所以运动学不得不自己推。</p>
 <p>​ 在此我只简述一下正逆运动学的思想：</p>
-<div class="tabs" id="class"><ul class="nav-tabs"><li class="tab active"><a href="#class-1">正运动学</a></li><li class="tab"><a href="#class-2">逆运动学</a></li></ul><div class="tab-content"><div class="tab-pane active" id="class-1"><p>实际上就是，给定各个关节的位姿，求解机器人手臂末端的位姿。这是个很容易的任务，就是疯狂地进行位姿变换合成。由于使用D-H坐标描述，使得描述机器人的参数最简，并且也描述了两个关节确定的坐标系之间的相对变换，所以可以轻易地使用位姿变换合成： <span class="math display">\[
+<div class="tabs" id="class"><ul class="nav-tabs"><li class="tab active"><a href="#class-1">正运动学</a></li><li class="tab"><a href="#class-2">逆运动学</a></li></ul><div class="tab-content"><div class="tab-pane active" id="class-1"><p>实际上就是，给定各个关节的位姿，求解机器人手臂末端的位姿。这是个很容易的任务，就是疯狂地进行位姿变换合成。由于使用D-H坐标描述，使得描述机器人的参数最简，并且也描述了两个关节确定的坐标系之间的相对变换，所以可以轻易地使用位姿变换合成：
+<span class="math display">\[
 \begin{equation}
 T_6^0=T_1^0T_2^1T_3^2T_4^3T_5^4T_6^5
 \end{equation}
-\]</span> 每个关节相对于下一个关节的位姿变换，在正运动学篇已经进行了详细的讨论，在简单的问题中，也不过就是使用link length, link offset, link twist, link angle计算变换矩阵。</p></div><div class="tab-pane" id="class-2"><p>可以把这个问题看作是解方程：已知期望的末端位置，需要求解出每个关节的位姿（比如角度，平移）。复杂问题下，是需要引入优化的方式来求解的（可能没有简单的闭式解），而在一些简单的情形下，可以进行 <strong><u>解耦</u></strong>，也就是找到前后不相关联的位姿变换，分解问题为子问题，子问题下就有可能求解出闭式解。带有球腕的问题就是一个典型的简化情形。</p></div></div></div>
+\]</span>
+每个关节相对于下一个关节的位姿变换，在正运动学篇已经进行了详细的讨论，在简单的问题中，也不过就是使用link
+length, link offset, link twist, link angle计算变换矩阵。</p></div><div class="tab-pane" id="class-2"><p>可以把这个问题看作是解方程：已知期望的末端位置，需要求解出每个关节的位姿（比如角度，平移）。复杂问题下，是需要引入优化的方式来求解的（可能没有简单的闭式解），而在一些简单的情形下，可以进行
+<strong><u>解耦</u></strong>，也就是找到前后不相关联的位姿变换，分解问题为子问题，子问题下就有可能求解出闭式解。带有球腕的问题就是一个典型的简化情形。</p></div></div></div>
 <p>​ 我所使用的六轴机器人模型，参数定义如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// link offset / link length / link twist / link angle</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;LinkInfo&gt; init_links = &#123;</span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.5</span>, <span class="number">0</span>, M_PI_2,  <span class="number">0.134140</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.1</span>, <span class="number">0.8</span>, <span class="number">0</span>, <span class="number">0.012189</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.1</span>, <span class="number">0</span>, M_PI_2, <span class="number">-0.036790</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.8</span>, <span class="number">0</span>, M_PI_2, <span class="number">1.596749</span>), </span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0</span>, <span class="number">0</span>, M_PI_2, <span class="number">-0.222030</span>),</span><br><span class="line">    <span class="built_in">LinkInfo</span>(<span class="number">0.4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1.459867</span>)  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​ 小土的博客中，使用的是<span class="math inline">\(-\pi / 2\)</span>的link twist，而我这里使用的是<span class="math inline">\(\pi/2\)</span>。开始我的底部三个关节的求解，完全按照<span class="math inline">\(-\pi/2\)</span>去推的，这当然会有问题，之后手推了一下<span class="math inline">\(\pi/2\)</span>的情况。</p>
-<p>​ 顶部三个关节如何求解，小土的博客并没有说，但是思想大致还是一样的：将末端点变换到第四个关节对应的坐标系下，使用投影法求解。</p>
+<p>​ 小土的博客中，使用的是<span class="math inline">\(-\pi /
+2\)</span>的link twist，而我这里使用的是<span class="math inline">\(\pi/2\)</span>。开始我的底部三个关节的求解，完全按照<span class="math inline">\(-\pi/2\)</span>去推的，这当然会有问题，之后手推了一下<span class="math inline">\(\pi/2\)</span>的情况。</p>
+<p>​
+顶部三个关节如何求解，小土的博客并没有说，但是思想大致还是一样的：将末端点变换到第四个关节对应的坐标系下，使用投影法求解。</p>
 <h3 id="多解问题可行域">2.4 多解问题&amp;可行域</h3>
 <p>​ 以底部的三个关节以及对应机械臂为例：</p>
 <p><img src="/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/two.png"></p>
 <center>
 Figure 3. 位姿变换示意图
 </center>
-<p>​ 黑色和蓝色分别表示了两种不同解下的机械臂情形。对于同一个球腕位置（也就是右上角的交汇点），可能有两个解，两个解都是需要求出来的，不同的关节会形成解组。比如<span class="math inline">\(\theta_1\)</span>以及<span class="math inline">\(\theta_2\)</span>分别对应joint 2的两个相差<span class="math inline">\(\pi\)</span>的解角度。选取谁？需要根据“能耗最小原则”：哪个解与上一时刻对应的角度最接近，说明运动到对应的状态所需能量损耗最小，机器人应该更倾向于选取这个解。多解问题存在于球腕与底部角度上。</p>
-<p>​ 给定末端姿态以及末端的位置，机械臂各个关节也不一定有解，比如：超出长度范围，或是没办法同时满足姿态和位置等等，这些都可能会使得求解结果成NaN，只需要限制在解为NaN时放弃本次控制。</p>
+<p>​
+黑色和蓝色分别表示了两种不同解下的机械臂情形。对于同一个球腕位置（也就是右上角的交汇点），可能有两个解，两个解都是需要求出来的，不同的关节会形成解组。比如<span class="math inline">\(\theta_1\)</span>以及<span class="math inline">\(\theta_2\)</span>分别对应joint 2的两个相差<span class="math inline">\(\pi\)</span>的解角度。选取谁？需要根据“能耗最小原则”：哪个解与上一时刻对应的角度最接近，说明运动到对应的状态所需能量损耗最小，机器人应该更倾向于选取这个解。多解问题存在于球腕与底部角度上。</p>
+<p>​
+给定末端姿态以及末端的位置，机械臂各个关节也不一定有解，比如：超出长度范围，或是没办法同时满足姿态和位置等等，这些都可能会使得求解结果成NaN，只需要限制在解为NaN时放弃本次控制。</p>
 <hr>
 <h2 id="iii.-gazebo仿真">III. Gazebo仿真</h2>
-<p>​ 我想尝试一下除了rviz之外的可视化方法，rviz版本也已经在Axis6这个库里实现了，这个版本的可视化核心就在tf的使用，也没什么困难的，可视化时碰到的大多数问题实际上都是坐标系或者变换求解错误的问题。除了rviz之外，我能想到也就只有寥寥几个可视化工具：OpenGL以及其封装的Pangolin，Gazebo。由于我从来没有用过Gazebo，故想尝试一下这个新东西。</p>
+<p>​
+我想尝试一下除了rviz之外的可视化方法，rviz版本也已经在Axis6这个库里实现了，这个版本的可视化核心就在tf的使用，也没什么困难的，可视化时碰到的大多数问题实际上都是坐标系或者变换求解错误的问题。除了rviz之外，我能想到也就只有寥寥几个可视化工具：OpenGL以及其封装的Pangolin，Gazebo。由于我从来没有用过Gazebo，故想尝试一下这个新东西。</p>
 <p>​ 构建Gazebo机械臂主要有以下三步：</p>
 <ul>
 <li>编写urdf（或者xacro）描述机器人，以及相应的gazebo文件（.sdf或者.gazebo以及.world）</li>
@@ -449,32 +484,48 @@ Figure 3. 位姿变换示意图
 <h3 id="描述机器人">3.1 描述机器人</h3>
 <p>​ ROS wiki上对于描述机器人以及模型的文件是这么说的：</p>
 <blockquote>
-<p>Xacro (XML Macros) Xacro is an XML macro language. With xacro, you can construct shorter and more readable XML files by using macros that expand to larger XML expressions.[1]</p>
+<p>Xacro (XML Macros) Xacro is an XML macro language. With xacro, you
+can construct shorter and more readable XML files by using macros that
+expand to larger XML expressions.[1]</p>
 </blockquote>
 <blockquote>
-<p>Xacro is just a scripting mechanism that allows more modularity and code re-use when defining a URDF model. When using it, what is actually uploaded to the parameter servers (per default as the "robot_description" parameter) actually is a URDF, as that gets generated from the xacro file in the launch file (by expanding the xacro macros used).[2]</p>
+<p>Xacro is just a scripting mechanism that allows more modularity and
+code re-use when defining a URDF model. When using it, what is actually
+uploaded to the parameter servers (per default as the
+"robot_description" parameter) actually is a URDF, as that gets
+generated from the xacro file in the launch file (by expanding the xacro
+macros used).[2]</p>
 </blockquote>
-<p>​ 这里主要给出四个部分的例子，主要看注释：以下两个部分来自于<code>src/axis6/urdf/axis6.xacro</code></p>
+<p>​
+这里主要给出四个部分的例子，主要看注释：以下两个部分来自于<code>src/axis6/urdf/axis6.xacro</code></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--        此处定义的是机械臂          --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;world&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--上面这个link（机械臂）是一个固定的轴，每个urdf都需要带，相当于世界坐标系--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--定义一个机械臂，这里是六轴机器人的底座--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--collision属性没有写上来，其定义方式与visual类似，定义的是碰撞箱--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">visual</span>&gt;</span> <span class="comment">&lt;!--视觉效果，定义的是我们能观察到的样子--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.75&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span> <span class="comment">&lt;!--rpy对应轴是xyz--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">geometry</span>&gt;</span> <span class="comment">&lt;!--定义基础模型：一个长方体，width depth height是xyz--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">box</span> <span class="attr">size</span>=<span class="string">&quot;0.4 0.4 1.5&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">material</span> <span class="attr">name</span>=<span class="string">&quot;grey&quot;</span>/&gt;</span> <span class="comment">&lt;!--调用material.xacro中定义的颜色--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">inertial</span>&gt;</span>	<span class="comment">&lt;!--惯性力学信息--&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--可以认为，此处定义了一个等效几何体，位置与姿态都给出了，并且给了多轴方向上的质量分布--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.75&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mass&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--一种遵循shell类似语法的变量调用--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertia</span></span></span><br><span class="line"><span class="tag">      <span class="attr">ixx</span>=<span class="string">&quot;1.0041666666666669&quot;</span> <span class="attr">ixy</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">ixz</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">iyy</span>=<span class="string">&quot;1.0041666666666669&quot;</span> <span class="attr">iyz</span>=<span class="string">&quot;0.0&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">izz</span>=<span class="string">&quot;0.13333333333333336&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--此处定义的是关节信息，关节是连接机械臂（以及两个不同坐标系）的结构--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;joint0&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--joint是机器人机械臂位姿变换的基础，可以认为joint定义的是child link的坐标系--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;world&quot;</span>/&gt;</span>		<span class="comment">&lt;!--父系，或者上一个机械臂--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;link1&quot;</span>/&gt;</span>		<span class="comment">&lt;!--子系，连接的下一个机械臂--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--关节相对于上一个坐标系，其原点平移偏置以及z轴的相对旋转--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1.5&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span>  	</span><br><span class="line">    <span class="comment">&lt;!--使用child link的哪一个轴或者哪一个方向作为关节转轴--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--电机的力矩以及速度限制（不超过以下两个设置值，这两个参数在【3.3调参】中很重要）--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">limit</span> <span class="attr">effort</span>=<span class="string">&quot;50&quot;</span> <span class="attr">velocity</span>=<span class="string">&quot;50&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>​ 以下部分来自于<code>src/axis6/urdf/axis6.sdf</code>:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- URDF需要转为gazebo能理解的sdf类型 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;link1&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--设置重力为0，注意此处有Gazebo的bug[3]--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gravity</span>&gt;</span>0<span class="tag">&lt;/<span class="name">gravity</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--关闭内部碰撞检测，也有bug[3]--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">self_collide</span>&gt;</span>0<span class="tag">&lt;/<span class="name">self_collide</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--两个摩擦系数--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mu1</span>&gt;</span>0.0<span class="tag">&lt;/<span class="name">mu1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mu2</span>&gt;</span>0.0<span class="tag">&lt;/<span class="name">mu2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--还有kp,kd两个参数，用于定义模型的硬度，之前好像是这样的</span></span><br><span class="line"><span class="comment">	假如kp与kd很接近，那么模型会变软，可能陷到地里，kp&gt;&gt;kd时很硬。</span></span><br><span class="line"><span class="comment">	不过我也没有深究过--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Black<span class="tag">&lt;/<span class="name">material</span>&gt;</span> <span class="comment">&lt;!--颜色--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>​ 定义机械臂的重力为0经常出现bug，一会儿说你有 <code>multiple conflicting &lt;gravity&gt; tag</code> 然后给你强制设为<code>&lt;gravity&gt;true&lt;/gravity&gt;</code>，又存在这个bug[3]，导致gravity以及self_collide两个标签都不能被正确设置。</p>
+<p>​ 定义机械臂的重力为0经常出现bug，一会儿说你有
+<code>multiple conflicting &lt;gravity&gt; tag</code>
+然后给你强制设为<code>&lt;gravity&gt;true&lt;/gravity&gt;</code>，又存在这个bug[3]，导致gravity以及self_collide两个标签都不能被正确设置。</p>
 <p>​ 以下部分来自于<code>src/axis6/world/axis6.world</code>:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">world</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--引入外部的模型（如果找不到，有些可能会在加载时在网上下载）--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://ground_plane<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--...省略部分--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Global light source --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://sun<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--最后的我的消重力方式：直接让世界没有重力，嗯，很暴力--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gravity</span>&gt;</span>0 0 0<span class="tag">&lt;/<span class="name">gravity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">world</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="传输控制">3.2 传输控制</h3>
-<p>​ 定义好这些文件后，写一个launch文件，如果编写正确，就能在Gazebo中生成出定义的机器人。但此时机器人是死的，没办法控制。使用gazebo_ros以及相关模块进行控制，这几个包都是需要自己下的，建议直接：</p>
+<p>​
+定义好这些文件后，写一个launch文件，如果编写正确，就能在Gazebo中生成出定义的机器人。但此时机器人是死的，没办法控制。使用gazebo_ros以及相关模块进行控制，这几个包都是需要自己下的，建议直接：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-version-gazebo-ros*</span><br></pre></td></tr></table></figure>
 <p>​ transmission定义的实际上是一个个电机：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transmission</span> <span class="attr">name</span>=<span class="string">&quot;tran5&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>transmission_interface/SimpleTransmission<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--定义在关节5上的电机--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;joint5&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/EffortJointInterface</span><br><span class="line">      <span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--电机--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">actuator</span> <span class="attr">name</span>=<span class="string">&quot;motor5&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/EffortJointInterface</span><br><span class="line">      <span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mechanicalReduction</span>&gt;</span>1<span class="tag">&lt;/<span class="name">mechanicalReduction</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">actuator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">transmission</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>​ 需要配置一个相应的电机config文件(<code>src/axis6/config/axis6_control.yaml</code>)：</p>
+<p>​
+需要配置一个相应的电机config文件(<code>src/axis6/config/axis6_control.yaml</code>)：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">axis6:</span></span><br><span class="line">  <span class="comment"># Publish all joint states -----------------------------------</span></span><br><span class="line">  <span class="attr">joint_state_controller:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">joint_state_controller/JointStateController</span></span><br><span class="line">    <span class="attr">publish_rate:</span> <span class="number">50</span>  </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Position Controllers ---------------------------------------</span></span><br><span class="line">  <span class="attr">joint0_position_controller:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">effort_controllers/JointPositionController</span></span><br><span class="line">    <span class="attr">joint:</span> <span class="string">joint0</span></span><br><span class="line">    <span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">15.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">1.2</span>&#125;</span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
-<p>​ 2-5行是不可少的，此项配置了整个关节状态发布器。剩余的就一个个配置，配置其类型（位置控制电机，速度控制电机）以及pid参数（<strong>很难调</strong>）。</p>
-<p>​ 在加入这些信息之后，再生成Gazebo仿真，使用rostopic list命令可以看到一些新的topic（实际上是gazebo模型subscribe的，但因为没有配置ros端，暂时无publisher），可以直接使用如下命令进行简单测试：</p>
+<p>​
+2-5行是不可少的，此项配置了整个关节状态发布器。剩余的就一个个配置，配置其类型（位置控制电机，速度控制电机）以及pid参数（<strong>很难调</strong>）。</p>
+<p>​ 在加入这些信息之后，再生成Gazebo仿真，使用rostopic
+list命令可以看到一些新的topic（实际上是gazebo模型subscribe的，但因为没有配置ros端，暂时无publisher），可以直接使用如下命令进行简单测试：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rostopic pub &lt;topic_name：比如/axis6/joint1_state_controllers/command&gt; &lt;topic_type:一般是std_msgs::Float64&gt; &quot;data: &lt;控制量，比如:1.0&gt;&quot; </span><br></pre></td></tr></table></figure>
-<p>​ 剩下的事情就是写一个控制节点，发布对应消息就能进行控制了，这里就不赘述了。</p>
+<p>​
+剩下的事情就是写一个控制节点，发布对应消息就能进行控制了，这里就不赘述了。</p>
 <h3 id="调参">3.3 调参</h3>
-<p>​ 仿真，顾名思义，一定要真。即使我把摩擦关了，碰撞检测关了，重力关了，控制也并没有想象的那么简单。问题主要是：</p>
+<p>​
+仿真，顾名思义，一定要真。即使我把摩擦关了，碰撞检测关了，重力关了，控制也并没有想象的那么简单。问题主要是：</p>
 <ul>
 <li>机械臂的质量以及质量分布设计得不合理（比如末端很重）</li>
 <li>PID参数 + 电机limit（见xacro文件按）设置的不合理。</li>
@@ -483,14 +534,17 @@ Figure 3. 位姿变换示意图
 <ul>
 <li>电机驱动力不够 + pid参数过小时，又慢又超调</li>
 <li>电机驱动力充足 + pid参数较大时，机械臂抖动严重（末端尤为严重）</li>
-<li>电机驱动力充足 + pid参数过大时，可能会炸开。。。机械臂直接飞了，这也太真实了</li>
+<li>电机驱动力充足 +
+pid参数过大时，可能会炸开。。。机械臂直接飞了，这也太真实了</li>
 </ul>
 <p>​ 解决方案当然就是一个个电机调：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">joint0_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">15.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">1.2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint1_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">10.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.8</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint2_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">5.0</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint3_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">1.5</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.04</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint4_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">1.1</span>, <span class="attr">i:</span> <span class="number">0.001</span>, <span class="attr">d:</span> <span class="number">0.08</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">joint5_position_controller:</span></span><br><span class="line">	<span class="attr">pid:</span> &#123;<span class="attr">p:</span> <span class="number">0.25</span>, <span class="attr">i:</span> <span class="number">0.0001</span>, <span class="attr">d:</span> <span class="number">0.0002</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 从最底部的关节开始（它应有的驱动能力最大，因为负载最大），关节号越高，其后的机械臂越少（载荷越小），那么显然，limit中的effort以及velocity应该越小，PID参数越小，机械臂也尽可能在末端变轻。</p>
+<p>​
+从最底部的关节开始（它应有的驱动能力最大，因为负载最大），关节号越高，其后的机械臂越少（载荷越小），那么显然，limit中的effort以及velocity应该越小，PID参数越小，机械臂也尽可能在末端变轻。</p>
 <hr>
 <h2 id="iv.-效果展示">IV. 效果展示</h2>
-<p>​ 最后的效果也就是：末端可以三轴方向平移，以及绕某一轴旋转。我复用了之前写的键盘控制函数（在LiDARSim2D库内）（多按键触发），故运动是可以合成的：</p>
+<p>​
+最后的效果也就是：末端可以三轴方向平移，以及绕某一轴旋转。我复用了之前写的键盘控制函数（在LiDARSim2D库内）（多按键触发），故运动是可以合成的：</p>
 <p>​ rviz：使用tf以及visualization_msg::Marker进行可视化：</p>
 <video src="rviz.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
 </video>
@@ -506,8 +560,10 @@ Video 2. Gazebo仿真结果
 <hr>
 <h2 id="reference">Reference</h2>
 <p>[1] <a target="_blank" rel="noopener" href="http://wiki.ros.org/xacro">ROS wiki: xacro</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://answers.ros.org/question/202162/urdf-or-xacro/">URDF or Xacro?</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="https://github.com/ignitionrobotics/sdformat/issues/71">Incorrect URDF to SDF conversion of gravity and self_collide tags #71</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://answers.ros.org/question/202162/urdf-or-xacro/">URDF or
+Xacro?</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://github.com/ignitionrobotics/sdformat/issues/71">Incorrect
+URDF to SDF conversion of gravity and self_collide tags #71</a></p>
 
     </div>
 

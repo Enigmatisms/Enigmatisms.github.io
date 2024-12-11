@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应">
+  <meta name="description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的">
 <meta property="og:type" content="website">
 <meta property="og:title" content="【笔记】两篇双目相关论文">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应">
+<meta property="og:description" content="Stereo!  ​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/arch.PNG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/conv3d.PNG">
@@ -117,7 +117,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -178,7 +178,9 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#stereo"><span class="nav-text">Stereo!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-a-decomposition-model-for-stereo-matching1"><span class="nav-text">II. A Decomposition Model for Stereo Matching[1]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3"><span class="nav-text">2.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradient-flow"><span class="nav-text">2.2 Gradient Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-text">2.3 一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#detailed-loss-detection"><span class="nav-text">2.3.1 Detailed Loss Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sparse-matching"><span class="nav-text">2.3.2 Sparse Matching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#supervised-loss"><span class="nav-text">2.3.3 Supervised Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-smd-nets-stereo-mixture-density-networks3"><span class="nav-text">III. SMD-Nets: Stereo Mixture Density Networks[3]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3-1"><span class="nav-text">3.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-points"><span class="nav-text">3.2 Some points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-dl%E7%AB%8B%E4%BD%93%E5%8C%B9%E9%85%8D"><span class="nav-text">IV. DL立体匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-text">4.1 Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cost-volume-regularization"><span class="nav-text">4.2 Cost Volume Regularization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#stereo"><span class="nav-text">Stereo!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-a-decomposition-model-for-stereo-matching1"><span class="nav-text">II. A
+Decomposition Model for Stereo Matching[1]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3"><span class="nav-text">2.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradient-flow"><span class="nav-text">2.2 Gradient Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-text">2.3 一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#detailed-loss-detection"><span class="nav-text">2.3.1 Detailed Loss Detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sparse-matching"><span class="nav-text">2.3.2 Sparse Matching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#supervised-loss"><span class="nav-text">2.3.3 Supervised Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-smd-nets-stereo-mixture-density-networks3"><span class="nav-text">III. SMD-Nets:
+Stereo Mixture Density Networks[3]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3-1"><span class="nav-text">3.1 主要思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-points"><span class="nav-text">3.2 Some points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-dl%E7%AB%8B%E4%BD%93%E5%8C%B9%E9%85%8D"><span class="nav-text">IV. DL立体匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-text">4.1 Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cost-volume-regularization"><span class="nav-text">4.2 Cost Volume Regularization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-text">Reference</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -338,24 +340,36 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="stereo">Stereo!</h1>
 <hr>
-<p>​ 最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
-<p>​ 本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
+<p>​
+最开始的时候，我在人机所的工作是搞双目开发，但是当时还完全不懂深度学习，觉得这就是个玄学玩意（事实上我现在还是这么觉得，只不过有些简单的网络，具有很好的理论解释，我觉得还挺妙的）。但是当年（也就是2020）的KITTI榜就已经被深度学习刷爆了啊，前100目测98个非传统方法。现在我对深度学习有了一定了解，也有了很多实践的经验，所以想着挑战一些更难的问题领域，一些不一样的应用场景（毕竟老研究奇奇怪怪的网络结构，复现不同的CV基础网络结构就跟调参一点区别没有）。</p>
+<p>​
+本文没有任何附带的实现，我只把这两篇CVPR2021论文只作为回归双目研究的起始“研读性”文章，不尝试复现，或者咱们不找借口，我之后理解得更透彻再来复现😝。</p>
 <span id="more"></span>
 <hr>
-<h2 id="ii.-a-decomposition-model-for-stereo-matching1">II. <strong>A Decomposition Model for Stereo Matching</strong>[1]</h2>
-<p>​ 加速了。作者能加速10-100倍，并且把复杂度降得很低，使用的思想我之前思考过，但是我之前并不知道怎么做，只是有个类似的想法：</p>
-<div class="note primary"><p>​ 如果我只需要在一个较小的图像上进行双目匹配（下采样图像），在上采样的过程中使用另一个网络进行refine，只需要对部分像素进行refine，是不是能提速？</p>
+<h2 id="ii.-a-decomposition-model-for-stereo-matching1">II. <strong>A
+Decomposition Model for Stereo Matching</strong>[1]</h2>
+<p>​
+加速了。作者能加速10-100倍，并且把复杂度降得很低，使用的思想我之前思考过，但是我之前并不知道怎么做，只是有个类似的想法：</p>
+<div class="note primary"><p>​
+如果我只需要在一个较小的图像上进行双目匹配（下采样图像），在上采样的过程中使用另一个网络进行refine，只需要对部分像素进行refine，是不是能提速？</p>
 </div>
-<p>​ 产生这个想法的原因很简单，之前在尝试孙剑老师的“上古”论文（BP）时，对于无纹理区域的匹配效果不太好。大面积无纹理区域在下采样图像中就应该被解决。</p>
+<p>​
+产生这个想法的原因很简单，之前在尝试孙剑老师的“上古”论文（BP）时，对于无纹理区域的匹配效果不太好。大面积无纹理区域在下采样图像中就应该被解决。</p>
 <h3 id="主要思想">2.1 主要思想</h3>
 <p>​ 首先把网络总结构放一下：</p>
 <p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/arch.PNG"></p>
 <center>
 Figure 2. Decomposition model 网络架构
 </center>
-<p>​ 读完还是觉得这篇文章里有些<strong><u>很魔法</u></strong>的东西，但是也有很不错的思想。文章的方法主要可以分为以下四步：</p>
+<p>​
+读完还是觉得这篇文章里有些<strong><u>很魔法</u></strong>的东西，但是也有很不错的思想。文章的方法主要可以分为以下四步：</p>
 <div class="note danger"><ol type="1">
-<li>最底层使用full cost volume（可以认为是双目匹配里面的内存暴力法）以及cost regularization（文中使用了一个如Figure 3所示的网络，对cost volume又重新映射了一边）。文章称cost regularization的作用是“rectify cost volume”，但是我半天没看明白这和rectify的关系（双目就有rectification操作，难不成是用Conv3d做了一个深度rectification？）。在这样固定大小的左右视图上进行full cost volume匹配的开销是完全可以接受的。</li>
+<li>最底层使用full cost
+volume（可以认为是双目匹配里面的内存暴力法）以及cost
+regularization（文中使用了一个如Figure 3所示的网络，对cost
+volume又重新映射了一边）。文章称cost regularization的作用是“rectify cost
+volume”，但是我半天没看明白这和rectify的关系（双目就有rectification操作，难不成是用Conv3d做了一个深度rectification？）。在这样固定大小的左右视图上进行full
+cost volume匹配的开销是完全可以接受的。</li>
 </ol>
 </div>
 <div class="note warning"><ol start="2" type="1">
@@ -363,14 +377,17 @@ Figure 2. Decomposition model 网络架构
 </ol>
 </div>
 <div class="note info"><ol start="3" type="1">
-<li>稀疏匹配。既然在上一步操作中，我们已经清楚有些地方就是没有匹配好，那么这一步我可以对那些没有匹配好的【损失细节】进行稀疏的匹配。由于稀疏匹配对应的特征们分布不规则并且大小不固定，使用cost volume搜索对应的方法是不好的。论文使用了一种agreement思想，使用cross correlation（相当于找到最大“卷积”响应点），转换结果为softmax，再求期望，这个想法不错。</li>
+<li>稀疏匹配。既然在上一步操作中，我们已经清楚有些地方就是没有匹配好，那么这一步我可以对那些没有匹配好的【损失细节】进行稀疏的匹配。由于稀疏匹配对应的特征们分布不规则并且大小不固定，使用cost
+volume搜索对应的方法是不好的。论文使用了一种agreement思想，使用cross
+correlation（相当于找到最大“卷积”响应点），转换结果为softmax，再求期望，这个想法不错。</li>
 </ol>
 </div>
 <div class="note success"><ol start="4" type="1">
 <li>视差融合。也就是稀疏视差图融合到稠密视差图上的操作。这个操作又分为两步：</li>
 </ol>
 <ul>
-<li>视差图上采样。要把上一层视差金字塔的结果用上我总要上采样吧，但是做固定上采样不好玩，我们来搞一个CARAFE[2] ，一种更骚的上采样方法，具有【content-aware】能力，很玄乎吧，这个还好。最玄乎的是它做了一个大concatenation（我很讨厌无端的concat操作，把不相关的信息拼接在一起会让信息失去其原有的物理意义，这是个人粗浅的见解，会在稍后进行说明），对concat的结果进行了几次卷积，得到一个mask（也就是content-aware的权重），通过这个pixel-wise的权重将上一层上采样视差和本层融合。</li>
+<li>视差图上采样。要把上一层视差金字塔的结果用上我总要上采样吧，但是做固定上采样不好玩，我们来搞一个CARAFE[2]
+，一种更骚的上采样方法，具有【content-aware】能力，很玄乎吧，这个还好。最玄乎的是它做了一个大concatenation（我很讨厌无端的concat操作，把不相关的信息拼接在一起会让信息失去其原有的物理意义，这是个人粗浅的见解，会在稍后进行说明），对concat的结果进行了几次卷积，得到一个mask（也就是content-aware的权重），通过这个pixel-wise的权重将上一层上采样视差和本层融合。</li>
 </ul>
 </div>
 <p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/conv3d.PNG"></p>
@@ -378,65 +395,101 @@ Figure 2. Decomposition model 网络架构
 Figure 3. cost regularization
 </center>
 <h3 id="gradient-flow">2.2 Gradient Flow</h3>
-<p>​ 我们需要考虑梯度流的问题，也就是说：我到底需要优化谁？我的loss最终作用在哪些单元？在没有看附录之前，就应该思考这样的问题。</p>
-<p>​ 首先我们发现，这篇文章不是pixel2pixel的匹配，而是特征到特征的匹配（可能深度学习上了就是这样的），特征提取在文章中说的是：</p>
+<p>​
+我们需要考虑梯度流的问题，也就是说：我到底需要优化谁？我的loss最终作用在哪些单元？在没有看附录之前，就应该思考这样的问题。</p>
+<p>​
+首先我们发现，这篇文章不是pixel2pixel的匹配，而是特征到特征的匹配（可能深度学习上了就是这样的），特征提取在文章中说的是：</p>
 <blockquote>
-<p>As shown in Figure 2, we first use <strong><u>U-Net</u></strong> to obtain deep features Fl on each level l for the stereo matching.</p>
+<p>As shown in Figure 2, we first use <strong><u>U-Net</u></strong> to
+obtain deep features Fl on each level l for the stereo matching.</p>
 </blockquote>
-<p>​ 我当时反应了一下，之前读过一篇做风格迁移的文章（对应博客<a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer论文复现/">【CNN Style Transfer论文复现】</a>，截止到9.5我都还没有填坑），文章直接使用了一个预训练好的VGG-19，固定参数不优化，提取特征。本文是这样吗？并不是，特征提取网络是需要进行优化的。那么与loss直接相关的待优化参数最后除了特征提取网络之外，还有什么吗？</p>
+<p>​ 我当时反应了一下，之前读过一篇做风格迁移的文章（对应博客<a href="https://enigmatisms.github.io/2021/04/21/CNN-Style-Transfer论文复现/">【CNN
+Style
+Transfer论文复现】</a>，截止到9.5我都还没有填坑），文章直接使用了一个预训练好的VGG-19，固定参数不优化，提取特征。本文是这样吗？并不是，特征提取网络是需要进行优化的。那么与loss直接相关的待优化参数最后除了特征提取网络之外，还有什么吗？</p>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part1.PNG"></th>
 <th style="text-align: center;"><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/part2.PNG"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">步骤II</td>
 <td style="text-align: center;">步骤I</td>
 </tr>
 </tbody>
 </table>
-<p>​ 这两个步骤虽然在网络中，但是其参数并不直接根据整个架构对应的输出以及loss进行优化。毕竟：</p>
+<p>​
+这两个步骤虽然在网络中，但是其参数并不直接根据整个架构对应的输出以及loss进行优化。毕竟：</p>
 <ul>
 <li>步骤II对应的操作是自监督的，应该完全可以独立训练</li>
-<li>步骤I也是可以独立的（看实现），假如使用的方法是独立于输入的传统cost volume法，那完全可以。否则的话可能会收到U-Net输出的影响，内部的参数也需要参与优化。</li>
+<li>步骤I也是可以独立的（看实现），假如使用的方法是独立于输入的传统cost
+volume法，那完全可以。否则的话可能会收到U-Net输出的影响，内部的参数也需要参与优化。</li>
 </ul>
 <p>​ 在附录中，作者主要讨论的是U-Net生成的特征图作为自变量时的求导。</p>
 <h3 id="一些问题">2.3 一些问题</h3>
 <h4 id="detailed-loss-detection">2.3.1 Detailed Loss Detection</h4>
-<p>​ 无监督的loss听起来很棒，但是我总感觉作者用学习的方式解决了一个NP-hard的问题（应该是NP-hard），我甚至有点怀疑可行性（虽然我在RM灯条检测里面也这么干过）。</p>
-<p>​ 如果需要人工标注lost detail mask的话，那工作量太大了，作者希望使用这样一个无监督loss，使得两个集合的差异最大：<strong><u>属于lost detail的特征点集合（A） 与 不属于前一个集合的特征点集合（B）</u></strong>（是一个覆盖）</p>
-<p>​ 差异体现在：集合A的平均特征误差应该较大（低精度上采样后无法恢复的区域），集合B的平均特征误差小。那么作者使用了这个loss： <span class="math display">\[
+<p>​
+无监督的loss听起来很棒，但是我总感觉作者用学习的方式解决了一个NP-hard的问题（应该是NP-hard），我甚至有点怀疑可行性（虽然我在RM灯条检测里面也这么干过）。</p>
+<p>​ 如果需要人工标注lost detail
+mask的话，那工作量太大了，作者希望使用这样一个无监督loss，使得两个集合的差异最大：<strong><u>属于lost
+detail的特征点集合（A） 与
+不属于前一个集合的特征点集合（B）</u></strong>（是一个覆盖）</p>
+<p>​
+差异体现在：集合A的平均特征误差应该较大（低精度上采样后无法恢复的区域），集合B的平均特征误差小。那么作者使用了这个loss：
+<span class="math display">\[
 \begin{equation}\label{dld}
-\mathcal{L}^{DLD}=|FA_l|-\alpha\frac{\sum_{(h,w)\in FA_l}\Vert F_l(h, w)-F_{l-1}&#39;(h,w)\Vert_2}{\vert FA_l \vert}
+\mathcal{L}^{DLD}=|FA_l|-\alpha\frac{\sum_{(h,w)\in FA_l}\Vert F_l(h,
+w)-F_{l-1}&#39;(h,w)\Vert_2}{\vert FA_l \vert}
 \end{equation}
-\]</span> ​ 其中<span class="math inline">\(FA_l\)</span>为特征金字塔第l层的fine-grained（细粒度）特征，<span class="math inline">\(F_{l-1}&#39;\)</span>则是上采样的上一层特征。这个式子非常容易理解，但是... 从一个集合中挑选一个子集使得对于这个集合和子集定义的某个损失最小，感觉就是一个NP-hard的问题，毕竟暴力穷举之外貌似没有别的方法。并且，在这里优化问题遇到的是 <u><strong>分支的处理</strong></u>，我优化的是一个决策？（应不应该认为这个特征属于<span class="math inline">\(FA_l\)</span>），我记得好像TF由于是静态图的缘故不方便设置分支？另一方面，我又觉得解决方案可能类似分类问题，输出是模拟的，但是计算cross entropy loss的时候转换成了long型（硬的）的index。</p>
+\]</span> ​ 其中<span class="math inline">\(FA_l\)</span>为特征金字塔第l层的fine-grained（细粒度）特征，<span class="math inline">\(F_{l-1}&#39;\)</span>则是上采样的上一层特征。这个式子非常容易理解，但是...
+从一个集合中挑选一个子集使得对于这个集合和子集定义的某个损失最小，感觉就是一个NP-hard的问题，毕竟暴力穷举之外貌似没有别的方法。并且，在这里优化问题遇到的是
+<u><strong>分支的处理</strong></u>，我优化的是一个决策？（应不应该认为这个特征属于<span class="math inline">\(FA_l\)</span>），我记得好像TF由于是静态图的缘故不方便设置分支？另一方面，我又觉得解决方案可能类似分类问题，输出是模拟的，但是计算cross
+entropy loss的时候转换成了long型（硬的）的index。</p>
 <h4 id="sparse-matching">2.3.2 Sparse Matching</h4>
-<p>​ 这个想法我觉得还挺不错的。我得到左右视图的lost details，现在要进行匹配了。由于occlusion存在一定一致性（并且由于存在对极约束），还是可以将lost details在一个方向左右滑动。那么对于这样的：两个信号滑动求最大匹配的问题，显然可以使用cross correlation。作者由此产生了一个三维空间的概率volume（注意不是分布，因为这是按照第三个维度也就是disparity归一化的）。 <span class="math display">\[
+<p>​ 这个想法我觉得还挺不错的。我得到左右视图的lost
+details，现在要进行匹配了。由于occlusion存在一定一致性（并且由于存在对极约束），还是可以将lost
+details在一个方向左右滑动。那么对于这样的：两个信号滑动求最大匹配的问题，显然可以使用cross
+correlation。作者由此产生了一个三维空间的概率volume（注意不是分布，因为这是按照第三个维度也就是disparity归一化的）。
+<span class="math display">\[
 \begin{align}
-&amp; P_l(h,w,d)=\frac{e^{C_l(h,w,d)-C_l^{max}(h,w)}}{\sum_{d=0}e^{C_l(h,w,d)-C_l^{max}(h,w)}}\\
-&amp; C_l(h,w,d)=\text{cross correlation}(F_{\text{left}}(h,w),F_{\text{right}}(h,w-d))\\
+&amp;
+P_l(h,w,d)=\frac{e^{C_l(h,w,d)-C_l^{max}(h,w)}}{\sum_{d=0}e^{C_l(h,w,d)-C_l^{max}(h,w)}}\\
+&amp; C_l(h,w,d)=\text{cross
+correlation}(F_{\text{left}}(h,w),F_{\text{right}}(h,w-d))\\
 &amp; C_l^{max}(h,w)=\max_d C_l(h,w,d)
 \end{align}
-\]</span> ​ 最后，每个稀疏点的视差就由期望决定了（作者为什么把这个叫做regress？） <span class="math display">\[
+\]</span> ​
+最后，每个稀疏点的视差就由期望决定了（作者为什么把这个叫做regress？）
+<span class="math display">\[
 \begin{equation}\label{reg}
 \hat{D}_l(h,w)=\sum_{d=0}P_l(h,w,d)\times d
 \end{equation}
 \]</span></p>
 <h4 id="supervised-loss">2.3.3 Supervised Loss</h4>
-<p>​ 简单地提一下论文使用的有监督loss。无监督loss在lost detail detection阶段使用了，用于判定哪些是丢失细节，见公式<span class="math inline">\(\eqref{dld}\)</span>。而计算视差图的过程中，我们有特征提取网络，Fusion网络，底层full cost volume对应的网络需要训练，这些都是基于disparity真值训练的。</p>
-<p>​ 多层的disparity就需要用到多层的真值，那么多层真值可以使用降采样来得到。然后作者使用了一系列的smooth L1 Loss。好玄乎哦，实际上就是Huber Loss。</p>
+<p>​ 简单地提一下论文使用的有监督loss。无监督loss在lost detail
+detection阶段使用了，用于判定哪些是丢失细节，见公式<span class="math inline">\(\eqref{dld}\)</span>。而计算视差图的过程中，我们有特征提取网络，Fusion网络，底层full
+cost volume对应的网络需要训练，这些都是基于disparity真值训练的。</p>
+<p>​
+多层的disparity就需要用到多层的真值，那么多层真值可以使用降采样来得到。然后作者使用了一系列的smooth
+L1 Loss。好玄乎哦，实际上就是Huber Loss。</p>
 <hr>
-<h2 id="iii.-smd-nets-stereo-mixture-density-networks3">III. SMD-Nets: Stereo Mixture Density Networks[3]</h2>
-<p>​ 个人认为这篇文章没有那么魔法，读起来觉得还挺有道理的。最主要的思想就是：使用双模态描述结果。之前读的对比学习相关的文章，里面就提到过不同的模态数的优缺点：</p>
+<h2 id="iii.-smd-nets-stereo-mixture-density-networks3">III. SMD-Nets:
+Stereo Mixture Density Networks[3]</h2>
+<p>​
+个人认为这篇文章没有那么魔法，读起来觉得还挺有道理的。最主要的思想就是：使用双模态描述结果。之前读的对比学习相关的文章，里面就提到过不同的模态数的优缺点：</p>
 <ul>
 <li>单模态：计算十分方便，建模简单，并且也具有广泛的应用范围，但表征能力有限。</li>
 <li>完全生成式模型（终极多模态）：表征能力极其强，但是计算量一般都很大（比如对抗网络）</li>
 <li>模态数少一些的多模表征：折衷。</li>
 </ul>
-<p>​ 本文使用双模态描述前景和背景，并且网络结构 / 输入不那么魔法，也具有一定的超分辨率能力（虽然感觉方法有点普通？）。</p>
+<p>​ 本文使用双模态描述前景和背景，并且网络结构 /
+输入不那么魔法，也具有一定的超分辨率能力（虽然感觉方法有点普通？）。</p>
 <p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/smd.PNG"></p>
 <center>
 Figure 4. SMD-Nets的网络结构
@@ -445,7 +498,8 @@ Figure 4. SMD-Nets的网络结构
 <p>​ 主要可以分为以下三步：</p>
 <p><span id="quest"></span></p>
 <div class="note danger"><ol type="1">
-<li>前端使用了一个经典的双目视觉网络作为骨架，用于提取特征。就如Figure 4最左边，先下采样再上采样的典型结构（常用于Semantic/Detection/Mono/Stereo）。我不是特别了解这个网络提取出来的特征是否与原输入图像保持了空间一致性，虽然卷积可能可以做到这一点，但具体是如何保证的【一个特定区域】对应的【特征图元素】一定在特征图对应的位置上？而且看起来，深度学习的引入产生了很多特征-特征匹配的方法。</li>
+<li>前端使用了一个经典的双目视觉网络作为骨架，用于提取特征。就如Figure
+4最左边，先下采样再上采样的典型结构（常用于Semantic/Detection/Mono/Stereo）。我不是特别了解这个网络提取出来的特征是否与原输入图像保持了空间一致性，虽然卷积可能可以做到这一点，但具体是如何保证的【一个特定区域】对应的【特征图元素】一定在特征图对应的位置上？而且看起来，深度学习的引入产生了很多特征-特征匹配的方法。</li>
 </ol>
 </div>
 <p></p>
@@ -462,12 +516,14 @@ Figure 4. SMD-Nets的网络结构
 </ol>
 </div>
 <h3 id="some-points">3.2 Some points</h3>
-<p>​ 这篇论文我倒是没有什么特别想说的，感觉想法倒是挺简单的（简单不代表我能一下想到）。虽然我个人存在一些疑问，感觉作者也没有解释清楚（要怪就怪神经网络不可解释？）：</p>
+<p>​
+这篇论文我倒是没有什么特别想说的，感觉想法倒是挺简单的（简单不代表我能一下想到）。虽然我个人存在一些疑问，感觉作者也没有解释清楚（要怪就怪神经网络不可解释？）：</p>
 <ul>
 <li>前景(foreground)与背景(background)的区别在哪？disparity明显很大的叫foreground（虽然我感觉作者就是叫着玩的）？作者更被没有说两个mode的生成方式有何不同。为什么能恰好产生这种，在关键区域有互补性的两个模态呢？又为什么只使用两个模态呢？</li>
 <li>当然，这确实可以用不可解释性来说。毕竟像<span class="math inline">\(\pi\)</span>这种学出来的东西，真的就说不清楚其深层次的原理...</li>
 </ul>
-<p>​ 另外，我不知道别的网络是否进行稠密的训练，本文中，网络并不进行稠密的disparity训练（可以说是半稠密？）。首先对生成好的特征图进行采样，对采样得到的（稍微稀疏一些）点进行训练。由于作者需要更多地聚焦于边缘点的处理，所以作者使用了一种不同的采样方法：</p>
+<p>​
+另外，我不知道别的网络是否进行稠密的训练，本文中，网络并不进行稠密的disparity训练（可以说是半稠密？）。首先对生成好的特征图进行采样，对采样得到的（稍微稀疏一些）点进行训练。由于作者需要更多地聚焦于边缘点的处理，所以作者使用了一种不同的采样方法：</p>
 <ul>
 <li>生成边缘点mask，具体的方式也就是：首先检测深度不连续点（根据4-连通性），对检测结果进行膨胀
 <ul>
@@ -475,22 +531,27 @@ Figure 4. SMD-Nets的网络结构
 </ul></li>
 <li>在全图的非边缘点区域进行均匀的采样，采样得到另一半样本。</li>
 </ul>
-<p>​ 整个框架是有监督的，并且没有金字塔结构。其使用的backbone模型，PSM内部也是有一个大的cost volume的。</p>
+<p>​
+整个框架是有监督的，并且没有金字塔结构。其使用的backbone模型，PSM内部也是有一个大的cost
+volume的。</p>
 <hr>
 <h2 id="iv.-dl立体匹配">IV. DL立体匹配</h2>
-<p>​ 深度学习用在立体匹配中？知道能用，但是具体的实现是什么样的呢？基于特征向量的匹配的流程具体是什么呢？完全不知道了。所以我在这里补充一篇综述性论文[4]，帮自己补一补领域知识。只不过，这篇文章包含了很多方法，我在此只讨论基础的DL-based方法。</p>
+<p>​
+深度学习用在立体匹配中？知道能用，但是具体的实现是什么样的呢？基于特征向量的匹配的流程具体是什么呢？完全不知道了。所以我在这里补充一篇综述性论文[4]，帮自己补一补领域知识。只不过，这篇文章包含了很多方法，我在此只讨论基础的DL-based方法。</p>
 <h3 id="pipeline">4.1 Pipeline</h3>
 <p>​ 主要流程仍然大体相同：</p>
 <p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/flow.PNG"></p>
 <center>
 Figure 5. 双目配准网络一般的流程
 </center>
-<p>​ 那么典型的几个网络结构，论文也贴心地列了出来（这篇论文真的很适合入门了解行业啊）：</p>
+<p>​
+那么典型的几个网络结构，论文也贴心地列了出来（这篇论文真的很适合入门了解行业啊）：</p>
 <p><img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/nets.PNG"></p>
 <center>
 Figure 6. 双目配准网络的一些典型结构
 </center>
-<p>​ 视差图生成网络的训练输入可以通过采样而来，也可以通过直接卷积而来。</p>
+<p>​
+视差图生成网络的训练输入可以通过采样而来，也可以通过直接卷积而来。</p>
 <ul>
 <li>采样的方法是：在输入图像中均匀“播撒”一些点（对应于一种稀疏的训练方式），切取点以及其领域的信息作为对应视图的输入。如果是有监督的结构，那么就在另一个视图中查找：
 <ul>
@@ -500,17 +561,29 @@ Figure 6. 双目配准网络的一些典型结构
 <li>直接卷积：每个点对应的卷积输出就已经是特征了。但是这种方法如何保证左右特征一致？一种简单的想法就是直接共用完全相同的encoder（孪生网络）。</li>
 <li>当然也可以直接跳过特征描述，直接端到端生成一个cost出来</li>
 </ul>
-<p>​ 这种基于DL特征的描述，实际上是对人工描述子的升级，卷积操作对每个点都会有个特异的表征输出，假设我们的卷积就是奇数大小的kernel并且以其中心为anchor，那么在(x,y)位置的卷积显然就会得到以(x,y)为中心的领域特征描述，能保证<a href="#quest">[3.1中(1)里提出问题的解决]</a>。这一环节，我们的目的不是只得到特征（然后神奇海螺：什么也不做），而是使用特征来衡量两个像素位置是否存在关系，比如使用L1或者L2距离来判定特征的相似度，越相似说明两个位置匹配度越高。</p>
-<p>​ 根据loss函数可以计算出一个cost volume，为了方便起见，我只讨论3D cost volume。3D cost volume每一个(x, y)位置都对应了一串可能匹配的cost，我们需要根据我们选定的策略来计算一个最好的disparity。方法有很多。我确实是开了眼了，学到了，见下一小节。</p>
+<p>​
+这种基于DL特征的描述，实际上是对人工描述子的升级，卷积操作对每个点都会有个特异的表征输出，假设我们的卷积就是奇数大小的kernel并且以其中心为anchor，那么在(x,y)位置的卷积显然就会得到以(x,y)为中心的领域特征描述，能保证<a href="#quest">[3.1中(1)里提出问题的解决]</a>。这一环节，我们的目的不是只得到特征（然后神奇海螺：什么也不做），而是使用特征来衡量两个像素位置是否存在关系，比如使用L1或者L2距离来判定特征的相似度，越相似说明两个位置匹配度越高。</p>
+<p>​ 根据loss函数可以计算出一个cost volume，为了方便起见，我只讨论3D cost
+volume。3D cost volume每一个(x,
+y)位置都对应了一串可能匹配的cost，我们需要根据我们选定的策略来计算一个最好的disparity。方法有很多。我确实是开了眼了，学到了，见下一小节。</p>
 <h3 id="cost-volume-regularization">4.2 Cost Volume Regularization</h3>
-<p>​ 有了cost volume之后，紧接着就要进行<strong><u>cost volume regularization</u></strong>。但是这是个什么操作，与regularization又是什么关系？</p>
-<p>​ 我们知道，正则化（regularization）在深度学习中是被用来防止过拟合的，因为引入正则化惩罚之后，原本起伏不平的超平面，会变得平滑。这是因为正则化项要么限制了描述超平面的参数个数，要么限制了其取值，使之描述力下降（不那么活跃）。也就可以认为，正则化项<span class="math inline">\(\approx\)</span>平滑项。</p>
-<p>​ 巧了，双目视觉通常也有平滑项（虽然我感觉SMD-Nets一定程度上在鄙视平滑假设）。我们希望网络的输出不要那么起伏不平的，一个深度差不多的平面就不要因为噪声而有太大的小范围波动了吧。所以需要施加平滑项，当然还存在一些其他的约束项，比如：</p>
+<p>​ 有了cost volume之后，紧接着就要进行<strong><u>cost volume
+regularization</u></strong>。但是这是个什么操作，与regularization又是什么关系？</p>
+<p>​
+我们知道，正则化（regularization）在深度学习中是被用来防止过拟合的，因为引入正则化惩罚之后，原本起伏不平的超平面，会变得平滑。这是因为正则化项要么限制了描述超平面的参数个数，要么限制了其取值，使之描述力下降（不那么活跃）。也就可以认为，正则化项<span class="math inline">\(\approx\)</span>平滑项。</p>
+<p>​
+巧了，双目视觉通常也有平滑项（虽然我感觉SMD-Nets一定程度上在鄙视平滑假设）。我们希望网络的输出不要那么起伏不平的，一个深度差不多的平面就不要因为噪声而有太大的小范围波动了吧。所以需要施加平滑项，当然还存在一些其他的约束项，比如：</p>
 <ul>
-<li>(x, y)已知与(x+d, y)完美配上了，那么(x+1, y) 对应的视差必定不可能小于d-1（右视图匹配不交叉）</li>
+<li>(x, y)已知与(x+d, y)完美配上了，那么(x+1, y)
+对应的视差必定不可能小于d-1（右视图匹配不交叉）</li>
 <li>保证深度不连续边缘锐利性的一些约束项</li>
 </ul>
-<p>​ 那么施加约束项/平滑项就是在做正则化！目的就是优化输出图像，所以叫regularization。一般来说，cost volume regularization伴随最终视差图的产生，这是因为regularization之后，full cost就求出来了啊。当然是选full cost最小的。故可以将cost volume regularization看作是视差图求解。</p>
+<p>​
+那么施加约束项/平滑项就是在做正则化！目的就是优化输出图像，所以叫regularization。一般来说，cost
+volume
+regularization伴随最终视差图的产生，这是因为regularization之后，full
+cost就求出来了啊。当然是选full cost最小的。故可以将cost volume
+regularization看作是视差图求解。</p>
 <p>​ <img src="/2021/09/04/%E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%A4%E7%AF%87%E5%8F%8C%E7%9B%AE%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87/agg.PNG"></p>
 <center>
 Figure 7. 最终disparity的计算
@@ -524,10 +597,18 @@ Figure 7. 最终disparity的计算
 </ul>
 <hr>
 <h2 id="reference">Reference</h2>
-<p>[1] Yao C, Jia Y, Di H, et al. A Decomposition Model for Stereo Matching[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 6091-6100.</p>
-<p>[2] Wang. Carafe: Content-aware reassembly of features. In Proceedings of the IEEE International Conference on Computer Vision (ICCV), 2019</p>
-<p>[3] Tosi F, Liao Y, Schmitt C, et al. SMD-Nets: Stereo Mixture Density Networks[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 8942-8952.</p>
-<p>[4] Laga H, Jospin L V, Boussaid F, et al. A survey on deep learning techniques for stereo-based depth estimation[J]. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2020.</p>
+<p>[1] Yao C, Jia Y, Di H, et al. A Decomposition Model for Stereo
+Matching[C]//Proceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition. 2021: 6091-6100.</p>
+<p>[2] Wang. Carafe: Content-aware reassembly of features. In
+Proceedings of the IEEE International Conference on Computer Vision
+(ICCV), 2019</p>
+<p>[3] Tosi F, Liao Y, Schmitt C, et al. SMD-Nets: Stereo Mixture
+Density Networks[C]//Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition. 2021: 8942-8952.</p>
+<p>[4] Laga H, Jospin L V, Boussaid F, et al. A survey on deep learning
+techniques for stereo-based depth estimation[J]. IEEE Transactions on
+Pattern Analysis and Machine Intelligence, 2020.</p>
 
     </div>
 

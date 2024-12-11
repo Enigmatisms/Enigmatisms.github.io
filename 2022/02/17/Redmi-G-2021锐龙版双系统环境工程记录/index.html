@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="AMD Yes!  新电脑 Redmi G 2021 Ryzen7 版装双系统 （win11 + ubuntu 18.04 LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD yes没有任何关系。">
+  <meta name="description" content="AMD Yes!  新电脑 Redmi G 2021 Ryzen7 版装双系统 （win11 + ubuntu 18.04 LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD yes没有任何关系">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Redmi G 2021锐龙版双系统环境工程记录">
 <meta property="og:url" content="https://enigmatisms.github.io/2022/02/17/Redmi-G-2021%E9%94%90%E9%BE%99%E7%89%88%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="AMD Yes!  新电脑 Redmi G 2021 Ryzen7 版装双系统 （win11 + ubuntu 18.04 LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD yes没有任何关系。">
+<meta property="og:description" content="AMD Yes!  新电脑 Redmi G 2021 Ryzen7 版装双系统 （win11 + ubuntu 18.04 LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD yes没有任何关系">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-17T07:14:40.000Z">
 <meta property="article:modified_time" content="2022-02-17T07:17:50.067Z">
@@ -106,7 +106,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -321,45 +321,67 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="amd-yes">AMD Yes!</h1>
 <hr>
-<p>新电脑 Redmi G 2021 Ryzen7 版装<strong><u>双系统</u></strong> （win11 + ubuntu 18.04 LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD yes没有任何关系。</p>
+<p>新电脑 Redmi G 2021 Ryzen7 版装<strong><u>双系统</u></strong> （win11
++ ubuntu 18.04
+LTS）过程中遇到了一些问题，以后如果要换设备大概率还得再来一遍，本篇权当记录。不过说实话，从本篇字数来看，应该算得上一篇正规post而不是snippet了。这确实也与snippet板块的设置理念相悖，不过可能我就是那么啰嗦吧。PS：本文与AMD
+yes没有任何关系。</p>
 <span id="more"></span>
 <hr>
 <h2 id="flann找不到">FLANN找不到</h2>
-<p>​ 使用<code>flann</code>库时，在<code>CMakeLists</code>中是需要<code>find_package</code>操作的，但<code>flann</code>如何找？</p>
+<p>​
+使用<code>flann</code>库时，在<code>CMakeLists</code>中是需要<code>find_package</code>操作的，但<code>flann</code>如何找？</p>
 <p>​ 首先如果我们一波：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;flann仓库地址，这里不写，随便找都能找到&gt;</span><br><span class="line">cd flann/; mkdir build; cd build/</span><br><span class="line">cmake ..; make -j</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-<p>​ 安装<code>flann</code>库，虽然<code>flann</code>会被成功安装到<code>/usr/local/include</code>下（如果没有指定安装路径就会到这个地方），但其<code>.cmake</code>配置文件对CMake而言是不可见的，首先（1）<code>make install</code>没有自己复制<code>.cmake</code>文件，并且（2）<code>locate</code>也是没能找到<code>.cmake</code>文件（不知道为什么）</p>
+<p>​
+安装<code>flann</code>库，虽然<code>flann</code>会被成功安装到<code>/usr/local/include</code>下（如果没有指定安装路径就会到这个地方），但其<code>.cmake</code>配置文件对CMake而言是不可见的，首先（1）<code>make install</code>没有自己复制<code>.cmake</code>文件，并且（2）<code>locate</code>也是没能找到<code>.cmake</code>文件（不知道为什么）</p>
 <p>​ 最后的解决方案有两个:</p>
 <ul>
 <li>可以在<code>flann</code>库下的<code>cmake</code>文件夹下找到<code>FindFlann.cmake</code>，将其复制到<code>cmake</code>对应的配置文件夹下:</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/cmake-3.10/Modules/</span><br></pre></td></tr></table></figure>
-<p>​ 这个做法很魔法，并且要手动改系统文件（需要管理员权限那种），但一劳永逸。</p>
+<p>​
+这个做法很魔法，并且要手动改系统文件（需要管理员权限那种），但一劳永逸。</p>
 <ul>
-<li>如果有ros（对，我有），那么pcl库中自带<code>flann</code> 只需要指定pcl导入<code>flann</code>即可（CMake配置）</li>
+<li>如果有ros（对，我有），那么pcl库中自带<code>flann</code>
+只需要指定pcl导入<code>flann</code>即可（CMake配置）</li>
 </ul>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(PCL REQUIRED COMPONENTS kdtree)</span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="lz4冲突">LZ4冲突</h2>
-<p>​ 服气。lz4在ROS melodic中有一份实现（lz4.h）相关，在<code>pcl</code>库中又有一份实现（存在<code>/usr/include/flann</code>下）。首先如果CMake要能找到 lz4，就需要使用<code>pkg-config</code>：</p>
+<p>​ 服气。lz4在ROS
+melodic中有一份实现（lz4.h）相关，在<code>pcl</code>库中又有一份实现（存在<code>/usr/include/flann</code>下）。首先如果CMake要能找到
+lz4，就需要使用<code>pkg-config</code>：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(PkgConfig REQUIRED)</span><br><span class="line">pkg_check_modules(LZ4 REQUIRED liblz4)</span><br></pre></td></tr></table></figure>
-<p>​ 如果没有<code>pkg-config</code>，可以使用<code>apt install</code>进行安装。</p>
-<p>​ 发生冲突确实可以使用<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/lidar_align/issues/16#">某个Github issue</a>中提到的方案解决，但是这个方案涉及到修改<code>/usr/include</code>下的头文件，非常不优雅。个人在寒假前遇到过这个问题，当时貌似解决了，但没有记录下来，现在也回忆不起来，只能等回到学校后查看学校电脑了。</p>
+<p>​
+如果没有<code>pkg-config</code>，可以使用<code>apt install</code>进行安装。</p>
+<p>​ 发生冲突确实可以使用<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/lidar_align/issues/16#">某个Github
+issue</a>中提到的方案解决，但是这个方案涉及到修改<code>/usr/include</code>下的头文件，非常不优雅。个人在寒假前遇到过这个问题，当时貌似解决了，但没有记录下来，现在也回忆不起来，只能等回到学校后查看学校电脑了。</p>
 <hr>
 <h2 id="nvidia">Nvidia!!!</h2>
-<p>​ 英伟达真折磨到我了。之前我在<a href="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/">[Nvidia 简单环境工程]</a>中提到如何安装显卡驱动，但事实证明这份教程博客非常不完全。</p>
+<p>​ 英伟达真折磨到我了。之前我在<a href="https://enigmatisms.github.io/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/">[Nvidia
+简单环境工程]</a>中提到如何安装显卡驱动，但事实证明这份教程博客非常不完全。</p>
 <ul>
-<li>我在实验室另一台RTX 3060上安装时遇到了无法安装CUDA 11.3的情况，可能是GPU与对应的460+ driver不适配（我忘了是不是460+了，由于CUDA 11.4对应470.95，个人猜测CUDA 11.3没到470，我也不想花时间去考证）
+<li>我在实验室另一台RTX 3060上安装时遇到了无法安装CUDA
+11.3的情况，可能是GPU与对应的460+
+driver不适配（我忘了是不是460+了，由于CUDA 11.4对应470.95，个人猜测CUDA
+11.3没到470，我也不想花时间去考证）
 <ul>
-<li>不能安装11.3确实有些不方便，英伟达的apex（某个auto mixed precision库）需要CUDA与pytorch版本对上... 但我11.4 + torch(cu113)真就不行，所以一直想卸了11.4装11.3 但都失败，表现在 <strong><u>安装11.3之后</u></strong> 电脑重启会黑屏，卡在登录界面，无论使用recovery还是直接启动都不行，并且在recovery的root权限命令行中使用<code>nvidia-smi</code>可能卡爆电脑。</li>
+<li>不能安装11.3确实有些不方便，英伟达的apex（某个auto mixed
+precision库）需要CUDA与pytorch版本对上... 但我11.4 +
+torch(cu113)真就不行，所以一直想卸了11.4装11.3 但都失败，表现在
+<strong><u>安装11.3之后</u></strong>
+电脑重启会黑屏，卡在登录界面，无论使用recovery还是直接启动都不行，并且在recovery的root权限命令行中使用<code>nvidia-smi</code>可能卡爆电脑。</li>
 </ul></li>
-<li>RTX 3060（for laptop computer）甚至都不能安装CUDA 11.4，表现类似也是黑屏，但是<code>nvidia-smi</code>在recovery root console中正常
+<li>RTX 3060（for laptop computer）甚至都不能安装CUDA
+11.4，表现类似也是黑屏，但是<code>nvidia-smi</code>在recovery root
+console中正常
 <ul>
 <li>使用博客中的<code>sudo apt-get --purge remove nvidia-*</code>并不能完全删除英伟达驱动（之前都是可以的）。执行命令导致<code>0 package to add\delete\update</code>，等于没动，原因不明</li>
 <li>无论怎么删，<code>nvidia-smi</code>都阴魂不散，但如果这样卸载然后安装别的版本CUDA，又不会提示说电脑中已经有一个现有的英伟达驱动而冲突了。</li>
 </ul></li>
 </ul>
-<p>​ 最后一直删不掉，其他指令都无效了，只能重装系统，一天半的工作白干。</p>
+<p>​
+最后一直删不掉，其他指令都无效了，只能重装系统，一天半的工作白干。</p>
 <p>​ 这里值得一提的是：</p>
 <div class="note danger"><p>根本不应该用<code>sudo apt-get --purge remove</code>以及<code>sudo apt autoremove</code>这么暴力而且危险的方式来卸载显卡驱动。</p>
 </div>
@@ -368,51 +390,80 @@
 <li>使用<code>nvdia-uninstall</code>命令可以直接干净卸载（之前我不知道这个）</li>
 <li>使用<code>/usr/local/cuda-x</code>下的脚本<code>cuda-uninstaller.sh</code>可以方便地卸载CUDA</li>
 </ul>
-<p>​ 这两个命令运行起来几乎没有破坏性，在经历了11.3\11.4的失败之后，11.4中我直接用上述命令卸载并重装11.6，干净又卫生。</p>
+<p>​
+这两个命令运行起来几乎没有破坏性，在经历了11.3\11.4的失败之后，11.4中我直接用上述命令卸载并重装11.6，干净又卫生。</p>
 <hr>
 <h2 id="opencv新坑">OpenCV新坑</h2>
-<p>​ OpenCV还是我的必装库。但安装opencv对我来说已经是一件很久没做过的事情了，难免忘掉很多细节。</p>
+<p>​
+OpenCV还是我的必装库。但安装opencv对我来说已经是一件很久没做过的事情了，难免忘掉很多细节。</p>
 <ul>
 <li><p>首先准备好<code>opencv_contrib</code>，里面还是有很多值得安装的拓展内容的</p></li>
-<li><p><strong><u>准备好opencv需要安装的一些库</u></strong>：这部分可以参考 <a target="_blank" rel="noopener" href="https://gist.github.com/raulqf/f42c718a658cddc16f9df07ecc627be7">[raulqf/Install_OpenCV4_CUDA11_CUDNN8.md]</a> 这个Gist。没有这些库是过不了cmake的</p></li>
+<li><p><strong><u>准备好opencv需要安装的一些库</u></strong>：这部分可以参考
+<a target="_blank" rel="noopener" href="https://gist.github.com/raulqf/f42c718a658cddc16f9df07ecc627be7">[raulqf/Install_OpenCV4_CUDA11_CUDNN8.md]</a>
+这个Gist。没有这些库是过不了cmake的</p></li>
 <li><p><code>libEGL.so</code>消失问题：</p></li>
 </ul>
 <blockquote>
-<p>The imported target "QT5::Gui" references the file "/usr/lib/x86_64-linux-gnu/libEGL.so" but this file does not exist.</p>
+<p>The imported target "QT5::Gui" references the file
+"/usr/lib/x86_64-linux-gnu/libEGL.so" but this file does not exist.</p>
 </blockquote>
-<p>​ 很奇怪的一个问题，<code>libEGL.so</code>是可以被locate到的，在ubuntu的文件property中可以看到（直接用GUI查看property），<code>libEGL.so</code>要么是<strong><u>不存在</u></strong>，要么指向了一个不存在的<code>so.x</code>文件（此文件不是真正的静态库，只是一个软链接），这里提醒一下设置软链接的方式，这么久了都忘了：</p>
+<p>​
+很奇怪的一个问题，<code>libEGL.so</code>是可以被locate到的，在ubuntu的文件property中可以看到（直接用GUI查看property），<code>libEGL.so</code>要么是<strong><u>不存在</u></strong>，要么指向了一个不存在的<code>so.x</code>文件（此文件不是真正的静态库，只是一个软链接），这里提醒一下设置软链接的方式，这么久了都忘了：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &lt;source name&gt; &lt;target name&gt;</span><br></pre></td></tr></table></figure>
-<p>​ 此处我们只需要首先<code>locate libEGL.so</code>，发现有很多<code>.so.1.0</code>以及<code>.so.1.0.0</code>之类的文件，或者一些类似的，不在<code>/usr/lib/x86_64-linux-gnu/</code>下的文件，都是可以拿来使用的。创建好对应的软链接，命名为<code>libEGL.so</code>（以及<code>libGL.so</code>因为这个文件也存在相同问题）放在上述目录下即可。</p>
+<p>​
+此处我们只需要首先<code>locate libEGL.so</code>，发现有很多<code>.so.1.0</code>以及<code>.so.1.0.0</code>之类的文件，或者一些类似的，不在<code>/usr/lib/x86_64-linux-gnu/</code>下的文件，都是可以拿来使用的。创建好对应的软链接，命名为<code>libEGL.so</code>（以及<code>libGL.so</code>因为这个文件也存在相同问题）放在上述目录下即可。</p>
 <ul>
-<li>oracle-java 编译opencv java版：我用不到，但是它硬要我这样干。只能下载openjdk。<code>openjdk-default</code>默认版本（当前）11.0.13，但是opencv傻乎乎地要求我安装11.0.4，并且要求我安装<code>oracle-java11-installer-local</code>
+<li>oracle-java 编译opencv
+java版：我用不到，但是它硬要我这样干。只能下载openjdk。<code>openjdk-default</code>默认版本（当前）11.0.13，但是opencv傻乎乎地要求我安装11.0.4，并且要求我安装<code>oracle-java11-installer-local</code>
 <ul>
-<li>但很不幸，openjdk与oracle-java版本对不上，<code>oracle-java11-installer-local</code>不能正常安装，系统需要我把对应11.0.4 <code>oracle-java11-installer-local</code>的deb包放到<code>/var/cache/oracle-java11-installer-local</code>下</li>
+<li>但很不幸，openjdk与oracle-java版本对不上，<code>oracle-java11-installer-local</code>不能正常安装，系统需要我把对应11.0.4
+<code>oracle-java11-installer-local</code>的deb包放到<code>/var/cache/oracle-java11-installer-local</code>下</li>
 <li>我照做的，无误，但是系统就是不认账，一直认为我没有这么做，叔叔我啊，真的要生气了</li>
 <li>一怒之下想绕开<code>oracle-java11-installer-local</code>的安装，但是系统不允许，告诉我：</li>
 </ul></li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 not fully installed or removed.</span><br><span class="line">After this operation, 0 B of additional disk space will be used.</span><br><span class="line">E: Internal Error, No file name for oracle-java11-installer-local:amd64</span><br></pre></td></tr></table></figure>
-<p>​ 这个问题是：装到一半由于一些问题而没装好的包，使得新的dpkg请求没办法完成。那么如何取消这样的 <strong><u> not fully installed or removed</u></strong> 的安装进程呢？</p>
+<p>​
+这个问题是：装到一半由于一些问题而没装好的包，使得新的dpkg请求没办法完成。那么如何取消这样的
+<strong><u> not fully installed or removed</u></strong>
+的安装进程呢？</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --force-depends --purge oracle-java11-installer-local</span><br></pre></td></tr></table></figure>
-<p>​ 对于本问题的 <code>oracle-java11-installer-local</code>，这样即可。</p>
+<p>​ 对于本问题的
+<code>oracle-java11-installer-local</code>，这样即可。</p>
 <hr>
 <h2 id="rtw89-8852ae">RTW89-8852AE</h2>
-<p>​ 额。刚买回电脑来的第三天（开始装ubuntu），装完发现不能联网，十分恶心（显示 <strong><u>No WiFi Adapter Found</u></strong>）。由于win11可以正常联网，网卡硬件端肯定没有问题，推测没有网卡驱动，再一查解决方案后成功解决... 不过在这里，我并不能省略 <strong><u>“一查”</u></strong> 的过程，因为有些命令我是不清楚用法的:</p>
+<p>​
+额。刚买回电脑来的第三天（开始装ubuntu），装完发现不能联网，十分恶心（显示
+<strong><u>No WiFi Adapter
+Found</u></strong>）。由于win11可以正常联网，网卡硬件端肯定没有问题，推测没有网卡驱动，再一查解决方案后成功解决...
+不过在这里，我并不能省略 <strong><u>“一查”</u></strong>
+的过程，因为有些命令我是不清楚用法的:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci			# 用于显示当前主机的所有PCI总线信息</span><br></pre></td></tr></table></figure>
 <p>​ 执行结束后出了一大堆信息，其中有用的就只有：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">02:00.0 Network controller: Realtek Semiconductor Co., Ltd. Device 8852</span><br><span class="line">03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br></pre></td></tr></table></figure>
-<p>​ Ethernet controller一般都是有线网络网卡。实际上有用的就是这一条命令，但搞清楚 <strong><u>就是这一条有用</u></strong> 的过程还是很曲折的。其中还遇到这么一些指令：</p>
+<p>​ Ethernet
+controller一般都是有线网络网卡。实际上有用的就是这一条命令，但搞清楚
+<strong><u>就是这一条有用</u></strong>
+的过程还是很曲折的。其中还遇到这么一些指令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo lshw -class network</span><br></pre></td></tr></table></figure>
 <p>​ 输出如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">*-network                 </span><br><span class="line">     description: Wireless interface</span><br><span class="line">     product: Realtek Semiconductor Co., Ltd.</span><br><span class="line">     vendor: Realtek Semiconductor Co., Ltd.</span><br><span class="line">     physical id: 0</span><br><span class="line">     bus info: pci@0000:02:00.0</span><br><span class="line">     logical name: wlp2s0</span><br><span class="line">     version: 00</span><br><span class="line">     serial: &lt;xxxxxxxxxxxxxxxxxxxx&gt;</span><br><span class="line">     width: 64 bits</span><br><span class="line">     clock: 33MHz</span><br><span class="line">     capabilities: pm msi pciexpress bus_master cap_list ethernet physical wireless</span><br><span class="line">     configuration: broadcast=yes driver=rtw89_pci driverversion=5.4.0-100-generic firmware=N/A ip=&lt;xxxxxxxxxxxxxxxxxxxx&gt; latency=0 link=yes multicast=yes wireless=IEEE 802.11</span><br><span class="line">     resources: irq:85 ioport:3000(size=256) memory:d1800000-d18fffff</span><br><span class="line">*-network</span><br><span class="line">     description: Ethernet interface</span><br><span class="line">     product: RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller</span><br><span class="line">     vendor: Realtek Semiconductor Co., Ltd.</span><br><span class="line">     physical id: 0</span><br><span class="line">     bus info: pci@0000:03:00.0</span><br><span class="line">     logical name: eno1</span><br><span class="line">     version: 15</span><br><span class="line">     serial: &lt;xxxxxxxxxxxxxxxxxxxx&gt;</span><br><span class="line">     capacity: 1Gbit/s</span><br><span class="line">     width: 64 bits</span><br><span class="line">     clock: 33MHz</span><br><span class="line">     capabilities: pm msi pciexpress msix bus_master cap_list ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation</span><br><span class="line">     configuration: autonegotiation=on broadcast=yes driver=r8169 firmware=rtl8168h-2_0.0.2 02/26/15 latency=0 link=no multicast=yes port=MII</span><br><span class="line">     resources: irq:24 ioport:2000(size=256) memory:&lt;xxxxxxxxxxxxxxxxxxxx&gt; memory:&lt;xxxxxxxxxxxxxxxxxxxx&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>​ 隐去了一些重要信息。在没有安装8852对应的网卡驱动前，第一项（第一个<code>*-network</code>，每一项表示一个网络控制设备）显示的是 <strong><u>unmanaged</u></strong>。此外还有一个命令（多了我也没记住）：</p>
+<p>​
+隐去了一些重要信息。在没有安装8852对应的网卡驱动前，第一项（第一个<code>*-network</code>，每一项表示一个网络控制设备）显示的是
+<strong><u>unmanaged</u></strong>。此外还有一个命令（多了我也没记住）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br></pre></td></tr></table></figure>
 <p>​ 这是什么？常用的是<code>ifconfig</code>，区别主要在于：</p>
 <blockquote>
-<p>iwconfig is similar to ifconfig, but is dedicated to wireless networking interfaces.[1]</p>
+<p>iwconfig is similar to ifconfig, but is dedicated to wireless
+networking interfaces.[1]</p>
 </blockquote>
-<p>​ 好，那么在<code>lspci</code>之后，我已经知道了Realtek 8852网络控制器这个型号，接下来就是查找网卡驱动了，此处忽略google的过程，找到了Github库：<a target="_blank" rel="noopener" href="https://github.com/lwfinger/rtw89">[Github: lwfinger/rtw89]</a>，直接编译安装就可以使用！</p>
-<p>​ 但是在安装前一定要注意，Redmi G 2021 默认是打开了secure boot的（我一开始还被蒙在鼓里），secure boot的情况一定要按照repo中README的指示安装，否则就会不成功。我直接取消了secure boot，直接安装成功。</p>
+<p>​ 好，那么在<code>lspci</code>之后，我已经知道了Realtek
+8852网络控制器这个型号，接下来就是查找网卡驱动了，此处忽略google的过程，找到了Github库：<a target="_blank" rel="noopener" href="https://github.com/lwfinger/rtw89">[Github:
+lwfinger/rtw89]</a>，直接编译安装就可以使用！</p>
+<p>​ 但是在安装前一定要注意，Redmi G 2021 默认是打开了secure
+boot的（我一开始还被蒙在鼓里），secure
+boot的情况一定要按照repo中README的指示安装，否则就会不成功。我直接取消了secure
+boot，直接安装成功。</p>
 <hr>
 <h2 id="reference">Reference</h2>
 <p>[1] <a target="_blank" rel="noopener" href="https://wiki.debian.org/iwconfig">Debian/iwconfig</a></p>

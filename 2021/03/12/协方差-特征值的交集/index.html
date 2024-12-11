@@ -110,7 +110,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -346,7 +346,10 @@ A\pmb{x}=\lambda\pmb{x}\\
 (I-\lambda A)\pmb{x}=\pmb{0}
 \end{array}
 \end{equation}
-\]</span> ​ 以上两个式子定义实际是同一个意思，只不过写法不同。如何理解特征（eigen）量呢？对于特征向量<span class="math inline">\(\pmb{x}\)</span>，在矩阵A的映射下（线性变换），会导致<span class="math inline">\(\pmb{x}\)</span>的方向完全不变（可能反向）。而另一方面，空间变换与矩阵运算的联系也有着紧密的联系，比如3 * 3矩阵就能完全表征二维平面上的平移以及旋转。实际上 3 * 3矩阵能表示任何的透视（perspective）变换： <span class="math display">\[
+\]</span> ​
+以上两个式子定义实际是同一个意思，只不过写法不同。如何理解特征（eigen）量呢？对于特征向量<span class="math inline">\(\pmb{x}\)</span>，在矩阵A的映射下（线性变换），会导致<span class="math inline">\(\pmb{x}\)</span>的方向完全不变（可能反向）。而另一方面，空间变换与矩阵运算的联系也有着紧密的联系，比如3
+* 3矩阵就能完全表征二维平面上的平移以及旋转。实际上 3 *
+3矩阵能表示任何的透视（perspective）变换： <span class="math display">\[
 \begin{equation}
 (x&#39;,y&#39;,z&#39;)^T=\begin{pmatrix}
 a_{11} &amp; a_{12} &amp; a_{13} \\
@@ -359,9 +362,11 @@ z
 \end{pmatrix}
 =A\pmb{x}
 \end{equation}
-\]</span> ​ 那么对A可以求其特征量。这些特征量表征的是什么呢？为了简单以及便于人类进行空间想象，以下讨论主要集中于二维矩阵与三维矩阵的讨论。</p>
+\]</span> ​
+那么对A可以求其特征量。这些特征量表征的是什么呢？为了简单以及便于人类进行空间想象，以下讨论主要集中于二维矩阵与三维矩阵的讨论。</p>
 <h3 id="二维直线法向量估计">二维直线法向量估计</h3>
-<p>​ 实际上，在二维的情况下，估计法向量与估计直线是同一个问题。假设有一堆点，如下图所示，存在噪声并且由于实际表面是个曲面，需要选择一个合理的范围，利用范围内点的信息进行法向量估计：</p>
+<p>​
+实际上，在二维的情况下，估计法向量与估计直线是同一个问题。假设有一堆点，如下图所示，存在噪声并且由于实际表面是个曲面，需要选择一个合理的范围，利用范围内点的信息进行法向量估计：</p>
 <p><img src="/2021/03/12/%E5%8D%8F%E6%96%B9%E5%B7%AE-%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E4%BA%A4%E9%9B%86/normal.JPG"></p>
 <center>
 Figure 2. 2D法向量估计
@@ -374,11 +379,13 @@ a^T\pmb{x}-b=0
 \begin{equation}\label{res1}
 |b-a^T\pmb{x}|
 \end{equation}
-\]</span> ​ 这是由需要估计的参数直线<span class="math inline">\(\eqref{normal}\)</span>决定的，那么可以将<span class="math inline">\(\eqref{res1}\)</span>化为模平方的形式，这也就是我们需要优化的目标，实际上点的信息已经包含在直线中了，虽然没有写成常见的直线拟合最小二乘表示： <span class="math display">\[
+\]</span> ​ 这是由需要估计的参数直线<span class="math inline">\(\eqref{normal}\)</span>决定的，那么可以将<span class="math inline">\(\eqref{res1}\)</span>化为模平方的形式，这也就是我们需要优化的目标，实际上点的信息已经包含在直线中了，虽然没有写成常见的直线拟合最小二乘表示：
+<span class="math display">\[
 \begin{equation}\label{cost}
 C=\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x})
 \end{equation}
-\]</span> ​ 加上约束，可以得到一个带约束优化问题。约束是：<span class="math inline">\(a^Ta=1\)</span>。也就是说希望法向量是单位向量： <span class="math display">\[
+\]</span> ​ 加上约束，可以得到一个带约束优化问题。约束是：<span class="math inline">\(a^Ta=1\)</span>。也就是说希望法向量是单位向量：
+<span class="math display">\[
 \begin{equation}
 \left\{
 \begin{array}{ll}\label{obj}
@@ -388,42 +395,55 @@ C=\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x})
 \right.\rightarrow
 \text{min }\sum_i(b-a^T\pmb{x})^T(b-a^T\pmb{x}) + \lambda(a^Ta-1)\\
 \end{equation}
-\]</span> ​ 也就是又用Lagrange乘子法将有约束问题转化为无约束问题了。对KKT条件进行讨论，等式约束的KKT条件就不用说了。对<span class="math inline">\(a\)</span>求导，有（这里有必要穿插一下矩阵与向量的求导知识）。如果x是一个 n * 1的列向量，那么一个关于x的标量函数关于x求导，求出将会是一个行向量。进一步地，可以证明（见<a href="#app">【Appendix】</a>）： <span class="math display">\[
+\]</span> ​
+也就是又用Lagrange乘子法将有约束问题转化为无约束问题了。对KKT条件进行讨论，等式约束的KKT条件就不用说了。对<span class="math inline">\(a\)</span>求导，有（这里有必要穿插一下矩阵与向量的求导知识）。如果x是一个
+n *
+1的列向量，那么一个关于x的标量函数关于x求导，求出将会是一个行向量。进一步地，可以证明（见<a href="#app">【Appendix】</a>）： <span class="math display">\[
 \begin{equation}\label{lemma}
 \begin{array}{ll}
 \text{if }\alpha=x^TAx,\text{where }A\text{ is }n \times n \\
 \text{then } \frac{\partial\alpha}{\partial x}=x^T(A+A^T)
 \end{array}
 \end{equation}
-\]</span> ​ 那么根据公式<span class="math inline">\(\eqref{lemma}\)</span>，并且对<span class="math inline">\(\eqref{obj}\)</span>进行关于a（2 * 1列向量）求导，此处求导的结果是： <span class="math display">\[
+\]</span> ​ 那么根据公式<span class="math inline">\(\eqref{lemma}\)</span>，并且对<span class="math inline">\(\eqref{obj}\)</span>进行关于a（2 *
+1列向量）求导，此处求导的结果是： <span class="math display">\[
 \begin{equation}\label{der}
 2\lambda a^T-2bn\overline{x}^T+\sum_{i=1}^n2a^T(x_ix_i^T)
 \end{equation}
 \]</span> ​ 而对b求导实际上也能得到重要的结论：即<span class="math inline">\(b=a^T\overline{x}\)</span>，那么带入到公式<span class="math inline">\(\eqref{der}\)</span>中就会有： <span class="math display">\[
 \begin{equation}\label{der2}
-2\lambda a^T+2a^T\sum_{i=1}^n(x_ix_i^T)-(\overline{x}\overline{x}^T)=2\lambda a^T+2a^T\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T
+2\lambda
+a^T+2a^T\sum_{i=1}^n(x_ix_i^T)-(\overline{x}\overline{x}^T)=2\lambda
+a^T+2a^T\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T
 \end{equation}
 \]</span> ​ 而<span class="math inline">\(\eqref{der2}\)</span>的右半部分求和式实际上是点集的协方差，最后也就得到了（忽略负号给<span class="math inline">\(\lambda\)</span>代来的影响）： <span class="math display">\[
 \begin{equation}\label{eig}
-\left(\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T\right)a=\lambda a
+\left(\sum_{i=1}^n(x_i-\overline{x})(x_i-\overline{x})^T\right)a=\lambda
+a
 \end{equation}
 \]</span> ​ 也就是说，<span class="math inline">\(\lambda\)</span>为点集协方差矩阵的一个特征值，而<span class="math inline">\(a\)</span>则为对应的特征向量。也就是说，<span class="math inline">\(a\)</span>（法向量）的解实际上是点集协方差的一个特征向量，但是对于二维问题而言，特征向量有两个（一个最大特征向量，一个最小特征向量）。那么显然，根据<span class="math inline">\(\eqref{eig}\)</span>以及<span class="math inline">\(b=a^T\overline{x}\)</span>，带入到目标函数<span class="math inline">\(\eqref{obj}\)</span>中可以得到： <span class="math display">\[
 \begin{equation}
 L=0+\sum_{i=1}^n[a^T(x_i-\overline{x})][a^T(x_i-\overline{x})]^T=n\lambda
 \end{equation}
-\]</span> ​ 可以知道，<span class="math inline">\(\lambda\)</span>应该选择最小特征值。那么<span class="math inline">\(a\)</span>的解就是最小特征值对应的特征向量。感觉这个过程就十分的精妙，主要是要完全利用KKT条件，一个都不能漏，并且有意识地构造协方差 / 均值以及<span class="math inline">\(x^Tx / xx^T\)</span>两种形式。<strong><u>不难发现</u></strong>，这种表示形式可以自然推广到三维空间中去，此时求取的不再是直线的法向量，而是平面的法向量。</p>
+\]</span> ​ 可以知道，<span class="math inline">\(\lambda\)</span>应该选择最小特征值。那么<span class="math inline">\(a\)</span>的解就是最小特征值对应的特征向量。感觉这个过程就十分的精妙，主要是要完全利用KKT条件，一个都不能漏，并且有意识地构造协方差
+/ 均值以及<span class="math inline">\(x^Tx /
+xx^T\)</span>两种形式。<strong><u>不难发现</u></strong>，这种表示形式可以自然推广到三维空间中去，此时求取的不再是直线的法向量，而是平面的法向量。</p>
 <hr>
 <h2 id="d图像配准闭式解">2D图像配准闭式解</h2>
-<p>​ 考虑一个2D问题，两幅图像的配准。假设我们通过SIFT算子 + RANSAC优化，得到了准确的特征点配对关系，那么如何求这个单应矩阵呢？</p>
-<div class="note warning"><p>​ 实际上，纯2D-2D匹配并不能称为单应矩阵（单应矩阵是同一物体3D-3D投影变换的表征）</p>
+<p>​ 考虑一个2D问题，两幅图像的配准。假设我们通过SIFT算子 +
+RANSAC优化，得到了准确的特征点配对关系，那么如何求这个单应矩阵呢？</p>
+<div class="note warning"><p>​
+实际上，纯2D-2D匹配并不能称为单应矩阵（单应矩阵是同一物体3D-3D投影变换的表征）</p>
 </div>
 <p>​ 考虑简单的仿射变换，假设仿射变换矩阵为<span class="math inline">\(H\)</span>，给定source点集与target点集： <span class="math display">\[
 \begin{equation}
 P=(p_1,p_2,...p_n),Q=(q_1,q_2,...,q_2),P,Q\in \mathbb{R}^{3\times n}
 \end{equation}
-\]</span> ​ 那么假设<span class="math inline">\(HP=Q\)</span>,也即点集<span class="math inline">\(P\)</span>经过变换<span class="math inline">\(H\)</span>后直接成了<span class="math inline">\(Q\)</span>，那么为了使变换后的投影误差最小，考虑最小二乘问题： <span class="math display">\[
+\]</span> ​ 那么假设<span class="math inline">\(HP=Q\)</span>,也即点集<span class="math inline">\(P\)</span>经过变换<span class="math inline">\(H\)</span>后直接成了<span class="math inline">\(Q\)</span>，那么为了使变换后的投影误差最小，考虑最小二乘问题：
+<span class="math display">\[
 \begin{equation}
-L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow tr[(HP-Q)(HP-Q)^T]
+L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow
+tr[(HP-Q)(HP-Q)^T]
 \end{equation}
 \]</span> ​ 那么根据矩阵迹的求导（以下性质将在<a href="#app">【Appendix】</a>中进行简要的分析）</p>
 <table>
@@ -433,37 +453,45 @@ L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow tr[(HP-Q)(HP-Q)^T]
 <col style="width: 47%">
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;">性质</th>
 <th>结论（分母布局）</th>
 <th>分子布局</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">轮换性</td>
 <td><span class="math inline">\(tr(ABC)=tr(BCA)\)</span></td>
 <td><span class="math inline">\(tr(ABC)=tr(BCA)\)</span></td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;">线性1</td>
-<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial A}=B\)</span></td>
-<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial A}=B^T\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial
+A}=B\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TB)}{\partial
+A}=B^T\)</span></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">线性2</td>
-<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial A}=B^T\)</span></td>
-<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial A}=B\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial
+A}=B^T\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(AB)}{\partial
+A}=B\)</span></td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;">二次型1</td>
-<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial A}=A(B+B^T)\)</span></td>
-<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial A}=(B+B^T)A^T\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial
+A}=A(B+B^T)\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(ABA^T)}{\partial
+A}=(B+B^T)A^T\)</span></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">二次型2</td>
-<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial A}=(B+B^T)A\)</span></td>
-<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial A}=(B+B^T)A^T\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial
+A}=(B+B^T)A\)</span></td>
+<td><span class="math inline">\(\frac{\partial tr(A^TBA)}{\partial
+A}=(B+B^T)A^T\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -476,7 +504,8 @@ L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow tr[(HP-Q)(HP-Q)^T]
 <h2 id="appendix">Appendix</h2>
 <p><span id="app"></span></p>
 <h3 id="向量矩阵求导法则以及基本结论证明">向量矩阵求导法则以及基本结论证明</h3>
-<p>​ 这里涉及的都是基本的线性代数（以及高数中的多元函数Jacobian求解），但是自己从来认真推过。向量矩阵求导主要分析其中几个公式：</p>
+<p>​
+这里涉及的都是基本的线性代数（以及高数中的多元函数Jacobian求解），但是自己从来认真推过。向量矩阵求导主要分析其中几个公式：</p>
 <h4 id="基本法则">基本法则</h4>
 <ul>
 <li>标量对行向量求导，结果是行向量（朴素结论）</li>
@@ -484,7 +513,9 @@ L=\Vert HP-Q\Vert^2=tr[(HP-Q)^T(HP-Q)]\Longleftrightarrow tr[(HP-Q)(HP-Q)^T]
 <li>标量对矩阵，结果是同样大小的矩阵，并且每个元素与求导矩阵对应（朴素结论）</li>
 </ul>
 <h4 id="行列求导">行列求导</h4>
-<p>​ 行向量对列向量求导，结果显然是个雅可比，由于求导元素是列向量，那么雅可比矩阵是按列组织的： <span class="math display">\[
+<p>​
+行向量对列向量求导，结果显然是个雅可比，由于求导元素是列向量，那么雅可比矩阵是按列组织的：
+<span class="math display">\[
 \begin{equation}
 d(y_1,y_2,...,y_n)/d
 \begin{pmatrix}
@@ -494,18 +525,25 @@ x_2\\
 x_m
 \end{pmatrix}=
 \begin{pmatrix}
-\frac{\partial y_1}{\partial x_1} &amp; \frac{\partial y_2}{\partial x_1} &amp; ... &amp; \frac{\partial y_1}{\partial x_1}\\
-\frac{\partial y_1}{\partial x_2} &amp; \frac{\partial y_2}{\partial x_2} &amp; ... &amp; \frac{\partial y_1}{\partial x_2} \\
+\frac{\partial y_1}{\partial x_1} &amp; \frac{\partial y_2}{\partial
+x_1} &amp; ... &amp; \frac{\partial y_1}{\partial x_1}\\
+\frac{\partial y_1}{\partial x_2} &amp; \frac{\partial y_2}{\partial
+x_2} &amp; ... &amp; \frac{\partial y_1}{\partial x_2} \\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
-\frac{\partial y_1}{\partial x_m} &amp; \frac{\partial y_2}{\partial x_m} &amp; ... &amp; \frac{\partial y_1}{\partial x_m}
+\frac{\partial y_1}{\partial x_m} &amp; \frac{\partial y_2}{\partial
+x_m} &amp; ... &amp; \frac{\partial y_1}{\partial x_m}
 \end{pmatrix}
 \end{equation}
-\]</span> ​ 则反之，如果是列向量对行向量求导，那么将会是上矩阵的转置。注意，上式我写的是分母布局，之后我将完全使用分子布局，因为比较自然。分子布局与分母布局的区别是：</p>
+\]</span> ​
+则反之，如果是列向量对行向量求导，那么将会是上矩阵的转置。注意，上式我写的是分母布局，之后我将完全使用分子布局，因为比较自然。分子布局与分母布局的区别是：</p>
 <ul>
-<li>分子布局：如果f是个列向量，x是个标量，那么<span class="math inline">\(\frac{\partial f}{\partial x}\)</span>为列向量（自然表达）</li>
-<li>分母布局：如果f是个标量，x是个列向量，那么<span class="math inline">\(\frac{\partial f}{\partial x}\)</span>是个列向量（感觉不太自然嗷）</li>
+<li>分子布局：如果f是个列向量，x是个标量，那么<span class="math inline">\(\frac{\partial f}{\partial
+x}\)</span>为列向量（自然表达）</li>
+<li>分母布局：如果f是个标量，x是个列向量，那么<span class="math inline">\(\frac{\partial f}{\partial
+x}\)</span>是个列向量（感觉不太自然嗷）</li>
 </ul>
-<p>​ 也就是说，列向量对标量求导是不变形的，矩阵对标量求导也是不变形的（那么自然，行向量对标量求导也不变形，这就是一个比较自然的表达）。接下来讨论的公式都基于几个共同点：</p>
+<p>​
+也就是说，列向量对标量求导是不变形的，矩阵对标量求导也是不变形的（那么自然，行向量对标量求导也不变形，这就是一个比较自然的表达）。接下来讨论的公式都基于几个共同点：</p>
 <ul>
 <li>向量<span class="math inline">\(\pmb{x}\)</span>是列向量（n * 1）
 <ul>
@@ -517,34 +555,42 @@ x_m
 \frac{\partial A\pmb{x}}{\partial \pmb{x}}=A\tag{prop 1}
 \end{equation}
 \]</span></p>
-<p>​ 这个很显然，讨论<span class="math inline">\(A\pmb{x}\)</span>时只需要将A按行分块，<span class="math inline">\(A\pmb{x}\)</span>每个元素都是<span class="math inline">\(\pmb{a}_j\pmb{x}\)</span>（标量），那么一个列向量<span class="math inline">\(A\pmb{x}\)</span>中的每个标量元素对列向量求导，得到一个行向量： <span class="math display">\[
+<p>​ 这个很显然，讨论<span class="math inline">\(A\pmb{x}\)</span>时只需要将A按行分块，<span class="math inline">\(A\pmb{x}\)</span>每个元素都是<span class="math inline">\(\pmb{a}_j\pmb{x}\)</span>（标量），那么一个列向量<span class="math inline">\(A\pmb{x}\)</span>中的每个标量元素对列向量求导，得到一个行向量：
+<span class="math display">\[
 \begin{equation}
 \pmb{a}_j\pmb{x}=\sum_{i=1}^na_{ji}x_i
 \end{equation}
 \]</span> ​ 显然，对这个标量求导得到<span class="math inline">\(\pmb{a}_j\)</span>本身。 <span class="math display">\[
 \begin{equation}
-\frac{\partial \pmb{x}^TA\pmb{x}}{\partial \pmb{x}}=\pmb{x}^T(A+A^T)\tag{prop 2}
+\frac{\partial \pmb{x}^TA\pmb{x}}{\partial
+\pmb{x}}=\pmb{x}^T(A+A^T)\tag{prop 2}
 \end{equation}
-\]</span> ​ 展开之后易于证明，由于<span class="math inline">\(\pmb{x}^TA\pmb{x}\)</span>是标量，标量对列向量求导是行向量，可以得到，行内的第j个元素为： <span class="math display">\[
+\]</span> ​ 展开之后易于证明，由于<span class="math inline">\(\pmb{x}^TA\pmb{x}\)</span>是标量，标量对列向量求导是行向量，可以得到，行内的第j个元素为：
+<span class="math display">\[
 \begin{equation}
 \sum_{i=1}^na_{ji}x_i+\sum_{j=1}^na_{ji}x_j
 \end{equation}
-\]</span> ​ 上式前半部分是行向量<span class="math inline">\(\pmb{x}^T\)</span>与矩阵<span class="math inline">\(A^T\)</span>的某一列进行相乘，后半部分则与<span class="math inline">\(A\)</span>的某一列相乘。<span class="math inline">\(\text{prop 2}\)</span>的证明又是比较容易的，可以根据基本的求和式与矩阵运算性质得到，关于矩阵行列求导操作，就只提这两个。</p>
+\]</span> ​ 上式前半部分是行向量<span class="math inline">\(\pmb{x}^T\)</span>与矩阵<span class="math inline">\(A^T\)</span>的某一列进行相乘，后半部分则与<span class="math inline">\(A\)</span>的某一列相乘。<span class="math inline">\(\text{prop
+2}\)</span>的证明又是比较容易的，可以根据基本的求和式与矩阵运算性质得到，关于矩阵行列求导操作，就只提这两个。</p>
 <h3 id="矩阵迹的求导法则">矩阵迹的求导法则</h3>
 <p>​ 迹是针对n * n矩阵而言的（对角线之和），假设<span class="math inline">\(A_{n\times k},B_{k\times n}\)</span>，则<span class="math inline">\(\text{tr}(AB)\)</span>有： <span class="math display">\[
 \begin{equation}\label{tr}
 \text{tr}(AB)=\sum_{i=1}^n\sum_{j=1}^ka_{ij}b_{ji}
 \end{equation}
-\]</span> ​ 那么假设<span class="math inline">\(\text{tr}(AB)\)</span>对A求导，由分子布局，将A看成一个行向量，每个行元素为一个列向量。可以知道，分子布局下，标量对行求导，得到列向量，列向量的元素将由原来行向量内的元素决定。那么由于原来行向量（1 * k）元素是一个个的列向量（n * 1），那么求导后的每个分量是个行向量（1 * n），也即最后的结果是（k * n）的，下面证明这就是矩阵B。</p>
+\]</span> ​ 那么假设<span class="math inline">\(\text{tr}(AB)\)</span>对A求导，由分子布局，将A看成一个行向量，每个行元素为一个列向量。可以知道，分子布局下，标量对行求导，得到列向量，列向量的元素将由原来行向量内的元素决定。那么由于原来行向量（1
+* k）元素是一个个的列向量（n * 1），那么求导后的每个分量是个行向量（1 *
+n），也即最后的结果是（k * n）的，下面证明这就是矩阵B。</p>
 <p>​ 我们假设当前正在对行向量<span class="math inline">\(A\)</span>的元素<span class="math inline">\(\pmb{a}_p\)</span>进行求导，<span class="math inline">\(\pmb{a}_p=(a_{1p},a_{2p},...,a_{np})^T\)</span>是A矩阵的第p列。那么由公式<span class="math inline">\(\eqref{tr}\)</span>，迹中与<span class="math inline">\(a_{ip}\)</span>有关的只有： <span class="math display">\[
 \begin{equation}
 \sum_{i=1}^na_{ip}b_{pi}
 \end{equation}
-\]</span> ​ 对其求导，由于上式是一个标量而<span class="math inline">\(\pmb{a}_p\)</span>是一个列向量，应该得到一个行向量结果 <span class="math display">\[
+\]</span> ​ 对其求导，由于上式是一个标量而<span class="math inline">\(\pmb{a}_p\)</span>是一个列向量，应该得到一个行向量结果
+<span class="math display">\[
 \begin{equation}
 \sum_{i=1}^na_{ip}b_{pi}\mathop{\Longrightarrow}^{d\pmb{a}_p}(b_{p1},b_{p2},...,b_{pn})
 \end{equation}
-\]</span> ​ 也就是说，矩阵迹对<span class="math inline">\(A\)</span>矩阵的第p个列求导，得到B的第p行。那么由此可以得到<span class="math inline">\(d\text{ tr}(AB)/dA=B\)</span>。（注意，这和我们上面所列表格不一致，表格是分母布局的，分母布局下这里确实是<span class="math inline">\(B^T\)</span>）。分母布局和分子布局恰是转置关系，那么公式<span class="math inline">\(\eqref{H}\)</span>在分子布局下应该是不变的（因为减号前后都进行了转置）。</p>
+\]</span> ​ 也就是说，矩阵迹对<span class="math inline">\(A\)</span>矩阵的第p个列求导，得到B的第p行。那么由此可以得到<span class="math inline">\(d\text{
+tr}(AB)/dA=B\)</span>。（注意，这和我们上面所列表格不一致，表格是分母布局的，分母布局下这里确实是<span class="math inline">\(B^T\)</span>）。分母布局和分子布局恰是转置关系，那么公式<span class="math inline">\(\eqref{H}\)</span>在分子布局下应该是不变的（因为减号前后都进行了转置）。</p>
 <p></p>
 
     </div>

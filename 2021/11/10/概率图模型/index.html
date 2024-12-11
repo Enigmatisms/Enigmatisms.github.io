@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）">
+  <meta name="description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写">
 <meta property="og:type" content="website">
 <meta property="og:title" content="概率图模型">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）">
+<meta property="og:description" content="CRF &amp; MRF  I. Introduction ​ 本文是早期被挂在Github🔗: Enigmatisms&#x2F;Algorithm Plus上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-11-10T02:33:59.000Z">
 <meta property="article:modified_time" content="2021-11-14T16:51:41.365Z">
@@ -107,7 +107,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -168,7 +168,11 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#crf-mrf"><span class="nav-text">CRF &amp; MRF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-introduction"><span class="nav-text">I. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-dgm"><span class="nav-text">II. DGM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dgm-%E4%B8%AD%E4%B8%89%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%BB%93%E6%9E%84%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">2.1 DGM 中三种典型结构的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%80-tail-to-tail-%E5%8D%95%E7%88%B6%E5%A4%9A%E5%AD%90"><span class="nav-text">2.1.1 结构一 Tail to Tail (单父，多子)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BA%8C-head-to-tail-%E5%85%B8%E5%9E%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB"><span class="nav-text">2.1.2 结构二 Head to Tail （典型的因果关系）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%89-head-to-head-%E6%B1%87%E7%82%B9"><span class="nav-text">2.1.3 结构三 Head to Head （汇点）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E4%B8%8E%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE"><span class="nav-text">2.2 条件独立与马尔可夫链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90%E7%90%86%E8%A7%A3dgm-%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3 使用例子理解DGM &#x2F; 马尔可夫毯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3.1 马尔可夫毯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dgm%E5%88%B0%E5%BA%95%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="nav-text">2.3.2 DGM到底能干什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E7%9A%84%E6%A6%82%E7%8E%87%E8%A1%A8%E7%A4%BA"><span class="nav-text">2.3.3 有向图的概率表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E6%97%A0%E5%90%91%E5%9B%BE%E6%A8%A1%E5%9E%8Bugm"><span class="nav-text">III. 无向图模型（UGM）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A2%E5%9D%97clique%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">3.2 团块（Clique）的概念</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#crf-mrf"><span class="nav-text">CRF &amp; MRF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-introduction"><span class="nav-text">I. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-dgm"><span class="nav-text">II. DGM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dgm-%E4%B8%AD%E4%B8%89%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%BB%93%E6%9E%84%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">2.1 DGM 中三种典型结构的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%80-tail-to-tail-%E5%8D%95%E7%88%B6%E5%A4%9A%E5%AD%90"><span class="nav-text">2.1.1 结构一 Tail to Tail
+(单父，多子)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BA%8C-head-to-tail-%E5%85%B8%E5%9E%8B%E7%9A%84%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB"><span class="nav-text">2.1.2 结构二 Head to Tail
+（典型的因果关系）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%B8%89-head-to-head-%E6%B1%87%E7%82%B9"><span class="nav-text">2.1.3 结构三 Head to Head
+（汇点）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E4%B8%8E%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE"><span class="nav-text">2.2 条件独立与马尔可夫链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90%E7%90%86%E8%A7%A3dgm-%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3 使用例子理解DGM &#x2F;
+马尔可夫毯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%AF%AF"><span class="nav-text">2.3.1 马尔可夫毯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dgm%E5%88%B0%E5%BA%95%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="nav-text">2.3.2 DGM到底能干什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E7%9A%84%E6%A6%82%E7%8E%87%E8%A1%A8%E7%A4%BA"><span class="nav-text">2.3.3 有向图的概率表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-%E6%97%A0%E5%90%91%E5%9B%BE%E6%A8%A1%E5%9E%8Bugm"><span class="nav-text">III. 无向图模型（UGM）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A2%E5%9D%97clique%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">3.2 团块（Clique）的概念</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -329,12 +333,15 @@
         <h1 id="crf-mrf">CRF &amp; MRF</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 本文是早期被挂在<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus">Github🔗: Enigmatisms/Algorithm Plus</a>上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。</p>
+<p>​ 本文是早期被挂在<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Algorithms-Plus">Github🔗:
+Enigmatisms/Algorithm
+Plus</a>上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。</p>
 <p>​ 可能我最近还是要重新学一下概率图模型:</p>
 <blockquote>
 <p>一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解</p>
 </blockquote>
-<p>​ 之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。</p>
+<p>​
+之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。</p>
 <span id="more"></span>
 <hr>
 <h2 id="ii.-dgm">II. DGM</h2>
@@ -347,7 +354,8 @@ A[A Intelligence]--&gt;B[B GPA]
 A--&gt;C[C Innovative prop.]
 
 </pre>
-<h4 id="结构一-tail-to-tail-单父多子">2.1.1 结构一 Tail to Tail (单父，多子)</h4>
+<h4 id="结构一-tail-to-tail-单父多子">2.1.1 结构一 Tail to Tail
+(单父，多子)</h4>
 <ul>
 <li>当观测到A，B与C之间独立（不存在关系，<strong><u>没有可以有信息推断</u></strong>）</li>
 <li>没有观测到A，B，C之前可以有隐含的关系，不独立</li>
@@ -356,11 +364,14 @@ A--&gt;C[C Innovative prop.]
 <ul>
 <li>A智力，B成绩，C创新力。当不知道A时，我们可以隐含地推定，当一个人成绩高，说明他创新能力高的概率很大（概率推断），反之亦然</li>
 <li>而如果GPA，创新力只受到智力一个因素的影响时，已知A，那么GPA和创新力就毫无关系了。因为这两个因素B,C已经确定了，再进行概率推断已经没有意义了（信息量为0）.<strong><u>如果这个例子不好理解，那么还有一个例子：</u></strong></li>
-<li>A 今天下雨，B明天下雨，C今天地面湿。其中，A（下雨）有80%可能导致积水（C），20%可能导致不积水（<span class="math inline">\(\overline C\)</span>），50%下雨（B）。那么A未知时，地面湿时（假设C发生），可以反推A是否发生，再反推B是否发生，反过来也一样。</li>
+<li>A
+今天下雨，B明天下雨，C今天地面湿。其中，A（下雨）有80%可能导致积水（C），20%可能导致不积水（<span class="math inline">\(\overline
+C\)</span>），50%下雨（B）。那么A未知时，地面湿时（假设C发生），可以反推A是否发生，再反推B是否发生，反过来也一样。</li>
 <li>但是如果A发生了，那么C与B只与A当前事实有关，<strong><u>已经不会受到来自B或者C的推断影响了！（影响消除）</u></strong>。</li>
 <li>A的观测会导致B,C的相互独立（信息的互不影响性）</li>
 </ul>
-<h4 id="结构二-head-to-tail-典型的因果关系">2.1.2 结构二 Head to Tail （典型的因果关系）</h4>
+<h4 id="结构二-head-to-tail-典型的因果关系">2.1.2 结构二 Head to Tail
+（典型的因果关系）</h4>
 <pre class="mermaid">
 graph LR
 
@@ -373,13 +384,15 @@ B--&gt;C[C Recommendation]
 <li>B没有被观测，A和C是可以有推断关系（信息关联性）的，不独立</li>
 <li>B被观测：A与C独立，A已经不影响C的发生了</li>
 </ul>
-<p><strong><u>可以用马尔可夫链的想法来理解！</u></strong>历史事件的无后效性！当 当前不确定时，<strong>由于历史状态可以确定当前状态</strong>，那么相当于历史可以影响未来（下一状态）。而当前状态已知的话，历史信息已经不起作用力，下一状态完全由当前状态决定。</p>
+<p><strong><u>可以用马尔可夫链的想法来理解！</u></strong>历史事件的无后效性！当
+当前不确定时，<strong>由于历史状态可以确定当前状态</strong>，那么相当于历史可以影响未来（下一状态）。而当前状态已知的话，历史信息已经不起作用力，下一状态完全由当前状态决定。</p>
 <p>例子：</p>
 <ul>
 <li>不知道成绩的情况下，如果考试的难度大，那么每个人在考好的情况下获得推荐的概率都大。</li>
 <li>但是知道了成绩的话，收益就和风险没关系了。你考得好就能获得推荐，考不好就不行。</li>
 </ul>
-<h4 id="结构三-head-to-head-汇点">2.1.3 结构三 Head to Head （汇点）</h4>
+<h4 id="结构三-head-to-head-汇点">2.1.3 结构三 Head to Head
+（汇点）</h4>
 <pre class="mermaid">
 graph LR
 
@@ -394,7 +407,8 @@ B[B Intelligence]--&gt;C
 </ul>
 <p>例子：</p>
 <ul>
-<li>考试成绩不清楚的时候，每个人的智力 / 考试难度两者之间如果也未知，知道其中一个也推不出另一个来。</li>
+<li>考试成绩不清楚的时候，每个人的智力 /
+考试难度两者之间如果也未知，知道其中一个也推不出另一个来。</li>
 <li>但是如果已知成绩，比如：成绩普遍很好。那么由B，比如某个人的智力不行，但是成绩好，可以推定A（难度低），反之，如果成绩普遍很差，由B（高智力），可以推知A（难度高）。</li>
 </ul>
 <p><strong><u>以上这三种有向图结构，可以方便进行条件独立判定以及信息关联性的快速区分，判定两个随机变量之间是否存在关联时可以应用。</u></strong>联系例子即可。</p>
@@ -407,21 +421,30 @@ B[B Intelligence]--&gt;C
 \begin{equation}
 P(X,Y|Z)=P(X|Z)P(Y|Z)
 \end{equation}
-\]</span> ​ 在Z发生的情况下，X，Y同时发生的概率为分别概率的积。可以写成另一种形式： <span class="math display">\[
+\]</span> ​
+在Z发生的情况下，X，Y同时发生的概率为分别概率的积。可以写成另一种形式：
+<span class="math display">\[
 \begin{equation}
 P(X|Y,Z)=\frac{P(X,Y,Z)}{P(Y,Z)}=\frac{P(X,Y|Z)P(Z)}{P(Y|Z)P(Z)}=\frac{P(X,Y|Z)}{P(Y|Z)}=P(X|Z)
 \end{equation}
-\]</span> ​ 这最能直接说明条件独立的意义：给定条件Y,Z，若X,Y条件独立，Y条件不影响X事件，可以直接从条件中删除。而CRF中的有向边表征了条件概率，对应地，结点间关系（以上三种模式）表征了条件独立性。</p>
-<p>​ 如果两个结点之间的中间结点已经完全确定，已经没有 <strong><u>不通过中间已经观测结点</u></strong> 的直连路径或者间接路径了，此时两个结点条件独立。而条件独立可以用于理解Markov链： <span class="math display">\[
+\]</span> ​
+这最能直接说明条件独立的意义：给定条件Y,Z，若X,Y条件独立，Y条件不影响X事件，可以直接从条件中删除。而CRF中的有向边表征了条件概率，对应地，结点间关系（以上三种模式）表征了条件独立性。</p>
+<p>​ 如果两个结点之间的中间结点已经完全确定，已经没有
+<strong><u>不通过中间已经观测结点</u></strong>
+的直连路径或者间接路径了，此时两个结点条件独立。而条件独立可以用于理解Markov链：
+<span class="math display">\[
 \begin{equation}
 P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_1,x_2)...P(x_t|x_1,x_2,...x_{t-1})
 \end{equation}
-\]</span> ​ 这个是普通的链式法则。而由于一阶马尔可夫假设：历史不影响未来，过去的状态与未来条件独立。那么可以简化链式法则为： <span class="math display">\[
+\]</span> ​
+这个是普通的链式法则。而由于一阶马尔可夫假设：历史不影响未来，过去的状态与未来条件独立。那么可以简化链式法则为：
+<span class="math display">\[
 \begin{equation}
 P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_2)...P(x_t|x_{t-1})=P(x_1)\prod_{i=1}^tP(x_{i}|x_{i-1})
 \end{equation}
 \]</span> ​ 这可以大大简化运算以及储存难度。</p>
-<h3 id="使用例子理解dgm-马尔可夫毯">2.3 使用例子理解DGM / 马尔可夫毯</h3>
+<h3 id="使用例子理解dgm-马尔可夫毯">2.3 使用例子理解DGM /
+马尔可夫毯</h3>
 <p>朴素贝叶斯就是个很典型的DGM例子。朴素（naive）就naive在：</p>
 <blockquote>
 <p>基于特征条件独立假设的分类器。</p>
@@ -459,13 +482,17 @@ F--&gt;G
 <li>首先2，3给定之后，由于2，3为5的父结点，2，3的观测导致5与1的独立</li>
 <li>此后是5与4的独立：有赖于2的给定。</li>
 <li><strong><u>观测本身会导致被观测变量与其父节点或者子结点独立！</u></strong>不确定性消除。故5建立6，7的观测，6，7要给定。</li>
-<li>但是给定了7，在5，7，4形成了一个Head to Head 结构。会导致5和4的不独立，那么需要给定4以消除不确定性的方式终结。</li>
+<li>但是给定了7，在5，7，4形成了一个Head to Head
+结构。会导致5和4的不独立，那么需要给定4以消除不确定性的方式终结。</li>
 <li>最后的毯子是：<span class="math inline">\({\{2,3,4,6,7\}}\)</span></li>
 </ul>
 <h4 id="dgm到底能干什么">2.3.2 DGM到底能干什么</h4>
-<p>​ 多个变量错综复杂的因果关系，相互有影响。一个变量的改变可能导致整个网络（说到网络就会形成一个高维结构了，之所以是高维，指的是这个图可能不是平面图，不一定表达的就是二维关系）内部的变量发生连锁变化。那么为了解决有条件独立 / 条件概率联系起来的多个网络变量，需要使用这个方法。</p>
+<p>​
+多个变量错综复杂的因果关系，相互有影响。一个变量的改变可能导致整个网络（说到网络就会形成一个高维结构了，之所以是高维，指的是这个图可能不是平面图，不一定表达的就是二维关系）内部的变量发生连锁变化。那么为了解决有条件独立
+/ 条件概率联系起来的多个网络变量，需要使用这个方法。</p>
 <h4 id="有向图的概率表示">2.3.3 有向图的概率表示</h4>
-<p>由条件概率的定义，联合概率可以由边缘 / 条件表示。在有向图中，由于有向图对条件概率进行建模（每一条边就是一个条件概率关系），那么使用有向图如何表示概率？举个例子：</p>
+<p>由条件概率的定义，联合概率可以由边缘 /
+条件表示。在有向图中，由于有向图对条件概率进行建模（每一条边就是一个条件概率关系），那么使用有向图如何表示概率？举个例子：</p>
 <pre class="mermaid">
 graph LR
 
@@ -480,7 +507,8 @@ D--&gt;E
 \begin{equation}
 P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)\rightarrow?
 \end{equation}
-\]</span> ​ 之后，<span class="math inline">\(x_3\)</span> <span class="math inline">\(x_4\)</span>是乘法关系还是加法关系？首先可以肯定，接下来的概率表达式是<span class="math inline">\(P(x_4|x_2)\)</span>与<span class="math inline">\(P(x_3|x_2)\)</span>（由于<span class="math inline">\(x_2\)</span>的存在，导致<span class="math inline">\(x_1\)</span>，<span class="math inline">\(\{x_3,x_4\}\)</span>条件独立），个人认为，此处<span class="math inline">\(x_5\)</span>的产生是<span class="math inline">\(\{x_3,x_4\}\)</span>共同作用的结果。比如说，考试：<span class="math inline">\(\{x_3,x_4\}\)</span>分别表示难度以及学生智力，<span class="math inline">\(x_5\)</span>为分数。产生分数必须要有前两个因素，故此处虽然是两个通路，但是仍然是乘法原则起作用（与事件）（<strong><u>可能隐含表达了，DGM中子结点需要所有父结点成立而产生</u></strong>） <span class="math display">\[
+\]</span> ​ 之后，<span class="math inline">\(x_3\)</span> <span class="math inline">\(x_4\)</span>是乘法关系还是加法关系？首先可以肯定，接下来的概率表达式是<span class="math inline">\(P(x_4|x_2)\)</span>与<span class="math inline">\(P(x_3|x_2)\)</span>（由于<span class="math inline">\(x_2\)</span>的存在，导致<span class="math inline">\(x_1\)</span>，<span class="math inline">\(\{x_3,x_4\}\)</span>条件独立），个人认为，此处<span class="math inline">\(x_5\)</span>的产生是<span class="math inline">\(\{x_3,x_4\}\)</span>共同作用的结果。比如说，考试：<span class="math inline">\(\{x_3,x_4\}\)</span>分别表示难度以及学生智力，<span class="math inline">\(x_5\)</span>为分数。产生分数必须要有前两个因素，故此处虽然是两个通路，但是仍然是乘法原则起作用（与事件）（<strong><u>可能隐含表达了，DGM中子结点需要所有父结点成立而产生</u></strong>）
+<span class="math display">\[
 \begin{equation}
 P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)P(x_3|x_2)P(x_4|x_2)P(x5|x_3,x_4)
 \end{equation}
@@ -515,7 +543,8 @@ P(x_1,...x_7)=P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|
 <h2 id="iii.-无向图模型ugm">III. 无向图模型（UGM）</h2>
 <h3 id="基本概念">3.1 基本概念</h3>
 <p>​ 区别于有向图模型（DGM），无向图模型不是对因果关系进行建模。</p>
-<p>​ 无向图和有向图的区别是什么？有向图表征了因果关系，并且连接有方向性，导致了处理图像这样的问题时，<strong><u>不方便进行建模</u></strong>。</p>
+<p>​
+无向图和有向图的区别是什么？有向图表征了因果关系，并且连接有方向性，导致了处理图像这样的问题时，<strong><u>不方便进行建模</u></strong>。</p>
 <pre class="mermaid">
 graph LR
 
@@ -536,8 +565,11 @@ graph LR
 8--&gt;9
 
 </pre>
-<p>​ 可以看出，在对有向图进行建模时，如果要进行条件独立分析（比如我们要单独分析5与其他的结点的条件独立性）。需要寻找马尔可夫毯，那么在有向图中，除了<span class="math inline">\(\{2,4,6,8\}\)</span>之外，实际上还有别的结点，而<span class="math inline">\(\{2,4,6,8\}\)</span>是1阶邻域，在图像处理中比较常见求一阶邻域与中心点间的关系。而此处，要加入<span class="math inline">\(\{3,7\}\)</span>结点（Head to Head，由于给定了8，5与7不再条件独立，需要给定7，3的话同理）。那么显然我们加入了奇怪的点，导致分析存在一些问题，并且与有向图网络的生成方向还存在关系。</p>
-<p>​ 而使用无向图的话，由于结点之间是平等的，在无向图中的马尔可夫毯直接就是<span class="math inline">\(\{2,4,6,8\}\)</span>。</p>
+<p>​
+可以看出，在对有向图进行建模时，如果要进行条件独立分析（比如我们要单独分析5与其他的结点的条件独立性）。需要寻找马尔可夫毯，那么在有向图中，除了<span class="math inline">\(\{2,4,6,8\}\)</span>之外，实际上还有别的结点，而<span class="math inline">\(\{2,4,6,8\}\)</span>是1阶邻域，在图像处理中比较常见求一阶邻域与中心点间的关系。而此处，要加入<span class="math inline">\(\{3,7\}\)</span>结点（Head to
+Head，由于给定了8，5与7不再条件独立，需要给定7，3的话同理）。那么显然我们加入了奇怪的点，导致分析存在一些问题，并且与有向图网络的生成方向还存在关系。</p>
+<p>​
+而使用无向图的话，由于结点之间是平等的，在无向图中的马尔可夫毯直接就是<span class="math inline">\(\{2,4,6,8\}\)</span>。</p>
 <p>​ 无向图中，存在三种独立性：</p>
 <ol type="1">
 <li>全局独立性（全局马尔可夫性）</li>
@@ -553,7 +585,8 @@ E((5))---A
 D---F((6))
 
 </pre>
-<p>​ 当我们删除结点<span class="math inline">\(\{2,3\}\)</span>时，可知集合<span class="math inline">\(\{1,5\}\)</span>以及<span class="math inline">\(\{4,6\}\)</span>之间完全没有联系了。删除两个结点之间的连通性结点，产生两个连通支，则这两个连通支 <strong>独立</strong>。</p>
+<p>​ 当我们删除结点<span class="math inline">\(\{2,3\}\)</span>时，可知集合<span class="math inline">\(\{1,5\}\)</span>以及<span class="math inline">\(\{4,6\}\)</span>之间完全没有联系了。删除两个结点之间的连通性结点，产生两个连通支，则这两个连通支
+<strong>独立</strong>。</p>
 <ol start="2" type="1">
 <li>局部独立性（局部马尔可夫性）</li>
 </ol>
@@ -577,24 +610,34 @@ b---f
 d---g
 
 </pre>
-<p>​ 可知，当我们把2，3，4，5删去之后，1结点与所有其他结点完全没有联系了。<strong><u>1被孤立了，因为其马尔可夫毯已经被删除了。</u></strong>那么，1与其他结点条件独立。写为表达式可以如下：</p>
-<p>​ 设<span class="math inline">\(V_k\)</span>为我们探索的结点，<span class="math inline">\(V_M\)</span>为<span class="math inline">\(V_k\)</span>的马尔可夫毯的节点集合，而<span class="math inline">\(V_S\)</span>为<span class="math inline">\(V_i\in \{V\}/\{V_M\cup V_k\}\)</span>，则可知： <span class="math display">\[
+<p>​
+可知，当我们把2，3，4，5删去之后，1结点与所有其他结点完全没有联系了。<strong><u>1被孤立了，因为其马尔可夫毯已经被删除了。</u></strong>那么，1与其他结点条件独立。写为表达式可以如下：</p>
+<p>​ 设<span class="math inline">\(V_k\)</span>为我们探索的结点，<span class="math inline">\(V_M\)</span>为<span class="math inline">\(V_k\)</span>的马尔可夫毯的节点集合，而<span class="math inline">\(V_S\)</span>为<span class="math inline">\(V_i\in
+\{V\}/\{V_M\cup V_k\}\)</span>，则可知： <span class="math display">\[
 \begin{equation}
 V_k\perp V_S|V_M
 \end{equation}
-\]</span> ​ 即给定马尔可夫毯，则对应结点和除其本身以及马尔可夫毯结点之外的所有结点条件独立。</p>
+\]</span> ​
+即给定马尔可夫毯，则对应结点和除其本身以及马尔可夫毯结点之外的所有结点条件独立。</p>
 <ol start="3" type="1">
 <li>成对独立性（成对马尔可夫性）</li>
 </ol>
-<p>​ u，v为两个没有直连边的结点。去掉u，v之外的其他点，<strong><u>u，v条件独立。</u></strong></p>
+<p>​
+u，v为两个没有直连边的结点。去掉u，v之外的其他点，<strong><u>u，v条件独立。</u></strong></p>
 <h3 id="团块clique的概念">3.2 团块（Clique）的概念</h3>
-<p>​ 如果一个结点集合内，任意两个结点之间存在连边，那么称这是一个团（Clique）。</p>
-<p>​ 最大团：在一个团C外部任意找一个结点，加入此团后都会破坏团的性质（此结点与至少一个结点之间不存在连边）。也即外部已经不能再加入结点使团变大了。</p>
-<p>​ 无向图模型中一般会涉及到大量结点，那么要表示这些结点的联合概率就十分麻烦。可以使用最大团来进行描述，将 <strong><u>无向图中的联合概率分布表示为极大团的势函数（Potential Function）</u></strong>的积。也即： <span class="math display">\[
+<p>​
+如果一个结点集合内，任意两个结点之间存在连边，那么称这是一个团（Clique）。</p>
+<p>​
+最大团：在一个团C外部任意找一个结点，加入此团后都会破坏团的性质（此结点与至少一个结点之间不存在连边）。也即外部已经不能再加入结点使团变大了。</p>
+<p>​
+无向图模型中一般会涉及到大量结点，那么要表示这些结点的联合概率就十分麻烦。可以使用最大团来进行描述，将
+<strong><u>无向图中的联合概率分布表示为极大团的势函数（Potential
+Function）</u></strong>的积。也即： <span class="math display">\[
 \begin{equation}
 P(x)=\frac{1}{Z}\prod_{i=1}^n\psi_i(x_i)
 \end{equation}
-\]</span> ​ 上式中，<span class="math inline">\(\psi_i(x)\)</span>表示极大团<span class="math inline">\(x_i\)</span>的势函数，而Z则是归一化因子，为了使<span class="math inline">\(P(x)\)</span>满足概率的归一化性质。归一化因子又叫做：配分函数（Partition Function），但是如何进行计算呢？举个例子（例子来自CSDN，但是感觉讲的不太清楚，我自己理解一下：）</p>
+\]</span> ​ 上式中，<span class="math inline">\(\psi_i(x)\)</span>表示极大团<span class="math inline">\(x_i\)</span>的势函数，而Z则是归一化因子，为了使<span class="math inline">\(P(x)\)</span>满足概率的归一化性质。归一化因子又叫做：配分函数（Partition
+Function），但是如何进行计算呢？举个例子（例子来自CSDN，但是感觉讲的不太清楚，我自己理解一下：）</p>
 <div class="note info"><p>2021.11.15补充：当时还会看粪坑CSDN呢。PS：参考的文献都没有记录。</p>
 </div>
 <pre class="mermaid">
@@ -612,11 +655,17 @@ C---D
 C---E
 
 </pre>
-<p>​ 可知，图中存在三个极大团：<span class="math inline">\(\{x_1, x_2, x_3\}\)</span>，<span class="math inline">\(\{x_3,x_5\}\)</span>，<span class="math inline">\(\{x_3, x_4\}\)</span> (注意一个结点可以存在于多个极大团中！)。那么整个联合概率分布可以写为： <span class="math display">\[
+<p>​ 可知，图中存在三个极大团：<span class="math inline">\(\{x_1, x_2,
+x_3\}\)</span>，<span class="math inline">\(\{x_3,x_5\}\)</span>，<span class="math inline">\(\{x_3, x_4\}\)</span>
+(注意一个结点可以存在于多个极大团中！)。那么整个联合概率分布可以写为：
+<span class="math display">\[
 \begin{equation}
-P(x_1, x_2, x_3,x_4,x_5)=\frac 1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)
+P(x_1, x_2, x_3,x_4,x_5)=\frac
+1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)
 \end{equation}
-\]</span> ​ 那么Z应如何计算？需要对每个结点进行遍历。下式为每个结点所在极大团的势函数： <span class="math display">\[
+\]</span> ​
+那么Z应如何计算？需要对每个结点进行遍历。下式为每个结点所在极大团的势函数：
+<span class="math display">\[
 \begin{align}
     &amp; x_1:\psi_1(x_1,x_2,x_3)\\
     &amp; x_2:\psi_1(x_1,x_2,x_3)\\
@@ -624,8 +673,10 @@ P(x_1, x_2, x_3,x_4,x_5)=\frac 1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_
     &amp; x_4:\psi_3(x_3,x_4)\\
     &amp; x_5:\psi_2(x_3,x_5)
 \end{align}
-\]</span> ​ 对每个结点进行求和归一化。为什么要这么做？为什么是对每一个结点结点所在团的势函数？而不是求每一个结点对应的某一个其他函数进行累加求和？</p>
-<div class="note danger"><p>2021.11.15 补充：诶？我最后在这里写了一个开放性思考题？应该是原来我没想清楚，但是最后也没去想。</p>
+\]</span> ​
+对每个结点进行求和归一化。为什么要这么做？为什么是对每一个结点结点所在团的势函数？而不是求每一个结点对应的某一个其他函数进行累加求和？</p>
+<div class="note danger"><p>2021.11.15
+补充：诶？我最后在这里写了一个开放性思考题？应该是原来我没想清楚，但是最后也没去想。</p>
 </div>
 
     </div>

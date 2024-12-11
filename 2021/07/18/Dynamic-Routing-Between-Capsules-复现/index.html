@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Capsules Network  ​ 上一次看这篇论文：Dynamic Routing Between Capsules 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的eval">
+  <meta name="description" content="Capsules Network  ​ 上一次看这篇论文：Dynamic Routing Between Capsules 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的e">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dynamic Routing Between Capsules 复现">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Capsules Network  ​ 上一次看这篇论文：Dynamic Routing Between Capsules 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的eval">
+<meta property="og:description" content="Capsules Network  ​ 上一次看这篇论文：Dynamic Routing Between Capsules 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的e">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1101.jpg">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1151.jpg">
@@ -110,7 +110,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -331,18 +331,27 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="capsules-network">Capsules Network</h1>
 <hr>
-<p>​ 上一次看这篇论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between Capsules</em></a> 的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
+<p>​ 上一次看这篇论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between
+Capsules</em></a>
+的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps
+net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
 <table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: center;"><img src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1101.jpg" alt="G_1101" style="zoom:150%;"></th>
 <th style="text-align: center;"><img src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1151.jpg" alt="G_1151" style="zoom:150%;"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: center;">根据digital capsule重建（MNIST 7 epochs）</td>
-<td style="text-align: center;">根据digital capsule重建（MNIST 7 epochs）</td>
+<tr>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
 </tr>
 </tbody>
 </table>

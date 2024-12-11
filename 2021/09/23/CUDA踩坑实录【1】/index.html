@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="CUDA I  I. Introduction ​ 在复现A Decomposition Model for Stereo Matching这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定">
+  <meta name="description" content="CUDA I  I. Introduction ​ 在复现A Decomposition Model for Stereo Matching这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUD">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CUDA踩坑实录【1】">
 <meta property="og:url" content="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="CUDA I  I. Introduction ​ 在复现A Decomposition Model for Stereo Matching这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定">
+<meta property="og:description" content="CUDA I  I. Introduction ​ 在复现A Decomposition Model for Stereo Matching这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUD">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/bubbles.PNG">
 <meta property="og:image" content="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/block.png">
@@ -111,7 +111,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -335,39 +335,57 @@
         <h1 id="cuda-i">CUDA I</h1>
 <hr>
 <h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 在复现<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.07516"><strong>A Decomposition Model for Stereo Matching</strong></a>这篇论文的时候，发现其Sparse matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA extension。出于以下目的：</p>
+<p>​ 在复现<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.07516"><strong>A
+Decomposition Model for Stereo
+Matching</strong></a>这篇论文的时候，发现其Sparse
+matching并不是直接的pytorch实现。本来我想直接pytorch了事的，但仔细一思考后觉得虽然反向传播实现不用考虑了，但是整体变得很慢。阅读官方源码发现时看到一些我不太懂的东西，后来我才知道这些是CUDA自定义pytorch算子，是pytorch的CUDA
+extension。出于以下目的：</p>
 <ul>
 <li>复习CUDA（特别是在学习完GPU存储结构与计算之后，急需实践）</li>
 <li>学习setuptools的使用以及torch的CUDA extension写法</li>
 </ul>
-<p>​ 我给自己定了一个小型的CUDA任务，与SDF以及marching cubes算法十分相关。项目见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CuTorch">[🔗Enigmatisms/CuTorch]</a></p>
+<p>​ 我给自己定了一个小型的CUDA任务，与SDF以及marching
+cubes算法十分相关。项目见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CuTorch">[🔗Enigmatisms/CuTorch]</a></p>
 <span id="more"></span>
 <hr>
 <h2 id="ii.-任务设定">II. 任务设定</h2>
-<p>​ 在一个800x600的画布内，随机生成一些“泡泡”，这些泡泡在运动过程中应该可以自由地融合。泡泡的融合不是简单地叠加，叠加应当是平滑的。如下图所示：</p>
+<p>​
+在一个800x600的画布内，随机生成一些“泡泡”，这些泡泡在运动过程中应该可以自由地融合。泡泡的融合不是简单地叠加，叠加应当是平滑的。如下图所示：</p>
 <p><img src="/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/bubbles.PNG" style="zoom: 67%;"></p>
 <center>
 Figure 1. 泡泡融合问题
 </center>
-<p>​ 每个泡泡对应着2D平面上半径为r，中心为(x, y)的一个圆。那么需要计算：</p>
+<p>​ 每个泡泡对应着2D平面上半径为r，中心为(x,
+y)的一个圆。那么需要计算：</p>
 <ul>
 <li>每个泡泡对应圆的SDF，并且将其叠加在一起</li>
 <li>设置一个阈值，跨越此阈值的部分将形成边结构（也就是等高线）</li>
 </ul>
-<p>​ 整个小项目的完整知识在这里：<a target="_blank" rel="noopener" href="http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/">【Jamie Wong: Metaballs and Marching Squares】</a>。写得非常不错，6月份做SDF的点云融合时，曾经参考过其marching cubes的实现方法。本文与具体的算法实现没有太大的关系，因为算法本身非常简单。</p>
+<p>​ 整个小项目的完整知识在这里：<a target="_blank" rel="noopener" href="http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/">【Jamie
+Wong: Metaballs and Marching
+Squares】</a>。写得非常不错，6月份做SDF的点云融合时，曾经参考过其marching
+cubes的实现方法。本文与具体的算法实现没有太大的关系，因为算法本身非常简单。</p>
 <hr>
 <h3 id="基础知识">2.1 基础知识</h3>
 <h4 id="dims">2.1.1 Dims</h4>
-<p>​ grid 与 block是CUDA的分级管理的两个层次，grid相当于是block的集合，而block相当于是thread的集合（或者warp的集合）。但我在写CUDA的时候好像并没有看到warp的直接使用。注意grid与block两者的维度 gridDim以及blockDim 千万别搞混了。对于一个kernel:</p>
+<p>​ grid 与
+block是CUDA的分级管理的两个层次，grid相当于是block的集合，而block相当于是thread的集合（或者warp的集合）。但我在写CUDA的时候好像并没有看到warp的直接使用。注意grid与block两者的维度
+gridDim以及blockDim 千万别搞混了。对于一个kernel:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kernel_function &lt;&lt;&lt;A, B&gt;&gt;&gt; ();</span><br></pre></td></tr></table></figure>
-<p>​ A指定的是grid的形状，可以是dim3类型，也可以是一个数字（指定block），A是数字的情形很常用，二维图像处理一般可以这么做：A，B分别代表图像的某一个维度。</p>
-<p>​ B指定的是block形状，数据类型同理。那么gridDim则反映了A的输入，blockDim反映B的输入，比如：</p>
+<p>​
+A指定的是grid的形状，可以是dim3类型，也可以是一个数字（指定block），A是数字的情形很常用，二维图像处理一般可以这么做：A，B分别代表图像的某一个维度。</p>
+<p>​
+B指定的是block形状，数据类型同理。那么gridDim则反映了A的输入，blockDim反映B的输入，比如：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>)</span></span>;</span><br><span class="line">kernel_func &lt;&lt;&lt;grid, block&gt;&gt;&gt; ();</span><br></pre></td></tr></table></figure>
 <p>​ 在kernel内部，会有：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gridDim.x, gridDim.y, gridDim.z)=(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">(blockDim.x, blockDim.y, blockDim.z)=(<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>);</span><br></pre></td></tr></table></figure>
-<p>​ 相应地，blockIdx.x <span class="math inline">\(\in\)</span> [0, gridDim.x ), threadIdx.x <span class="math inline">\(\in\)</span> [0, blockDim.x)。每一个实际的id，其范围是层级式的。block id与grid有关，thread id与block有关。并且也要注意以下的问题：</p>
+<p>​ 相应地，blockIdx.x <span class="math inline">\(\in\)</span> [0,
+gridDim.x ), threadIdx.x <span class="math inline">\(\in\)</span> [0,
+blockDim.x)。每一个实际的id，其范围是层级式的。block
+id与grid有关，thread id与block有关。并且也要注意以下的问题：</p>
 <blockquote>
-<p>Goal: Have enough transactions in flight to saturate the memory bus.</p>
+<p>Goal: Have enough transactions in flight to saturate the memory
+bus.</p>
 <p>Latency can be hidden by having more transactions in flight. [1]</p>
 </blockquote>
 <p><img src="/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/block.png"></p>
@@ -375,18 +393,26 @@ Figure 1. 泡泡融合问题
 Figure 2. occupancy注意事项（来源<a href="#refs">[1]</a>)
 </center>
 <h3 id="dynamic-parallelism踩坑">2.2 Dynamic Parallelism踩坑</h3>
-<p>​ Dynamic parallelism，我更愿意直观地称之为：nested kernels（嵌套的核函数）。以我自己的代码为例，我尝试了一下嵌套核函数：</p>
+<p>​ Dynamic parallelism，我更愿意直观地称之为：nested
+kernels（嵌套的核函数）。以我自己的代码为例，我尝试了一下嵌套核函数：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">fineGrainedTask</span><span class="params">(<span class="type">const</span> <span class="type">float</span>* <span class="type">const</span> bubbles, <span class="type">const</span> <span class="type">int</span> x, <span class="type">const</span> <span class="type">int</span> y, <span class="type">float</span>* shared_tmp)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> id = threadIdx.x, base = <span class="number">3</span> * id;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> cx = bubbles[base], cy = bubbles[base + <span class="number">1</span>], radius = bubbles[base + <span class="number">2</span>];</span><br><span class="line">    shared_tmp[id] = <span class="built_in">signedDistance</span>(x, y, cx, cy, radius);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">calculateSDF</span><span class="params">(<span class="type">const</span> <span class="type">float</span>* <span class="type">const</span> bubbles, <span class="type">const</span> <span class="type">int</span> num, <span class="type">float</span>* output)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> y = threadIdx.x, x = blockIdx.x, id = y * gridDim.x + x;</span><br><span class="line">    <span class="type">float</span> distance = <span class="number">0.0</span>;</span><br><span class="line">    <span class="comment">// fineGrainedTask &lt;&lt;&lt; 1, num &gt;&gt;&gt; (bubbles, x, y, tmp);</span></span><br><span class="line">    <span class="comment">// cudaDeviceSynchronize();</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> base = <span class="number">3</span> * i;</span><br><span class="line">        <span class="type">const</span> <span class="type">float</span> cx = bubbles[base], cy = bubbles[base + <span class="number">1</span>], radius = bubbles[base + <span class="number">2</span>];</span><br><span class="line">        distance += <span class="built_in">signedDistance</span>(x, y, cx, cy, radius);</span><br><span class="line">    &#125;</span><br><span class="line">    output[id] = distance - <span class="number">1.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 第二个函数 <code>__global__ void calculateSDF</code> 是主核函数。其目的是求二维矩阵中每一个点(i, j)的SDF值。而显然，每次输入的泡泡数量(num)可以很大，那么内部求signed distance的for循环，应该是可以并行化的。第一个函数<code>__global__ void fineGrainedTask</code> 就是为了做这样的并行，在第十行也被调用了（num路并行，使用__shared__保存临时的结果）。</p>
-<p>​ CUDA在 architecture 35以及之后就支持这种nested的dynamic parallelism结构，允许核函数内部调用核函数，因为确实也是会有层次并行的需求的。</p>
+<p>​ 第二个函数 <code>__global__ void calculateSDF</code>
+是主核函数。其目的是求二维矩阵中每一个点(i,
+j)的SDF值。而显然，每次输入的泡泡数量(num)可以很大，那么内部求signed
+distance的for循环，应该是可以并行化的。第一个函数<code>__global__ void fineGrainedTask</code>
+就是为了做这样的并行，在第十行也被调用了（num路并行，使用__shared__保存临时的结果）。</p>
+<p>​ CUDA在 architecture 35以及之后就支持这种nested的dynamic
+parallelism结构，允许核函数内部调用核函数，因为确实也是会有层次并行的需求的。</p>
 <div class="note danger"><center>
 <h3>
 但是CUDA dynamic parallelism + Python却有一大堆坑
 </h3>
 </center>
 </div>
-<p>​ 假如只是使用CUDA + CPP进行嵌套核函数的编写，虽然有点小坑，但是很快就能过编译：</p>
-<p>​ Dynamic parallelism需要separate compilation，CMake里面有很简单的设置：</p>
+<p>​ 假如只是使用CUDA +
+CPP进行嵌套核函数的编写，虽然有点小坑，但是很快就能过编译：</p>
+<p>​ Dynamic parallelism需要separate
+compilation，CMake里面有很简单的设置：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_property</span>(CUDA_SEPARABLE_COMPILATION <span class="keyword">ON</span>)</span><br></pre></td></tr></table></figure>
 <p>​ 但需要注意两点：</p>
 <ul>
@@ -396,26 +422,43 @@ Figure 2. occupancy注意事项（来源<a href="#refs">[1]</a>)
 <ul>
 <li>nvcc编译的时候，会指定：<code>-lcudadevrt -lcudart</code>，在/usr的某个文件夹下有一个动态库(libcudart.so)以及一个静态库（我的设备上是静态库：cudadevrt.a）。不方便设置这两个编译flag的时候，在target_link_libraries中可以手动链接。</li>
 </ul>
-<p>​ 但是Python setuptools编译并没有那么友好。首先我也知道我需要进行separate compilation，所以我需要指定：</p>
+<p>​ 但是Python
+setuptools编译并没有那么友好。首先我也知道我需要进行separate
+compilation，所以我需要指定：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;march&#x27;</span>,</span><br><span class="line">    ext_modules=[</span><br><span class="line">        CUDAExtension(<span class="string">&#x27;march&#x27;</span>, [</span><br><span class="line">                <span class="string">&#x27;src/marchingCubes.cu&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;src/sdf_kernel.cu&#x27;</span>,</span><br><span class="line">            ],</span><br><span class="line">            include_dirs=[include_dirs],</span><br><span class="line">            extra_compile_args=&#123;<span class="string">&#x27;cxx&#x27;</span>: [<span class="string">&#x27;-g&#x27;</span>,</span><br><span class="line">            ],</span><br><span class="line">                <span class="string">&#x27;nvcc&#x27;</span>: [<span class="string">&#x27;-O3&#x27;</span>, <span class="string">&#x27;-use_fast_math&#x27;</span>,</span><br><span class="line">                 <span class="comment">################# Here #############</span></span><br><span class="line">				<span class="string">&#x27;-rdc=true&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_35,code=sm_35&#x27;</span></span><br><span class="line">            ]&#125;,</span><br><span class="line">        )</span><br><span class="line">    ],</span><br><span class="line">    cmdclass=&#123;</span><br><span class="line">        <span class="string">&#x27;build_ext&#x27;</span>: BuildExtension</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>​ <code>-rdc=true</code>貌似和<code>-dc</code>作用差不多。还需要手动指定一下架构代数，默认好像是一个很小的代。好，不要忘了增加<code>-lcudadevrt</code>以及<code>-lcudart</code>以“保证”可以链接到CUDA的一些库。</p>
-<p>​ 看起来很简单，编它。编译通过，很好，跑它。首先import torch（由于本项目C++内部使用了libtorch，里面的libc10.so需要torch导入，不先import的话会报错）。再import march（我的库名称），这一步直接死掉：</p>
+<p>​
+<code>-rdc=true</code>貌似和<code>-dc</code>作用差不多。还需要手动指定一下架构代数，默认好像是一个很小的代。好，不要忘了增加<code>-lcudadevrt</code>以及<code>-lcudart</code>以“保证”可以链接到CUDA的一些库。</p>
+<p>​ 看起来很简单，编它。编译通过，很好，跑它。首先import
+torch（由于本项目C++内部使用了libtorch，里面的libc10.so需要torch导入，不先import的话会报错）。再import
+march（我的库名称），这一步直接死掉：</p>
 <blockquote>
 <p>什么什么undefined symbol，与CUDA库相关。</p>
 </blockquote>
-<p>​ 大概意思就是：<code>cudadevrt.a</code>你根本没有链接上，里面还有一些函数定义呢。好家伙，python的所有库都是动态加载的，你一个静态库你叫我怎么加载（简单的方法就是：(1) 重新编译静态库为动态库 (2) 编译整个项目为一个extension，具体原理我也不懂）？我还指望你直接给我编译到march这个库里面呢。</p>
-<p>​ 尝试了很多方法，无论是在C++ 编译flags里面链接，还是nvcc flags，还是stackoverflow上说的所谓：setup函数的extra_compile_objects参数，没有一个有效果的。</p>
+<p>​
+大概意思就是：<code>cudadevrt.a</code>你根本没有链接上，里面还有一些函数定义呢。好家伙，python的所有库都是动态加载的，你一个静态库你叫我怎么加载（简单的方法就是：(1)
+重新编译静态库为动态库 (2)
+编译整个项目为一个extension，具体原理我也不懂）？我还指望你直接给我编译到march这个库里面呢。</p>
+<p>​ 尝试了很多方法，无论是在C++ 编译flags里面链接，还是nvcc
+flags，还是stackoverflow上说的所谓：setup函数的extra_compile_objects参数，没有一个有效果的。</p>
 <p>​ 我也尝试过手动分别编译：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 -use_fast_math -gencode=arch=compute_70,code=sm_70 -dc -I/opt/libtorch/include/ -I/opt/libtorch/include/torch/csrc/api/include/ -I//usr/include/python3.6m src/sdf_kernel.cu src/marchingCubes.cu -Xcompiler -fPIC </span><br><span class="line">nvcc -O3 -use_fast_math -gencode=arch=compute_70,code=sm_70 -dlink -L/usr/local/cuda-10.1/targets/x86_64-linux/lib/ -lcudadevrt -lcudart sdf_kernel.o marchingCubes.o -shared -o libdlink.so</span><br></pre></td></tr></table></figure>
-<p>​ 想把两个cuda文件编译跟原有的静态动态库一起编译成一个动态库，但是中途报了有关fPIC的错误，说是这样编译是不被允许的，反正不是那种很简单的错误。。。搞了半天，无果。各种问题都出了，最后我甚至都怀疑是编译器的bug（自信！）。最后貌似在CUDA forum的某个地方看见有人说，Python现在对这个的支持还不是特别好，就弃坑了。</p>
-<p>​ 最后一个小坑就是：tmd不要随便用很高的代数！不知道为什么，我在setup函数nvcc参数设置时，定代数为：<code>-gencode=arch=compute_70,code=sm_70</code>。结果跑结果的时候，输出图像一片漆黑。最后查出来结果是：<strong><u>核函数根本没有被执行，跳过了</u></strong>，开始我以为出了内存问题（老 千（次）越（界）了）（PS：CUDA runtime出错可能导致核函数不执行），写了个CUDA错误检查，发现完全没有错误。最后灵光一闪，我把代数改成了35，好了。。。</p>
-<p>​ 感觉被坑死了。原本预计一个下午解决，结果因为grid/block搞混，结果错误，多调了3小时，又因为dynamic parallelism，多调了6小时。</p>
+<p>​
+想把两个cuda文件编译跟原有的静态动态库一起编译成一个动态库，但是中途报了有关fPIC的错误，说是这样编译是不被允许的，反正不是那种很简单的错误。。。搞了半天，无果。各种问题都出了，最后我甚至都怀疑是编译器的bug（自信！）。最后貌似在CUDA
+forum的某个地方看见有人说，Python现在对这个的支持还不是特别好，就弃坑了。</p>
+<p>​
+最后一个小坑就是：tmd不要随便用很高的代数！不知道为什么，我在setup函数nvcc参数设置时，定代数为：<code>-gencode=arch=compute_70,code=sm_70</code>。结果跑结果的时候，输出图像一片漆黑。最后查出来结果是：<strong><u>核函数根本没有被执行，跳过了</u></strong>，开始我以为出了内存问题（老
+千（次）越（界）了）（PS：CUDA
+runtime出错可能导致核函数不执行），写了个CUDA错误检查，发现完全没有错误。最后灵光一闪，我把代数改成了35，好了。。。</p>
+<p>​
+感觉被坑死了。原本预计一个下午解决，结果因为grid/block搞混，结果错误，多调了3小时，又因为dynamic
+parallelism，多调了6小时。</p>
 <p>​ 菜，或许就是这样的吧？</p>
 <p>​ 完整的项目以及结果见<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/CuTorch">[🔗Enigmatisms/CuTorch]</a></p>
 <hr>
 <h2 id="reference">Reference</h2>
 <p><span id="refs"></span></p>
-<p>[1] <a target="_blank" rel="noopener" href="https://on-demand.gputechconf.com/gtc-express/2011/presentations/cuda_webinars_WarpsAndOccupancy.pdf">CUDA Warps and Occupancy</a></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://on-demand.gputechconf.com/gtc-express/2011/presentations/cuda_webinars_WarpsAndOccupancy.pdf">CUDA
+Warps and Occupancy</a></p>
 <p></p>
 
     </div>

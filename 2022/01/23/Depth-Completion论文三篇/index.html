@@ -35,12 +35,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="Depth Completion  I. Intros ​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了">
+  <meta name="description" content="Depth Completion  I. Intros ​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Depth Completion论文三篇">
 <meta property="og:url" content="https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/index.html">
 <meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="Depth Completion  I. Intros ​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了">
+<meta property="og:description" content="Depth Completion  I. Intros ​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/iccv2019.png">
 <meta property="og:image" content="https://enigmatisms.github.io/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/icra2020.png">
@@ -113,7 +113,7 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
         <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-male fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">66</span></a></li>
@@ -174,7 +174,10 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#depth-completion"><span class="nav-text">Depth Completion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.1 需要解决的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-sparse-lidar-guidance-iccv-2019"><span class="nav-text">II. Sparse LiDAR Guidance (ICCV-2019)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E7%BD%91%E7%BB%9Cprediction-stage"><span class="nav-text">特征提取网络（prediction stage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#recurrent-refinement-stage"><span class="nav-text">Recurrent Refinement Stage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-penet-icra-2020"><span class="nav-text">III. PENet (ICRA-2020)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dilated-accelerated-cspn"><span class="nav-text">3.1 Dilated &amp; Accelerated CSPN++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-cspn-aaai-2020"><span class="nav-text">IV. CSPN++ (AAAI-2020)</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#depth-completion"><span class="nav-text">Depth Completion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-intros"><span class="nav-text">I. Intros</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.1 需要解决的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.-sparse-lidar-guidance-iccv-2019"><span class="nav-text">II. Sparse LiDAR Guidance
+(ICCV-2019)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E7%BD%91%E7%BB%9Cprediction-stage"><span class="nav-text">特征提取网络（prediction
+stage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#recurrent-refinement-stage"><span class="nav-text">Recurrent Refinement Stage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-penet-icra-2020"><span class="nav-text">III. PENet (ICRA-2020)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dilated-accelerated-cspn"><span class="nav-text">3.1 Dilated &amp; Accelerated
+CSPN++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-cspn-aaai-2020"><span class="nav-text">IV. CSPN++ (AAAI-2020)</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -329,18 +332,37 @@
         <h1 id="depth-completion">Depth Completion</h1>
 <hr>
 <h2 id="i.-intros">I. Intros</h2>
-<p>​ 深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了其中三篇关于 guided深度补全的文章：</p>
+<p>​
+深度补全中存在多模态数据融合的问题：单目RGB图像直接进行深度估计比较困难（直接深度估计，个人感觉只能凭借常识和先验知识），而如果同时存在稀疏激光点云（散步在稠密的图像上），可以通过“传播的思想”将一些位置的深度传播出去。在返乡的高铁上没事干（事实上由于河南大雪以及湖北大雨，高铁变成了低铁，时间+2h），看了五篇论文，本文简要分析了其中三篇关于
+guided深度补全的文章：</p>
 <ul>
-<li>ICCV 2019: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Xu_Depth_Completion_From_Sparse_LiDAR_Data_With_Depth-Normal_Constraints_ICCV_2019_paper.pdf">Xu, Yan, et al. "Depth completion from sparse lidar data with depth-normal constraints." <em>Proceedings of the IEEE/CVF International Conference on Computer Vision</em>. 2019.</a></li>
-<li>ICRA 2020 (可能写得不行 才6引): <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.00783">Hu, Mu, et al. "Towards Precise and Efficient Image Guided Depth Completion." <em>arXiv e-prints</em> (2021): arXiv-2103.</a></li>
-<li>AAAI 2020: <a target="_blank" rel="noopener" href="https://ojs.aaai.org/index.php/AAAI/article/view/6635">Cheng, Xinjing, et al. "Cspn++: Learning context and resource aware convolutional spatial propagation networks for depth completion." <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>. Vol. 34. No. 07. 2020.</a></li>
+<li>ICCV 2019: <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Xu_Depth_Completion_From_Sparse_LiDAR_Data_With_Depth-Normal_Constraints_ICCV_2019_paper.pdf">Xu,
+Yan, et al. "Depth completion from sparse lidar data with depth-normal
+constraints." <em>Proceedings of the IEEE/CVF International Conference
+on Computer Vision</em>. 2019.</a></li>
+<li>ICRA 2020 (可能写得不行 才6引): <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.00783">Hu, Mu, et al. "Towards Precise
+and Efficient Image Guided Depth Completion." <em>arXiv e-prints</em>
+(2021): arXiv-2103.</a></li>
+<li>AAAI 2020: <a target="_blank" rel="noopener" href="https://ojs.aaai.org/index.php/AAAI/article/view/6635">Cheng,
+Xinjing, et al. "Cspn++: Learning context and resource aware
+convolutional spatial propagation networks for depth completion."
+<em>Proceedings of the AAAI Conference on Artificial Intelligence</em>.
+Vol. 34. No. 07. 2020.</a></li>
 </ul>
-<p>​ 本文可能写得<strong><u>很烂</u></strong>，笔者在看这三篇论文以及写博客时，由于返乡安排太紧，只睡了3.25小时。</p>
+<p>​
+本文可能写得<strong><u>很烂</u></strong>，笔者在看这三篇论文以及写博客时，由于返乡安排太紧，只睡了3.25小时。</p>
 <span id="more"></span>
 <h3 id="需要解决的问题">1.1 需要解决的问题</h3>
 <p>​ 这里我就直接摘抄CSPN++中对于深度补全预期效果的阐述：</p>
 <blockquote>
-<p>CSPN claims three important properties should be considered for the depth completion task, 1) <strong><u>depth preservation</u></strong>, where the depth value at sparse points should be maintained, 2) <strong><u>structure alignment</u></strong>, where the detailed structures, such as edges and object boundaries in estimated depth map, should be aligned with the given image, and 3) <strong><u>transition smoothness</u></strong>, where the depth transition between sparse points and their neighborhoods should be smooth. [1]</p>
+<p>CSPN claims three important properties should be considered for the
+depth completion task, 1) <strong><u>depth preservation</u></strong>,
+where the depth value at sparse points should be maintained, 2)
+<strong><u>structure alignment</u></strong>, where the detailed
+structures, such as edges and object boundaries in estimated depth map,
+should be aligned with the given image, and 3) <strong><u>transition
+smoothness</u></strong>, where the depth transition between sparse
+points and their neighborhoods should be smooth. [1]</p>
 </blockquote>
 <p>​ 但实际上，阅读ICCV 2019文章之后，个人觉得可能还差了这两点：</p>
 <ul>
@@ -348,40 +370,63 @@
 <li>正确的平滑假设：edge preserving的平滑假设（类似双边滤波的思想）</li>
 </ul>
 <hr>
-<h2 id="ii.-sparse-lidar-guidance-iccv-2019">II. Sparse LiDAR Guidance (ICCV-2019)</h2>
+<h2 id="ii.-sparse-lidar-guidance-iccv-2019">II. Sparse LiDAR Guidance
+(ICCV-2019)</h2>
 <p><img src="/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/iccv2019.png"></p>
 <center>
 Figure 1. 网络处理架构
 </center>
-<p>​ 个人认为本工作虽然比ICRA-2020这篇早了一年，但是质量更高。本论文看问题的角度非常独特：</p>
+<p>​
+个人认为本工作虽然比ICRA-2020这篇早了一年，但是质量更高。本论文看问题的角度非常独特：</p>
 <div class="note primary"><ul>
 <li>一般论文：直接在2D空间，硬凿loss，或者像ICRA-2020的PENet，包含一些不明所以的3D信息</li>
-<li>本论文：直接在3D空间下建模 深度与法向量的关系，放弃piece-wise depth constant假设，转向piece-wise plain假设（观测由一块块平面构成）</li>
+<li>本论文：直接在3D空间下建模 深度与法向量的关系，放弃piece-wise depth
+constant假设，转向piece-wise plain假设（观测由一块块平面构成）</li>
 </ul>
 </div>
-<p>​ 个人认为，piece-wise depth constant是不优雅的，首先，这个假设的直接结果就是：边缘的模糊与平滑（相当于加了一个平均核），在2D CV邻域，成像结果可以是piece-wise constant的，光学成像结果不仅与深度有关，与反射率、材质、介质等等均有关系，十分复杂。但对于深度而言，此假设太过简单粗暴，而作者提到的 “plain-origin distance piece wise constant”则是基于：大量人工场景都是由碎片化的平面构成 这一特点，比较符合实际。举个例子，我们观测两堵墙，两堵墙都不是完全垂直于我们视线的。使用Piece-wise constant假设将会使得深度过渡更加平滑，对于多平面深度不连续情况而言，误差较大（会平均一些不该平均的位置），而“plain-origin distance piece-wise constant”则可以准确描述两堵墙（甚至是更多的平面）。</p>
+<p>​ 个人认为，piece-wise depth
+constant是不优雅的，首先，这个假设的直接结果就是：边缘的模糊与平滑（相当于加了一个平均核），在2D
+CV邻域，成像结果可以是piece-wise
+constant的，光学成像结果不仅与深度有关，与反射率、材质、介质等等均有关系，十分复杂。但对于深度而言，此假设太过简单粗暴，而作者提到的
+“plain-origin distance piece wise
+constant”则是基于：大量人工场景都是由碎片化的平面构成
+这一特点，比较符合实际。举个例子，我们观测两堵墙，两堵墙都不是完全垂直于我们视线的。使用Piece-wise
+constant假设将会使得深度过渡更加平滑，对于多平面深度不连续情况而言，误差较大（会平均一些不该平均的位置），而“plain-origin
+distance piece-wise
+constant”则可以准确描述两堵墙（甚至是更多的平面）。</p>
 <p>​ 本论文的一般处理步骤：</p>
-<div class="note "><h4 id="特征提取网络prediction-stage">特征提取网络（prediction stage）</h4>
+<div class="note "><h4 id="特征提取网络prediction-stage">特征提取网络（prediction
+stage）</h4>
 <div class="note danger no-icon">
 <p>
-​ UNet-ResNet34 backbone 提取特征，生成：<strong><u>coarse深度图</u></strong>，<strong><u>Guidance Feature</u></strong>（相当于context信息），<strong><u>法向量估计</u></strong>，<strong><u>置信度</u></strong>。
+​UNet-ResNet34 backbone
+提取特征，生成：<strong><u>coarse深度图</u></strong>，<strong><u>Guidance
+Feature</u></strong>（相当于context信息），<strong><u>法向量估计</u></strong>，<strong><u>置信度</u></strong>。
 </p>
 </div>
 <div class="note warning no-icon">
 <p>
-​ 根据粗深度 + 法向量，变换到每个点所在平面到原点（也即相机中心）的距离
+​根据粗深度 + 法向量，变换到每个点所在平面到原点（也即相机中心）的距离
 </p>
 </div>
 </div>
 <div class="note "><h4 id="recurrent-refinement-stage">Recurrent Refinement Stage</h4>
-<p>​ 使用Diffusion model（类似置信传播，但并未直接使用MRF或者CRF相关公式），可以认为是一种规则的图卷积？迭代多次，diffusion根据两个像素位置对应的guidance feature相似度判定diffusion coefficient。最后的结果从plain-origin distance变换为原始的深度。</p>
-<p>​ 当然，如果涉及到存在sparse LiDAR深度点的像素位置，特征提取网络输出的 confidence 将会把原深度以及预测深度加权求和。</p>
+<p>​ 使用Diffusion
+model（类似置信传播，但并未直接使用MRF或者CRF相关公式），可以认为是一种规则的图卷积？迭代多次，diffusion根据两个像素位置对应的guidance
+feature相似度判定diffusion coefficient。最后的结果从plain-origin
+distance变换为原始的深度。</p>
+<p>​ 当然，如果涉及到存在sparse LiDAR深度点的像素位置，特征提取网络输出的
+confidence 将会把原深度以及预测深度加权求和。</p>
 </div>
-<p>​ 这里只简单推一推Plain-origin distance：已知点到平面的距离公式是 <span class="math display">\[
+<p>​ 这里只简单推一推Plain-origin distance：已知点到平面的距离公式是
+<span class="math display">\[
 \begin{equation}\label{dist}
 N(\pmb{X})\cdot \pmb{X} -P=0
 \end{equation}
-\]</span> ​ 其中<span class="math inline">\(N(\pmb{X})\)</span>是三维点<span class="math inline">\(X\)</span>所在表面的切平面（tangent space）的法向量，通常来说，给定足够多的点，可以使用PCA或者求解协方差矩阵最小特征值对应特征向量（实际上还是类似PCA）的方法求解。<span class="math inline">\(\pmb{X}\)</span>是平面上一点到相机中心的相机坐标系3D vector。公式<span class="math inline">\(\eqref{dist}\)</span>表达的意义很清晰，<span class="math inline">\(N(\pmb{X})\cdot\pmb{X}\)</span>是 <span class="math inline">\(\pmb{X}\)</span> 在平面法向量上的投影距离，也就是原点到平面的距离。</p>
+\]</span> ​ 其中<span class="math inline">\(N(\pmb{X})\)</span>是三维点<span class="math inline">\(X\)</span>所在表面的切平面（tangent
+space）的法向量，通常来说，给定足够多的点，可以使用PCA或者求解协方差矩阵最小特征值对应特征向量（实际上还是类似PCA）的方法求解。<span class="math inline">\(\pmb{X}\)</span>是平面上一点到相机中心的相机坐标系3D
+vector。公式<span class="math inline">\(\eqref{dist}\)</span>表达的意义很清晰，<span class="math inline">\(N(\pmb{X})\cdot\pmb{X}\)</span>是 <span class="math inline">\(\pmb{X}\)</span>
+在平面法向量上的投影距离，也就是原点到平面的距离。</p>
 <p>​ 而有深度值 + 相机内参 + 像素位置，可以根据<span class="math inline">\(zK\pmb{x}=\pmb{X}\)</span>求的<span class="math inline">\(\pmb{X}\)</span>。那么正逆变换： <span class="math display">\[
 \begin{align}
 &amp;P(\pmb{x})=D(\pmb{x})N(\pmb{x})K\pmb{x}\\
@@ -390,87 +435,150 @@ N(\pmb{X})\cdot \pmb{X} -P=0
 \]</span> ​ 总的来说，这篇文章很好理解，写得很清晰。</p>
 <hr>
 <h2 id="iii.-penet-icra-2020">III. PENet (ICRA-2020)</h2>
-<p>​ PENet个人感觉创新点很有限，这个网络给人一种十分魔法的感觉，比如Color-dominant和Depth-dominant是如何进行处理的，为什么可以做到不同模态数据的dominant。</p>
+<p>​
+PENet个人感觉创新点很有限，这个网络给人一种十分魔法的感觉，比如Color-dominant和Depth-dominant是如何进行处理的，为什么可以做到不同模态数据的dominant。</p>
 <img src="/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/icra2020.png">
 <center>
 Figure 2. 看到网络结构后我就觉得 坏了 应该很魔法
 </center>
-<h3 id="dilated-accelerated-cspn">3.1 Dilated &amp; Accelerated CSPN++</h3>
-<p>​ 作者唯一花了大篇幅介绍的，有实质内容的部分就是这一部分。其中有个很奇怪的地方（可能是我不懂Spatial Propagation Network），其中的公式（3）： <span class="math display">\[
+<h3 id="dilated-accelerated-cspn">3.1 Dilated &amp; Accelerated
+CSPN++</h3>
+<p>​
+作者唯一花了大篇幅介绍的，有实质内容的部分就是这一部分。其中有个很奇怪的地方（可能是我不懂Spatial
+Propagation Network），其中的公式（3）： <span class="math display">\[
 \begin{equation}\label{map}
 D_{i}^{t+1}=W_{ii}D_i^0+\Sigma_{j\in N(i)}W_{ji}D_j^t
 \end{equation}
-\]</span> ​ 对于这种迭代式的结构，个人感觉有点类似RNN（RAFT里就有RNN的某个经典结构：GRU）。但这和卷积的区别在哪？看起来很像卷积：对于图像某个位置的输出第t+1层卷积的输出，是上一层此位置周围邻域内所有输入线性组合的非线性映射（考虑激活函数）。关于这个translated propagation，照我个人理解，其意思大致是这样：仍以论文中<span class="math inline">\(3\times3\)</span>邻域为例：</p>
-<p>​ 在一般情况下，对于一个【特征图】进行计算的<span class="math inline">\(3\times3\)</span>矩阵实际上应该是一个张量，此张量可以是<span class="math inline">\(3\times3\times C\)</span>大小的。换句话说，这里有9个特征向量，被组织成了二维grid结构。那么如果需要输出是一个向量，那针对每一个向量的映射就应该是大小为<span class="math inline">\(C\times C\)</span>的矩阵。故公式<span class="math inline">\(\eqref{map}\)</span>中定义的<span class="math inline">\(W\)</span>实际上应该是<u><strong>很多矩阵</strong></u>。</p>
-<p>​ 这里与卷积不同的是：卷积层的每一个kernel都会考虑感受野内的每一个输入（除非这个卷积学习得很奇怪，就只有一个点值非0）。比如此处的<span class="math inline">\(3\times3\times C\)</span>的输入。假设我们使用一个<code>Conv2d(C, N, k = 3)</code>进行计算（输出一个大小为<span class="math inline">\(1\times1\times N\)</span>的向量），输出的第k个通道（此处也即<span class="math inline">\(\text{output}_{[0,0,k]}\)</span>）是： <span class="math display">\[
+\]</span> ​
+对于这种迭代式的结构，个人感觉有点类似RNN（RAFT里就有RNN的某个经典结构：GRU）。但这和卷积的区别在哪？看起来很像卷积：对于图像某个位置的输出第t+1层卷积的输出，是上一层此位置周围邻域内所有输入线性组合的非线性映射（考虑激活函数）。关于这个translated
+propagation，照我个人理解，其意思大致是这样：仍以论文中<span class="math inline">\(3\times3\)</span>邻域为例：</p>
+<p>​ 在一般情况下，对于一个【特征图】进行计算的<span class="math inline">\(3\times3\)</span>矩阵实际上应该是一个张量，此张量可以是<span class="math inline">\(3\times3\times
+C\)</span>大小的。换句话说，这里有9个特征向量，被组织成了二维grid结构。那么如果需要输出是一个向量，那针对每一个向量的映射就应该是大小为<span class="math inline">\(C\times C\)</span>的矩阵。故公式<span class="math inline">\(\eqref{map}\)</span>中定义的<span class="math inline">\(W\)</span>实际上应该是<u><strong>很多矩阵</strong></u>。</p>
+<p>​
+这里与卷积不同的是：卷积层的每一个kernel都会考虑感受野内的每一个输入（除非这个卷积学习得很奇怪，就只有一个点值非0）。比如此处的<span class="math inline">\(3\times3\times
+C\)</span>的输入。假设我们使用一个<code>Conv2d(C, N, k = 3)</code>进行计算（输出一个大小为<span class="math inline">\(1\times1\times
+N\)</span>的向量），输出的第k个通道（此处也即<span class="math inline">\(\text{output}_{[0,0,k]}\)</span>）是： <span class="math display">\[
 \begin{equation}
-N_k=\sum_{t=0}^C\left\{\sum_{i=0}^2\sum_{j=0}^2A_t(i, j)C_t(i,j)\right\}+\text{bias},\text{ where }A\text{ is input and }C\text{ is kernel}
+N_k=\sum_{t=0}^C\left\{\sum_{i=0}^2\sum_{j=0}^2A_t(i,
+j)C_t(i,j)\right\}+\text{bias},\text{ where }A\text{ is input and
+}C\text{ is kernel}
 \end{equation}
-\]</span> ​ 卷积实际上是将图像以通道划分的，处理信息的视角是 通道。而此处的Spatial Propagation，是以每个像素的特征向量为视角： <span class="math display">\[
+\]</span> ​ 卷积实际上是将图像以通道划分的，处理信息的视角是
+通道。而此处的Spatial Propagation，是以每个像素的特征向量为视角： <span class="math display">\[
 \begin{equation}
-V_o=\sum_{i=0}^2\sum_{j=0}^2W_{ij}A(i,j),\text{ where }W_{ij}\in\R^{C\times C}
+V_o=\sum_{i=0}^2\sum_{j=0}^2W_{ij}A(i,j),\text{ where
+}W_{ij}\in\R^{C\times C}
 \end{equation}
-\]</span> ​ 我们可以认为这就是一个<strong><u>向量的线性组合</u></strong>过程。综上所述，通俗地来说：</p>
+\]</span> ​
+我们可以认为这就是一个<strong><u>向量的线性组合</u></strong>过程。综上所述，通俗地来说：</p>
 <ul>
 <li>卷积是以通道为视角的，卷积核都是每个通道进行计算的</li>
-<li>Spatial propagation（至少在这篇论文里）是特征向量（某一点的所有通道值）为视角的，可以视作向量的线性组合。</li>
+<li>Spatial
+propagation（至少在这篇论文里）是特征向量（某一点的所有通道值）为视角的，可以视作向量的线性组合。</li>
 </ul>
-<p>​ 但需要注意的是，以上只是个人认为的【卷积】与【SP】的区别，论文中实际以【深度图】（单通道，而不是上文所说的特征图）进行计算，故每个<span class="math inline">\(W_{ij}\)</span>实际是一个具体的值。由于第t+1次迭代的输出（x, y）是第t次迭代输入（x, y）邻域值的组合。而由于不同像素<span class="math inline">\((x_1, y_1)\)</span>相对于其邻域某个点（比如相对距离(-1, -1)的像素）与<span class="math inline">\((x_2, y_2)\)</span>相对于相同的相对位置点，affinity值是不一样的，<strong><u>权重并不是共享</u></strong>的，故简单卷积是无法计算的。</p>
+<p>​
+但需要注意的是，以上只是个人认为的【卷积】与【SP】的区别，论文中实际以【深度图】（单通道，而不是上文所说的特征图）进行计算，故每个<span class="math inline">\(W_{ij}\)</span>实际是一个具体的值。由于第t+1次迭代的输出（x,
+y）是第t次迭代输入（x, y）邻域值的组合。而由于不同像素<span class="math inline">\((x_1,
+y_1)\)</span>相对于其邻域某个点（比如相对距离(-1, -1)的像素）与<span class="math inline">\((x_2,
+y_2)\)</span>相对于相同的相对位置点，affinity值是不一样的，<strong><u>权重并不是共享</u></strong>的，故简单卷积是无法计算的。</p>
 <p><img src="/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/onehot.png"></p>
 <center>
 Figure 3. One-hot convolution --- affinity map shifting
 </center>
-<p>​ 事实上，按照SP的思想，每个像素相对于邻域内某个相对位置点将得到一affinity值，那么对于某一个相对位置点，将得到一个大小为<span class="math inline">\((H, W)\)</span>的单通道affinity map，就比如：，图像中所有像素相对于<span class="math inline">\(3\times 3\)</span>邻域内(-1, -1)位置将形成一个单通道affinity map，那么<span class="math inline">\(3\times 3\)</span>邻域将形成9个相对于不同位置的单通道affinity map。而且这些affinity map就像是relative positional embeddings一样，需要与正确相对位置的值运算，举例说明：</p>
+<p>​
+事实上，按照SP的思想，每个像素相对于邻域内某个相对位置点将得到一affinity值，那么对于某一个相对位置点，将得到一个大小为<span class="math inline">\((H, W)\)</span>的单通道affinity
+map，就比如：，图像中所有像素相对于<span class="math inline">\(3\times
+3\)</span>邻域内(-1, -1)位置将形成一个单通道affinity map，那么<span class="math inline">\(3\times
+3\)</span>邻域将形成9个相对于不同位置的单通道affinity
+map。而且这些affinity map就像是relative positional
+embeddings一样，需要与正确相对位置的值运算，举例说明：</p>
 <ul>
 <li>考虑图像上（1, 1）点对应的像素，并考虑一个<span class="math inline">\(3\times 3\)</span>邻域</li>
-<li>(1, 1)点对应像素在迭代生成输出时首先应将自身值与【相对位置(0, 0)的affinity map通道】上的【(1, 1)位置值（代表了(1, 1)点相对于与自身相对距离为(0, 0)点的affinity）】进行相乘，作为base值</li>
+<li>(1, 1)点对应像素在迭代生成输出时首先应将自身值与【相对位置(0,
+0)的affinity map通道】上的【(1, 1)位置值（代表了(1,
+1)点相对于与自身相对距离为(0,
+0)点的affinity）】进行相乘，作为base值</li>
 <li>后(1, 1)点计算其领域点信息：
 <ul>
-<li>(0, 0)点相对于【（-1, -1）affinity map通道上的(1, 1)位置】值相乘，叠加到base值上</li>
-<li>(0, 1)点相对于【（-1, 0）affinity map通道上的(1, 1)位置】值相乘，叠加到base值上..., etc.</li>
+<li>(0, 0)点相对于【（-1, -1）affinity map通道上的(1,
+1)位置】值相乘，叠加到base值上</li>
+<li>(0, 1)点相对于【（-1, 0）affinity map通道上的(1,
+1)位置】值相乘，叠加到base值上..., etc.</li>
 </ul></li>
-<li>从Figure 2中也看出相应的意思：<span class="math inline">\(A^x\)</span>是不同方向（x为方向，也即相对位置）对应的affinity map，在经过one-hot convolution之后，组成一个乘法kernel。</li>
+<li>从Figure 2中也看出相应的意思：<span class="math inline">\(A^x\)</span>是不同方向（x为方向，也即相对位置）对应的affinity
+map，在经过one-hot convolution之后，组成一个乘法kernel。</li>
 </ul>
-<p>​ 显然我们是不希望使用for循环的（对于CUDA加速不友好）。作者的方法实际上就是使用one-hot convolution实现了tensor的roll操作，并且此roll不是循环的（设0），因为有些像素就是没有某个特定位置的值（比如右下角点没有(1, 1)相对位置点）。直接roll可能需要借助额外的masking操作，故作者就使用固定的one-hot卷积核，卷积affinity map的每一个通道（每个通道的one-hot 卷积核不一样，因为所表示的相对位置不一样），卷积的结果可以直接用于【乘法 + 叠加】操作。</p>
+<p>​
+显然我们是不希望使用for循环的（对于CUDA加速不友好）。作者的方法实际上就是使用one-hot
+convolution实现了tensor的roll操作，并且此roll不是循环的（设0），因为有些像素就是没有某个特定位置的值（比如右下角点没有(1,
+1)相对位置点）。直接roll可能需要借助额外的masking操作，故作者就使用固定的one-hot卷积核，卷积affinity
+map的每一个通道（每个通道的one-hot
+卷积核不一样，因为所表示的相对位置不一样），卷积的结果可以直接用于【乘法
++ 叠加】操作。</p>
 <h2 id="iv.-cspn-aaai-2020">IV. CSPN++ (AAAI-2020)</h2>
 <p><img src="/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/aaai2020.png"></p>
 <center>
 Figure 4. 看成了CSDN...
 </center>
-<p>​ 本论文可以称为是：终极自适应 工作。CSPN++在两方面进行了自适应考虑：</p>
+<p>​ 本论文可以称为是：终极自适应
+工作。CSPN++在两方面进行了自适应考虑：</p>
 <ul>
 <li>Context-aware：对于图像内容本身的处理进行自适应，用以提升精度</li>
-<li>Resouce-aware：对于计算资源的自适应，比如自适应选择 <strong><u>卷积核大小（或propagation域大小）</u></strong> 以及 <strong><u>迭代次数（per-pixel）</u></strong></li>
+<li>Resouce-aware：对于计算资源的自适应，比如自适应选择
+<strong><u>卷积核大小（或propagation域大小）</u></strong> 以及
+<strong><u>迭代次数（per-pixel）</u></strong></li>
 </ul>
-<p>​ 两方面的awareness存在权衡关系：计算资源富足时在计算精度以及结果质量上必然更好，反之亦然。其中，个人觉得Context-aware没有特别多可以说的，作者也就是从两个不同的角度进行信息综合：</p>
+<p>​
+两方面的awareness存在权衡关系：计算资源富足时在计算精度以及结果质量上必然更好，反之亦然。其中，个人觉得Context-aware没有特别多可以说的，作者也就是从两个不同的角度进行信息综合：</p>
 <ul>
 <li>每一个像素使用不同大小的kernel得到的结果综合</li>
 <li>每一个像素迭代不同阶段时的信息综合</li>
 </ul>
 <p>​ CSPN block迭代公式本身是： <span class="math display">\[
 \begin{equation}
-H^+_x(t+1)=\kappa(x) H_x(0) + \sum_{y\in N(x)}\kappa(y)H_y(t),\text{ where }N(x) \text{ is the neighbor of }x
+H^+_x(t+1)=\kappa(x) H_x(0) + \sum_{y\in N(x)}\kappa(y)H_y(t),\text{
+where }N(x) \text{ is the neighbor of }x
 \end{equation}
 \]</span> ​ 其中的neighbor表示去心邻域，以上操作记为<span class="math inline">\(H_{CSPN}(x,t)\)</span></p>
-<p>​ 综合 迭代平均 以及 核平均，更新公式应该是（我们令<span class="math inline">\(H_x(t )\)</span>为迭代第t次时，像素位置x的深度值hidden state）： <span class="math display">\[
+<p>​ 综合 迭代平均 以及 核平均，更新公式应该是（我们令<span class="math inline">\(H_x(t
+)\)</span>为迭代第t次时，像素位置x的深度值hidden state）： <span class="math display">\[
 \begin{align}
 &amp; H^+_x(t+1)=\lambda_x(k, t+1)H_{CSPN}(x,t)+H^+_x(t)\\
-&amp; H^+_x(t)=\sum_{i=0}^k\alpha_x(k)H^+_x(t,i), \text{ where }H_x^+(t, i) \text{ also indicates kernel size}
+&amp; H^+_x(t)=\sum_{i=0}^k\alpha_x(k)H^+_x(t,i), \text{ where }H_x^+(t,
+i) \text{ also indicates kernel size}
 \end{align}
-\]</span> ​ 其中<span class="math inline">\(\lambda_x(k, t)\)</span>（迭代综合系数）以及<span class="math inline">\(\alpha_x(k)\)</span> （kernel综合系数）都是网络的输出，注意这些系数均带有下标，说明是与像素有关的 per-pixel prediction coefficient。</p>
-<p>​ 本论文有意思的点在于，论文通过Context-aware propagation过程定义的公式，导出了computational cost的简单表达式，computational cost在此处的作用相当于惩罚项。由于Context aware的过程是：multi-branch prediction，最后根据预测的<span class="math inline">\(\alpha\)</span> 以及 <span class="math inline">\(\lambda\)</span>系数整合多branch的预测结果。此处，<span class="math inline">\(\alpha\)</span>以及<span class="math inline">\(\lambda\)</span>是先于CSPN block实际迭代过程给出的（由一个修改的ResNet-34网络给出）。在Resource-aware计算过程中，作者将 “weighted average”变为了“max pool”：根据预测系数，每个像素位置选择“最大”branch进行计算： <span class="math display">\[
+\]</span> ​ 其中<span class="math inline">\(\lambda_x(k,  t)\)</span>（迭代综合系数）以及<span class="math inline">\(\alpha_x(k)\)</span>
+（kernel综合系数）都是网络的输出，注意这些系数均带有下标，说明是与像素有关的
+per-pixel prediction coefficient。</p>
+<p>​ 本论文有意思的点在于，论文通过Context-aware
+propagation过程定义的公式，导出了computational
+cost的简单表达式，computational
+cost在此处的作用相当于惩罚项。由于Context aware的过程是：multi-branch
+prediction，最后根据预测的<span class="math inline">\(\alpha\)</span>
+以及 <span class="math inline">\(\lambda\)</span>系数整合多branch的预测结果。此处，<span class="math inline">\(\alpha\)</span>以及<span class="math inline">\(\lambda\)</span>是先于CSPN
+block实际迭代过程给出的（由一个修改的ResNet-34网络给出）。在Resource-aware计算过程中，作者将
+“weighted average”变为了“max
+pool”：根据预测系数，每个像素位置选择“最大”branch进行计算： <span class="math display">\[
 \begin{equation}
-k_x^*=\mathop{\arg\max \alpha_x(k)}_k,t^*_x=\mathop{\arg \max\lambda(k_x^*,t)}_t
+k_x^*=\mathop{\arg\max \alpha_x(k)}_k,t^*_x=\mathop{\arg
+\max\lambda(k_x^*,t)}_t
 \end{equation}
-\]</span> ​ 这样可以省去多路计算的计算开销，但显然这样牺牲了结果质量。</p>
+\]</span> ​
+这样可以省去多路计算的计算开销，但显然这样牺牲了结果质量。</p>
 <p>​ 另一方面，作者在论文中对computational cost进行了建模： <span class="math display">\[
 \begin{align}
-&amp; E(c_x|\{\alpha_x, \lambda_x\})=\frac  1{hw}\sum_x E(c_x|\alpha_x, \lambda_x)\label{normx}\\
-&amp;E(c_x|\alpha_x, \lambda_{x})=\frac 1 {Nk_{\max}}\sum_{k}\sum_t\alpha_x(k)\lambda_x(k,t)k^2t\label{norma}
+&amp; E(c_x|\{\alpha_x, \lambda_x\})=\frac  1{hw}\sum_x E(c_x|\alpha_x,
+\lambda_x)\label{normx}\\
+&amp;E(c_x|\alpha_x, \lambda_{x})=\frac 1
+{Nk_{\max}}\sum_{k}\sum_t\alpha_x(k)\lambda_x(k,t)k^2t\label{norma}
 \end{align}
-\]</span> ​ <span class="math inline">\(\eqref{normx}\)</span>相当于是所有像素位置求平均（期望），<span class="math inline">\(\eqref{norma}\)</span>则是某一个确定的像素位置进行的期望计算：因为一个像素位置进行传播的复杂度显然是<span class="math inline">\(O(k_{\max}^2N)\)</span>，其中<span class="math inline">\(k_{\max}\)</span>是最大核大小，<span class="math inline">\(N\)</span>是迭代次数，而如果将<span class="math inline">\(\alpha\)</span>以及<span class="math inline">\(\lambda\)</span>分别看作核取大小 <span class="math inline">\(k\)</span> 以及 迭代次数为 <span class="math inline">\(t\)</span> 时的概率（个人认为这是可以的，在“max pool”下选取的就是最大“概率”branch进行计算），cost的期望便可以以上述两个公式进行计算。</p>
-<p>​ 事实上作者也将此惩罚项向有约束优化中拓展了，但最后的形式还是惩罚项（因为这个优化问题non-convex，拉格朗日对偶没啥大用处）。惩罚项的坏处就是，约束是软约束，超出约束范围是可能的。</p>
-<p>​ 不过综上所述，个人觉得CSPN++这篇论文相对还是比较有意思的（尤其是Resource-aware部分），有一定启发性，相比ICRA 2020的PENet，个人觉得这篇文章写的更不那么魔法。</p>
+\]</span> ​ <span class="math inline">\(\eqref{normx}\)</span>相当于是所有像素位置求平均（期望），<span class="math inline">\(\eqref{norma}\)</span>则是某一个确定的像素位置进行的期望计算：因为一个像素位置进行传播的复杂度显然是<span class="math inline">\(O(k_{\max}^2N)\)</span>，其中<span class="math inline">\(k_{\max}\)</span>是最大核大小，<span class="math inline">\(N\)</span>是迭代次数，而如果将<span class="math inline">\(\alpha\)</span>以及<span class="math inline">\(\lambda\)</span>分别看作核取大小 <span class="math inline">\(k\)</span> 以及 迭代次数为 <span class="math inline">\(t\)</span> 时的概率（个人认为这是可以的，在“max
+pool”下选取的就是最大“概率”branch进行计算），cost的期望便可以以上述两个公式进行计算。</p>
+<p>​
+事实上作者也将此惩罚项向有约束优化中拓展了，但最后的形式还是惩罚项（因为这个优化问题non-convex，拉格朗日对偶没啥大用处）。惩罚项的坏处就是，约束是软约束，超出约束范围是可能的。</p>
+<p>​
+不过综上所述，个人觉得CSPN++这篇论文相对还是比较有意思的（尤其是Resource-aware部分），有一定启发性，相比ICRA
+2020的PENet，个人觉得这篇文章写的更不那么魔法。</p>
 
     </div>
 
