@@ -22,7 +22,7 @@
         <div class="content">
 
             <div class="about">
-                <a href="mailto:hi@tom94.net"><img class="avatar" src="images/avatar.jpg"></a>
+                <a href="https://enigmatisms.github.io/"><img class="avatar" src="images/avatar.jpg"></a>
 
                 <h1><i class="far fa-portal-exit"></i> About me</h1>
 
@@ -48,8 +48,9 @@
                 </p>
 
                 <p class="resourcelist" style="margin-top: 10px;">
-                    <a href="s3ntinel@foxmail.com"><i class="far fa-envelope"></i> Email</a>
+                    <a href="984041003@qq.com"><i class="far fa-envelope"></i> Email</a>
                     <a href="https://github.com/Enigmatisms"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://enigmatisms.github.io/"><i class="far fa-wifi"></i> Blog</a>
                 </p>
             </div>
 
@@ -66,8 +67,8 @@
                     </a>
                 </div>
                 <div class="portfolio-text">
-                    <h2><a href="https://darts-paper.github.io/DARTS-proj-page/">DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media</a></h2>
-                    <p class="authorlist"><a style="white-space: nowrap;"
+                    <h2><a href="https://darts-paper.github.io/DARTS-proj-page/">🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media</a></h2>
+                    <p class="authorlist"><a style="white-space: nowrap; color: #a680ff"
                             href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>, <a style="white-space: nowrap;"
                             href="https://dongyu-du.github.io/">Dongyu Du</a>, Haitian Jiang,
                         <a style="white-space: nowrap;" href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&hl=zh-CN&oi=sra">Xin Jin</a>
@@ -92,6 +93,23 @@
                 <div style="clear: both"></div>
             </div>
 
+            <h1 id="sec-publications"><i class="far fa-university"></i> Thesis</h1>
+
+            <div id="portfolio" class="portfolio-item">
+                <div class="portfolio-image"><video muted loop preload="auto"
+                            poster="images/SLAM.jpg" id="bch-video">
+                        </video></div>
+                <div class="portfolio-text">
+                    <h2>Chain-representation-based real time high precision single line LiDAR SLAM system</h2>
+                    <p class="venue"><b>Bachelor thesis (61 pages) in XJTU</b>
+                        <p style="text-align: justify;">In this thesis, a novel map representation named Chain Representation is proposed. This representation is sort of a mixture that has both the advantages of point cloud and occupancy map. The proposed SLAM system is compared against the SoTA method (in 2022): Google's cartographer, SLAM toolbox and the classic GMapping. The proposed method demonstrates faster mapping, higher accuracy and lower memory overhead. The code is not currently open-sourced.
+                        </p>
+                    </p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
+
             
             <h1 id="sec-projects"><i class="far fa-hat-wizard"></i> Selected Personal Projects</h1>
 
@@ -104,7 +122,7 @@
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/AdaPT">The AdaPT renderer</a></h2>
-                    <p class="venue">
+                    <p class="venue"><b>2023.1~2024.11</b>
                         <p style="text-align: justify;">A physically based renderer built in Taichi lang (python-like, JIT). This offline renderer supports steady state and transient state rendering, with undirectional, volumetric and bidirectional path tracing implementation. Textures, heterogeneous RGB density volumes and different kinds of emitters are supported. Customized Mitsuba-like XML scene parsing, with stackless SAH-LBVH ray-primitive acceleration.
                         </p>
                     </p>
@@ -123,12 +141,12 @@
                 onmouseover="document.getElementById('cupt-video').play()"
                 onmouseout="document.getElementById('cupt-video').pause()">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/cuda-pt"><video muted loop preload="auto"
-                            poster="images/cuda-pt.png" id="cupt-video">
+                            poster="images/cuda-pt.jpg" id="cupt-video">
                             <source src="images/cuda-pt.webm" type="video/webm; codecs=vp9">
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/cuda-pt">CUDA-PT</a></h2>
-                    <p class="venue">
+                    <p class="venue"><b>2024.4~2024.12</b>
                         <p style="text-align: justify;">A repo that teaches you how to write a CUDA software ray tracing renderer from scratch: a renderer with Analysis-Driven Optimization. The core logic and basic building blocks are all written from scratch in CUDA, and they are carefully profiled and optimized to have better performance. Definitely not a naive porting of CPU implementation. Megakernel path tracing, light tracing and wavefront path tracing are supported. 
                         </p>
                     </p>
@@ -145,12 +163,12 @@
                 onmouseover="document.getElementById('lidarsim2d-vid').play()"
                 onmouseout="document.getElementById('lidarsim2d-vid').pause()">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/LSMv2"><video muted loop preload="auto"
-                            poster="images/lidarsim2d.png" id="lidarsim2d-vid">
+                            poster="images/lidarsim2d.jpg" id="lidarsim2d-vid">
                             <source src="images/lidarsim2d.webm" type="video/webm; codecs=vp9">
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/LSMv2">LiDARSim2D & LSMv2</a></h2>
-                    <p class="venue">
+                    <p class="venue"><b>2021.8~2022.8</b>
                         <p style="text-align: justify;">Two different versions of 2D LiDAR simulators. The first version is written in C++, with OpenCV and ROS Rviz visualization. Supports exporting ROS bags of scan data, IMU data and etc.. The second version is written in Rust and CUDA, with nannou as its front-end visualization and GUI and CUDA based accelerated ray-intersection code as simulation backend. Both support map editting and customization. 
                         </p>
                     </p>
@@ -171,12 +189,12 @@
                 onmouseover="document.getElementById('ethians-vid').play()"
                 onmouseout="document.getElementById('ethians-vid').pause()">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1"><video muted loop preload="auto"
-                            poster="images/ethians.png" id="ethians-vid">
+                            poster="images/ethians.jpg" id="ethians-vid">
                             <source src="images/ethians.webm" type="video/webm; codecs=vp9">
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">The Ethians (Rougelike Game)</a></h2>
-                    <p class="venue">
+                    <p class="venue"><b>2019.1~2019.8</b>
                         <p style="text-align: justify;">The first big project of mine, written during the first year of my undergrad. I love this rougelike game very much: I extracted the assets from an old mobile rougelike game called <i>Dweller</i> and rewrite all the game play in PyGame. The GUI and some of the art assets are designed and drawn on my own. I poured much time and effort into this, and till today, I can still say that it beats some most of the undergrad Graduation Designs in our country (since most of them are so shitty).
                         </p>
                     </p>
@@ -193,12 +211,12 @@
                 onmouseover="document.getElementById('axis6-video').play()"
                 onmouseout="document.getElementById('axis6-video').pause()">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/Axis6"><video muted loop preload="auto"
-                            poster="images/axis6.png" id="axis6-video">
+                            poster="images/axis6.jpg" id="axis6-video">
                             <source src="images/axis6.webm" type="video/webm; codecs=vp9">
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/Axis6">6-axis Robot Simulator</a></h2>
-                    <p class="venue">
+                    <p class="venue"><b>2022.10</b>
                         <p style="text-align: justify;"> 6-axis robot simulation in rviz and Gazebo, control implemented with ROS. Simple hand-deduced D-H forward-inverse kinematics implemented in Eigen. Simulated and visualized in RViz and Gazebo ROS implementation (melodic), with key control. 
                         </p>
                     </p>
@@ -217,13 +235,13 @@
                 onmouseover="document.getElementById('giga-video').play()"
                 onmouseout="document.getElementById('giga-video').pause()">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/nerfstudio-giga"><video muted loop preload="auto"
-                            poster="images/giga.png" id="giga-video">
+                            poster="images/giga.jpg" id="giga-video">
                             <source src="images/giga.webm" type="video/webm; codecs=vp9">
                         </video></a></div>
                 <div class="portfolio-text">
                     <h2><a href="https://github.com/Enigmatisms/nerfstudio-giga">GigaMVS Novel View Synthesis Competition Solution</a></h2>
-                    <p class="venue">
-                        <p style="text-align: justify;">(GAIIC) giga-rendering: giga-pixel novel view synthesis competition 4th place solution. Implementation based on nerfstudio. The other two contributors are <a href="https://github.com/Dinngger">Dinnger</a> and <a href="https://github.com/longzw001116">funnymudpeer</a>. The ranks can be found in giga-vision's leaderboard for rendering challenge. The competition focuses on the novel-view synthesis problem under vast scenes and huge input images (with potentially sparse view points). We reproduced many SoTA works in this repo to obtain higher PSNR.
+                    <p class="venue"><b>2023.4~2023.6</b>
+                        <p style="text-align: justify;">GAIIC 2023: giga-pixel novel view synthesis competition 4th place solution. Based on nerfstudio. The other two contributors are <a href="https://github.com/Dinngger">Dinnger</a> and <a href="https://github.com/longzw001116">funnymudpeer</a>. The ranks can be found in giga-vision's leaderboard for rendering challenge. The competition focuses on the novel-view synthesis problem under vast scenes and huge input images. We reproduced many SoTA works in this repo to obtain higher PSNR.
                         </p>
                     </p>
                     <p class="resourcelist">
@@ -249,7 +267,7 @@
         </p>
         <br/>
 
-        <h1 id="sec-publications"><i class="far fa-leaf"></i> Selected Awards</h1>
+        <h1 id="sec-publications"><i class="far fa-trophy-alt"></i> Selected Awards</h1>
         <ul>
             <li>(2022) XJTU Outstanding graduates</li>
             <li>(2020) National Scholarship</li>
