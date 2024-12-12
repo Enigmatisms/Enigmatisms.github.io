@@ -505,3 +505,41 @@ div.widget > div {
 .slider {
     visibility: hidden;
 }
+
+
+.education {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+  }
+  
+  .degree {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+  }
+  
+  .school {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .school-name {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .details {
+    margin-top: 10px;
+  }
+  
+  .degree-time, .major {
+    color: grey;
+    font-size: 0.9em;
+  }
