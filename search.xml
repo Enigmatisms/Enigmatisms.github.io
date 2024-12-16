@@ -3304,6 +3304,84 @@ Luitjens - CUDA streams best practices common pitfalls</a></p>
       </tags>
   </entry>
   <entry>
+    <title>Cartographer编译问题整理</title>
+    <url>/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="cartographer">Cartographer</h1>
+<hr>
+<p>​ 毕设工作设计到与cartographer进行定量实验比较。本人在<a href="https://github.com/Enigmatisms/cartographer_tester">Enigmatisms/cartographer_tester</a>中整理了cartographer以及ros驱动代码，添加了自动化轨迹读取等功能，两周前在Ubuntu
+18.04上已经完成了测试，但在Ubuntu
+20.04上一直编译不通过，调了一下午才调出来。本文记录了cartographer在不同版本的Ubuntu上（尤其是20.04）的一些典型编译问题以及解决方案。笔者现已经通过文中所说的解决方案完成了cartographer的编译。</p>
+<span id="more"></span>
+<hr>
+<h2 id="lua-not-found">Lua Not Found</h2>
+<p>​ 从Github上下载Lua，本地编译安装并且<code>sudo make install</code>
+是可以使得这个错误消失。但是，我在Ubuntu 18.04用此方法安装Lua
+5.3之后，编译导致ABSL库问题（与Lua有关的）。遂<code>sudo make uninstall</code>卸载，使用</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install lua5.2</span><br></pre></td></tr></table></figure>
+<p>​
+通过apt安装。但是这样安装的<code>lua5.2</code>，编译时仍然说找不到（即使重启，仍然也找不到）。不过，其实我跳过了官网的<code>rosdep</code>步骤，先走完<code>rosdep</code>步骤再编译就能找到<code>lua 5.2</code>了。关于如何解决<code>rosdep update</code>速度慢的问题，见
+<a href="https://blog.csdn.net/qq_45831587/article/details/120705199#comments_20681710">[这篇博客，亲测有效]</a>.
+这篇博客虽然针对20.04，对于18.04，只需要修改python3为python2.7即可。</p>
+<hr>
+<h2 id="undefined-reference-to-absl">Undefined Reference to ABSL</h2>
+<p>​ <code>absl</code>库可能产生问题:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[241/387] Linking CXX executable cartographer_pbstream</span><br><span class="line">FAILED: cartographer_pbstream </span><br><span class="line">: &amp;&amp; /usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/cartographer_pbstream.dir/cartographer/io/pbstream_main.cc.o  -o cartographer_pbstream  libcartographer.a  /usr/local/lib/libceres.a  -lglog  -lspqr  -ltbb  -lcholmod  -lccolamd  -lcamd  -lcolamd  -lamd  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llua5.2  -lm  /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0  -lglog  /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.2  -lcairo  /usr/local/lib/libprotobuf.a  /usr/local/lib/libabsl_leak_check.a  /usr/local/lib/libabsl_cord.a  /usr/local/lib/libabsl_cordz_info.a  /usr/local/lib/libabsl_cord_internal.a  /usr/local/lib/libabsl_cordz_functions.a  /usr/local/lib/libabsl_cordz_handle.a  /usr/local/lib/libabsl_hash.a  /usr/local/lib/libabsl_city.a  /usr/local/lib/libabsl_bad_variant_access.a  /usr/local/lib/libabsl_low_level_hash.a  /usr/local/lib/libabsl_raw_hash_set.a  /usr/local/lib/libabsl_bad_optional_access.a  /usr/local/lib/libabsl_hashtablez_sampler.a  /usr/local/lib/libabsl_exponential_biased.a  /usr/local/lib/libabsl_str_format_internal.a  /usr/local/lib/libabsl_synchronization.a  /usr/local/lib/libabsl_stacktrace.a  /usr/local/lib/libabsl_graphcycles_internal.a  /usr/local/lib/libabsl_symbolize.a  /usr/local/lib/libabsl_malloc_internal.a  /usr/local/lib/libabsl_debugging_internal.a  /usr/local/lib/libabsl_demangle_internal.a  /usr/local/lib/libabsl_time.a  /usr/local/lib/libabsl_strings.a  /usr/local/lib/libabsl_strings_internal.a  /usr/local/lib/libabsl_base.a  -lpthread  /usr/local/lib/libabsl_spinlock_wait.a  -lrt  /usr/local/lib/libabsl_throw_delegate.a  /usr/local/lib/libabsl_raw_logging_internal.a  /usr/local/lib/libabsl_log_severity.a  /usr/local/lib/libabsl_int128.a  /usr/local/lib/libabsl_civil_time.a  /usr/local/lib/libabsl_time_zone.a  -lpthread &amp;&amp; :</span><br><span class="line">/usr/bin/ld: libcartographer.a(histogram.cc.o): in function `cartographer::common::Histogram::ToString[abi:cxx11](int) const&#x27;:</span><br><span class="line">histogram.cc:(.text+0x43c): undefined reference to `absl::strings_internal::CatPieces[abi:cxx11](std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">/usr/bin/ld: histogram.cc:(.text+0x95a): undefined reference to `absl::strings_internal::AppendPieces(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;*, std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">[256/387] Building CXX object CMakeFiles/cartographer.mapping.internal.3d.scan_matching.fast_correlative...er_3d_test.dir/cartographer/mapping/internal/3d/scan_matching/fast_correlative_scan_matcher_3d_test.cc.o</span><br><span class="line">ninja: build stopped: subcommand failed.</span><br><span class="line">&lt;== Failed to process package &#x27;cartographer&#x27;: </span><br><span class="line">  Command &#x27;[&#x27;ninja&#x27;, &#x27;-j16&#x27;, &#x27;-l16&#x27;]&#x27; returned non-zero exit status 1.</span><br></pre></td></tr></table></figure>
+<p>​ 此问题可能由<strong><u>两部分原因</u></strong>导致：</p>
+<ul>
+<li><p>Ubuntu
+20.04上，cartographer，cartographer_ros等模块以及<code>abseil-cpp</code>模块均需要使用c++17标准编译（来源于这个Github
+issue：<a href="https://github.com/google/or-tools/issues/2196">8.0
+fails: undefined reference to absl::lts_2020_09_23::Status::Status
+#2196</a>），原始的<code>install_abseil.sh</code>是这样的：</p>
+<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
+<p>如果修改为：</p>
+<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -std=c++17 \</span><br><span class="line">  -DABSL_CXX_STANDARD=17 \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  -DABSL_PROPAGATE_CXX_STD=ON \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
+<p>​
+增加<code>-std=c++17</code>，<code>-DABSL_CXX_STANDARD=17</code>，<code>-DABSL_PROPAGATE_CXX_STD=ON</code>
+，前两个选项为了使得编译使用c++17标准，最后一个选项防止编译warning。而其他cartographer相关模块，只需要在每个模块下的<code>CMakeLists.txt</code>中的<code>project(xxx)</code>后添加</p>
+<p><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++17&quot;</span>)</span><br></pre></td></tr></table></figure></p></li>
+<li><p>Google查找问题时，在<code>abseil-cpp</code>库的issue里找到了这么一个issue:
+<a href="https://github.com/abseil/abseil-cpp/issues/640">undefined
+reference errors (absl::strings_internal::CatPieces and
+absl::ByChar::Find)</a>。其中有个人提到：</p></li>
+</ul>
+<blockquote>
+<p>Confirmed on my end: if I add back what was removed from
+<code>AbseilConfigureCopts.make</code> in commit <a href="https://github.com/abseil/abseil-cpp/commit/c6954897f7ece5011f0126db9117361dc1a6ff36"><code>c695489</code></a>
+then it works.</p>
+</blockquote>
+<p>​ 于是我修改<code>install_abseil.sh</code>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout c6954897f7ece5011f0126db9117361dc1a6ff36	# 修改到这个commit</span><br></pre></td></tr></table></figure>
+<p>​
+编译<code>abseil-cpp</code>，完成后删除cartographer之前的<code>build_isolated</code>以及<code>devel_isolated</code>并重新编译cartographer。则不再出现<code>absl</code>库问题。</p>
+<hr>
+<h2 id="pythoninterp-版本问题">PythonInterp 版本问题</h2>
+<p>​ Ubuntu 20.04首次摒弃 python
+2.7，包括ROS（rospy）在内全面转向python3，但是可能还是存在一些余孽？继续编译后我遇到了如下问题：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">CMake Error at /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:146 (message):</span><br><span class="line">  Could NOT find PythonInterp: Found unsuitable version &quot;2.7.18&quot;, but</span><br><span class="line">  required is at least &quot;3&quot; (found /usr/bin/python)</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:391 (_FPHSA_FAILURE_MESSAGE)</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPythonInterp.cmake:169 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/python.cmake:4 (find_package)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/all.cmake:164 (include)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/catkinConfig.cmake:20 (include)</span><br><span class="line">  CMakeLists.txt:55 (find_package)</span><br></pre></td></tr></table></figure>
+<p>​ emmm，我查了一下trace
+stack中的所有cmake文件，没有什么发现，只是cmake无法找到python3，并且在<code>which python</code>时显示的是2.7.18的
+python2。看来是默认python有问题，只需要使用：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1</span><br><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2</span><br></pre></td></tr></table></figure>
+<p>​ 就可以解决问题，自此所有问题都得到了解决，cartographer顺利安装。</p>
+<hr>
+<h2 id="其他记录">其他记录</h2>
+<ul>
+<li>成功无bug适配了cartographer的cere-solver版本是2.0.0，在Ubuntu
+18.04以及20.04上通用。</li>
+<li>cartographer的
+<code>CMakeLists.txt</code>很复杂，但是读一读还是能学到一些有趣的东西，比如：<code>cmake_parse_arguments</code></li>
+</ul>
+]]></content>
+      <categories>
+        <category>snippet</category>
+      </categories>
+      <tags>
+        <tag>SLAM</tag>
+        <tag>环境工程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Contrastive Learning Intros</title>
     <url>/2021/08/29/Contrastive-Learning-Intros/</url>
     <content><![CDATA[<h1 id="cl">CL</h1>
@@ -3517,84 +3595,6 @@ coding[J]. arXiv preprint arXiv:1807.03748, 2018.</a></p>
         <tag>knowings</tag>
         <tag>DL</tag>
         <tag>无监督</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cartographer编译问题整理</title>
-    <url>/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="cartographer">Cartographer</h1>
-<hr>
-<p>​ 毕设工作设计到与cartographer进行定量实验比较。本人在<a href="https://github.com/Enigmatisms/cartographer_tester">Enigmatisms/cartographer_tester</a>中整理了cartographer以及ros驱动代码，添加了自动化轨迹读取等功能，两周前在Ubuntu
-18.04上已经完成了测试，但在Ubuntu
-20.04上一直编译不通过，调了一下午才调出来。本文记录了cartographer在不同版本的Ubuntu上（尤其是20.04）的一些典型编译问题以及解决方案。笔者现已经通过文中所说的解决方案完成了cartographer的编译。</p>
-<span id="more"></span>
-<hr>
-<h2 id="lua-not-found">Lua Not Found</h2>
-<p>​ 从Github上下载Lua，本地编译安装并且<code>sudo make install</code>
-是可以使得这个错误消失。但是，我在Ubuntu 18.04用此方法安装Lua
-5.3之后，编译导致ABSL库问题（与Lua有关的）。遂<code>sudo make uninstall</code>卸载，使用</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install lua5.2</span><br></pre></td></tr></table></figure>
-<p>​
-通过apt安装。但是这样安装的<code>lua5.2</code>，编译时仍然说找不到（即使重启，仍然也找不到）。不过，其实我跳过了官网的<code>rosdep</code>步骤，先走完<code>rosdep</code>步骤再编译就能找到<code>lua 5.2</code>了。关于如何解决<code>rosdep update</code>速度慢的问题，见
-<a href="https://blog.csdn.net/qq_45831587/article/details/120705199#comments_20681710">[这篇博客，亲测有效]</a>.
-这篇博客虽然针对20.04，对于18.04，只需要修改python3为python2.7即可。</p>
-<hr>
-<h2 id="undefined-reference-to-absl">Undefined Reference to ABSL</h2>
-<p>​ <code>absl</code>库可能产生问题:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[241/387] Linking CXX executable cartographer_pbstream</span><br><span class="line">FAILED: cartographer_pbstream </span><br><span class="line">: &amp;&amp; /usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/cartographer_pbstream.dir/cartographer/io/pbstream_main.cc.o  -o cartographer_pbstream  libcartographer.a  /usr/local/lib/libceres.a  -lglog  -lspqr  -ltbb  -lcholmod  -lccolamd  -lcamd  -lcolamd  -lamd  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llapack  -lf77blas  -latlas  -lsuitesparseconfig  -lrt  -lcxsparse  -llua5.2  -lm  /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0  -lglog  /usr/lib/x86_64-linux-gnu/libgflags.so.2.2.2  -lcairo  /usr/local/lib/libprotobuf.a  /usr/local/lib/libabsl_leak_check.a  /usr/local/lib/libabsl_cord.a  /usr/local/lib/libabsl_cordz_info.a  /usr/local/lib/libabsl_cord_internal.a  /usr/local/lib/libabsl_cordz_functions.a  /usr/local/lib/libabsl_cordz_handle.a  /usr/local/lib/libabsl_hash.a  /usr/local/lib/libabsl_city.a  /usr/local/lib/libabsl_bad_variant_access.a  /usr/local/lib/libabsl_low_level_hash.a  /usr/local/lib/libabsl_raw_hash_set.a  /usr/local/lib/libabsl_bad_optional_access.a  /usr/local/lib/libabsl_hashtablez_sampler.a  /usr/local/lib/libabsl_exponential_biased.a  /usr/local/lib/libabsl_str_format_internal.a  /usr/local/lib/libabsl_synchronization.a  /usr/local/lib/libabsl_stacktrace.a  /usr/local/lib/libabsl_graphcycles_internal.a  /usr/local/lib/libabsl_symbolize.a  /usr/local/lib/libabsl_malloc_internal.a  /usr/local/lib/libabsl_debugging_internal.a  /usr/local/lib/libabsl_demangle_internal.a  /usr/local/lib/libabsl_time.a  /usr/local/lib/libabsl_strings.a  /usr/local/lib/libabsl_strings_internal.a  /usr/local/lib/libabsl_base.a  -lpthread  /usr/local/lib/libabsl_spinlock_wait.a  -lrt  /usr/local/lib/libabsl_throw_delegate.a  /usr/local/lib/libabsl_raw_logging_internal.a  /usr/local/lib/libabsl_log_severity.a  /usr/local/lib/libabsl_int128.a  /usr/local/lib/libabsl_civil_time.a  /usr/local/lib/libabsl_time_zone.a  -lpthread &amp;&amp; :</span><br><span class="line">/usr/bin/ld: libcartographer.a(histogram.cc.o): in function `cartographer::common::Histogram::ToString[abi:cxx11](int) const&#x27;:</span><br><span class="line">histogram.cc:(.text+0x43c): undefined reference to `absl::strings_internal::CatPieces[abi:cxx11](std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">/usr/bin/ld: histogram.cc:(.text+0x95a): undefined reference to `absl::strings_internal::AppendPieces(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;*, std::initializer_list&lt;std::basic_string_view&lt;char, std::char_traits&lt;char&gt; &gt; &gt;)&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">[256/387] Building CXX object CMakeFiles/cartographer.mapping.internal.3d.scan_matching.fast_correlative...er_3d_test.dir/cartographer/mapping/internal/3d/scan_matching/fast_correlative_scan_matcher_3d_test.cc.o</span><br><span class="line">ninja: build stopped: subcommand failed.</span><br><span class="line">&lt;== Failed to process package &#x27;cartographer&#x27;: </span><br><span class="line">  Command &#x27;[&#x27;ninja&#x27;, &#x27;-j16&#x27;, &#x27;-l16&#x27;]&#x27; returned non-zero exit status 1.</span><br></pre></td></tr></table></figure>
-<p>​ 此问题可能由<strong><u>两部分原因</u></strong>导致：</p>
-<ul>
-<li><p>Ubuntu
-20.04上，cartographer，cartographer_ros等模块以及<code>abseil-cpp</code>模块均需要使用c++17标准编译（来源于这个Github
-issue：<a href="https://github.com/google/or-tools/issues/2196">8.0
-fails: undefined reference to absl::lts_2020_09_23::Status::Status
-#2196</a>），原始的<code>install_abseil.sh</code>是这样的：</p>
-<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
-<p>如果修改为：</p>
-<p><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja \</span><br><span class="line">  -std=c++17 \</span><br><span class="line">  -DABSL_CXX_STANDARD=17 \</span><br><span class="line">  -DCMAKE_BUILD_TYPE=Release \</span><br><span class="line">  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/usr/local/stow/absl \</span><br><span class="line">  -DABSL_PROPAGATE_CXX_STD=ON \</span><br><span class="line">  ..</span><br></pre></td></tr></table></figure></p>
-<p>​
-增加<code>-std=c++17</code>，<code>-DABSL_CXX_STANDARD=17</code>，<code>-DABSL_PROPAGATE_CXX_STD=ON</code>
-，前两个选项为了使得编译使用c++17标准，最后一个选项防止编译warning。而其他cartographer相关模块，只需要在每个模块下的<code>CMakeLists.txt</code>中的<code>project(xxx)</code>后添加</p>
-<p><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++17&quot;</span>)</span><br></pre></td></tr></table></figure></p></li>
-<li><p>Google查找问题时，在<code>abseil-cpp</code>库的issue里找到了这么一个issue:
-<a href="https://github.com/abseil/abseil-cpp/issues/640">undefined
-reference errors (absl::strings_internal::CatPieces and
-absl::ByChar::Find)</a>。其中有个人提到：</p></li>
-</ul>
-<blockquote>
-<p>Confirmed on my end: if I add back what was removed from
-<code>AbseilConfigureCopts.make</code> in commit <a href="https://github.com/abseil/abseil-cpp/commit/c6954897f7ece5011f0126db9117361dc1a6ff36"><code>c695489</code></a>
-then it works.</p>
-</blockquote>
-<p>​ 于是我修改<code>install_abseil.sh</code>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout c6954897f7ece5011f0126db9117361dc1a6ff36	# 修改到这个commit</span><br></pre></td></tr></table></figure>
-<p>​
-编译<code>abseil-cpp</code>，完成后删除cartographer之前的<code>build_isolated</code>以及<code>devel_isolated</code>并重新编译cartographer。则不再出现<code>absl</code>库问题。</p>
-<hr>
-<h2 id="pythoninterp-版本问题">PythonInterp 版本问题</h2>
-<p>​ Ubuntu 20.04首次摒弃 python
-2.7，包括ROS（rospy）在内全面转向python3，但是可能还是存在一些余孽？继续编译后我遇到了如下问题：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">CMake Error at /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:146 (message):</span><br><span class="line">  Could NOT find PythonInterp: Found unsuitable version &quot;2.7.18&quot;, but</span><br><span class="line">  required is at least &quot;3&quot; (found /usr/bin/python)</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:391 (_FPHSA_FAILURE_MESSAGE)</span><br><span class="line">  /usr/share/cmake-3.16/Modules/FindPythonInterp.cmake:169 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/python.cmake:4 (find_package)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/all.cmake:164 (include)</span><br><span class="line">  /opt/ros/noetic/share/catkin/cmake/catkinConfig.cmake:20 (include)</span><br><span class="line">  CMakeLists.txt:55 (find_package)</span><br></pre></td></tr></table></figure>
-<p>​ emmm，我查了一下trace
-stack中的所有cmake文件，没有什么发现，只是cmake无法找到python3，并且在<code>which python</code>时显示的是2.7.18的
-python2。看来是默认python有问题，只需要使用：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1</span><br><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2</span><br></pre></td></tr></table></figure>
-<p>​ 就可以解决问题，自此所有问题都得到了解决，cartographer顺利安装。</p>
-<hr>
-<h2 id="其他记录">其他记录</h2>
-<ul>
-<li>成功无bug适配了cartographer的cere-solver版本是2.0.0，在Ubuntu
-18.04以及20.04上通用。</li>
-<li>cartographer的
-<code>CMakeLists.txt</code>很复杂，但是读一读还是能学到一些有趣的东西，比如：<code>cmake_parse_arguments</code></li>
-</ul>
-]]></content>
-      <categories>
-        <category>snippet</category>
-      </categories>
-      <tags>
-        <tag>SLAM</tag>
-        <tag>环境工程</tag>
       </tags>
   </entry>
   <entry>
@@ -7131,6 +7131,114 @@ Slusallek, Computer Graphics: Chapter - Volume Rendering.</a></p>
       </tags>
   </entry>
   <entry>
+    <title>Nvidia 简单环境工程</title>
+    <url>/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="ampere-pytorch">Ampere Pytorch</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 近日训练神经网络花了五六十块钱，在<a href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX
+3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
+<ul>
+<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX
+3090没有3090的样子</li>
+<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch
+1.4.0，直接没办法跑</li>
+</ul>
+<p>​
+于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX
+3060，对应架构为安培（Ampere
+sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
+<center>
+<img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
+</center>
+<center>
+Figure 1. 看起来很便宜 黄仁勋Yes
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-过程">II. 过程</h2>
+<h3 id="查看环境">2.1 查看环境</h3>
+<p>​ 第一步当然是需要查看硬件参数：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>​ 其中右上角会出现CUDA版本：</p>
+<center>
+<img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/smi.png">
+</center>
+<center>
+Figure 2. nvidia-smi版本号
+</center>
+<p>​ 但这只是该驱动（426.00）可以支持的
+<strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
+<p>​
+然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
+<h3 id="乱搞驱动">2.2 乱搞驱动</h3>
+<p>​ 我选择的是CUDA
+11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu
+18.04端我选择的是脚本文件安装(.run
+文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
+<blockquote>
+<p>Existing package manager found...
+(然后建议你在继续安装前remove这个existing package manager of the
+driver).</p>
+</blockquote>
+<p>​ <a href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask
+Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
+<p>​
+<strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">下面这一句为了看看这个电脑上都装了哪些CUDA相关库</span></span><br><span class="line">dpkg -l | grep &quot;cuda&quot;</span><br><span class="line"><span class="meta"># </span><span class="language-bash">删除CUDA相关包以及其配置文件</span></span><br><span class="line">sudo apt-get remove cuda*</span><br><span class="line">sudo apt-get purge cuda*</span><br><span class="line"><span class="meta"># </span><span class="language-bash">不要随便用autoremove！除非你知道你在干什么或者你对autoremove的包进行仔细的检查</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">CSDN上就有autoremove，评论区已经有崩溃老哥说自己autoremove了一些重要包不得不重装系统了</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">显卡驱动，删除</span></span><br><span class="line">sudo apt-get remove nvidia*</span><br><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
+<p>​ 执行结束之后，reboot。</p>
+<h3 id="安装驱动">2.3 安装驱动</h3>
+<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了
+，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu
+Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
+<p>​
+进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PATH=$PATH:...</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:...</span><br></pre></td></tr></table></figure>
+<p>​
+检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
+<h3 id="安装pytorch">2.4 安装Pytorch</h3>
+<p>​
+Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code>
+is not a supported architecture for Pytorch, among [... up to sm_70]
+blahblahblah。在这里我遇到了两个坑：</p>
+<h4 id="多重pytorch">2.4.1 多重Pytorch</h4>
+<p>​
+我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code>
+之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code>
+三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
+<h4 id="cuda-wheel">2.4.2 CUDA Wheel</h4>
+<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4
+支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成
+<code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3
+不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了
+pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA
+踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch /
+python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag
+则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义
+<code>-arch=sm_86</code> 就能使得 <code>sm_86</code>
+架构得到支持。也就是说，我们在安装的过程中需要选择CUDA
+Wheels，也就是手动写一个（+xxx）：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip3 install torch==1.10.0+cu113</span><br></pre></td></tr></table></figure>
+<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3
+wheels，应该就是说，本库的编译是有 CUDA 11.3
+完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种
+<code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
+<p>​ 另一种方法，可以直接使用本地 CUDA
+完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用
+nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
+<h3 id="验证">2.5 验证</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tmp = torch.zeros(<span class="number">1</span>).cuda()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 只要没有任何warning或者error，就是成功。</p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>环境工程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Particle Filter Simulation</title>
     <url>/2021/08/07/Particle-Filter-Simulation/</url>
     <content><![CDATA[<h1 id="particle-filter">Particle Filter</h1>
@@ -7311,114 +7419,6 @@ Video 2. 随机地图定位问题（慢速）
       </tags>
   </entry>
   <entry>
-    <title>Nvidia 简单环境工程</title>
-    <url>/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="ampere-pytorch">Ampere Pytorch</h1>
-<hr>
-<h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 近日训练神经网络花了五六十块钱，在<a href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX
-3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
-<ul>
-<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX
-3090没有3090的样子</li>
-<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch
-1.4.0，直接没办法跑</li>
-</ul>
-<p>​
-于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX
-3060，对应架构为安培（Ampere
-sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
-<center>
-<img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
-</center>
-<center>
-Figure 1. 看起来很便宜 黄仁勋Yes
-</center>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-过程">II. 过程</h2>
-<h3 id="查看环境">2.1 查看环境</h3>
-<p>​ 第一步当然是需要查看硬件参数：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
-<p>​ 其中右上角会出现CUDA版本：</p>
-<center>
-<img src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/smi.png">
-</center>
-<center>
-Figure 2. nvidia-smi版本号
-</center>
-<p>​ 但这只是该驱动（426.00）可以支持的
-<strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
-<p>​
-然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
-<h3 id="乱搞驱动">2.2 乱搞驱动</h3>
-<p>​ 我选择的是CUDA
-11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu
-18.04端我选择的是脚本文件安装(.run
-文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
-<blockquote>
-<p>Existing package manager found...
-(然后建议你在继续安装前remove这个existing package manager of the
-driver).</p>
-</blockquote>
-<p>​ <a href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask
-Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
-<p>​
-<strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">下面这一句为了看看这个电脑上都装了哪些CUDA相关库</span></span><br><span class="line">dpkg -l | grep &quot;cuda&quot;</span><br><span class="line"><span class="meta"># </span><span class="language-bash">删除CUDA相关包以及其配置文件</span></span><br><span class="line">sudo apt-get remove cuda*</span><br><span class="line">sudo apt-get purge cuda*</span><br><span class="line"><span class="meta"># </span><span class="language-bash">不要随便用autoremove！除非你知道你在干什么或者你对autoremove的包进行仔细的检查</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">CSDN上就有autoremove，评论区已经有崩溃老哥说自己autoremove了一些重要包不得不重装系统了</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">显卡驱动，删除</span></span><br><span class="line">sudo apt-get remove nvidia*</span><br><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
-<p>​ 执行结束之后，reboot。</p>
-<h3 id="安装驱动">2.3 安装驱动</h3>
-<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了
-，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu
-Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
-<p>​
-进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PATH=$PATH:...</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:...</span><br></pre></td></tr></table></figure>
-<p>​
-检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
-<h3 id="安装pytorch">2.4 安装Pytorch</h3>
-<p>​
-Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code>
-is not a supported architecture for Pytorch, among [... up to sm_70]
-blahblahblah。在这里我遇到了两个坑：</p>
-<h4 id="多重pytorch">2.4.1 多重Pytorch</h4>
-<p>​
-我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code>
-之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code>
-三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
-<h4 id="cuda-wheel">2.4.2 CUDA Wheel</h4>
-<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4
-支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成
-<code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3
-不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了
-pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA
-踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch /
-python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag
-则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义
-<code>-arch=sm_86</code> 就能使得 <code>sm_86</code>
-架构得到支持。也就是说，我们在安装的过程中需要选择CUDA
-Wheels，也就是手动写一个（+xxx）：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip3 install torch==1.10.0+cu113</span><br></pre></td></tr></table></figure>
-<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3
-wheels，应该就是说，本库的编译是有 CUDA 11.3
-完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种
-<code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
-<p>​ 另一种方法，可以直接使用本地 CUDA
-完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用
-nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
-<h3 id="验证">2.5 验证</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tmp = torch.zeros(<span class="number">1</span>).cuda()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p>​ 只要没有任何warning或者error，就是成功。</p>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>环境工程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redmi G 2021锐龙版双系统环境工程记录</title>
     <url>/2022/02/17/Redmi-G-2021%E9%94%90%E9%BE%99%E7%89%88%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="amd-yes">AMD Yes!</h1>
@@ -7575,29 +7575,6 @@ boot，直接安装成功。</p>
       </categories>
       <tags>
         <tag>环境工程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rust CUDA混合编程</title>
-    <url>/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<p>​ （未完成，请勿点击）Rust FFI（foriegn function
-interface）非常有吸引力，特别是当你用熟了<a href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
-<ul>
-<li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
-<li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
-</ul>
-<p>​
-中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>GPU</tag>
-        <tag>CUDA</tag>
-        <tag>Rust FFI</tag>
       </tags>
   </entry>
   <entry>
@@ -7911,6 +7888,29 @@ https://stackoverflow.com/questions/712639/understanding-the-meaning-of-the-term
       <tags>
         <tag>Rust</tag>
         <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rust CUDA混合编程</title>
+    <url>/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ （未完成，请勿点击）Rust FFI（foriegn function
+interface）非常有吸引力，特别是当你用熟了<a href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
+<ul>
+<li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
+<li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
+</ul>
+<p>​
+中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>GPU</tag>
+        <tag>CUDA</tag>
+        <tag>Rust FFI</tag>
       </tags>
   </entry>
   <entry>
