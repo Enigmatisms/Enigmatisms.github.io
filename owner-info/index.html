@@ -13,6 +13,28 @@
     <title>Qianyue He</title>
 </head>
 
+<script>
+    function handleVideoHover(videoId, action) {
+      const video = document.getElementById(videoId);
+      
+      if(action === 'over') {
+        if(video.readyState < 2) return; 
+        
+        clearTimeout(video.hoverTimer);
+        video.classList.remove('show-poster');
+        video.play().catch(e => console.log("Playback prevented"));
+        
+      } else if(action === 'out') {
+        video.classList.add('fading');
+        video.hoverTimer = setTimeout(() => {
+          video.pause();
+          video.currentTime = 0;
+          video.load();
+        }, 200);
+      }
+    }
+</script>
+
 <body>
     <div class="mainbody">
         <div class="header-content">
@@ -26,21 +48,17 @@
 
                 <h1><i class="far fa-portal-exit"></i> About me</h1>
 
-                <p>Hi, I'm Qianyue He! I am a graphics and HPC enthusiast, and I really enjoy coding just for fun. Some people might ask me, "Why did you start this project?" or "What is the commercial potential of your repo?" but I don't want to bother answering them.
-                    Why does everything have to bear some specific meaning? I think those things are cool, and if I can nail them, that will be awesome—simple as that. The knowledge I gain is just an extra bonus for me.
+                <p>Hi, I'm Qianyue He, graphics and HPC enthusiast with a passion for coding. I pursue projects driven by curiosity rather than commercial intent—the joy of creation and mastery is my primary reward. Knowledge gained along the way is simply a bonus.
                 </p>
 
                 <p style="margin-top: 10px;">
-                    I am a master's student (will graduate in 2025) in AI in <a style="color: #9b0098;" href="https://www.sigs.tsinghua.edu.cn/en/">Tsinghua SIGS</a>, where I 
-                    did some minor stuff for time-of-flight rendering. I majored in automation and earned my Bachelor of Engineering in
-                    <a href="http://en.xjtu.edu.cn/">XJTU</a>, and I believe XJTU is where I truly grew, technically, thanks to the help and guidance of several 
-                    good friends and mentors. My life as an undergrad can be described as, I think, very fulfilling. I joined the <a style="color: #000088;" href="https://www.robomaster.com/zh-CN">RoboMaster</a> team of our school for two years (2020-2021), in the vision group and took part in the group leader for one season (2021), where I built an awesome auto-targeting system with my friends. Later I was in the <a style="color: #1377fa;" href="https://www.sigs.tsinghua.edu.cn/en/">IAIR</a>, working on CV and SLAM for two years.
+                    I am a master in AI (EE) at <a style="color: #9b0098;" href="https://www.sigs.tsinghua.edu.cn/en/">Tsinghua SIGS</a>, working on time-of-flight rendering. I earned my Bachelor of Engineering in Automation from <a href="http://en.xjtu.edu.cn/">XJTU</a>, where I grew significantly as an engineer with the help of mentors and peers. My undergrad journey was fulfilling—I spent two years (2020–2021) in my school’s <a style="color: #000088;" href="https://www.robomaster.com/zh-CN">RoboMaster</a> team (vision group lead in 2021), developing an auto-targeting system, followed by two years at <a style="color: #1377fa;" href="https://www.sigs.tsinghua.edu.cn/en/">IAIR</a> working on CV and SLAM.
 
-                    I like working on my own open-source projects in my free time (sounds nerdy, well I actually am). My recent focus is rendering, especially, ray tracing frameworks. I've tweaked many open-source renderers like <a href="https://www.mitsuba-renderer.org/">Mitsuba</a>, <a href="https://github.com/mmp/pbrt-v3">PBRT</a> and <a href="https://benedikt-bitterli.me/tungsten.html">Tungsten</a>, and I've written two renderers: <a style="color: #af0000;" href="https://github.com/Enigmatisms/AdaPT">AdaPT</a> and <a style="color: #00a862;" href="https://github.com/Enigmatisms/cuda-pt">cuda-pt</a> for fun. Also, I work as a pro-tem moderator for <a href="https://computergraphics.stackexchange.com/">computer graphics StackExchange</a> (2024~now). Being working hard for the community, I guess.
+In my free time, I contribute to open-source projects, particularly in rendering and ray tracing. I’ve modified frameworks like <a href="https://www.mitsuba-renderer.org/">Mitsuba</a>, <a href="https://github.com/mmp/pbrt-v3">PBRT</a>, and <a href="https://benedikt-bitterli.me/tungsten.html">Tungsten</a>, and built two renderers: <a style="color: #af0000;" href="https://github.com/Enigmatisms/AdaPT">AdaPT</a> and <a style="color: #00a862;" href="https://github.com/Enigmatisms/cuda-pt">cuda-pt</a>. Since 2024, I’ve also served as a pro-tem moderator for <a href="https://computergraphics.stackexchange.com/">Computer Graphics StackExchange</a>, supporting the community.
                 </p>
 
                 <p style="margin-top: 10px;">
-                    My interests are now shifting toward something more fundamental. I plan to work in the fields of AI infrastructure and compilers—they're so cool, aren't they? Wish me luck in my exploration. I assume I won't have the same state of mind when I am 30, so, gotta do something interesting when you are young.
+                    My focus is shifting toward foundational work in ​​AI infrastructure and compilers​​—fascinating fields, aren’t they? Exploration is the priority now; after all, youth is the best time to dive into the unknown.
                 </p>
 
                 <p style="margin-top: 10px;">
@@ -60,11 +78,11 @@
                 <div class="degree left">
                   <div class="school">
                     <img src="./images/tsinghua.jpg" alt="Tsinghua" class="logo">
-                    <span class="school-name">Tsinghua University, SIGS</span>
+                    <span class="school-name">Tsinghua University</span>
                   </div>
                   <div class="details">
-                    <span class="degree-time">2022.9-2025.6 (EST)</span>
-                    <span class="major">Master of Engineering in Artificial Intelligence</span>
+                    <span class="degree-time">2022.9-2025.6</span>
+                    <span class="major">(SIGS) Master of Engineering in Artificial Intelligence</span>
                   </div>
                 </div>
                 <div class="degree right">
@@ -119,7 +137,52 @@
                 <div style="clear: both"></div>
             </div>
 
+            <div id="portfolio" class="portfolio-item">
+                <div class="portfolio-image"><video muted loop preload="auto"
+                            poster="images/scattergs.jpg" id="bch-video">
+                        </video></div>
+                <div class="portfolio-text">
+                    <h2><a href="https://ieeexplore.ieee.org/abstract/document/11044088/">ScatterSplatting: Enhanced View Synthesis in Scattering Scenarios via Joint NeRF and Gaussian Splatting</h2>
+                        <p class="authorlist">
+                            Renrong Hu,
+                            <a style="white-space: nowrap; color: #a680ff"
+                            href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>, <a style="white-space: nowrap;"
+                            href="https://dongyu-du.github.io/">Dongyu Du</a>,
+                        <a style="white-space: nowrap;" href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&hl=zh-CN&oi=sra">Xin Jin</a>
+                        <p class="venue"><a href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484">2025 IEEE International Symposium on Circuits and Systems
+                            (<strong>ISCAS</strong>)</a>, May 2025</p>
+                    <p class="venue"><i class="far fa-award"></i> Accepted as <strong>ISCAS</strong> lecture (oral presentation)</p>
+                    <p class="resourcelist"><span style="white-space: nowrap;"><a
+                                href="https://ieeexplore.ieee.org/abstract/document/11044088/"><i
+                                    class="far fa-file-alt"></i> Paper</a></span> <span
+                            style="white-space: nowrap;"><a
+                                href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484"><i
+                                    class="far fa-external-link"></i> Project Page</a></span> <span
+                            style="white-space: nowrap;"><a
+                                href="./data/ref2.bib"><i
+                                    class="far fa-quote-right"></i> BibTeX</a></span></p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
             <h1 id="sec-publications"><i class="far fa-university"></i> Thesis</h1>
+
+            <div id="portfolio" class="portfolio-item" 
+                onmouseover="handleVideoHover('thesis-video', 'over')"
+                onmouseout="handleVideoHover('thesis-video', 'out')">
+                <div class="portfolio-image"><video muted loop preload="auto"
+                            poster="images/kitchen-thumb.jpg" id="thesis-video">
+                            <source src="images/thesis.webm" type="video/webm; codecs=vp9">
+                        </video></div>
+                <div class="portfolio-text">
+                    <h2>Time-Resolved Rendering Methods for Complex Scattering Scenes</h2>
+                    <p class="venue"><b>Master thesis (109 pages) in Tsinghua SIGS</b>
+                        <p style="text-align: justify;">This thesis presents advanced ToF rendering techniques for complex scattering scenes, addressing efficiency and accuracy challenges. A diffusion-approximation importance sampling method improves radiance approximation, reducing errors by ~20%. An elliptical path-constrained strategy minimizes rejection rates, cutting errors by ~25% and rejections by ~7×. A GPU-accelerated system further boosts performance and reduces noise.
+                        </p>
+                    </p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
 
             <div id="portfolio" class="portfolio-item">
                 <div class="portfolio-image"><video muted loop preload="auto"
@@ -140,8 +203,30 @@
             <h1 id="sec-projects"><i class="far fa-hat-wizard"></i> Selected Personal Projects</h1>
 
             <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('adapt-video').play()"
-                onmouseout="document.getElementById('adapt-video').pause()">
+                onmouseover="handleVideoHover('cupt-video', 'over')"
+                onmouseout="handleVideoHover('cupt-video', 'out')">
+                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/cuda-pt"><video muted loop preload="auto"
+                            poster="images/cudapt-car.jpg" id="cupt-video">
+                            <source src="images/sports-car1.webm" type="video/webm; codecs=vp9">
+                        </video></a></div>
+                <div class="portfolio-text">
+                    <h2><a href="https://github.com/Enigmatisms/cuda-pt">CUDA-PT</a></h2>
+                    <p class="venue"><b>2024.4~/</b>
+                        <p style="text-align: justify;">A CUDA software ray tracing renderer from scratch: a renderer with Analysis-Driven Optimization. The core logic and basic building blocks are all written from scratch in CUDA, and they are carefully profiled and optimized to have better performance. Definitely not a naive porting of CPU implementation. Megakernel path tracing, light tracing and wavefront path tracing are supported. Volumetric and time-of-flight rendering supported, with <strong>distributed parallel renderer</strong> available (by PyTorch DDP and nanobind python bindings).
+                        </p>
+                    </p>
+                    <p class="resourcelist">
+                       <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/cuda-pt"><i
+                                    class="far fa-code"></i> Code</a></span>
+                        </span>
+                    </p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
+            <div id="portfolio" class="portfolio-item" 
+                onmouseover="handleVideoHover('adapt-video', 'over')"
+                onmouseout="handleVideoHover('adapt-video', 'out')">
                 <div class="portfolio-image"><a href="https://github.com/Enigmatisms/AdaPT"><video muted loop preload="auto"
                             poster="images/adapt.jpg" id="adapt-video">
                             <source src="images/adapt.webm" type="video/webm; codecs=vp9">
@@ -156,28 +241,6 @@
                         <span style="white-space: nowrap;"><a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/"><i
                                     class="far fa-rocket-launch"></i> Blogs</a></span> <span
                             style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/AdaPT"><i
-                                    class="far fa-code"></i> Code</a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('cupt-video').play()"
-                onmouseout="document.getElementById('cupt-video').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/cuda-pt"><video muted loop preload="auto"
-                            poster="images/cuda-pt.jpg" id="cupt-video">
-                            <source src="images/cuda-pt.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/cuda-pt">CUDA-PT</a></h2>
-                    <p class="venue"><b>2024.4~2024.12</b>
-                        <p style="text-align: justify;">A repo that teaches you how to write a CUDA software ray tracing renderer from scratch: a renderer with Analysis-Driven Optimization. The core logic and basic building blocks are all written from scratch in CUDA, and they are carefully profiled and optimized to have better performance. Definitely not a naive porting of CPU implementation. Megakernel path tracing, light tracing and wavefront path tracing are supported. 
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                       <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/cuda-pt"><i
                                     class="far fa-code"></i> Code</a></span>
                         </span>
                     </p>
@@ -286,20 +349,62 @@
 
         <h1 id="sec-publications"><i class="far fa-person-dolly"></i> Experience</h1>
 
-        <p><b>2024.5 - 2024.11 Tencent LightSpeed Studios</b> | Graphics research: Dynamic voxelization of foliage meshes and volumetric representation that enables multiple scattering.
-        </p>
-
-        <p><b>2021.6 - 2021.8 XJSY Research Institute of AI </b> | SLAM R&D: Chain representation of 2D LiDAR maps. The algorithm development of the SLAM system.
-        </p>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="width: 13%; padding: 4px 8px 4px 0; vertical-align: top;">
+                <b>2025.2 - 2024.5</b>
+              </td>
+              <td style="width: 20%; padding: 4px 8px; vertical-align: top;">
+                <b>Baidu DLTP PaddlePaddle</b>
+              </td>
+              <td style="padding: 4px 0; vertical-align: top;">
+                AI Compiler: PaddlePaddle's CINN Compiler and PHI kernel lib R&D
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
+                <b>2024.10 - Now</b>
+              </td>
+              <td style="padding: 4px 8px; vertical-align: top;">
+                <b>StackExchange</b>
+              </td>
+              <td style="padding: 4px 0; vertical-align: top;">
+                Computer Graphics Pro-tem moderator of the site
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
+                <b>2024.5 - 2024.11</b>
+              </td>
+              <td style="padding: 4px 8px; vertical-align: top;">
+                <b>Tencent LightSpeed Studios</b>
+              </td>
+              <td style="padding: 4px 0; vertical-align: top;">
+                Graphics research: Dynamic voxelization of foliage meshes and multiple scattering volumetric representation
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
+                <b>2021.6 - 2021.8</b>
+              </td>
+              <td style="padding: 4px 8px; vertical-align: top;">
+                <b>XJSY Research Institute of AI</b>
+              </td>
+              <td style="padding: 4px 0; vertical-align: top;">
+                SLAM R&D: Chain representation of 2D LiDAR maps. The algorithm development of the SLAM system
+              </td>
+            </tr>
+          </table>
         <br/>
 
         <h1 id="sec-publications"><i class="far fa-trophy-alt"></i> Selected Awards</h1>
         <ul>
+            <li><b>(2025) Outstanding Graduate of Beijing (4 out of 110)</b></li>
             <li>(2024) Second-class Scholarship of Tsinghua University</li>
-            <li>(2022) XJTU Outstanding graduates</li>
+            <li><b>(2022) XJTU Outstanding graduates</b></li>
             <li>(2021) Second-class Scholarship of XJTU</li>
-            <li>(2020) National Scholarship</li>
-            <li>(2019) National Scholarship</li>
+            <li><b>(2020) National Scholarship</b></li>
+            <li><b>(2019) National Scholarship</b></li>
             <li>3 years of outstanding students (2019, 2020, 2021)</li>
           </ul>
 
