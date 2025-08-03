@@ -11,6 +11,24 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/</loc>
+    
+    <lastmod>2025-08-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/snippets/index.html</loc>
+    
+    <lastmod>2025-08-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/2024/12/16/Write-a-software-CUDA-path-tracer-from-scratch-the-road-to-better-parallelism/</loc>
     
     <lastmod>2024-12-16</lastmod>
@@ -191,15 +209,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/</loc>
-    
-    <lastmod>2022-02-25</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/2022/02/21/2D%E6%BF%80%E5%85%89SLAM%E4%B8%AD%E7%9A%84SDF%E8%A1%A8%E5%BE%81/</loc>
     
     <lastmod>2022-02-25</lastmod>
@@ -219,15 +228,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/2022/02/18/Hexo-NexT%E4%B8%BB%E9%A2%98-%E6%9B%B4%E5%BC%BA%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2/</loc>
-    
-    <lastmod>2022-02-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/snippets/index.html</loc>
     
     <lastmod>2022-02-17</lastmod>
     
@@ -778,13 +778,6 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/PointCloud/</loc>
-    <lastmod>2025-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://enigmatisms.github.io/tags/personal/</loc>
     <lastmod>2025-08-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -793,6 +786,13 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/life/</loc>
+    <lastmod>2025-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enigmatisms.github.io/tags/PointCloud/</loc>
     <lastmod>2025-08-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -869,6 +869,13 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/tags/transformer/</loc>
+    <lastmod>2025-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/tags/LLVM/</loc>
     <lastmod>2025-08-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -877,13 +884,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/poetry/</loc>
-    <lastmod>2025-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/transformer/</loc>
     <lastmod>2025-08-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

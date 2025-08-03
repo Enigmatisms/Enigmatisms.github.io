@@ -119,6 +119,7 @@ In my free time, I contribute to open-source projects, particularly in rendering
                     <p class="venue"><a href="https://dl.acm.org/doi/10.1145/3687930"><strong>ACM Transactions on Graphics (ToG)</strong>
                             (SIGGRAPH Asia)</a>, Dec 2024</p>
                     <p class="venue"><i class="far fa-award"></i> (<strong style="color: #a680ff">CCF A Journal</strong>) Longest Paper Name Award (2nd place, well this is made-up)</p>
+                    <p class="venue"><i class="far fa-key"></i>Importance Sampling; Transient Rendering; Sampling Theory; Ray Tracing; </p>
                     <p class="resourcelist"><span style="white-space: nowrap;"><a
                                 href="https://dl.acm.org/doi/pdf/10.1145/3687930"><i
                                     class="far fa-file-alt"></i> Paper</a></span> <a
@@ -152,6 +153,7 @@ In my free time, I contribute to open-source projects, particularly in rendering
                         <p class="venue"><a href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484">2025 IEEE International Symposium on Circuits and Systems
                             (<strong>ISCAS</strong>)</a>, May 2025</p>
                     <p class="venue"><i class="far fa-award"></i> Accepted as <strong>ISCAS (CCF C conference)</strong> lecture (oral presentation)</p>
+                    <p class="venue"><i class="far fa-key"></i>NeRF; 3DGS; Volumetric Rendering; Scattering;</p>
                     <p class="resourcelist"><span style="white-space: nowrap;"><a
                                 href="https://ieeexplore.ieee.org/abstract/document/11044088/"><i
                                     class="far fa-file-alt"></i> Paper</a></span> <span
@@ -345,6 +347,56 @@ In my free time, I contribute to open-source projects, particularly in rendering
                 </div>
                 <div style="clear: both"></div>
             </div>
+
+            <div id="portfolio" class="portfolio-item" 
+                onmouseover="document.getElementById('nerf-video').play()"
+                onmouseout="document.getElementById('nerf-video').pause()">
+                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/NeRF"><video muted loop preload="auto"
+                            poster="images/nerf.jpg" id="nerf-video">
+                            <source src="images/nerf.webm" type="video/webm; codecs=vp9">
+                        </video></a></div>
+                <div class="portfolio-text">
+                    <h2><a href="https://github.com/Enigmatisms/NeRF">Repo for Joint Reproduction of Several Works</a></h2>
+                    <p class="venue"><b>2022.3~2023.5</b>
+                        <p style="text-align: justify;"> This PyTorch repository implements the reproduction of Neural Radiance Fields (NeRF) with distributed parallel learning and rendering, featuring many important works of early NeRF developments: Ref-NeRF (CVPR 2022), Mip-NeRF (ICCV 2021), Mip-NeRF 360 (CVPR 2022), and Info-NeRF for few-shot learning, with optimizations like proposal network distillation and weight regularization to improve rendering efficiency and quality.
+                        </p>
+                    </p>
+                    <p class="resourcelist">
+                            <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/NeRF"><i
+                                    class="far fa-code"></i> Code</a></span> <span
+                            style="white-space: nowrap;"><a href="https://arxiv.org/abs/2112.03907"><i
+                                    class="far fa-clipboard"></i> Ref-NeRF</a></span>
+                            <span style="white-space: nowrap;"><a href="https://jonbarron.info/mipnerf360/"><i
+                                        class="far fa-clipboard"></i> Mip-NeRFs</a></span>
+                            <span style="white-space: nowrap;"><a href="https://arxiv.org/abs/2112.15399"><i
+                                        class="far fa-clipboard"></i> Info NeRF</a></span>
+                            <span style="white-space: nowrap;"><a href="https://arxiv.org/abs/2003.08934"><i
+                                        class="far fa-clipboard"></i> Original NeRF</a></span>       
+                    </p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
+            <div id="portfolio" class="portfolio-item" 
+                onmouseover="document.getElementById('fmcw-video').play()"
+                onmouseout="document.getElementById('fmcw-video').pause()">
+                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/FMCWScatter"><video muted loop preload="auto"
+                            poster="images/fmcw.jpg" id="fmcw-video">
+                            <source src="images/fmcw.webm" type="video/webm; codecs=vp9">
+                        </video></a></div>
+                <div class="portfolio-text">
+                    <h2><a href="https://github.com/Enigmatisms/FMCWScatter">FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR</a></h2>
+                    <p class="venue"><b>2022.8~2022.10</b>
+                        <p style="text-align: justify;"> This repo is built upon LSMv2, therefore inherently has the feature of mouse/keyboard control, map editting and single-line ray-trace. However, FMCW requires two more features: recursive tracing to simulate multi-bounce & frequency domain FFT ops and Doppler velocity calcutation. These features are added, with several simple built-in BSDFs available. The front-end is also supported by Rust nannou, the recursive tracing and 2D BSDFs is implemented in CUDA while FFT module is written in C++. 
+                        </p>
+                    </p>
+                    <p class="resourcelist">
+                            <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/FMCWScatter"><i
+                                    class="far fa-code"></i> Code</a></span>
+                    </p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
         </div>
 
         <h1 id="sec-publications"><i class="far fa-person-dolly"></i> Experience</h1>
@@ -399,12 +451,12 @@ In my free time, I contribute to open-source projects, particularly in rendering
 
         <h1 id="sec-publications"><i class="far fa-trophy-alt"></i> Selected Awards</h1>
         <ul>
-            <li><b>(2025) Outstanding Graduate of Beijing (4 out of 110)</b></li>
+            <li><b style="color:indigo">(2025) Outstanding Graduate of Beijing (4 out of 110)</b></li>
             <li>(2024) Second-class Scholarship of Tsinghua University</li>
-            <li><b>(2022) XJTU Outstanding graduates</b></li>
+            <li><b style="color:indigo">(2022) XJTU Outstanding graduates</b></li>
             <li>(2021) Second-class Scholarship of XJTU</li>
-            <li><b>(2020) National Scholarship</b></li>
-            <li><b>(2019) National Scholarship</b></li>
+            <li><b style="color:indigo">(2020) National Scholarship</b></li>
+            <li><b style="color:indigo">(2019) National Scholarship</b></li>
             <li>3 years of outstanding students (2019, 2020, 2021)</li>
           </ul>
 
