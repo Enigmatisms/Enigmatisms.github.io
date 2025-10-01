@@ -38,7 +38,7 @@
   <meta name="description" content="Amat Victoria Curam.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Event Horizon">
-<meta property="og:url" content="https://enigmatisms.github.io/awesome-page/2/index.html">
+<meta property="og:url" content="https://enigmatisms.github.io/awesome-page/7/index.html">
 <meta property="og:site_name" content="Event Horizon">
 <meta property="og:description" content="Amat Victoria Curam.">
 <meta property="og:locale" content="en_US">
@@ -46,11 +46,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://enigmatisms.github.io/awesome-page/2/">
+<link rel="canonical" href="https://enigmatisms.github.io/awesome-page/7/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"awesome-page/2/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"awesome-page/7/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Event Horizon - Technical & Personal Docs.</title>
@@ -245,7 +245,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/20/CNN-Capsule-Neural-Networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -258,7 +258,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">Rust C++小记录</a>
+          <a href="/2021/02/20/CNN-Capsule-Neural-Networks/" class="post-title-link" itemprop="url">CNN - Capsule Neural Networks</a>
         </h2>
 
         <div class="post-meta-container">
@@ -269,14 +269,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-08-20 15:46:13" itemprop="dateCreated datePublished" datetime="2022-08-20T15:46:13+08:00">2022-08-20</time>
+      <time title="Created: 2021-02-20 21:48:51" itemprop="dateCreated datePublished" datetime="2021-02-20T21:48:51+08:00">2021-02-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-10-01 17:29:48" itemprop="dateModified" datetime="2025-10-01T17:29:48+08:00">2025-10-01</time>
+      <time title="Modified: 2021-07-18 17:48:28" itemprop="dateModified" datetime="2021-07-18T17:48:28+08:00">2021-07-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -284,7 +284,344 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/snippets/" itemprop="url" rel="index"><span itemprop="name">snippets</span></a>
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="capsule">Capsule</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ Geoffrey Hinton (他的团队 ? 挂名论文 ? )
+在2017年提出了一种有别与传统深度网络结构的网络。相对于Convolution层纯参数卷积核表示，Capsule网络的基本结构是胶囊，每个胶囊都有表征一定的空间结构的能力。与其说是胶囊网络，个人对这种网络结构的理解是：向量神经网络。本文是对论文
+<strong><em>Dynamic Routing Between Capsules</em></strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.09829.pdf">【arxiv链接🔗】</a>
+的总结，也包含了复现论文中遇到过的问题的分析。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/CNN-Capsule-Neural-Networks/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">2D体积光绘制算法设计</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-18 15:35:30" itemprop="dateCreated datePublished" datetime="2021-02-18T15:35:30+08:00">2021-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-06-17 18:52:43" itemprop="dateModified" datetime="2021-06-17T18:52:43+08:00">2021-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="volume2d">Volume2D</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​
+最近玩Minecraft1.12时发现了一个极其棒的光影包，体积光（虚假的体积光，不是用光线追踪做的）做的极其漂亮，使我对这个游戏重新产生了兴趣。</p>
+<p><img src="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/mc.png"></p>
+<center>
+Figure 1. 我的世界光影
+</center>
+<p>​
+实际上，个人之前就对体积光有很大的兴趣，拍照的时候也很喜欢寻找存在"Gods'
+Ray"的场景，没有就将其强行用PS的径向模糊绘制出来。对于游戏内部的光影，我也很想自己实现一个光线效果（大一写的游戏<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">Ethians alpha
+1.1🔗</a>中有阴影计算的算法（FOV shadow
+casting），但结果是基于栅格的，而不是基于像素的）。综合以上的想法 +
+想精进一下C++ STL技术，我设计了一个这样的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/18/2D%E4%BD%93%E7%A7%AF%E5%85%89%E7%BB%98%E5%88%B6%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/10/CycleGAN-Paper-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/10/CycleGAN-Paper-Summary/" class="post-title-link" itemprop="url">CycleGAN Paper Summary</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-10 21:33:33" itemprop="dateCreated datePublished" datetime="2021-02-10T21:33:33+08:00">2021-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-02-18 21:27:44" itemprop="dateModified" datetime="2021-02-18T21:27:44+08:00">2021-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="cyclegan">CycleGAN</h1>
+<hr>
+<h2 id="preface">Preface</h2>
+<p>​ GAN常用作风格迁移或者是object
+transfiguration，但是普通的GAN实际上并不能很好地胜任这些任务。原始的GAN是从一个隐含向量z（常服从一个简单的多维分布）映射到一个具有丰富信息的更高维空间的过程，而这种映射往往“arbitrary”，它可以乱射（随机性的生成）。比如在object
+transfiguration中，A-&gt;B集合映射过程可以通过此网络实现，但B集合进入网络后，生成出来的（例应是原始的B）却与原始B相差很远。当然，在object
+transfiguration中，更加有挑战性的问题是，对于pix2pix论文提出的成对图像转换而言，成对图像一般很难获得。如果只有两个集合A
+/ B，A / B内的对象为不同属性的，那么在没有预先产生匹配关系的情况如何将A
+/ B集合内的物体互相映射呢？</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/10/CycleGAN-Paper-Summary/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/09/Typora-Markdown-Intros/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/enigma.gif">
+      <meta itemprop="name" content="Enigmatisms">
+      <meta itemprop="description" content="Amat Victoria Curam.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Event Horizon">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/09/Typora-Markdown-Intros/" class="post-title-link" itemprop="url">Typora & Markdown Intros</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-09 23:14:13" itemprop="dateCreated datePublished" datetime="2021-02-09T23:14:13+08:00">2021-02-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-11-15 01:02:05" itemprop="dateModified" datetime="2021-11-15T01:02:05+08:00">2021-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/tutorial/" itemprop="url" rel="index"><span itemprop="name">tutorial</span></a>
         </span>
     </span>
 
@@ -313,136 +650,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="rustc">Rust/C++</h1>
+          <h1 id="typora-markdown">Typora &amp; Markdown</h1>
 <hr>
-<p>​
-很久之前（3个月前吧）写的文档了，当时还在学Rust以及零零散散地学一些C++STL库用法（哪知《effective
-modern
-C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没有那么有趣了。索性就贴在此处，供日后查阅。（不过很长啊，这叫snippet？）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/08/13/Mip-NeRF-Ref-NeRF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/13/Mip-NeRF-Ref-NeRF/" class="post-title-link" itemprop="url">Ref NeRF复现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-08-13 16:35:58" itemprop="dateCreated datePublished" datetime="2022-08-13T16:35:58+08:00">2022-08-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-20 15:51:37" itemprop="dateModified" datetime="2022-08-20T15:51:37+08:00">2022-08-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>15k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>14 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="ref-nerf复现">Ref NeRF复现</h2>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ 科研恢复性训练。之前把CUDA加速的全并行shadow
-caster写完了，算是复习了CUDA、Rust以及FFI的使用。深度学习方面就以复现Ref
-NeRF为一个小任务。论文<a target="_blank" rel="noopener" href="https://dorverbin.github.io/refnerf/">CVPR 2022 Best Student
-Honorable Mention: Ref NeRF - Structured View-Dependent Appearance for
-Neural Radiance
-Fields</a>对反射现象进行了良好的建模。之前我一直在研究折射现象的NeRF建模，就折射建模思路而言，此文对我有很大的启发。并且个人认为，基于Ref
-NeRF以及mip
-NeRF作为框架是比较好的选择（除此之外就是要考虑如何让训练变快了，Instant
-NGP当然是不二选择）。当然，由于在复现过程中也遇到了许多问题，本文在阐述复现思路以及论文理解的同时，也会探讨踩过的坑。目前，Ref
-NeRF的复现结果还没有达到令我满意的程度，只是具备雏形，毕竟融合两篇文章的idea可能导致冲突，深度学习这种玄学就更是这样了，模型炸了都不知道从哪一个先开始。复现见
-<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/NeRF">Enigmatisms/NeRF</a></p>
-<p><img src="/2022/08/13/Mip-NeRF-Ref-NeRF/ezgif-1-8207b1faa2.gif"></p>
+<h2 id="why">Why?</h2>
+<p><span id="start"></span></p>
+<p>​ 此文撰写的目的是：</p>
+<ul>
+<li>归纳Typora（Markdown编辑器） 的基本使用（常用的都能找到）</li>
+<li>给我Raven的安利。</li>
+</ul>
 <center>
-Figure 1. Ref NeRF半成品(Shinny Blender -
-Helmet)。从左至右：RGB、depth与“奇怪的法向量”
+效率工具，绝不白启
 </center>
+<p></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/13/Mip-NeRF-Ref-NeRF/#more" rel="contents">
+              <a class="btn" href="/2021/02/09/Typora-Markdown-Intros/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -474,7 +697,7 @@ Helmet)。从左至右：RGB、depth与“奇怪的法向量”
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -487,7 +710,7 @@ Helmet)。从左至右：RGB、depth与“奇怪的法向量”
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">Rust CUDA混合编程</a>
+          <a href="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">LaTex基础语法记录</a>
         </h2>
 
         <div class="post-meta-container">
@@ -498,14 +721,14 @@ Helmet)。从左至右：RGB、depth与“奇怪的法向量”
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-08-09 14:11:59" itemprop="dateCreated datePublished" datetime="2022-08-09T14:11:59+08:00">2022-08-09</time>
+      <time title="Created: 2021-02-05 00:35:20" itemprop="dateCreated datePublished" datetime="2021-02-05T00:35:20+08:00">2021-02-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-20 15:39:32" itemprop="dateModified" datetime="2022-08-20T15:39:32+08:00">2022-08-20</time>
+      <time title="Modified: 2021-02-11 11:32:39" itemprop="dateModified" datetime="2021-02-11T11:32:39+08:00">2021-02-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -524,14 +747,14 @@ Helmet)。从左至右：RGB、depth与“奇怪的法向量”
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>340</span>
+      <span>6.7k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>6 mins.</span>
     </span>
 </div>
 
@@ -542,17 +765,10 @@ Helmet)。从左至右：RGB、depth与“奇怪的法向量”
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>​ （未完成，请勿点击）Rust FFI（foriegn function
-interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel="noopener" href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
-<ul>
-<li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
-<li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
-</ul>
-<p>​
-中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
+          <p><center>真正的LaTex环境看起来是杂乱的...</center></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/#more" rel="contents">
+              <a class="btn" href="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">
                 Read more &raquo;
               </a>
             </div>
@@ -584,7 +800,7 @@ interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel=
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -597,7 +813,7 @@ interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel=
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">Mip NeRF思想注入与更多的NeRF方法</a>
+          <a href="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">GAN原理与实现</a>
         </h2>
 
         <div class="post-meta-container">
@@ -608,449 +824,14 @@ interface）非常有吸引力，特别是当你用熟了<a target="_blank" rel=
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-05-03 15:42:06" itemprop="dateCreated datePublished" datetime="2022-05-03T15:42:06+08:00">2022-05-03</time>
+      <time title="Created: 2021-02-02 00:33:15" itemprop="dateCreated datePublished" datetime="2021-02-02T00:33:15+08:00">2021-02-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-25 07:20:48" itemprop="dateModified" datetime="2022-08-25T07:20:48+08:00">2022-08-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>​ （未完成，请勿点击）。最近读了非常多关于NeRF的论文，毕竟这玩意从ECCV
-2020被提出来之后就爆火了，变体层出不穷，基本上我能想到的卷法，都有人卷过了。低垂的果实总是被有能力又有准备的人先摘走，留下来的都是一些需要费大力气才能摘到的果实。论文不仅需要读，好的论文一定要复现，才能深入了解其精髓，西安交大人工智能学院的刘龙军副教授曾经在组会上说到：读论文不复现等于白读！大家都深以为然:&gt;。而其中最有复现价值（并且难度没那么高的，不像Instant
-NGP，official repo代码都看不懂）的当属：</p>
-<ul>
-<li>ICCV 2021: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.13415">Mip-NeRF: A
-Multiscale Representation for Anti-Aliasing Neural Radiance
-Fields</a></li>
-<li>ECCV 2022: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2111.12077">Mip-NeRF 360:
-Unbounded Anti-Aliased Neural Radiance Fields</a></li>
-</ul>
-<p>​ 其中Mip NeRF 360中的proposal
-network已经成为目前个人所实现的NeRF框架的基础。本文是复现过程中的一些心得以及对其他所读的NeRF论文的总结。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/03/Mip-NeRF%E6%80%9D%E6%83%B3%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%9B%B4%E5%A4%9A%E7%9A%84NeRF%E6%96%B9%E6%B3%95/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/" class="post-title-link" itemprop="url">Rust学习 II</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-05-03 12:01:41 / Modified: 12:04:18" itemprop="dateCreated datePublished" datetime="2022-05-03T12:01:41+08:00">2022-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>12k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>11 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="rust---ii">Rust - II</h1>
-<hr>
-<h2 id="i.-intro">I. Intro</h2>
-<p>​
-变量的lifetime之前的部分，理解起来都比较简单。而一到lifetime出场，一群妖魔鬼怪也就跟着出场了。不过其实是因为之前的两天学习中，对于变量的引用，所有权的租借理解不够到位。本文仍然是在跟着Rust官方（的非官方，它自己写的）教程学习过程中，整活扩展的一些记录。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/" class="post-title-link" itemprop="url">Rust学习 I</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-05-03 11:57:35 / Modified: 12:04:12" itemprop="dateCreated datePublished" datetime="2022-05-03T11:57:35+08:00">2022-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>15k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>14 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="rust---i">Rust - I</h1>
-<hr>
-<h2 id="intros">Intros</h2>
-<p>​
-Rust，好！可能主要由于所有权机制上的创新，学习时的感觉与学其他语言的感觉完全不同，于是没有像学JS一样，觉得无聊，也没有像觉像学haskell一样，觉得过于抽象。但是这样一种语言创新，必然会给学习带来障碍，毕竟编程思想是完全不同的。此外，可能我使用Rust的工具链不对，个人认为vscode对于Rust的支持明显不足（缺乏自动补全，没有函数快速查看以及定义跳转等等），第一天学的时候，只能实现一些强逻辑性算法（比如什么快排，归并排序等等），无法深入使用数据结构（给我一个数据结构我根本不知道里面有什么方法）。</p>
-<p>​
-第一天快结束时，想学习一下Rust的可视化工具Plotters，结果发现，之前从菜鸟教程了解的写法过于粗浅，基本看不懂Plotters代码，遂投身更加深入的学习。但却发现，给自己设置的小目标
----
-写一个链表，按照之前了解的语法知识，我都是写不出来的。快要放弃只是接触到了一个教程以及其官方文档：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://rust-unofficial.github.io/too-many-lists/index.html">Rust
-unofficial - Learning Rust With Entirely Too Many Linked Lists</a></li>
-<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/index.html">Rust-lang
-docs</a></li>
-</ul>
-<p>​
-教程详细介绍了对于链表的实现，较为通俗易懂，有些难以思考的问题，其实沉下心来想也很快能想出来。本文是跟着教程实现过程中，笔者对于遇到的一些问题的处理方法以及自己的心得。由于笔者非常不喜欢依葫芦画瓢（因为这样，感觉自己完全学不到东西），所以笔者也在自己的实现中整活（超前学习），本文也记录了整活过程中遇到的坑及处理方法。本篇为Rust学习心得的第一章。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">Cartographer编译问题整理</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-11 14:21:38" itemprop="dateCreated datePublished" datetime="2022-04-11T14:21:38+08:00">2022-04-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-10-01 17:29:48" itemprop="dateModified" datetime="2025-10-01T17:29:48+08:00">2025-10-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/snippets/" itemprop="url" rel="index"><span itemprop="name">snippets</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.9k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="cartographer">Cartographer</h1>
-<hr>
-<p>​ 毕设工作设计到与cartographer进行定量实验比较。本人在<a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/cartographer_tester">Enigmatisms/cartographer_tester</a>中整理了cartographer以及ros驱动代码，添加了自动化轨迹读取等功能，两周前在Ubuntu
-18.04上已经完成了测试，但在Ubuntu
-20.04上一直编译不通过，调了一下午才调出来。本文记录了cartographer在不同版本的Ubuntu上（尤其是20.04）的一些典型编译问题以及解决方案。笔者现已经通过文中所说的解决方案完成了cartographer的编译。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/" class="post-title-link" itemprop="url">NeRF论文复现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-27 00:44:24" itemprop="dateCreated datePublished" datetime="2022-03-27T00:44:24+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-04-17 06:51:23" itemprop="dateModified" datetime="2022-04-17T06:51:23+08:00">2022-04-17</time>
+      <time title="Modified: 2021-02-15 13:57:31" itemprop="dateModified" datetime="2021-02-15T13:57:31+08:00">2021-02-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1087,33 +868,10 @@ docs</a></li>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="nerf">NeRF</h1>
-<hr>
-<p>​
-最近工程浓度太高，关于【如何设计】以及【为什么】的思考显著少于【如何实现】以及【怎么解决】。为了平衡科研与工程，我复现了最近读的一篇多视角重建论文（见上一篇博客
-<a href="https://enigmatisms.github.io/2022/03/13/Neural-Randiance-Field【1】/">Neural
-Randiance Field【1】</a>）：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall,
-Ben, et al. "Nerf: Representing scenes as neural radiance fields for
-view synthesis." <em>European conference on computer vision</em>.
-Springer, Cham, 2020.</a></li>
-</ul>
-<p>​
-NeRF这篇论文，读的时候觉得作者写得还是非常清晰，只要搞清楚了基本概念，流畅地读下来基本上没什么问题。但实现过程中，发现到处都是坑（坑主要来源于个人没有清晰的设计思路，不同模块间的输入输出连续性不强，导致接口经常改动，此外...
-有些问题确实也挺坑的）。有别于NeRF的官方tensorflow实现，本论文复现使用Pytorch
-+ CUDA，主要代码中约有50%
-CUDA，50%python。本论文主要记录复现思路，以及复现过程中遇到的主要问题。复现见<a href>Github repo: Enigmatisms/NeRF</a></p>
-<center>
-<img src="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/dynamic.gif" style="zoom:60%;">
-</center>
-<center>
-Figure 1. blender synthetic dataset - drums 训练过程可视化（从epoch 1-
-epoch 400）
-</center>
+          <p><center>生成对抗网络的理论和实践</center></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/27/NeRF%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0/#more" rel="contents">
+              <a class="btn" href="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
                 Read more &raquo;
               </a>
             </div>
@@ -1145,7 +903,7 @@ epoch 400）
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/">
+    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/01/29/Enigma's-First-Blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/enigma.gif">
@@ -1158,7 +916,7 @@ epoch 400）
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/" class="post-title-link" itemprop="url">Neural Radiance Field【1】</a>
+          <a href="/2021/01/29/Enigma's-First-Blog/" class="post-title-link" itemprop="url">Enigma's First Blog</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1169,14 +927,14 @@ epoch 400）
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-13 20:05:21" itemprop="dateCreated datePublished" datetime="2022-03-13T20:05:21+08:00">2022-03-13</time>
+      <time title="Created: 2021-01-29 15:17:13" itemprop="dateCreated datePublished" datetime="2021-01-29T15:17:13+08:00">2021-01-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-13 16:36:55" itemprop="dateModified" datetime="2022-08-13T16:36:55+08:00">2022-08-13</time>
+      <time title="Modified: 2021-11-15 01:01:03" itemprop="dateModified" datetime="2021-11-15T01:01:03+08:00">2021-11-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1184,7 +942,7 @@ epoch 400）
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
+          <a href="/categories/life/" itemprop="url" rel="index"><span itemprop="name">life</span></a>
         </span>
     </span>
 
@@ -1195,131 +953,7 @@ epoch 400）
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="neural-rf">Neural RF</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​ 深度学习的大环境下，视图合成（view
-synthesis）必然不会缺席（毕竟没什么数学能力也能搞，是吧）。NeRF作为其中比较杰出的工作之一，文章后续也受到很多关注，包括但不限于【NeRF++，NeRF--，Point
-NeRF】。本文是一篇关于NeRF及其++版本的论文理解，后续将在[Neural Radiance
-Field【2】]中介绍Point NeRF以及NeRF的复现：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.08934.pdf?ref=https://githubhelp.com">Mildenhall,
-Ben, et al. "Nerf: Representing scenes as neural radiance fields for
-view synthesis." <em>European conference on computer vision</em>.
-Springer, Cham, 2020.</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.07492.pdf">Zhang, Kai, et al.
-"Nerf++: Analyzing and improving neural radiance fields." <em>arXiv
-preprint arXiv:2010.07492</em> (2020).</a></li>
-</ul>
-<center>
-<img src="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/bench.gif" style="zoom:100%;">
-</center>
-<center>
-Figure 1. 拿个视频当NeRF demo是吧?（误）
-</center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/" class="post-title-link" itemprop="url">远古SDF文档</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-22 17:17:43" itemprop="dateCreated datePublished" datetime="2022-02-22T17:17:43+08:00">2022-02-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-10-01 17:29:48" itemprop="dateModified" datetime="2025-10-01T17:29:48+08:00">2025-10-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/snippets/" itemprop="url" rel="index"><span itemprop="name">snippets</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>0</span>
+      <span>1.1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -1337,9 +971,15 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     
     
     <div class="post-body" itemprop="articleBody">
-          <iframe src="//www.slideshare.net/slideshow/embed_code/key/dUI2s72z0jLiEq" width="750" height="420" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%; border-radius: 2px;;" allowfullscreen>
-</iframe>
-
+          <p><center>Purpose for creating this blog.</center></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/29/Enigma's-First-Blog/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1359,7 +999,7 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
 
     
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/awesome-page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/7/">7</a><a class="extend next" rel="next" href="/awesome-page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/awesome-page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/awesome-page/6/">6</a><span class="page-number current">7</span>
   </nav>
 
 </div>
