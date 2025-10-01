@@ -926,6 +926,21 @@
                 gameLoop();
             }
         });
+
+        function adjustZoom() {
+            const windowHeight = window.innerHeight;
+            const contentHeight = document.body.scrollHeight;
+            
+            if (contentHeight > windowHeight) {
+                const zoomLevel = windowHeight / contentHeight * 0.95;
+                document.body.style.zoom = zoomLevel;
+            } else {
+                document.body.style.zoom = 1;
+            }
+        }
+
+        window.addEventListener('load', adjustZoom);
+        window.addEventListener('resize', adjustZoom);
         
         initGame();
         gameLoop();
