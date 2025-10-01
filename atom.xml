@@ -400,7 +400,7 @@ Figure 1. 混元形意太极 闪电五连鞭
     <link href="https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/"/>
     <id>https://enigmatisms.github.io/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/</id>
     <published>2022-08-20T07:46:13.000Z</published>
-    <updated>2022-08-20T07:50:27.941Z</updated>
+    <updated>2025-10-01T09:29:48.959Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;rustc&quot;&gt;Rust/C++&lt;/h1&gt;
@@ -412,7 +412,7 @@ C++》这般好书？）。Rust部分的记录还挺有趣的，C++部分就没�
     
     
     
-    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    <category term="snippets" scheme="https://enigmatisms.github.io/categories/snippets/"/>
     
     
     <category term="Rust" scheme="https://enigmatisms.github.io/tags/Rust/"/>
@@ -595,7 +595,7 @@ docs&lt;/a&gt;&lt;/li&gt;
     <link href="https://enigmatisms.github.io/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/"/>
     <id>https://enigmatisms.github.io/2022/04/11/Cartographer%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</id>
     <published>2022-04-11T06:21:38.000Z</published>
-    <updated>2022-04-11T06:27:04.128Z</updated>
+    <updated>2025-10-01T09:29:48.961Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;cartographer&quot;&gt;Cartographer&lt;/h1&gt;
@@ -606,7 +606,7 @@ docs&lt;/a&gt;&lt;/li&gt;
     
     
     
-    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    <category term="snippets" scheme="https://enigmatisms.github.io/categories/snippets/"/>
     
     
     <category term="SLAM" scheme="https://enigmatisms.github.io/tags/SLAM/"/>
@@ -710,7 +710,7 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     <link href="https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/"/>
     <id>https://enigmatisms.github.io/2022/02/22/%E8%BF%9C%E5%8F%A4SDF%E6%96%87%E6%A1%A3/</id>
     <published>2022-02-22T09:17:43.000Z</published>
-    <updated>2025-08-03T06:35:29.853Z</updated>
+    <updated>2025-10-01T09:29:48.956Z</updated>
     
     
       
@@ -723,7 +723,7 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     
     
     
-    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    <category term="snippets" scheme="https://enigmatisms.github.io/categories/snippets/"/>
     
     
     <category term="knowings" scheme="https://enigmatisms.github.io/tags/knowings/"/>
@@ -737,7 +737,7 @@ Figure 1. 拿个视频当NeRF demo是吧?（误）
     <link href="https://enigmatisms.github.io/2022/02/22/%E7%AE%80%E5%8D%95%E7%9A%84ROS%E8%B7%A8%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6/"/>
     <id>https://enigmatisms.github.io/2022/02/22/%E7%AE%80%E5%8D%95%E7%9A%84ROS%E8%B7%A8%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6/</id>
     <published>2022-02-22T09:16:48.000Z</published>
-    <updated>2022-02-25T00:23:43.573Z</updated>
+    <updated>2025-10-01T09:29:48.957Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;rrrros&quot;&gt;RRRROS&lt;/h1&gt;
@@ -747,7 +747,7 @@ ROS常用的进程通信机制是消息传递，是基于各个node与master的X
     
     
     
-    <category term="snippet" scheme="https://enigmatisms.github.io/categories/snippet/"/>
+    <category term="snippets" scheme="https://enigmatisms.github.io/categories/snippets/"/>
     
     
     <category term="ROS" scheme="https://enigmatisms.github.io/tags/ROS/"/>

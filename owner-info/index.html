@@ -167,6 +167,41 @@ In my free time, I contribute to open-source projects, particularly in rendering
                 <div style="clear: both"></div>
             </div>
 
+            <div id="portfolio" class="portfolio-item" 
+                onmouseover="handleVideoHover('vkgs-video', 'over')"
+                onmouseout="handleVideoHover('vkgs-video', 'out')">
+                <div class="portfolio-image">
+                    <a href="https://github.com/AdamYuan/VkDiffGaussianRasterizer"></a>
+                    <video muted loop preload="auto"
+                            poster="images/vkgs.jpg" id="vkgs-video">
+                            <source src="images/vkgs.webm" type="video/webm; codecs=vp9">
+                        </video>
+                    </a>
+                </div>
+                <div class="portfolio-text">
+                    <h2><a href="https://ieeexplore.ieee.org/abstract/document/11044088/">Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting</h2>
+                        <p class="authorlist">
+                            <a style="white-space: nowrap;"
+                            href="https://github.com/AdamYuan">Yitian Yuan</a>,
+                            <a style="white-space: nowrap; color: #a680ff"
+                            href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>
+                        <p class="venue"><a href="https://asia.siggraph.org/2025/">Arxiv Preprint for SIGGRAPH Asia 2025 (3, 3, -3, -3, Rejected, sadly😔)</a></p>
+                    <p class="venue"><i class="far fa-award"></i>Brilliant idea from <a style="white-space: nowrap; color: #2779f5"
+                        href="https://github.com/AdamYuan">@AdamYuan</a> during his last year of undergrad. Rejected, and since neither of us wanted to continue working on 3DGS, we decided to make it open-sourced.</p>
+                    <p class="venue"><i class="far fa-key"></i>3DGS; Hardware Rasterization; Differentiable Rasterizer;</p>
+                    <p class="resourcelist"><span style="white-space: nowrap;"><a
+                                href="https://arxiv.org/abs/2505.18764"><i
+                                    class="far fa-file-alt"></i> Paper</a></span> <span
+                            style="white-space: nowrap;"><a
+                                href="https://github.com/AdamYuan/VkDiffGaussianRasterizer"><i
+                                    class="far fa-external-link"></i> Code</a></span> <span
+                            style="white-space: nowrap;"><a
+                                href="./data/ref3.bib"><i
+                                    class="far fa-quote-right"></i> BibTeX</a></span></p>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
             <h1 id="sec-publications"><i class="far fa-university"></i> Thesis</h1>
 
             <div id="portfolio" class="portfolio-item" 
@@ -446,6 +481,18 @@ In my free time, I contribute to open-source projects, particularly in rendering
                 SLAM R&D: Chain representation of 2D LiDAR maps. The algorithm development of the SLAM system
               </td>
             </tr>
+
+            <tr>
+                <td style="padding: 4px 8px 4px 0; vertical-align: top;">
+                  <b>2020.9 - 2021.6</b>
+                </td>
+                <td style="padding: 4px 8px; vertical-align: top;">
+                  <b>XJTU Robomaster Team</b>
+                </td>
+                <td style="padding: 4px 0; vertical-align: top;">
+                  Vision Group Lead: Auto-targeting and realtime mapping system development
+                </td>
+              </tr>
           </table>
         <br/>
 
@@ -461,7 +508,7 @@ In my free time, I contribute to open-source projects, particularly in rendering
           </ul>
 
         <div class="footer-content">
-
+            <script defer src="https://vercount.one/js"></script>
             <script src="//api.busuanzi.cc/static/3.6.9/busuanzi.min.js" defer></script>
             <p style="clear: both"><strong>Site stats since 2025.8.1</strong></p>
             <p style="clear: both">Total views <strong><span id="busuanzi_page_pv">Loading...</span></strong> | 
