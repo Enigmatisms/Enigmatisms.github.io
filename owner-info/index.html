@@ -1,528 +1,1050 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./fonts/stylesheet.css" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="./css/fontawesome.min.css" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="./css/brands.min.css" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="./css/regular.min.css" charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="./css/style.css" media="all" />
-    <title>Qianyue He</title>
-</head>
-
-<script>
-    function handleVideoHover(videoId, action) {
-      const video = document.getElementById(videoId);
-      
-      if(action === 'over') {
-        if(video.readyState < 2) return; 
-        
-        clearTimeout(video.hoverTimer);
-        video.classList.remove('show-poster');
-        video.play().catch(e => console.log("Playback prevented"));
-        
-      } else if(action === 'out') {
-        video.classList.add('fading');
-        video.hoverTimer = setTimeout(() => {
-          video.pause();
-          video.currentTime = 0;
-          video.load();
-        }, 200);
-      }
-    }
-</script>
-
-<body>
-    <div class="mainbody">
-        <div class="header-content">
-            <h1><a href="/index.php">Qianyue He</a></h1>
-        </div>
-        <div class="line"></div>
-        <div class="content">
-
-            <div class="about">
-                <a href="https://enigmatisms.github.io/"><img class="avatar" src="images/avatar.jpg"></a>
-
-                <h1><i class="far fa-portal-exit"></i> About me</h1>
-
-                <p>Hi, I'm Qianyue He, graphics and HPC enthusiast with a passion for coding. I pursue projects driven by curiosity rather than commercial intent—the joy of creation and mastery is my primary reward. Knowledge gained along the way is simply a bonus.
-                </p>
-
-                <p style="margin-top: 10px;">
-                    I am a master in AI (EE) at <a style="color: #9b0098;" href="https://www.sigs.tsinghua.edu.cn/en/">Tsinghua SIGS</a>, working on time-of-flight rendering. I earned my Bachelor of Engineering in Automation from <a href="http://en.xjtu.edu.cn/">XJTU</a>, where I grew significantly as an engineer with the help of mentors and peers. My undergrad journey was fulfilling—I spent two years (2020–2021) in my school’s <a style="color: #000088;" href="https://www.robomaster.com/zh-CN">RoboMaster</a> team (vision group lead in 2021), developing an auto-targeting system, followed by two years at <a style="color: #1377fa;" href="https://www.sigs.tsinghua.edu.cn/en/">IAIR</a> working on CV and SLAM.
-
-In my free time, I contribute to open-source projects, particularly in rendering and ray tracing. I’ve modified frameworks like <a href="https://www.mitsuba-renderer.org/">Mitsuba</a>, <a href="https://github.com/mmp/pbrt-v3">PBRT</a>, and <a href="https://benedikt-bitterli.me/tungsten.html">Tungsten</a>, and built two renderers: <a style="color: #af0000;" href="https://github.com/Enigmatisms/AdaPT">AdaPT</a> and <a style="color: #00a862;" href="https://github.com/Enigmatisms/cuda-pt">cuda-pt</a>. Since 2024, I’ve also served as a pro-tem moderator for <a href="https://computergraphics.stackexchange.com/">Computer Graphics StackExchange</a>, supporting the community.
-                </p>
-
-                <p style="margin-top: 10px;">
-                    My focus is shifting toward foundational work in ​​AI infrastructure and compilers​​—fascinating fields, aren’t they? Exploration is the priority now; after all, youth is the best time to dive into the unknown.
-                </p>
-
-                <p style="margin-top: 10px;">
-                    Got married to my junior & senior high classmate in my 24! She is such a heavenly girl.
-                </p>
-
-                <p class="resourcelist" style="margin-top: 10px;">
-                    <a href="984041003@qq.com"><i class="far fa-envelope"></i> Email</a>
-                    <a href="https://github.com/Enigmatisms"><i class="fab fa-github"></i> GitHub</a>
-                    <a href="https://enigmatisms.github.io/"><i class="far fa-wifi"></i> Blog</a>
-                    <a href="snake_dual.html"><i class="far fa-snake"></i> Snake Dual Relax</a>
-                </p>
-            </div>
-
-            <h1 id="sec-publications"><i class="far fa-user-graduate"></i> Education</h1>
-
-            <section class="education">
-                <div class="degree left">
-                  <div class="school">
-                    <img src="./images/tsinghua.jpg" alt="Tsinghua" class="logo">
-                    <span class="school-name">Tsinghua University</span>
-                  </div>
-                  <div class="details">
-                    <span class="degree-time">2022.9-2025.6</span>
-                    <span class="major">(SIGS) Master of Engineering in Artificial Intelligence</span>
-                  </div>
-                </div>
-                <div class="degree right">
-                  <div class="school">
-                    <img src="./images/xjtu.jpg" alt="undergrad" class="logo">
-                    <span class="school-name">Xi'an Jiaotong University</span>
-                  </div>
-                  <div class="details">
-                    <span class="degree-time">2018.9-2022.6</span>
-                    <span class="major">BEng. in Automation</span>
-                  </div>
-                </div>
-            </section>
-            <br/>
-
-            <h1 id="sec-publications"><i class="far fa-podium-star"></i> Publications</h1>
-
-            <div id="portfolio" class="portfolio-item"
-                onmouseover="document.getElementById('he24darts-video').play()"
-                onmouseout="document.getElementById('he24darts-video').pause()">
-                <div class="portfolio-image">
-                    <a href="https://darts-paper.github.io/DARTS-proj-page/">
-                        <video muted loop preload="auto" poster="images/he24darts/darts.jpg" id="he24darts-video">
-                            <source src="images/he24darts/darts.webm" type="video/webm; codecs=vp9">
-                        </video>
-                    </a>
-                </div>
-                <div class="portfolio-text">
-                    <h2><a href="https://darts-paper.github.io/DARTS-proj-page/">🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media</a></h2>
-                    <p class="authorlist"><a style="white-space: nowrap; color: #a680ff"
-                            href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>, <a style="white-space: nowrap;"
-                            href="https://dongyu-du.github.io/">Dongyu Du</a>, Haitian Jiang,
-                        <a style="white-space: nowrap;" href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&hl=zh-CN&oi=sra">Xin Jin</a>
-                    <p class="venue"><a href="https://dl.acm.org/doi/10.1145/3687930"><strong>ACM Transactions on Graphics (ToG)</strong>
-                            (SIGGRAPH Asia)</a>, Dec 2024</p>
-                    <p class="venue"><i class="far fa-award"></i> (<strong style="color: #a680ff">CCF A Journal</strong>) Longest Paper Name Award (2nd place, well this is made-up)</p>
-                    <p class="venue"><i class="far fa-key"></i> Importance Sampling; Transient Rendering; Sampling Theory; Ray Tracing; </p>
-                    <p class="resourcelist"><span style="white-space: nowrap;"><a
-                                href="https://dl.acm.org/doi/pdf/10.1145/3687930"><i
-                                    class="far fa-file-alt"></i> Paper</a></span> <a
-                                href="https://darts-paper.github.io/DARTS-proj-page/static/pdfs/supp-note-final.pdf"><i
-                                    class="far fa-file-alt"></i> Supplementary</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="https://www.youtube.com/watch?v=aOQPA7ccOtY"><i
-                                    class="far fa-video"></i> Video</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="https://darts-paper.github.io/DARTS-proj-page/"><i
-                                    class="far fa-external-link"></i> Project Page</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="./data/ref.bib"><i
-                                    class="far fa-quote-right"></i> BibTeX</a></span></p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item">
-                <div class="portfolio-image"><video muted loop preload="auto"
-                            poster="images/scattergs.jpg" id="bch-video">
-                        </video></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://ieeexplore.ieee.org/abstract/document/11044088/">ScatterSplatting: Enhanced View Synthesis in Scattering Scenarios via Joint NeRF and Gaussian Splatting</h2>
-                        <p class="authorlist">
-                            Renrong Hu,
-                            <a style="white-space: nowrap; color: #a680ff"
-                            href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>, <a style="white-space: nowrap;"
-                            href="https://dongyu-du.github.io/">Dongyu Du</a>,
-                        <a style="white-space: nowrap;" href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&hl=zh-CN&oi=sra">Xin Jin</a>
-                        <p class="venue"><a href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484">2025 IEEE International Symposium on Circuits and Systems
-                            (<strong>ISCAS</strong>)</a>, May 2025</p>
-                    <p class="venue"><i class="far fa-award"></i> Accepted as <strong>ISCAS (CCF C conference)</strong> lecture (oral presentation)</p>
-                    <p class="venue"><i class="far fa-key"></i> NeRF; 3DGS; Volumetric Rendering; Scattering;</p>
-                    <p class="resourcelist"><span style="white-space: nowrap;"><a
-                                href="https://ieeexplore.ieee.org/abstract/document/11044088/"><i
-                                    class="far fa-file-alt"></i> Paper</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484"><i
-                                    class="far fa-external-link"></i> Project Page</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="./data/ref2.bib"><i
-                                    class="far fa-quote-right"></i> BibTeX</a></span></p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="handleVideoHover('vkgs-video', 'over')"
-                onmouseout="handleVideoHover('vkgs-video', 'out')">
-                <div class="portfolio-image">
-                    <a href="https://github.com/AdamYuan/VkDiffGaussianRasterizer"></a>
-                    <video muted loop preload="auto"
-                            poster="images/vkgs.jpg" id="vkgs-video">
-                            <source src="images/vkgs.webm" type="video/webm; codecs=vp9">
-                        </video>
-                    </a>
-                </div>
-                <div class="portfolio-text">
-                    <h2><a href="https://ieeexplore.ieee.org/abstract/document/11044088/">Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting</h2>
-                        <p class="authorlist">
-                            <a style="white-space: nowrap;"
-                            href="https://github.com/AdamYuan">Yitian Yuan</a>,
-                            <a style="white-space: nowrap; color: #a680ff"
-                            href="https://enigmatisms.github.io/owner_info/">Qianyue He</a>
-                        <p class="venue"><a href="https://asia.siggraph.org/2025/">Arxiv Preprint for SIGGRAPH Asia 2025 (scores 3, 3, -3, -3, Rejected, sadly😔)</a></p>
-                    <p class="venue"><i class="far fa-award"></i> Brilliant idea from <a style="white-space: nowrap; color: #2779f5"
-                        href="https://github.com/AdamYuan">@AdamYuan</a> during his last year of undergrad. Rejected, and since neither of us wanted to continue working on 3DGS, we decided to make it open-sourced.</p>
-                    <p class="venue"><i class="far fa-key"></i> 3DGS; Hardware Rasterization; Differentiable Rasterizer;</p>
-                    <p class="resourcelist"><span style="white-space: nowrap;"><a
-                                href="https://arxiv.org/abs/2505.18764"><i
-                                    class="far fa-file-alt"></i> Paper</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="https://github.com/AdamYuan/VkDiffGaussianRasterizer"><i
-                                    class="far fa-external-link"></i> Code</a></span> <span
-                            style="white-space: nowrap;"><a
-                                href="./data/ref3.bib"><i
-                                    class="far fa-quote-right"></i> BibTeX</a></span></p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <h1 id="sec-publications"><i class="far fa-university"></i> Thesis</h1>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="handleVideoHover('thesis-video', 'over')"
-                onmouseout="handleVideoHover('thesis-video', 'out')">
-                <div class="portfolio-image"><video muted loop preload="auto"
-                            poster="images/kitchen-thumb.jpg" id="thesis-video">
-                            <source src="images/thesis.webm" type="video/webm; codecs=vp9">
-                        </video></div>
-                <div class="portfolio-text">
-                    <h2>Time-Resolved Rendering Methods for Complex Scattering Scenes</h2>
-                    <p class="venue"><b>Master thesis (109 pages) in Tsinghua SIGS</b>
-                        <p style="text-align: justify;">This thesis presents advanced ToF rendering techniques for complex scattering scenes, addressing efficiency and accuracy challenges. A diffusion-approximation importance sampling method improves radiance approximation, reducing errors by ~20%. An elliptical path-constrained strategy minimizes rejection rates, cutting errors by ~25% and rejections by ~7×. A GPU-accelerated system further boosts performance and reduces noise.
-                        </p>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item">
-                <div class="portfolio-image"><video muted loop preload="auto"
-                            poster="images/SLAM.jpg" id="bch-video">
-                        </video></div>
-                <div class="portfolio-text">
-                    <h2>Chain-representation-based real time high precision single line LiDAR SLAM system</h2>
-                    <p class="venue"><b>Bachelor thesis (61 pages) in XJTU</b>
-                        <p style="text-align: justify;">In this thesis, a novel map representation named Chain Representation is proposed. This representation is sort of a mixture that has both the advantages of point cloud and occupancy map. The proposed SLAM system is compared against the SoTA method (in 2022): Google's cartographer, SLAM toolbox and the classic GMapping. The proposed method demonstrates faster mapping, higher accuracy and lower memory overhead. The code is not currently open-sourced.
-                        </p>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-
-            
-            <h1 id="sec-projects"><i class="far fa-hat-wizard"></i> Selected Personal Projects</h1>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="handleVideoHover('cupt-video', 'over')"
-                onmouseout="handleVideoHover('cupt-video', 'out')">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/cuda-pt"><video muted loop preload="auto"
-                            poster="images/cudapt-car.jpg" id="cupt-video">
-                            <source src="images/sports-car1.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/cuda-pt">CUDA-PT</a></h2>
-                    <p class="venue"><b>2024.4~/</b>
-                        <p style="text-align: justify;">A CUDA software ray tracing renderer <strong>from scratch</strong>: a renderer with Analysis-Driven Optimization. The core logic and basic building blocks are all written from scratch in CUDA, and they are carefully profiled and optimized to have better performance. Definitely not a naive porting of CPU implementation. Megakernel path tracing, light tracing and wavefront path tracing are supported. Volumetric and time-of-flight rendering supported, with <strong>distributed parallel renderer</strong> available (by PyTorch DDP and nanobind python bindings). Time-Resolved rendering is also supported.
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                       <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/cuda-pt"><i
-                                    class="far fa-code"></i> Code</a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="handleVideoHover('adapt-video', 'over')"
-                onmouseout="handleVideoHover('adapt-video', 'out')">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/AdaPT"><video muted loop preload="auto"
-                            poster="images/adapt.jpg" id="adapt-video">
-                            <source src="images/adapt.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/AdaPT">The AdaPT renderer</a></h2>
-                    <p class="venue"><b>2023.1~2024.11</b>
-                        <p style="text-align: justify;">A physically based renderer built in Taichi lang (python-like, JIT). This offline renderer supports steady state and transient state rendering, with undirectional, volumetric and bidirectional path tracing implementation. Textures, heterogeneous RGB density volumes and different kinds of emitters are supported. Customized Mitsuba-like XML scene parsing, with stackless SAH-LBVH ray-primitive acceleration.
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                        <span style="white-space: nowrap;"><a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/"><i
-                                    class="far fa-rocket-launch"></i> Blogs</a></span> <span
-                            style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/AdaPT"><i
-                                    class="far fa-code"></i> Code</a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-            
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('lidarsim2d-vid').play()"
-                onmouseout="document.getElementById('lidarsim2d-vid').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/LSMv2"><video muted loop preload="auto"
-                            poster="images/lidarsim2d.jpg" id="lidarsim2d-vid">
-                            <source src="images/lidarsim2d.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/LSMv2">LiDARSim2D & LSMv2</a></h2>
-                    <p class="venue"><b>2021.8~2022.8</b>
-                        <p style="text-align: justify;">Two different versions of 2D LiDAR simulators. The first version is written in C++, with OpenCV and ROS Rviz visualization. Supports exporting ROS bags of scan data, IMU data and etc.. The second version is written in Rust and CUDA, with nannou as its front-end visualization and GUI and CUDA based accelerated ray-intersection code as simulation backend. Both support map editting and customization. 
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                        <span style="white-space: nowrap;"><a href="https://enigmatisms.github.io/2021/08/28/2D-LiDAR-Simulator-Release-Notice/"><i
-                                    class="far fa-rocket-launch"></i> Blogs</a></span> <span
-                            style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/LiDARSim2D"><i
-                                    class="far fa-code"></i> Code V1</a></span> <span
-                            style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/LSMv2"><i
-                                    class="far fa-code"></i> Code V2</a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('ethians-vid').play()"
-                onmouseout="document.getElementById('ethians-vid').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1"><video muted loop preload="auto"
-                            poster="images/ethians.jpg" id="ethians-vid">
-                            <source src="images/ethians.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">The Ethians (Rougelike Game)</a></h2>
-                    <p class="venue"><b>2019.1~2019.8</b>
-                        <p style="text-align: justify;">The first big project of mine, written during the first year of my undergrad. I love this rougelike game very much: I extracted the assets from an old mobile rougelike game called <i>Dweller</i> and rewrite all the game play in PyGame. The GUI and some of the art assets are designed and drawn on my own. I poured much time and effort into this, and till today, I can still say that it beats most of the undergrad Graduation Designs in our country (since most of them are so shitty).
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                        <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1"><i
-                                    class="far fa-code"></i> Code</a></span> 
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('axis6-video').play()"
-                onmouseout="document.getElementById('axis6-video').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/Axis6"><video muted loop preload="auto"
-                            poster="images/axis6.jpg" id="axis6-video">
-                            <source src="images/axis6.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/Axis6">6-axis Robot Simulator</a></h2>
-                    <p class="venue"><b>2022.10</b>
-                        <p style="text-align: justify;"> 6-axis robot simulation in rviz and Gazebo, control implemented with ROS. Simple hand-deduced D-H forward-inverse kinematics implemented in Eigen. Simulated and visualized in RViz and Gazebo ROS implementation (melodic), with key control. 
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                        <span style="white-space: nowrap;"><a href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/"><i
-                                    class="far fa-rocket-launch"></i> Blogs</a></span> <span
-                            style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/Axis6"><i
-                                    class="far fa-code"></i> Code </a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('giga-video').play()"
-                onmouseout="document.getElementById('giga-video').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/nerfstudio-giga"><video muted loop preload="auto"
-                            poster="images/giga.jpg" id="giga-video">
-                            <source src="images/giga.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/nerfstudio-giga">GigaMVS Novel View Synthesis Competition Solution</a></h2>
-                    <p class="venue"><b>2023.4~2023.6</b>
-                        <p style="text-align: justify;">GAIIC 2023: giga-pixel novel view synthesis competition 4th place solution. Based on nerfstudio. The other two contributors are <a href="https://github.com/Dinngger">Dinnger</a> and <a href="https://github.com/longzw001116">funnymudpeer</a>. The ranks can be found in giga-vision's leaderboard for rendering challenge. The competition focuses on the novel-view synthesis problem under vast scenes and huge input images. We reproduced many SoTA works in this repo to obtain higher PSNR.
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                        <span style="white-space: nowrap;"><a href="https://gigavision.cn/track/track/?nav=Sparse%20rendering&type=nav"><i
-                                    class="far fa-rocket-launch"></i> GigaMVS</a></span> <span
-                            style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/nerfstudio-giga"><i
-                                    class="far fa-code"></i> Code</a></span> <span
-                            style="white-space: nowrap;"><a href="https://docs.google.com/presentation/d/16zcceAIQLTjLUsLQfgxJlnt-Mq_6Hl5w/edit?rtpof=true&sd=true&pli=1"><i
-                                    class="far fa-clipboard"></i> Slides</a></span>
-                        </span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('nerf-video').play()"
-                onmouseout="document.getElementById('nerf-video').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/NeRF"><video muted loop preload="auto"
-                            poster="images/nerf.jpg" id="nerf-video">
-                            <source src="images/nerf.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/NeRF">Repo for Joint Reproduction of Several Works</a></h2>
-                    <p class="venue"><b>2022.3~2023.5</b>
-                        <p style="text-align: justify;"> This PyTorch repository implements the reproduction of Neural Radiance Fields (NeRF) with distributed parallel learning and rendering, featuring many important works of early NeRF developments: Ref-NeRF (CVPR 2022), Mip-NeRF (ICCV 2021), Mip-NeRF 360 (CVPR 2022), and Info-NeRF for few-shot learning, with optimizations like proposal network distillation and weight regularization to improve rendering efficiency and quality.
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                            <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/NeRF"><i
-                                    class="far fa-code"></i> Code</a></span> <span
-                            style="white-space: nowrap;"><a href="https://arxiv.org/abs/2112.03907"><i
-                                    class="far fa-clipboard"></i> Ref-NeRF</a></span>
-                            <span style="white-space: nowrap;"><a href="https://jonbarron.info/mipnerf360/"><i
-                                        class="far fa-clipboard"></i> Mip-NeRFs</a></span>
-                            <span style="white-space: nowrap;"><a href="https://arxiv.org/abs/2112.15399"><i
-                                        class="far fa-clipboard"></i> Info NeRF</a></span>
-                            <span style="white-space: nowrap;"><a href="https://arxiv.org/abs/2003.08934"><i
-                                        class="far fa-clipboard"></i> Original NeRF</a></span>       
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-
-            <div id="portfolio" class="portfolio-item" 
-                onmouseover="document.getElementById('fmcw-video').play()"
-                onmouseout="document.getElementById('fmcw-video').pause()">
-                <div class="portfolio-image"><a href="https://github.com/Enigmatisms/FMCWScatter"><video muted loop preload="auto"
-                            poster="images/fmcw.jpg" id="fmcw-video">
-                            <source src="images/fmcw.webm" type="video/webm; codecs=vp9">
-                        </video></a></div>
-                <div class="portfolio-text">
-                    <h2><a href="https://github.com/Enigmatisms/FMCWScatter">FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR</a></h2>
-                    <p class="venue"><b>2022.8~2022.10</b>
-                        <p style="text-align: justify;"> This repo is built upon LSMv2, therefore inherently has the feature of mouse/keyboard control, map editting and single-line ray-trace. However, FMCW requires two more features: recursive tracing to simulate multi-bounce & frequency domain FFT ops and Doppler velocity calcutation. These features are added, with several simple built-in BSDFs available. The front-end is also supported by Rust nannou, the recursive tracing and 2D BSDFs is implemented in CUDA while FFT module is written in C++. 
-                        </p>
-                    </p>
-                    <p class="resourcelist">
-                            <span style="white-space: nowrap;"><a href="https://github.com/Enigmatisms/FMCWScatter"><i
-                                    class="far fa-code"></i> Code</a></span>
-                    </p>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-        </div>
-
-        <h1 id="sec-publications"><i class="far fa-person-dolly"></i> Experience</h1>
-
-        <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="width: 13%; padding: 4px 8px 4px 0; vertical-align: top;">
-                <b>2025.2 - 2025.5</b>
-              </td>
-              <td style="width: 20%; padding: 4px 8px; vertical-align: top;">
-                <b>Baidu DLTP PaddlePaddle</b>
-              </td>
-              <td style="padding: 4px 0; vertical-align: top;">
-                AI Compiler: PaddlePaddle's CINN Compiler and PHI kernel lib R&D
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
-                <b>2024.10 - Now</b>
-              </td>
-              <td style="padding: 4px 8px; vertical-align: top;">
-                <b>StackExchange</b>
-              </td>
-              <td style="padding: 4px 0; vertical-align: top;">
-                Computer Graphics Pro-tem moderator of the site
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
-                <b>2024.5 - 2024.11</b>
-              </td>
-              <td style="padding: 4px 8px; vertical-align: top;">
-                <b>Tencent LightSpeed Studios</b>
-              </td>
-              <td style="padding: 4px 0; vertical-align: top;">
-                Graphics research: Dynamic voxelization of foliage meshes and multiple scattering volumetric representation
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 8px 4px 0; vertical-align: top;">
-                <b>2021.6 - 2021.8</b>
-              </td>
-              <td style="padding: 4px 8px; vertical-align: top;">
-                <b>XJSY Research Institute of AI</b>
-              </td>
-              <td style="padding: 4px 0; vertical-align: top;">
-                SLAM R&D: Chain representation of 2D LiDAR maps. The algorithm development of the SLAM system
-              </td>
-            </tr>
-
-            <tr>
-                <td style="padding: 4px 8px 4px 0; vertical-align: top;">
-                  <b>2020.9 - 2021.6</b>
-                </td>
-                <td style="padding: 4px 8px; vertical-align: top;">
-                  <b>XJTU Robomaster Team</b>
-                </td>
-                <td style="padding: 4px 0; vertical-align: top;">
-                  Vision Group Lead: Auto-targeting and realtime mapping system development
-                </td>
-              </tr>
-          </table>
-        <br/>
-
-        <h1 id="sec-publications"><i class="far fa-trophy-alt"></i> Selected Awards</h1>
-        <ul>
-            <li><b style="color:indigo">(2025) Outstanding Graduate of Beijing (4 out of 110)</b></li>
-            <li>(2024) Second-class Scholarship of Tsinghua University</li>
-            <li><b style="color:indigo">(2022) XJTU Outstanding graduates</b></li>
-            <li>(2021) Second-class Scholarship of XJTU</li>
-            <li><b style="color:indigo">(2020) National Scholarship</b></li>
-            <li><b style="color:indigo">(2019) National Scholarship</b></li>
-            <li>3 years of outstanding students (2019, 2020, 2021)</li>
-          </ul>
-
-        <div class="footer-content">
-            <script defer src="https://vercount.one/js"></script>
-            <script src="//api.busuanzi.cc/static/3.6.9/busuanzi.min.js" defer></script>
-            <p style="clear: both"><strong>Site stats since 2025.8.1</strong></p>
-            <p style="clear: both">Total views <strong><span id="busuanzi_page_pv">Loading...</span></strong> | 
-                Total visitors <strong><span id="busuanzi_page_uv">Loading...</span></strong></p>
-
-            <p style="clear: both">Views today <strong><span id="busuanzi_today_page_pv">Loading...</span></strong> | 
-                Visitors today <strong><span id="busuanzi_today_page_uv">Loading...</span></strong></p>
-
-            <p style="clear: both">query took <strong>0.1919810</strong> years</p>
-            <div class="thinline"></div>
-            <p>&copy; 2023-2025 Qianyue He <i class="far fa-portal-enter"></i></p>
-        </div>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta content="Qianyue He — graphics, rendering and high-performance computing. Publications, personal projects and academic background." name="description"/>
+  <meta content="light" name="color-scheme"/>
+  <title>
+   Qianyue He · Graphics &amp; Computing
+  </title>
+  <link href="./css/style.css?v=2" rel="stylesheet"/>
+  <script defer="" src="./js/profile.js?v=2">
+  </script>
+ </head>
+ <body>
+  <a class="skip-link" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <a class="wordmark" href="/">
+    Event Horizon
+    <span>
+     / Qianyue He
+    </span>
+   </a>
+   <nav aria-label="Personal page">
+    <a href="#about">
+     About
+    </a>
+    <a href="#sec-publications">
+     Publications
+    </a>
+    <a href="#sec-projects">
+     Projects
+    </a>
+    <a href="#sec-experience">
+     Experience
+    </a>
+   </nav>
+  </header>
+  <main class="mainbody" id="main">
+   <section aria-labelledby="profile-name" class="about" id="about">
+    <div class="hero-heading">
+     <h1 id="profile-name">
+      Qianyue He
+      <span aria-hidden="true" class="name-period">
+       .
+      </span>
+     </h1>
     </div>
-</body>
+    <figure class="portrait">
+     <a href="https://enigmatisms.github.io/">
+      <img alt="Qianyue He" class="avatar" decoding="async" fetchpriority="high" height="1246" src="images/avatar.jpg" width="1279"/>
+     </a>
+    </figure>
+    <div class="bio">
+     <h2>
+      About me
+     </h2>
+     <p>
+      Hi, I'm Qianyue He, graphics and HPC enthusiast with a passion for coding. I pursue projects driven by curiosity rather than commercial intent—the joy of creation and mastery is my primary reward. Knowledge gained along the way is simply a bonus.
+     </p>
+     <p>
+      I am a master in AI (EE) at
+      <a href="https://www.sigs.tsinghua.edu.cn/en/">
+       Tsinghua SIGS
+      </a>
+      , working on time-of-flight rendering. I earned my Bachelor of Engineering in Automation from
+      <a href="http://en.xjtu.edu.cn/">
+       XJTU
+      </a>
+      , where I grew significantly as an engineer with the help of mentors and peers. My undergrad journey was fulfilling—I spent two years (2020–2021) in my school’s
+      <a href="https://www.robomaster.com/zh-CN">
+       RoboMaster
+      </a>
+      team (vision group lead in 2021), developing an auto-targeting system, followed by two years at
+      <a href="https://www.sigs.tsinghua.edu.cn/en/">
+       IAIR
+      </a>
+      working on CV and SLAM.
 
+In my free time, I contribute to open-source projects, particularly in rendering and ray tracing. I’ve modified frameworks like
+      <a href="https://www.mitsuba-renderer.org/">
+       Mitsuba
+      </a>
+      ,
+      <a href="https://github.com/mmp/pbrt-v3">
+       PBRT
+      </a>
+      , and
+      <a href="https://benedikt-bitterli.me/tungsten.html">
+       Tungsten
+      </a>
+      , and built two renderers:
+      <a href="https://github.com/Enigmatisms/AdaPT">
+       AdaPT
+      </a>
+      and
+      <a href="https://github.com/Enigmatisms/cuda-pt">
+       cuda-pt
+      </a>
+      . Since 2024, I’ve also served as a pro-tem moderator for
+      <a href="https://computergraphics.stackexchange.com/">
+       Computer Graphics StackExchange
+      </a>
+      , supporting the community.
+     </p>
+     <p>
+      My focus is shifting toward foundational work in ​​AI infrastructure and compilers​​—fascinating fields, aren’t they? Exploration is the priority now; after all, youth is the best time to dive into the unknown.
+     </p>
+     <p>
+      Got married to my junior &amp; senior high classmate in my 24! She is such a heavenly girl.
+     </p>
+     <p class="resourcelist">
+      <a href="mailto:984041003@qq.com">
+       Email
+      </a>
+      <a href="https://github.com/Enigmatisms">
+       GitHub
+      </a>
+      <a href="https://enigmatisms.github.io/">
+       Blog
+      </a>
+      <a href="snake_dual.html">
+       Snake Dual Relax
+      </a>
+     </p>
+    </div>
+   </section>
+   <section aria-labelledby="education-title" class="profile-section" id="sec-education">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      01
+     </span>
+     <h2 id="education-title">
+      Education
+     </h2>
+    </div>
+    <section class="education">
+     <div class="degree left">
+      <div class="school">
+       <img alt="Tsinghua" class="logo" decoding="async" height="438" loading="lazy" src="./images/tsinghua.jpg" width="438"/>
+       <span class="school-name">
+        Tsinghua University
+       </span>
+      </div>
+      <div class="details">
+       <span class="degree-time">
+        2022.9-2025.6
+       </span>
+       <span class="major">
+        (SIGS) Master of Engineering in Artificial Intelligence
+       </span>
+      </div>
+     </div>
+     <div class="degree right">
+      <div class="school">
+       <img alt="Xi'an Jiaotong University" class="logo" decoding="async" height="303" loading="lazy" src="./images/xjtu.jpg" width="304"/>
+       <span class="school-name">
+        Xi'an Jiaotong University
+       </span>
+      </div>
+      <div class="details">
+       <span class="degree-time">
+        2018.9-2022.6
+       </span>
+       <span class="major">
+        BEng. in Automation
+       </span>
+      </div>
+     </div>
+    </section>
+   </section>
+   <section aria-labelledby="publications-title" class="profile-section" id="sec-publications">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      02
+     </span>
+     <h2 id="publications-title">
+      Publications
+     </h2>
+    </div>
+    <article aria-labelledby="work-1" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://darts-paper.github.io/DARTS-proj-page/">
+        <img alt="🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media — project image" decoding="async" height="450" loading="lazy" src="images/he24darts/darts.jpg" width="800"/>
+       </a>
+       <video aria-label="🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media — video preview" data-poster="images/he24darts/darts.jpg" id="he24darts-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/he24darts/darts.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="he24darts-video" aria-label="Play preview: 🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-1">
+       <a href="https://darts-paper.github.io/DARTS-proj-page/">
+        🎯DARTS: Diffusion Approximated Residual Time Sampling for Time-of-flight Rendering in Homogeneous Scattering Media
+       </a>
+      </h3>
+      <p class="authorlist">
+       <a href="/owner-info/">
+        Qianyue He
+       </a>
+       ,
+       <a href="https://dongyu-du.github.io/">
+        Dongyu Du
+       </a>
+       , Haitian Jiang,
+       <a href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&amp;hl=zh-CN&amp;oi=sra">
+        Xin Jin
+       </a>
+      </p>
+      <p class="venue">
+       <a href="https://dl.acm.org/doi/10.1145/3687930">
+        <strong>
+         ACM Transactions on Graphics (ToG)
+        </strong>
+        (SIGGRAPH Asia)
+       </a>
+       , Dec 2024
+      </p>
+      <p class="venue">
+       (
+       <strong>
+        CCF A Journal
+       </strong>
+       ) Longest Paper Name Award (2nd place, well this is made-up)
+      </p>
+      <p class="venue">
+       Keywords:  Importance Sampling; Transient Rendering; Sampling Theory; Ray Tracing;
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://dl.acm.org/doi/pdf/10.1145/3687930">
+         Paper
+        </a>
+       </span>
+       <a href="https://darts-paper.github.io/DARTS-proj-page/static/pdfs/supp-note-final.pdf">
+        Supplementary
+       </a>
+       <span>
+        <a href="https://www.youtube.com/watch?v=aOQPA7ccOtY">
+         Video
+        </a>
+       </span>
+       <span>
+        <a href="https://darts-paper.github.io/DARTS-proj-page/">
+         Project Page
+        </a>
+       </span>
+       <span>
+        <a href="./data/ref.bib">
+         BibTeX
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-2" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <img alt="ScatterSplatting: Enhanced View Synthesis in Scattering Scenarios via Joint NeRF and Gaussian Splatting — project image" decoding="async" height="700" loading="lazy" src="images/scattergs.jpg" width="1207"/>
+      </div>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-2">
+       <a href="https://ieeexplore.ieee.org/abstract/document/11044088/">
+        ScatterSplatting: Enhanced View Synthesis in Scattering Scenarios via Joint NeRF and Gaussian Splatting
+       </a>
+      </h3>
+      <p class="authorlist">
+       Renrong Hu,
+       <a href="/owner-info/">
+        Qianyue He
+       </a>
+       ,
+       <a href="https://dongyu-du.github.io/">
+        Dongyu Du
+       </a>
+       ,
+       <a href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&amp;hl=zh-CN&amp;oi=sra">
+        Xin Jin
+       </a>
+      </p>
+      <p class="venue">
+       <a href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484">
+        2025 IEEE International Symposium on Circuits and Systems
+                            (
+        <strong>
+         ISCAS
+        </strong>
+        )
+       </a>
+       , May 2025
+      </p>
+      <p class="venue">
+       Accepted as
+       <strong>
+        ISCAS (CCF B conference)
+       </strong>
+       lecture (oral presentation)
+      </p>
+      <p class="venue">
+       Keywords:  NeRF; 3DGS; Volumetric Rendering; Scattering;
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://ieeexplore.ieee.org/abstract/document/11044088/">
+         Paper
+        </a>
+       </span>
+       <span>
+        <a href="https://epapers2.org/iscas2025/ESR/paper_details.php?paper_id=1484">
+         Project Page
+        </a>
+       </span>
+       <span>
+        <a href="./data/ref2.bib">
+         BibTeX
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-3" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/AdamYuan/VkDiffGaussianRasterizer">
+        <img alt="Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting — project image" decoding="async" height="749" loading="lazy" src="images/vkgs.jpg" width="1278"/>
+       </a>
+       <video aria-label="Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting — video preview" data-poster="images/vkgs.jpg" id="vkgs-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/vkgs.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="vkgs-video" aria-label="Play preview: Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-3">
+       <a href="https://arxiv.org/abs/2505.18764">
+        Efficient Differentiable Hardware Rasterization for 3D Gaussian Splatting
+       </a>
+      </h3>
+      <p class="authorlist">
+       <a href="https://github.com/AdamYuan">
+        Yitian Yuan
+       </a>
+       ,
+       <a href="/owner-info/">
+        Qianyue He
+       </a>
+      </p>
+      <p class="venue">
+       <a href="https://asia.siggraph.org/2025/">
+        Arxiv Preprint for SIGGRAPH Asia 2025 (scores 3, 3, -3, -3, Rejected, sadly😔)
+       </a>
+      </p>
+      <p class="venue">
+       Brilliant idea from
+       <a href="https://github.com/AdamYuan">
+        @AdamYuan
+       </a>
+       during his last year of undergrad. Rejected, and since neither of us wanted to continue working on 3DGS, we decided to make it open-sourced.
+      </p>
+      <p class="venue">
+       Keywords:  3DGS; Hardware Rasterization; Differentiable Rasterizer;
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://arxiv.org/abs/2505.18764">
+         Paper
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/AdamYuan/VkDiffGaussianRasterizer">
+         Code
+        </a>
+       </span>
+       <span>
+        <a href="./data/ref3.bib">
+         BibTeX
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-icip2026" class="portfolio-item">
+     <div class="portfolio-image">
+      <div class="media-frame">
+       <a class="media-link" href="https://ieeexplore.ieee.org/abstract/document/11630218">
+        <img alt="Scattering scene reconstruction framework combining Gaussian splatting, volumetric scattering, multi-view consistency constraints and frequency-aware modeling" decoding="async" height="763" loading="lazy" src="images/icip2026mvc.webp" width="1311"/>
+       </a>
+      </div>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-icip2026">
+       <a href="https://ieeexplore.ieee.org/abstract/document/11630218">
+        Multi-view Consistency and Frequency-aware Modeling for Scattering Scene Reconstruction
+       </a>
+      </h3>
+      <p class="authorlist">
+       Renrong Hu,
+       <a href="/owner-info/">Qianyue He</a>,
+       <a href="https://dongyu-du.github.io/">Dongyu Du</a>,
+       Yihui Fan, Zhiheng Li,
+       <a href="https://scholar.google.com.hk/citations?user=FTikW50AAAAJ&amp;hl=zh-CN&amp;oi=sra">Xin Jin</a>
+      </p>
+      <p class="venue">
+       <a href="https://ieeexplore.ieee.org/abstract/document/11630218">
+        2026 IEEE International Conference on Image Processing
+        (<strong>ICIP</strong>)
+       </a>
+      </p>
+      <p class="venue">
+       (<strong>CCF B conference</strong>)
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://dongyu-du.github.io/publication/icip2026mvc/2026-ICIP-Multi-view_Consistency_and_Frequency-aware_Modeling_for_Scattering_Scene_Reconstruction.pdf">
+         Paper (PDF)
+        </a>
+       </span>
+       <span>
+        <a href="https://ieeexplore.ieee.org/abstract/document/11630218">
+         IEEE Xplore
+        </a>
+       </span>
+       <span>
+        <a href="https://dongyu-du.github.io/publication/icip2026mvc/cite.bib">
+         BibTeX
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+   </section>
+   <section aria-labelledby="thesis-title" class="profile-section" id="sec-thesis">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      03
+     </span>
+     <h2 id="thesis-title">
+      Thesis
+     </h2>
+    </div>
+    <article aria-labelledby="work-4" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <img alt="Time-Resolved Rendering Methods for Complex Scattering Scenes — project image" decoding="async" height="499" loading="lazy" src="images/kitchen-thumb.jpg" width="1000"/>
+       <video aria-label="Time-Resolved Rendering Methods for Complex Scattering Scenes — video preview" data-poster="images/kitchen-thumb.jpg" id="thesis-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/thesis.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="thesis-video" aria-label="Play preview: Time-Resolved Rendering Methods for Complex Scattering Scenes" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-4">
+       Time-Resolved Rendering Methods for Complex Scattering Scenes
+      </h3>
+      <p class="venue">
+       <b>
+        Master thesis (109 pages) in Tsinghua SIGS
+       </b>
+      </p>
+      <p>
+       This thesis presents advanced ToF rendering techniques for complex scattering scenes, addressing efficiency and accuracy challenges. A diffusion-approximation importance sampling method improves radiance approximation, reducing errors by ~20%. An elliptical path-constrained strategy minimizes rejection rates, cutting errors by ~25% and rejections by ~7×. A GPU-accelerated system further boosts performance and reduces noise.
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-5" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <img alt="Chain-representation-based real time high precision single line LiDAR SLAM system — project image" decoding="async" height="741" loading="lazy" src="images/SLAM.jpg" width="1375"/>
+      </div>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-5">
+       Chain-representation-based real time high precision single line LiDAR SLAM system
+      </h3>
+      <p class="venue">
+       <b>
+        Bachelor thesis (61 pages) in XJTU
+       </b>
+      </p>
+      <p>
+       In this thesis, a novel map representation named Chain Representation is proposed. This representation is sort of a mixture that has both the advantages of point cloud and occupancy map. The proposed SLAM system is compared against the SoTA method (in 2022): Google's cartographer, SLAM toolbox and the classic GMapping. The proposed method demonstrates faster mapping, higher accuracy and lower memory overhead. The code is not currently open-sourced.
+      </p>
+     </div>
+    </article>
+   </section>
+   <section aria-labelledby="projects-title" class="profile-section" id="sec-projects">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      04
+     </span>
+     <h2 id="projects-title">
+      Selected Personal Projects
+     </h2>
+    </div>
+    <article aria-labelledby="work-6" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/cuda-pt">
+        <img alt="CUDA-PT — project image" decoding="async" height="800" loading="lazy" src="images/cudapt-car.jpg" width="1200"/>
+       </a>
+       <video aria-label="CUDA-PT — video preview" data-poster="images/cudapt-car.jpg" id="cupt-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/sports-car1.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="cupt-video" aria-label="Play preview: CUDA-PT" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-6">
+       <a href="https://github.com/Enigmatisms/cuda-pt">
+        CUDA-PT
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2024.4~/
+       </b>
+      </p>
+      <p>
+       A CUDA software ray tracing renderer
+       <strong>
+        from scratch
+       </strong>
+       : a renderer with Analysis-Driven Optimization. The core logic and basic building blocks are all written from scratch in CUDA, and they are carefully profiled and optimized to have better performance. Definitely not a naive porting of CPU implementation. Megakernel path tracing, light tracing and wavefront path tracing are supported. Volumetric and time-of-flight rendering supported, with
+       <strong>
+        distributed parallel renderer
+       </strong>
+       available (by PyTorch DDP and nanobind python bindings). Time-Resolved rendering is also supported.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://github.com/Enigmatisms/cuda-pt">
+         Code
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-7" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/AdaPT">
+        <img alt="The AdaPT renderer — project image" decoding="async" height="450" loading="lazy" src="images/adapt.jpg" width="900"/>
+       </a>
+       <video aria-label="The AdaPT renderer — video preview" data-poster="images/adapt.jpg" id="adapt-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/adapt.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="adapt-video" aria-label="Play preview: The AdaPT renderer" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-7">
+       <a href="https://github.com/Enigmatisms/AdaPT">
+        The AdaPT renderer
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2023.1~2024.11
+       </b>
+      </p>
+      <p>
+       A physically based renderer built in Taichi lang (python-like, JIT). This offline renderer supports steady state and transient state rendering, with undirectional, volumetric and bidirectional path tracing implementation. Textures, heterogeneous RGB density volumes and different kinds of emitters are supported. Customized Mitsuba-like XML scene parsing, with stackless SAH-LBVH ray-primitive acceleration.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://enigmatisms.github.io/2023/02/09/AdaPT-Monte-Carlo-Path-Tracer-I/">
+         Blogs
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/Enigmatisms/AdaPT">
+         Code
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-8" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/LSMv2">
+        <img alt="LiDARSim2D &amp; LSMv2 — project image" decoding="async" height="500" loading="lazy" src="images/lidarsim2d.jpg" width="1000"/>
+       </a>
+       <video aria-label="LiDARSim2D &amp; LSMv2 — video preview" data-poster="images/lidarsim2d.jpg" id="lidarsim2d-vid" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/lidarsim2d.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="lidarsim2d-vid" aria-label="Play preview: LiDARSim2D &amp; LSMv2" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-8">
+       <a href="https://github.com/Enigmatisms/LSMv2">
+        LiDARSim2D &amp; LSMv2
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2021.8~2022.8
+       </b>
+      </p>
+      <p>
+       Two different versions of 2D LiDAR simulators. The first version is written in C++, with OpenCV and ROS Rviz visualization. Supports exporting ROS bags of scan data, IMU data and etc.. The second version is written in Rust and CUDA, with nannou as its front-end visualization and GUI and CUDA based accelerated ray-intersection code as simulation backend. Both support map editting and customization.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://enigmatisms.github.io/2021/08/28/2D-LiDAR-Simulator-Release-Notice/">
+         Blogs
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/Enigmatisms/LiDARSim2D">
+         Code V1
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/Enigmatisms/LSMv2">
+         Code V2
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-9" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">
+        <img alt="The Ethians (Rougelike Game) — project image" decoding="async" height="485" loading="lazy" src="images/ethians.jpg" width="894"/>
+       </a>
+       <video aria-label="The Ethians (Rougelike Game) — video preview" data-poster="images/ethians.jpg" id="ethians-vid" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/ethians.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="ethians-vid" aria-label="Play preview: The Ethians (Rougelike Game)" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-9">
+       <a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">
+        The Ethians (Rougelike Game)
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2019.1~2019.8
+       </b>
+      </p>
+      <p>
+       The first big project of mine, written during the first year of my undergrad. I love this rougelike game very much: I extracted the assets from an old mobile rougelike game called
+       <i>
+        Dweller
+       </i>
+       and rewrite all the game play in PyGame. The GUI and some of the art assets are designed and drawn on my own. I poured much time and effort into this, and till today, I can still say that it beats most of the undergrad Graduation Designs in our country (since most of them are so shitty).
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://github.com/Enigmatisms/Ethians-Alpha-1.1">
+         Code
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-10" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/Axis6">
+        <img alt="6-axis Robot Simulator — project image" decoding="async" height="720" loading="lazy" src="images/axis6.jpg" width="1280"/>
+       </a>
+       <video aria-label="6-axis Robot Simulator — video preview" data-poster="images/axis6.jpg" id="axis6-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/axis6.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="axis6-video" aria-label="Play preview: 6-axis Robot Simulator" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-10">
+       <a href="https://github.com/Enigmatisms/Axis6">
+        6-axis Robot Simulator
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2022.10
+       </b>
+      </p>
+      <p>
+       6-axis robot simulation in rviz and Gazebo, control implemented with ROS. Simple hand-deduced D-H forward-inverse kinematics implemented in Eigen. Simulated and visualized in RViz and Gazebo ROS implementation (melodic), with key control.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://enigmatisms.github.io/2021/10/31/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%85%AD%E8%BD%B4%E4%BB%BF%E7%9C%9F/">
+         Blogs
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/Enigmatisms/Axis6">
+         Code
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-11" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/nerfstudio-giga">
+        <img alt="GigaMVS Novel View Synthesis Competition Solution — project image" decoding="async" height="1080" loading="lazy" src="images/giga.jpg" width="1920"/>
+       </a>
+       <video aria-label="GigaMVS Novel View Synthesis Competition Solution — video preview" data-poster="images/giga.jpg" id="giga-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/giga.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="giga-video" aria-label="Play preview: GigaMVS Novel View Synthesis Competition Solution" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-11">
+       <a href="https://github.com/Enigmatisms/nerfstudio-giga">
+        GigaMVS Novel View Synthesis Competition Solution
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2023.4~2023.6
+       </b>
+      </p>
+      <p>
+       GAIIC 2023: giga-pixel novel view synthesis competition 4th place solution. Based on nerfstudio. The other two contributors are
+       <a href="https://github.com/Dinngger">
+        Dinnger
+       </a>
+       and
+       <a href="https://github.com/longzw001116">
+        funnymudpeer
+       </a>
+       . The ranks can be found in giga-vision's leaderboard for rendering challenge. The competition focuses on the novel-view synthesis problem under vast scenes and huge input images. We reproduced many SoTA works in this repo to obtain higher PSNR.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://gigavision.cn/track/track/?nav=Sparse%20rendering&amp;type=nav">
+         GigaMVS
+        </a>
+       </span>
+       <span>
+        <a href="https://github.com/Enigmatisms/nerfstudio-giga">
+         Code
+        </a>
+       </span>
+       <span>
+        <a href="https://docs.google.com/presentation/d/16zcceAIQLTjLUsLQfgxJlnt-Mq_6Hl5w/edit?rtpof=true&amp;sd=true&amp;pli=1">
+         Slides
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-12" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/NeRF">
+        <img alt="Repo for Joint Reproduction of Several Works — project image" decoding="async" height="400" loading="lazy" src="images/nerf.jpg" width="800"/>
+       </a>
+       <video aria-label="Repo for Joint Reproduction of Several Works — video preview" data-poster="images/nerf.jpg" id="nerf-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/nerf.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="nerf-video" aria-label="Play preview: Repo for Joint Reproduction of Several Works" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-12">
+       <a href="https://github.com/Enigmatisms/NeRF">
+        Repo for Joint Reproduction of Several Works
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2022.3~2023.5
+       </b>
+      </p>
+      <p>
+       This PyTorch repository implements the reproduction of Neural Radiance Fields (NeRF) with distributed parallel learning and rendering, featuring many important works of early NeRF developments: Ref-NeRF (CVPR 2022), Mip-NeRF (ICCV 2021), Mip-NeRF 360 (CVPR 2022), and Info-NeRF for few-shot learning, with optimizations like proposal network distillation and weight regularization to improve rendering efficiency and quality.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://github.com/Enigmatisms/NeRF">
+         Code
+        </a>
+       </span>
+       <span>
+        <a href="https://arxiv.org/abs/2112.03907">
+         Ref-NeRF
+        </a>
+       </span>
+       <span>
+        <a href="https://jonbarron.info/mipnerf360/">
+         Mip-NeRFs
+        </a>
+       </span>
+       <span>
+        <a href="https://arxiv.org/abs/2112.15399">
+         Info NeRF
+        </a>
+       </span>
+       <span>
+        <a href="https://arxiv.org/abs/2003.08934">
+         Original NeRF
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+    <article aria-labelledby="work-13" class="portfolio-item">
+     <div class="portfolio-image" data-preview="">
+      <div class="media-frame">
+       <a class="media-link" href="https://github.com/Enigmatisms/FMCWScatter">
+        <img alt="FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR — project image" decoding="async" height="900" loading="lazy" src="images/fmcw.jpg" width="1200"/>
+       </a>
+       <video aria-label="FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR — video preview" data-poster="images/fmcw.jpg" id="fmcw-video" loop="" muted="" playsinline="" preload="none">
+        <source data-src="images/fmcw.webm" type="video/webm"/>
+       </video>
+      </div>
+      <button aria-controls="fmcw-video" aria-label="Play preview: FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR" class="preview-toggle" hidden="" type="button">
+       Play preview
+      </button>
+      <span class="preview-status" role="status">
+      </span>
+     </div>
+     <div class="portfolio-text">
+      <h3 id="work-13">
+       <a href="https://github.com/Enigmatisms/FMCWScatter">
+        FMCW-Scatter: Simulation Framework for 2D FMCW LiDAR
+       </a>
+      </h3>
+      <p class="venue">
+       <b>
+        2022.8~2022.10
+       </b>
+      </p>
+      <p>
+       This repo is built upon LSMv2, therefore inherently has the feature of mouse/keyboard control, map editting and single-line ray-trace. However, FMCW requires two more features: recursive tracing to simulate multi-bounce &amp; frequency domain FFT ops and Doppler velocity calcutation. These features are added, with several simple built-in BSDFs available. The front-end is also supported by Rust nannou, the recursive tracing and 2D BSDFs is implemented in CUDA while FFT module is written in C++.
+      </p>
+      <p class="resourcelist">
+       <span>
+        <a href="https://github.com/Enigmatisms/FMCWScatter">
+         Code
+        </a>
+       </span>
+      </p>
+     </div>
+    </article>
+   </section>
+   <section aria-labelledby="experience-title" class="profile-section" id="sec-experience">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      05
+     </span>
+     <h2 id="experience-title">
+      Experience
+     </h2>
+    </div>
+    <div class="experience">
+     <div class="experience-row">
+      <p class="experience-date">
+       <b>
+        2025.2 - 2025.5
+       </b>
+      </p>
+      <h3>
+       <b>
+        Baidu DLTP PaddlePaddle
+       </b>
+      </h3>
+      <p>
+       AI Compiler: PaddlePaddle's CINN Compiler and PHI kernel lib R&amp;D
+      </p>
+     </div>
+     <div class="experience-row">
+      <p class="experience-date">
+       <b>
+        2024.10 - Now
+       </b>
+      </p>
+      <h3>
+       <b>
+        StackExchange
+       </b>
+      </h3>
+      <p>
+       Computer Graphics Pro-tem moderator of the site
+      </p>
+     </div>
+     <div class="experience-row">
+      <p class="experience-date">
+       <b>
+        2024.5 - 2024.11
+       </b>
+      </p>
+      <h3>
+       <b>
+        Tencent LightSpeed Studios
+       </b>
+      </h3>
+      <p>
+       Graphics research: Dynamic voxelization of foliage meshes and multiple scattering volumetric representation
+      </p>
+     </div>
+     <div class="experience-row">
+      <p class="experience-date">
+       <b>
+        2021.6 - 2021.8
+       </b>
+      </p>
+      <h3>
+       <b>
+        XJSY Research Institute of AI
+       </b>
+      </h3>
+      <p>
+       SLAM R&amp;D: Chain representation of 2D LiDAR maps. The algorithm development of the SLAM system
+      </p>
+     </div>
+     <div class="experience-row">
+      <p class="experience-date">
+       <b>
+        2020.9 - 2021.6
+       </b>
+      </p>
+      <h3>
+       <b>
+        XJTU Robomaster Team
+       </b>
+      </h3>
+      <p>
+       Vision Group Lead: Auto-targeting and realtime mapping system development
+      </p>
+     </div>
+    </div>
+   </section>
+   <section aria-labelledby="awards-title" class="profile-section awards" id="sec-awards">
+    <div class="section-heading">
+     <span aria-hidden="true">
+      06
+     </span>
+     <h2 id="awards-title">
+      Selected Awards
+     </h2>
+    </div>
+    <ul>
+     <li>
+      <b>
+       (2025) Outstanding Graduate of Beijing (4 out of 110)
+      </b>
+     </li>
+     <li>
+      (2024) Second-class Scholarship of Tsinghua University
+     </li>
+     <li>
+      <b>
+       (2022) XJTU Outstanding graduates
+      </b>
+     </li>
+     <li>
+      (2021) Second-class Scholarship of XJTU
+     </li>
+     <li>
+      <b>
+       (2020) National Scholarship
+      </b>
+     </li>
+     <li>
+      <b>
+       (2019) National Scholarship
+      </b>
+     </li>
+     <li>
+      3 years of outstanding students (2019, 2020, 2021)
+     </li>
+    </ul>
+   </section>
+  </main>
+  <footer class="site-footer">
+   <div>
+    <a class="wordmark" href="/">
+     Event Horizon
+    </a>
+    <p>
+     © 2023-2025 Qianyue He
+    </p>
+   </div>
+   <div>
+    <p>
+     Site stats since 2025.8.1
+    </p>
+    <p>
+     query took
+     <strong>
+      0.1919810
+     </strong>
+     years
+    </p>
+   </div>
+   <a href="#main">
+    Back to top ↑
+   </a>
+  </footer>
+ </body>
 </html>

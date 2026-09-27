@@ -1,336 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.1">
-<script>
-    (function(){
-        if(''){
-            if (prompt('Provide Access Code') !== ''){
-                alert('Incorrect access code.');
-                history.back();
-            }
-        }
-    })();
-</script>
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <meta name="google-site-verification" content="RbBW2OguDsx3OoyQghfVhVDSgpBgwKw3Em9kY2pJUvU">
-
-<link rel="stylesheet" href="/css/main.css">
-<link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC|Roboto&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300italic,400,400italic,700,700italic%7CNoto+Serif+SC:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-center-atom.css">
-  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"enigmatisms.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":240},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"Oops... We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101012">
+  <meta name="color-scheme" content="light dark">
+  <title>LaTex基础语法记录 | Event Horizon</title>
   <meta name="description" content="真正的LaTex环境看起来是杂乱的...">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LaTex基础语法记录">
-<meta property="og:url" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/index.html">
-<meta property="og:site_name" content="Event Horizon">
-<meta property="og:description" content="真正的LaTex环境看起来是杂乱的...">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/dogs.JPG">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/float.JPG">
-<meta property="og:image" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/table.JPG">
-<meta property="article:published_time" content="2021-02-04T16:35:20.000Z">
-<meta property="article:modified_time" content="2021-02-11T03:32:39.181Z">
-<meta property="article:author" content="Enigmatisms">
-<meta property="article:tag" content="typesetting">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/dogs.JPG">
-
-
-<link rel="canonical" href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/","path":"2021/02/05/LaTex基础语法记录/","title":"LaTex基础语法记录"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>LaTex基础语法记录 | Event Horizon</title>
+  <meta property="og:title" content="LaTex基础语法记录">
+  <meta property="og:description" content="真正的LaTex环境看起来是杂乱的...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/index.html">
+  <meta property="og:site_name" content="Event Horizon">
+  <link rel="canonical" href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">
+  <link rel="icon" type="image/svg+xml" href="/images/horizon-mark.svg">
+  <link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
+  <meta name="google-site-verification" content="RbBW2OguDsx3OoyQghfVhVDSgpBgwKw3Em9kY2pJUvU">
+  <link rel="preload" href="/fonts/manrope-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script>try{var t=localStorage.getItem('eh-theme');document.documentElement.dataset.theme=t==='dark'||t==='light'?t:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="/css/horizon.css?v=28b7362c53">
+  <script defer src="/js/horizon.js?v=46b6b95d0c"></script>
   
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Event Horizon" type="application/atom+xml">
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Event Horizon</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">Technical & Personal Docs.</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
-        <li class="menu-item menu-item-snippets"><a href="/snippets/" rel="section"><i class="fa fa-key fa-fw"></i>snippets</a></li>
-        <li class="menu-item menu-item-owner-info"><a href="/owner-info/" rel="section"><i class="fa fa-user-astronaut fa-fw"></i>owner-info</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">47</span></a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-cubes fa-fw"></i>Categories<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-folder-open fa-fw"></i>Archives<span class="badge">67</span></a></li>
-        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="Searching..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
+<meta name="generator" content="Hexo 5.4.1"></head>
+<body class="article-page" data-root="/">
+  <a class="skip-link" href="#main-content">跳至内容</a>
+  <header class="site-header">
+    <div class="frame header-inner">
+      <a class="brand" href="/" aria-label="Event Horizon 首页"><img src="/images/horizon-mark.svg" width="30" height="30" alt=""><span>Event Horizon</span></a>
+      
+      
         
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#latex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95"><span class="nav-text">\(\LaTeX{}\)基础语法记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-text">一些关键词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C"><span class="nav-text">图片操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3"><span class="nav-text">相关代码理解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC%E7%9A%84%E6%8F%92%E5%85%A5"><span class="nav-text">表格的插入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3-1"><span class="nav-text">相关代码理解</span></a></li></ol></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Enigmatisms"
-      src="/images/enigma.gif">
-  <p class="site-author-name" itemprop="name">Enigmatisms</p>
-  <div class="site-description" itemprop="description">Amat Victoria Curam.</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">67</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">47</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author site-overview-item animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/Enigmatisms" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Enigmatisms" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="/984041003@qq.com" title="E-Mail → 984041003@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
-      </span>
-  </div>
-  <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-        </div>
+      
+      <nav class="primary-nav" aria-label="主导航">
+        <a href="/#writing" aria-current="true">文章</a>
+        <a href="/archives/" >归档</a>
+        <a href="/snippets/" >手记</a>
+        <a href="/tags/" >标签</a>
+        <a href="/owner-info/">关于我 <span aria-hidden="true">↗</span></a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button" type="button" data-search-open aria-label="搜索文章" title="搜索文章 (Ctrl / ⌘ K)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="key-hint">K</span></button>
+        <button class="icon-button" type="button" id="theme-toggle" aria-label="切换深色模式" title="切换配色" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.3 8.3 0 0 1 10 4a8.3 8.3 0 1 0 10 10Z"/></svg></button>
       </div>
     </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
-
-    
-  <div class="back-to-top" role="button" aria-label="Back to top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
-
-  <a href="https://github.com/Enigmatisms" class="github-corner" title="Welcome to take a look" aria-label="Welcome to take a look" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/enigma.gif">
-      <meta itemprop="name" content="Enigmatisms">
-      <meta itemprop="description" content="Amat Victoria Curam.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Event Horizon">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          LaTex基础语法记录
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-02-05 00:35:20" itemprop="dateCreated datePublished" datetime="2021-02-05T00:35:20+08:00">2021-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-02-11 11:32:39" itemprop="dateModified" datetime="2021-02-11T11:32:39+08:00">2021-02-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/learning/" itemprop="url" rel="index"><span itemprop="name">learning</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">Views: </span>
-      <span id="busuanzi_value_page_pv"></span>
-    </span>
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>6.7k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>6 mins.</span>
-    </span>
-</div>
-
-            <div class="post-description"><center>真正的LaTex环境看起来是杂乱的...</center></div>
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <h1 id="latex基础语法记录"><span class="math inline">\(\LaTeX{}\)</span>基础语法记录</h1>
+  </header>
+  <main id="main-content">
+<article class="frame article-shell">
+  <header class="article-header">
+    <a class="text-link article-back" href="/#writing">← 文章</a>
+    <div class="article-categories"><a href="/categories/learning/">learning</a></div>
+    <h1>LaTex基础语法记录</h1>
+    <p class="article-description">&lt;center&gt;真正的LaTex环境看起来是杂乱的...&lt;/center&gt;</p>
+    <div class="article-meta"><a href="/owner-info/">Enigmatisms</a><span aria-hidden="true">/</span><time datetime="2021-02-04T16:35:20.000Z">2021年2月5日</time><span aria-hidden="true">/</span><span>5 分钟阅读</span></div>
+  </header>
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-body" id="article-body"><h1 id="latex基础语法记录"><span class="math inline">\(\LaTeX{}\)</span>基础语法记录</h1>
 <hr>
 <h2 id="一些关键词">一些关键词</h2>
 <p><strong><code>\lipsum</code></strong></p>
@@ -507,7 +232,7 @@ x，也需要用到<code>\ref</code></li>
 graphics，会按照宽度自动横向，竖向编排。如果需要多图，可以多个<code>\includegraphics</code>，当然也可以使用子图：主要是minipage的使用与subfigure</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% latex 竖排操作</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[h]</span><br><span class="line"><span class="keyword">\centering</span></span><br><span class="line"><span class="keyword">\subfigure</span>[line1]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line2]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line3]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[line4]&#123;</span><br><span class="line"><span class="keyword">\begin</span>&#123;minipage&#125;[b]&#123;0.23<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=1<span class="keyword">\linewidth</span>]&#123;4.jpg&#125;<span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;minipage&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\caption</span>&#123;multiple dogs&#125; <span class="keyword">\label</span>&#123;fig:dogs&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br></pre></td></tr></table></figure>
 <p>显示的结果如下：</p>
-<p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/dogs.JPG"></p>
+<p><img decoding="async" loading="lazy" src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/dogs.JPG"></p>
 <h3 id="相关代码理解">相关代码理解</h3>
 <p>​ <code>\subfigure[name]&#123;&#125;</code>
 花括号内的内容与普通的<code>\begin&#123;figure&#125;[xxx]</code>内部的内容极其相似，甚至可以一样。比如说我不需要多图（上述代码是4*4
@@ -522,12 +247,12 @@ graphics，会按照宽度自动横向，竖向编排。如果需要多图，可
 图片的插入并非什么困难的问题，主要是图片的排版。排版的话，传统的<code>\begin&#123;figure&#125;[htbp]</code>用处不大，可以考虑：</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;float&#125;		<span class="comment">% 图片浮动宏包</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[H]		<span class="comment">% 图片定位在当前位置</span></span><br></pre></td></tr></table></figure>
 <p>显示效果如图所示：</p>
-<p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/float.JPG"></p>
+<p><img decoding="async" loading="lazy" src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/float.JPG"></p>
 <hr>
 <h2 id="表格的插入">表格的插入</h2>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;table&#125;  </span><br><span class="line"><span class="keyword">\centering</span></span><br><span class="line"><span class="keyword">\caption</span>&#123;table&#125; <span class="keyword">\vspace</span>&#123;4pt&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;tabular*&#125;&#123;12cm&#125;&#123;cccc&#125;</span><br><span class="line"><span class="keyword">\hline</span><span class="keyword">\vspace</span>&#123;1pt&#125;</span><br><span class="line"><span class="keyword">\textbf</span>&#123;Name&#125; <span class="built_in">&amp;</span> <span class="keyword">\textbf</span>&#123;Gender&#125;  <span class="built_in">&amp;</span> <span class="keyword">\textbf</span>&#123;Current Address&#125; <span class="built_in">&amp;</span> <span class="keyword">\textbf</span>&#123;Score&#125;<span class="keyword">\vspace</span>&#123;1pt&#125;<span class="keyword">\\</span>  </span><br><span class="line"><span class="keyword">\hline</span><span class="keyword">\vspace</span>&#123;1pt&#125;</span><br><span class="line">Tobby  <span class="built_in">&amp;</span> Male <span class="built_in">&amp;</span> 4 Avenue, Chicago, Illinois <span class="built_in">&amp;</span> 99<span class="keyword">\vspace</span>&#123;1pt&#125;<span class="keyword">\\</span>  </span><br><span class="line">Laura  <span class="built_in">&amp;</span> Female <span class="built_in">&amp;</span> unknown town, Atlanta, Georgia <span class="built_in">&amp;</span> 98<span class="keyword">\vspace</span>&#123;1pt&#125;<span class="keyword">\\</span>  </span><br><span class="line"><span class="keyword">\hline</span><span class="keyword">\vspace</span>&#123;1pt&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tabular*&#125;  </span><br><span class="line"><span class="keyword">\end</span>&#123;table&#125; </span><br></pre></td></tr></table></figure>
 <p>输出的结果如下图所示：</p>
-<p><img src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/table.JPG"></p>
+<p><img decoding="async" loading="lazy" src="/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/table.JPG"></p>
 <h3 id="相关代码理解-1">相关代码理解</h3>
 <p><strong>- 为什么要用<code>&#123;tabular\*&#125;</code>?</strong></p>
 <p>​
@@ -541,158 +266,33 @@ graphics，会按照宽度自动横向，竖向编排。如果需要多图，可
 <code>\hline</code>表示插入一根横向线，<code>\vline</code>可以在cell元素值内部使用，相当于竖线。</p>
 <p>​ <code>\vspace</code>一般用于调整间距，<code>&amp;</code>
 用于分割。</p>
-
+</div>
+      <footer class="article-footer">
+        <div class="article-tags"><a href="/tags/typesetting/" rel="tag"># typesetting</a></div>
+        <div class="article-tools"><button type="button" class="text-button" id="copy-link" hidden>复制文章链接 ↗</button><button type="button" class="text-button" id="bookmark" hidden>保存阅读位置</button><span id="article-status" role="status"></span></div>
+        <nav class="post-navigation" aria-label="相邻文章"><a href="/2021/02/09/Typora-Markdown-Intros/" rel="prev"><span>← 较新文章</span><strong>Typora &amp; Markdown Intros</strong></a><a href="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="next"><span>较早文章 →</span><strong>GAN原理与实现</strong></a></nav>
+      </footer>
+      <section class="article-comments" aria-labelledby="comments-title"><h2 id="comments-title">评论</h2><p>点击后加载 GitHub 评论。</p><button type="button" class="button" id="load-comments" data-repo="Enigmatisms/Enigmatisms.github.io" data-issue-term="pathname" hidden>加载评论 ↗</button><div id="comments-container"></div><noscript><a target="_blank" rel="noopener" href="https://github.com/Enigmatisms/Enigmatisms.github.io/issues">在 GitHub 查看评论 ↗</a></noscript></section>
     </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-          
-
-<div class="post-copyright">
-<ul>
-  <li class="post-copyright-author">
-      <strong>Post author:  </strong>Enigmatisms
-  </li>
-  <li class="post-copyright-link">
-      <strong>Post link: </strong>
-      <a href="https://enigmatisms.github.io/2021/02/05/LaTex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95/" title="LaTex基础语法记录">https://enigmatisms.github.io/2021/02/05/LaTex基础语法记录/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
-  </li>
-</ul>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/typesetting/" rel="tag"><i class="fa fa-tag"></i> typesetting</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2021/02/02/GAN%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="GAN原理与实现">
-                  <i class="fa fa-chevron-left"></i> GAN原理与实现
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2021/02/09/Typora-Markdown-Intros/" rel="next" title="Typora & Markdown Intros">
-                  Typora & Markdown Intros <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-
-    <div class="comments utterances-container"></div>
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
-<script>
-new Darkmode({
-saveInCookies: true, // default: true,
-label: '🌓', // default: ''
-autoMatchOsTheme: true // default: true
-})
-.showWidget();
-</script>
-
-<div class="copyright">
-  &copy; 2021.1 – 
-  <span itemprop="copyrightYear">2025</span>
-  <span class="with-love">
-    <i class="fa fa-anchor"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Enigmatisms</span>
-</div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="Symbols count total">478k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="Reading time total">7:14</span>
-  </span>
-</div>
-<div class="busuanzi-count">
-    <span class="post-meta-item" id="busuanzi_container_site_uv">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="Total Visitors">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="Total Views">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
-  <script>
-    if (window.mermaid) {
-      mermaid.initialize({theme: 'forest'});
-    }
-  </script>
-
-    </div>
+    <aside class="article-aside"><details class="article-toc" open><summary>本文目录 <span>ON THIS PAGE</span></summary><nav aria-label="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#latex%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95"><span class="toc-text">\(\LaTeX{}\)基础语法记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="toc-text">一些关键词</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C"><span class="toc-text">图片操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3"><span class="toc-text">相关代码理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-text">表格的插入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3-1"><span class="toc-text">相关代码理解</span></a></li></ol></li></ol></li></ol></nav></details><a class="text-link return-link" href="/#writing">← 返回所有文章</a><button class="text-button" id="resume-reading" hidden>继续上次阅读 ↓</button></aside>
+  </div>
+</article>
+<div class="reading-progress" aria-hidden="true"><span></span></div>
+</main>
+  <footer class="site-footer frame">
+    <div><a class="footer-brand" href="/">Event Horizon</a></div>
+    <div class="footer-links"><a href="/owner-info/">Qianyue He</a><a href="https://github.com/Enigmatisms" rel="noopener noreferrer" target="_blank">GitHub ↗</a><a href="/atom.xml">RSS</a><a href="/categories/">分类</a><a href="/sitemap.xml">站点地图</a></div>
+    <p class="colophon">© 2021–2026 Enigmatisms <span>Hexo</span></p>
   </footer>
-
+  <a class="back-top" href="#main-content" aria-label="返回顶部" hidden>↑</a>
+  <dialog class="search-dialog" aria-labelledby="search-title" data-search-url="/search.json">
+    <div class="search-heading"><h2 id="search-title">搜索</h2><button type="button" class="text-button" data-search-close aria-label="关闭搜索">关闭 <kbd>Esc</kbd></button></div>
+    <label class="visually-hidden" for="search-input">搜索标题、标签或正文</label>
+    <input id="search-input" type="search" placeholder="搜索标题、标签或正文…" autocomplete="off" spellcheck="false">
+    <p class="search-status" role="status">输入关键词搜索文章。</p>
+    <ol class="search-results"></ol>
+    <p class="search-footnote">本地全文搜索 · 支持中文与英文 <a href="/archives/">浏览全部归档 ↗</a></p>
+  </dialog>
   
-  <script size="256" alpha="0.3" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
-<script src="/js/third-party/search/local-search.js"></script>
-
-  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.7/pdfobject.min.js","integrity":"sha256-ph3Dk89VmuTVXG6x/RDzk53SU9LPdAh1tpv0UvnDZ2I="},"url":"/lib/pdf/web/viewer.html"}</script>
-  <script src="/js/third-party/tags/pdf.js"></script>
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-  <script src="/js/third-party/pace.js"></script>
-
-  
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
-<script src="/js/third-party/math/mathjax.js"></script>
-
-
-<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"Enigmatisms/Enigmatisms.github.io","issue_term":"pathname","theme":"github-light"}</script>
-<script src="/js/third-party/comments/utterances.js"></script>
-
 </body>
 </html>
