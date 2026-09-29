@@ -853,14 +853,14 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/hexo/</loc>
+    <loc>https://enigmatisms.github.io/tags/typesetting/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/typesetting/</loc>
+    <loc>https://enigmatisms.github.io/tags/hexo/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -895,6 +895,13 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/tags/Rust-FFI/</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/tags/Rust/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -909,7 +916,7 @@
   </url>
   
   <url>
-    <loc>https://enigmatisms.github.io/tags/Rust-FFI/</loc>
+    <loc>https://enigmatisms.github.io/tags/ML/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -917,13 +924,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/transformer/</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/ML/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -958,6 +958,13 @@
   </url>
   
   <url>
+    <loc>https://enigmatisms.github.io/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enigmatisms.github.io/tags/%E8%BF%90%E5%8A%A8%E5%AD%A6/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -966,13 +973,6 @@
   
   <url>
     <loc>https://enigmatisms.github.io/tags/Gazebo/</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enigmatisms.github.io/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

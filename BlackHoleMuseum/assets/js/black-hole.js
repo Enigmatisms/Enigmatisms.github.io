@@ -423,7 +423,7 @@
     resetHistory();
     return true;
   }
-  function draw(cameraMoving) {
+  function draw(transitioningFrame) {
     gl.bindVertexArray(vertexArray); gl.viewport(0, 0, width, height);
     gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffers[0]); gl.useProgram(sceneProgram);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_3D, noiseTexture);
@@ -455,7 +455,7 @@
 
     const writeIndex = historyRead === 1 ? 2 : 1;
     let weight = historyCount ? (animating() ? 0.62 : Math.min(0.875, historyCount / (historyCount + 1))) : 0;
-    if (cameraMoving) { weight = 0; historyCount = 0; }
+    if (transitioningFrame) { weight = 0; historyCount = 0; }
     gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffers[writeIndex]); gl.useProgram(resolveProgram);
     gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, textures[0]);
     gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, textures[historyRead]);
@@ -469,7 +469,7 @@
     gl.uniform1f(compositeUniforms.exposure, pose[17]); gl.uniform1f(compositeUniforms.bloom, pose[18]);
     gl.uniform1f(compositeUniforms.clearance, pose[29]); gl.uniform1f(compositeUniforms.mobile, mobile ? 1 : 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
-    if (!cameraMoving && settleFrames > 0) settleFrames -= 1;
+    if (!transitioningFrame && settleFrames > 0) settleFrames -= 1;
   }
   function resize() {
     if (lost || failed) return;
@@ -512,12 +512,10 @@
     }
     sampleStart = time; sampledFrames = 0;
   }
-  function updateCamera(delta) {
+  function updateTransition(delta) {
     let changing = false;
     if (transitioning) {
-      // Camera uses a critically damped filter. Scene uniforms use the same
-      // response envelope, so colour, density, radiation and geometry never
-      // jump when a view changes.
+      // Camera and scene uniforms share one critically damped response.
       const omega = 12000 / Math.max(1, cameraResponseMs);
       const step = omega * delta, decay = Math.exp(-step);
       let settled = true;
@@ -559,7 +557,7 @@
       const cadence = lastPaint ? time - lastPaint : 0;
       lastTick = lastPaint = time;
       const previousLapse = statisticsEnabled && physicalClock ? Math.sqrt(Math.max(0, 1 - pose[7] / pose[6])) : 0;
-      const cameraMoving = updateCamera(delta);
+      const transitioningFrame = updateTransition(delta);
       elapsed = (elapsed + (wantsMotion() ? delta * phaseRate : 0)) % Config.phasePeriod;
       if (statisticsEnabled && physicalClock && wantsMotion()) {
         const dt = delta * physicalScale;
@@ -580,7 +578,7 @@
           if (gl.getError() !== gl.NO_ERROR || gl.isContextLost()) throw new Error('Renderer unavailable');
         }
         if (timerExtension && !queryPending[queryCursor]) { gl.beginQuery(timerExtension.TIME_ELAPSED_EXT, queries[queryCursor]); timing = true; }
-        draw(cameraMoving);
+        draw(transitioningFrame);
         if (timing) { gl.endQuery(timerExtension.TIME_ELAPSED_EXT); queryPending[queryCursor] = 1; }
         queryCursor = (queryCursor + 1) & 3;
         if (statusChanged) {
@@ -652,7 +650,7 @@
     };
   }
   function notify() { dispatchEvent(new CustomEvent('blackhole:change', { detail: getState() })); }
-  function prepareCameraTransition(smooth, responseMs) {
+  function prepareTransition(smooth, responseMs) {
     const turn = Math.PI * 2;
     const offset = ((targetPose[5] - pose[5] + Math.PI) % turn + turn) % turn - Math.PI;
     targetPose[5] = pose[5] + offset;
@@ -672,13 +670,13 @@
   function applyTarget(transition, preserveTime = false) {
     const time = getState().time;
     fillTarget(); targetX = targetY = 0;
-    // Scene values remain in pose and are eased by updateCamera. The clock
+    // Scene values remain in pose and are eased by updateTransition. The clock
     // phase is preserved independently of the material transition.
     elapsed = preserveTime ? time - phaseOrigin : 0;
     // Scene changes may enlarge the horizon before a camera tween finishes.
     const minimum = views[viewIndex].disk.horizon * Config.minimumCameraRadiusRs;
     if (poseInitialized && pose[6] < minimum) pose[6] = cameraLag[6] = minimum;
-    prepareCameraTransition(transition, config.transitionMs);
+    prepareTransition(transition, config.transitionMs);
     resetHistory(); costAverage = cadenceAverage = 0; sampledFrames = 0; sampleStart = 0;
     stage.dataset.transitioning = String(transitioning);
     sync(); notify();
@@ -729,7 +727,7 @@
     }
     if (!changed) return;
     fillCameraTarget();
-    prepareCameraTransition(options.smooth !== false, responseMs);
+    prepareTransition(options.smooth !== false, responseMs);
     resetHistory(); sync();
     if (options.notify) notify();
   }

@@ -122,8 +122,20 @@
     byId('language-en').setAttribute('aria-pressed', String(language === 'en'));
     byId('language-cn').setAttribute('aria-pressed', String(language !== 'en'));
     updatePanel();
-    if (!Config || !Physics) renderStatus.textContent = t('资源未加载 · 静态预览', 'Resources unavailable · Preview');
-    else if (!Renderer) { populateCatalog(); refresh(); }
+    if (!Config || !Physics) {
+      renderStatus.textContent = t('资源未加载 · 静态预览', 'Resources unavailable · Preview');
+      return;
+    }
+    if (!Renderer) {
+      populateCatalog();
+      refresh();
+      return;
+    }
+    activeView = currentView();
+    populateCatalog();
+    error();
+    refresh();
+    byId('workspace-status').textContent = t('工作区保留在本页；可保存或导出。', 'Workspace is retained here; save locally or export.');
   }
   byId('language-en').addEventListener('click', () => setLanguage('en'));
   byId('language-cn').addEventListener('click', () => setLanguage('zh'));
@@ -131,7 +143,6 @@
     renderStatus.textContent = '资源未加载 · 静态预览';
     return;
   }
-  setLanguage('zh');
   const format = new Intl.NumberFormat('zh-CN', { maximumSignificantDigits: 4 });
   const scientific = new Intl.NumberFormat('en-US', { notation: 'scientific', maximumSignificantDigits: 3 });
   const number = value => Math.abs(value) >= 1e7 || (value !== 0 && Math.abs(value) < 0.001) ? scientific.format(value) : format.format(value);
@@ -493,7 +504,7 @@
   Renderer.setView(initialConfig.views.findIndex(view => view.id === selectedId), { transition: false, preserveTime: false });
   activeView = currentView();
   byId('scene-controls').disabled = false;
-  refresh();
+  setLanguage('zh');
   addEventListener('blackhole:change', () => {
     if (changing) return;
     activeView = currentView();
