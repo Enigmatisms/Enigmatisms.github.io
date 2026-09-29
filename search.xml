@@ -3598,82 +3598,6 @@ coding[J]. arXiv preprint arXiv:1807.03748, 2018.</a></p>
       </tags>
   </entry>
   <entry>
-    <title>Correspondence Problem Papers</title>
-    <url>/2021/10/15/Correspondence-Problem-Papers/</url>
-    <content><![CDATA[<h1 id="correspondence-problem">Correspondence Problem</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<blockquote>
-<p>The <strong>correspondence problem</strong> refers to the problem of
-ascertaining which parts of one image correspond to which parts of
-another image, where differences are due to movement of the camera, the
-elapse of time, and/or movement of objects in the photos.
----Wikipedia</p>
-</blockquote>
-<p>​
-最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
-<p>​
-我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV
-2005的尤其简单，看完就能写出代码来）：</p>
-<ul>
-<li><a href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV
-2005: A Spectral Technique for Correspondence Problems Using Pairwise
-Constraints</a></li>
-<li><a href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC:
-Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
-</ul>
-<p>​ 我将本人论文分享时做的PPT贴在本文内。</p>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-ppts">II. PPTs</h2>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(1).png"></p>
-<center>
-Figure 1. 典型匹配对问题：点云配准
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(2).png"></p>
-<center>
-Figure 2. 变换一致性在刚体变换中的应用：旋转平移距离不变性
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(3).png"></p>
-<center>
-Figure 3. 思想：构建图问题，使用谱方法
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(8).png"></p>
-<center>
-Figure 4. 本人对论文I的方法总结
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(5).png"></p>
-<center>
-Figure 5. 论文I存在的问题（毕竟是很老的工作了）
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(6).png"></p>
-<center>
-Figure 6.
-方法总结：第一部分，包含变换一致性的全局神经网络模块以及种子点选取的特征筛选
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(7).png"></p>
-<center>
-Figure 7.
-方法总结：第二部分，KNN子集扩增，NSM概率计算，加权最小二乘，propose and
-verify
-</center>
-<hr>
-<h2 id="今日快乐">今日快乐</h2>
-<p>​ 击败了巨人（快乐），但是之后被国王之手干死了（不快乐）：</p>
-<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15.png"></p>
-<center>
-Figure 8. 我的王啊... 真他妈是个不可救药的混蛋
-</center>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>DL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CycleGAN Paper Summary</title>
     <url>/2021/02/10/CycleGAN-Paper-Summary/</url>
     <content><![CDATA[<h1 id="cyclegan">CycleGAN</h1>
@@ -4012,6 +3936,82 @@ David Warde-Farley, Generative Adversarial Nets</p>
       </tags>
   </entry>
   <entry>
+    <title>Correspondence Problem Papers</title>
+    <url>/2021/10/15/Correspondence-Problem-Papers/</url>
+    <content><![CDATA[<h1 id="correspondence-problem">Correspondence Problem</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<blockquote>
+<p>The <strong>correspondence problem</strong> refers to the problem of
+ascertaining which parts of one image correspond to which parts of
+another image, where differences are due to movement of the camera, the
+elapse of time, and/or movement of objects in the photos.
+---Wikipedia</p>
+</blockquote>
+<p>​
+最近一直在做与匹配相关的问题：点云配准。点云配准就是一个非常经典的匹配问题，在基于特征的方法下，找到两帧点云对应位置的特征，建立匹配关系，可以根据计算好的匹配算出位姿变换，而由于引入特征以及特征匹配，通常情况下可以使得配准算法具有全局性。</p>
+<p>​
+我在最近的一次组会上做了论文分享，讲了两篇具有很强关联性的论文（这两篇论文都很好懂，ICCV
+2005的尤其简单，看完就能写出代码来）：</p>
+<ul>
+<li><a href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/leordeanu-iccv-05.pdf">ICCV
+2005: A Spectral Technique for Correspondence Problems Using Pairwise
+Constraints</a></li>
+<li><a href="https://arxiv.org/abs/2103.05465">CVPR 2021: PointDSC:
+Robust Point Cloud Registration using Deep Spatial Consistency</a></li>
+</ul>
+<p>​ 我将本人论文分享时做的PPT贴在本文内。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-ppts">II. PPTs</h2>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(1).png"></p>
+<center>
+Figure 1. 典型匹配对问题：点云配准
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(2).png"></p>
+<center>
+Figure 2. 变换一致性在刚体变换中的应用：旋转平移距离不变性
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(3).png"></p>
+<center>
+Figure 3. 思想：构建图问题，使用谱方法
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(8).png"></p>
+<center>
+Figure 4. 本人对论文I的方法总结
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(5).png"></p>
+<center>
+Figure 5. 论文I存在的问题（毕竟是很老的工作了）
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(6).png"></p>
+<center>
+Figure 6.
+方法总结：第一部分，包含变换一致性的全局神经网络模块以及种子点选取的特征筛选
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15%20(7).png"></p>
+<center>
+Figure 7.
+方法总结：第二部分，KNN子集扩增，NSM概率计算，加权最小二乘，propose and
+verify
+</center>
+<hr>
+<h2 id="今日快乐">今日快乐</h2>
+<p>​ 击败了巨人（快乐），但是之后被国王之手干死了（不快乐）：</p>
+<p><img decoding="async" loading="lazy" src="/2021/10/15/Correspondence-Problem-Papers/2021-10-15.png"></p>
+<center>
+Figure 8. 我的王啊... 真他妈是个不可救药的混蛋
+</center>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>DL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Depth Completion论文三篇</title>
     <url>/2022/01/23/Depth-Completion%E8%AE%BA%E6%96%87%E4%B8%89%E7%AF%87/</url>
     <content><![CDATA[<h1 id="depth-completion">Depth Completion</h1>
@@ -4275,6 +4275,47 @@ pool”下选取的就是最大“概率”branch进行计算），cost的期望
       </tags>
   </entry>
   <entry>
+    <title>Dynamic Routing Between Capsules 复现</title>
+    <url>/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="capsules-network">Capsules Network</h1>
+<hr>
+<p>​ 上一次看这篇论文：<a href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between
+Capsules</em></a>
+的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps
+net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;"><img decoding="async" loading="lazy" src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1101.jpg" alt="G_1101" style="zoom:150%;"></th>
+<th style="text-align: center;"><img decoding="async" loading="lazy" src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1151.jpg" alt="G_1151" style="zoom:150%;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
+<td style="text-align: center;">根据digital capsule重建（MNIST 7
+epochs）</td>
+</tr>
+</tbody>
+</table>
+<span id="more"></span>
+<hr>
+<p>​ 等待填坑</p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>DL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Distance Metrics on Point Clouds</title>
     <url>/2021/11/14/Distance-Metrics-on-Point-Clouds/</url>
     <content><![CDATA[<h1 id="distance-metrics">Distance Metrics</h1>
@@ -4460,47 +4501,6 @@ Earth Mover's Distance</a></p>
         <tag>knowings</tag>
         <tag>DL</tag>
         <tag>PointCloud</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dynamic Routing Between Capsules 复现</title>
-    <url>/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/</url>
-    <content><![CDATA[<h1 id="capsules-network">Capsules Network</h1>
-<hr>
-<p>​ 上一次看这篇论文：<a href="https://arxiv.org/abs/1710.09829"><em>Dynamic Routing Between
-Capsules</em></a>
-的时候，Pytorch技术还很菜，不是特别熟练，被矩阵计算的维数问题搞傻了，写得很痛苦，loss没写完就放弃了。这次在重新读完论文之后，重新试着复现了一波，最后差点败在一个softmax的执行维度上（可以说很奇异了）。第一版caps
-net网络结构非常简单，对应的evaluation / experiments也很简单。实现见<a href="https://github.com/Enigmatisms/CapsNet">[Github🔗Enigmatisms/CapsNet]</a></p>
-<table>
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr>
-<th style="text-align: center;"><img decoding="async" loading="lazy" src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1101.jpg" alt="G_1101" style="zoom:150%;"></th>
-<th style="text-align: center;"><img decoding="async" loading="lazy" src="/2021/07/18/Dynamic-Routing-Between-Capsules-%E5%A4%8D%E7%8E%B0/G_1151.jpg" alt="G_1151" style="zoom:150%;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: center;">根据digital capsule重建（MNIST 7
-epochs）</td>
-<td style="text-align: center;">根据digital capsule重建（MNIST 7
-epochs）</td>
-</tr>
-</tbody>
-</table>
-<span id="more"></span>
-<hr>
-<p>​ 等待填坑</p>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>DL</tag>
       </tags>
   </entry>
   <entry>
@@ -6867,114 +6867,6 @@ Pinhole Camera Model</a></p>
       </tags>
   </entry>
   <entry>
-    <title>Nvidia 简单环境工程</title>
-    <url>/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="ampere-pytorch">Ampere Pytorch</h1>
-<hr>
-<h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 近日训练神经网络花了五六十块钱，在<a href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX
-3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
-<ul>
-<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX
-3090没有3090的样子</li>
-<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch
-1.4.0，直接没办法跑</li>
-</ul>
-<p>​
-于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX
-3060，对应架构为安培（Ampere
-sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
-<center>
-<img decoding="async" loading="lazy" src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
-</center>
-<center>
-Figure 1. 看起来很便宜 黄仁勋Yes
-</center>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-过程">II. 过程</h2>
-<h3 id="查看环境">2.1 查看环境</h3>
-<p>​ 第一步当然是需要查看硬件参数：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
-<p>​ 其中右上角会出现CUDA版本：</p>
-<center>
-<img decoding="async" loading="lazy" src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/smi.png">
-</center>
-<center>
-Figure 2. nvidia-smi版本号
-</center>
-<p>​ 但这只是该驱动（426.00）可以支持的
-<strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
-<p>​
-然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
-<h3 id="乱搞驱动">2.2 乱搞驱动</h3>
-<p>​ 我选择的是CUDA
-11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu
-18.04端我选择的是脚本文件安装(.run
-文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
-<blockquote>
-<p>Existing package manager found...
-(然后建议你在继续安装前remove这个existing package manager of the
-driver).</p>
-</blockquote>
-<p>​ <a href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask
-Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
-<p>​
-<strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">下面这一句为了看看这个电脑上都装了哪些CUDA相关库</span></span><br><span class="line">dpkg -l | grep &quot;cuda&quot;</span><br><span class="line"><span class="meta"># </span><span class="language-bash">删除CUDA相关包以及其配置文件</span></span><br><span class="line">sudo apt-get remove cuda*</span><br><span class="line">sudo apt-get purge cuda*</span><br><span class="line"><span class="meta"># </span><span class="language-bash">不要随便用autoremove！除非你知道你在干什么或者你对autoremove的包进行仔细的检查</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">CSDN上就有autoremove，评论区已经有崩溃老哥说自己autoremove了一些重要包不得不重装系统了</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">显卡驱动，删除</span></span><br><span class="line">sudo apt-get remove nvidia*</span><br><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
-<p>​ 执行结束之后，reboot。</p>
-<h3 id="安装驱动">2.3 安装驱动</h3>
-<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了
-，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu
-Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
-<p>​
-进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PATH=$PATH:...</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:...</span><br></pre></td></tr></table></figure>
-<p>​
-检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
-<h3 id="安装pytorch">2.4 安装Pytorch</h3>
-<p>​
-Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code>
-is not a supported architecture for Pytorch, among [... up to sm_70]
-blahblahblah。在这里我遇到了两个坑：</p>
-<h4 id="多重pytorch">2.4.1 多重Pytorch</h4>
-<p>​
-我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code>
-之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code>
-三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
-<h4 id="cuda-wheel">2.4.2 CUDA Wheel</h4>
-<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4
-支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成
-<code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3
-不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了
-pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA
-踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch /
-python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag
-则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义
-<code>-arch=sm_86</code> 就能使得 <code>sm_86</code>
-架构得到支持。也就是说，我们在安装的过程中需要选择CUDA
-Wheels，也就是手动写一个（+xxx）：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip3 install torch==1.10.0+cu113</span><br></pre></td></tr></table></figure>
-<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3
-wheels，应该就是说，本库的编译是有 CUDA 11.3
-完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种
-<code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
-<p>​ 另一种方法，可以直接使用本地 CUDA
-完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用
-nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
-<h3 id="验证">2.5 验证</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tmp = torch.zeros(<span class="number">1</span>).cuda()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p>​ 只要没有任何warning或者error，就是成功。</p>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>环境工程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Neural Radiance Field【1】</title>
     <url>/2022/03/13/Neural-Radiance-Field%E3%80%901%E3%80%91/</url>
     <content><![CDATA[<h1 id="neural-rf">Neural RF</h1>
@@ -7236,6 +7128,114 @@ Slusallek, Computer Graphics: Chapter - Volume Rendering.</a></p>
         <tag>knowings</tag>
         <tag>DL</tag>
         <tag>NeRF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nvidia 简单环境工程</title>
+    <url>/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="ampere-pytorch">Ampere Pytorch</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 近日训练神经网络花了五六十块钱，在<a href="http://www.ai-galaxy.cn/">智星云</a>平台上。这个云平台总的来说还是很便宜的，RTX
+3090大概4元/h，之前训练胶囊网络的时候还狠吹了这个平台一波。但我最近感觉，该平台貌似有点坑：</p>
+<ul>
+<li>RTX 2080Ti的训练速度比我的MX 150（比GTX 960更差一点的卡）更慢，RTX
+3090没有3090的样子</li>
+<li>环境非常迷惑：比如其1080 Ti的环境，CUDA10.0 + Torch
+1.4.0，直接没办法跑</li>
+</ul>
+<p>​
+于是乎我在办公室一个同事的电脑上装了整个深度学习环境。很不幸（又幸运）的是，他的显卡是RTX
+3060，对应架构为安培（Ampere
+sm_86），不兼容低版本torch，使用不了CUDA加速。考虑到我之前有装显卡驱动搞爆系统的经历，我决定记录一下本次环境工程的过程。</p>
+<center>
+<img decoding="async" loading="lazy" src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/3060.png" style="zoom:67%;">
+</center>
+<center>
+Figure 1. 看起来很便宜 黄仁勋Yes
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-过程">II. 过程</h2>
+<h3 id="查看环境">2.1 查看环境</h3>
+<p>​ 第一步当然是需要查看硬件参数：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>​ 其中右上角会出现CUDA版本：</p>
+<center>
+<img decoding="async" loading="lazy" src="/2021/11/21/Nvidia-%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E5%B7%A5%E7%A8%8B/smi.png">
+</center>
+<center>
+Figure 2. nvidia-smi版本号
+</center>
+<p>​ 但这只是该驱动（426.00）可以支持的
+<strong><u>最高版本CUDA</u></strong>。需要查看自己的CUDA版本则需要使用：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
+<p>​
+然后我发现，该同学的驱动是475.05.xx（忘了），但是CUDA版本却是9.1。虽说英伟达驱动向下兼容，但是9.1听起来像是上个世纪的东西（雾）。直接升级CUDA即可。</p>
+<h3 id="乱搞驱动">2.2 乱搞驱动</h3>
+<p>​ 我选择的是CUDA
+11.4，其安装程序可以附带安装驱动，也就是说，没有驱动也没有什么问题。Ubuntu
+18.04端我选择的是脚本文件安装(.run
+文件)，因为这个可以受控。但是安装时遇到了一些问题：</p>
+<blockquote>
+<p>Existing package manager found...
+(然后建议你在继续安装前remove这个existing package manager of the
+driver).</p>
+</blockquote>
+<p>​ <a href="https://askubuntu.com/questions/1211919/error-installing-cuda-toolkit-existing-package-manager-installation-of-the-driv">Ask
+Ubuntu</a>上有对应的解决方案，说是<code>--toolkit --silent --override</code>等等flag上去就行了。但个人尝试无效，按照回答直接执行之后，没有报错，但是同样也没安装好CUDA。直接运行脚本，暗装脚本会列举将会被安装的内容，第一次安装时我直接取消了除了Toolkit之外的其他选项，最后貌似也没装上去。</p>
+<p>​
+<strong><u>我怒了，开始暴力了起来（安全的暴力）</u></strong>。我啪地一下站起来了，很快啊，输入了以下脚本：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">下面这一句为了看看这个电脑上都装了哪些CUDA相关库</span></span><br><span class="line">dpkg -l | grep &quot;cuda&quot;</span><br><span class="line"><span class="meta"># </span><span class="language-bash">删除CUDA相关包以及其配置文件</span></span><br><span class="line">sudo apt-get remove cuda*</span><br><span class="line">sudo apt-get purge cuda*</span><br><span class="line"><span class="meta"># </span><span class="language-bash">不要随便用autoremove！除非你知道你在干什么或者你对autoremove的包进行仔细的检查</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">CSDN上就有autoremove，评论区已经有崩溃老哥说自己autoremove了一些重要包不得不重装系统了</span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">显卡驱动，删除</span></span><br><span class="line">sudo apt-get remove nvidia*</span><br><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
+<p>​ 执行结束之后，reboot。</p>
+<h3 id="安装驱动">2.3 安装驱动</h3>
+<p>​ 执行了上面这些命令之后我重启了电脑，果然，图形界面打不开了
+，因为显卡驱动已经没了。看到这里并且执行到这里的xdm可以准备重装系统了（误）。在电脑启动界面，GRUB有选择系统的画面，选择Ubuntu
+Recovery项，进入recovery模式进行驱动安装。recovery不需要显卡驱动也可以启动图形界面。</p>
+<p>​
+进入recovery模式之后，既然我们已经知道，系统里没有显卡驱动了（nvidia-smi报错了），那就可以肆无忌惮地装驱动了。直接运行驱动安装脚本，安装项可以全部勾选。安装完毕之后，安装程序将会提示我们进行环境变量设定，此时只需要修改<code>.bashrc</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PATH=$PATH:...</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:...</span><br></pre></td></tr></table></figure>
+<p>​
+检查<code>nvidia-smi</code>以及<code>nvcc</code>两个指令是否可以正确执行。按以上步骤（先删除，再重装）的方式，应该是没有问题的。重启即可，重启之后安装一些扩展库（可选）比如cuDNN以及NCCL，这两个库的安装要领只有一个：上英伟达官网对照清楚自己的驱动、CUDA版本对应哪个版本的cuDNN或者NCCL，版本对了就没问题，反正都是<code>.deb</code>包，一个<code>sudo dpkg -i</code>安装就结束了。</p>
+<h3 id="安装pytorch">2.4 安装Pytorch</h3>
+<p>​
+Pytorch即使在最新的驱动以及CUDA（11.4）安装好之后，仍然不厌其烦地告诉你：<code>sm_86</code>
+is not a supported architecture for Pytorch, among [... up to sm_70]
+blahblahblah。在这里我遇到了两个坑：</p>
+<h4 id="多重pytorch">2.4.1 多重Pytorch</h4>
+<p>​
+我惊奇地发现，pip管理包的时候，同一个库允许多个版本存在。对于这种行为，我不是很能理解，毕竟按我的理解，大多数用户的Python版本是固定的，没有跨版本的需求（用Docker或者Conda管一管不好么）。但我在执行<code>pip3 list</code>
+之后，发现电脑上有：<code>1.7.1\1.8.0\1.10.0</code>
+三个版本的torch，每次安装前的删除实际上都没有删除干净。</p>
+<h4 id="cuda-wheel">2.4.2 CUDA Wheel</h4>
+<p>​ 本地安装 CUDA 11.4 并不意味着我们可以直接使用 CUDA11.4
+支持。我们知道（你知道吗），Python虽然作为一种动态语言，运行时解释，它也是支持使用编译好的库的（只要编译成
+<code>.so</code> 或者 <code>.dll</code> 动态库就行），pip3
+不只是安装源码，它也会安装一些动态库，<strong><u>这些动态库的编译方式</u></strong>决定了
+pip3 安装的库本身的一些性质。比如我们在 <a href="https://enigmatisms.github.io/2021/09/23/CUDA%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95%E3%80%901%E3%80%91/">CUDA
+踩坑实录 【1】</a> 中已经实践过，CUDA程序作为CUDA Extension被 pytorch /
+python 调用，被调用的程序是由 nvcc 编译的，nvcc的一些 flag
+则决定了代码受到什么样的 architecture 支持，比如我们可以显式定义
+<code>-arch=sm_86</code> 就能使得 <code>sm_86</code>
+架构得到支持。也就是说，我们在安装的过程中需要选择CUDA
+Wheels，也就是手动写一个（+xxx）：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip3 install torch==1.10.0+cu113</span><br></pre></td></tr></table></figure>
+<p>​ 上面的 <code>+cu113</code> 就表示，我们选择CUDA 11.3
+wheels，应该就是说，本库的编译是有 CUDA 11.3
+完成的。虽然本地是11.4，但并没有什么影响，对于 RTX 3060 这种
+<code>sm_86</code> capability 的设备，只要 CUDA 11 + 就可以了。</p>
+<p>​ 另一种方法，可以直接使用本地 CUDA
+完成库安装：从官网上下载source（Pytorch底层就是在调用C++代码嘛），本地用
+nvcc 对 source 进行手动编译，但这确实有一点麻烦。</p>
+<h3 id="验证">2.5 验证</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tmp = torch.zeros(<span class="number">1</span>).cuda()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>​ 只要没有任何warning或者error，就是成功。</p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>环境工程</tag>
       </tags>
   </entry>
   <entry>
@@ -7578,29 +7578,6 @@ boot，直接安装成功。</p>
       </tags>
   </entry>
   <entry>
-    <title>Rust CUDA混合编程</title>
-    <url>/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<p>​ （未完成，请勿点击）Rust FFI（foriegn function
-interface）非常有吸引力，特别是当你用熟了<a href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
-<ul>
-<li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
-<li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
-</ul>
-<p>​
-中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>GPU</tag>
-        <tag>CUDA</tag>
-        <tag>Rust FFI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Rust C++小记录</title>
     <url>/2022/08/20/Rust-C-%E5%B0%8F%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="rustc">Rust/C++</h1>
@@ -7914,6 +7891,29 @@ https://stackoverflow.com/questions/712639/understanding-the-meaning-of-the-term
       </tags>
   </entry>
   <entry>
+    <title>Rust CUDA混合编程</title>
+    <url>/2022/08/09/Rust-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>​ （未完成，请勿点击）Rust FFI（foriegn function
+interface）非常有吸引力，特别是当你用熟了<a href="https://github.com/nannou-org/nannou">nannou</a>库之后（啊，nannou，比OpenCV香了不知道多少倍，OpenGL-base库牛逼！）。CUDA编程也属于很有吸引力的活动（谁会讨厌优化代码，在已经比多线程CPU快n倍的基础上看着它跑得越来越快呢）。两者放在一起只能说是让人觉得万事皆空。本文记录了在以下两个项目：</p>
+<ul>
+<li>LSMv2：CUDA加速的激光雷达仿真器（simple 2D ray caster）</li>
+<li>ShadowCaster：CUDA加速的空域计算算法（2D阴影投射算法）</li>
+</ul>
+<p>​
+中，使用CUDA/Rust混合编程所遇到的/产生的：（1）语言方面的坑。（2）CUDA程序设计上的一些坑。（3）一些算法设计思路。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>GPU</tag>
+        <tag>CUDA</tag>
+        <tag>Rust FFI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Rust学习 I</title>
     <url>/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-I/</url>
     <content><![CDATA[<h1 id="rust---i">Rust - I</h1>
@@ -8183,192 +8183,6 @@ reference。这里显然没有这样的条件，并且即使挂上了这个引�
 <code>lib</code>具体起什么作用？</li>
 <li><code>Box</code>
 说是堆的指针？其作用类似于C中动态分配内存的结构?</li>
-</ul>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>Rust</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rust学习 II</title>
-    <url>/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/</url>
-    <content><![CDATA[<h1 id="rust---ii">Rust - II</h1>
-<hr>
-<h2 id="i.-intro">I. Intro</h2>
-<p>​
-变量的lifetime之前的部分，理解起来都比较简单。而一到lifetime出场，一群妖魔鬼怪也就跟着出场了。不过其实是因为之前的两天学习中，对于变量的引用，所有权的租借理解不够到位。本文仍然是在跟着Rust官方（的非官方，它自己写的）教程学习过程中，整活扩展的一些记录。</p>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-使得stack更强">II. 使得stack更强</h2>
-<h3 id="迭代器的构造">2.1 迭代器的构造</h3>
-<p>​
-在之前的实践中，为了查看我的stack是否正确，我使用match语法糖写了一个简单的遍历方法。但这种遍历方法不够强，它无法使得我可以直接使用for循环遍历此stack。如果要直接for循环遍历，正如C++中一样，需要重构（或者实现）iterator相关方法。这里我们介绍<code>IntoIter</code>，<code>Iter</code>与<code>IterMut</code></p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">IntoIter</span>&lt;T&gt;(List&lt;T&gt;) <span class="keyword">where</span> T: <span class="built_in">Default</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">into_iter</span>(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> IntoIter&lt;T&gt; &#123;</span><br><span class="line">        <span class="title function_ invoke__">IntoIter</span>(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">IntoIter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = T;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.<span class="title function_ invoke__">pop</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 这里有两点需要注意：</p>
-<ul>
-<li>首先，iterator这玩意就像C++中的迭代器一样，与原类型是不同的。这也就是为什么我们需要重新定义一个叫做<code>IntoIter</code>的模块。实际上这告诉我们，不是<code>List&lt;T&gt;</code>本身有迭代器，而是其在执行<code>into_iter</code>函数之后，返回的迭代器可以进行迭代。那么，以上代码的三个块，分别代表了：定义需要返回的迭代器类型（<code>IntoIter</code>），给<code>List</code>实现返回迭代器的操作，实际实现迭代器的内部功能<code>next</code></li>
-<li><code>self.0</code>是什么玩意？注意到，此struct只有一个域，本质上是一个tuple
-struct（内部的变量没有名字），那么他们的域可以按照<code>self.k</code>来依顺序访问。此外，由于这里调用了pop，并且我们发现，返回值是<code>Option&lt;T&gt;</code>，不难发现此迭代器会逐步销毁原<code>List</code>。在执行<code>into_iter</code>操作之后，原变量（stack本体）应该丧失了所有权，转移到一个<code>IntoIter</code>变量中。我们要求原stack是mutable的（不是mutable也没有意义，全域静止管理的stack是吧），否则无法进行pop。</li>
-</ul>
-<p>​
-怎么说呢，此实现需要非常遵守固定程式，故也没有给我整活留下太大的空间。</p>
-<p>​
-但是很多时候，我并不想使得原来的stack被销毁，我只想迭代一下，输出看看。则我们可以实现一个返回引用的iterator，也即我希望内部的所有逻辑都是引用：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span> &#123;</span><br><span class="line">	this: &amp;Link&lt;T&gt;				<span class="comment">// this的type与stack.head一致，记录此this，才能在每一次next时知道下一次next应该从何处开始</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;			<span class="comment">// 返回一个自定义的迭代器</span></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter</span>(&amp; <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Iter</span>(&amp; <span class="keyword">self</span>.head)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">Iter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;T;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;		<span class="comment">// 注意，为什么需要&amp;mut 呢？每一次next，我们都要修改Iter的this指向（指向下一个）</span></span><br><span class="line">        <span class="keyword">self</span>.this.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;node.next;</span><br><span class="line">            &amp;node.elem</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​
-逻辑看起来很正确，对吧？看了一眼官方教程，很不一样。。。但是没关系！要有自信。结果一编译就爆炸了，无奈瞅了一眼官方教程，结果发现它也爆炸了。可以的，我们都炸在了
-<strong><u>lifetime</u></strong> 这玩意上。</p>
-<h2 id="impotant-lifetime">2.2 Impotant: Lifetime</h2>
-<p>​
-人的一生啊（lifetime），他自己就不知道。一个人的前途命运啊，当然要靠自我奋斗。啊同时还要考虑到历史的进程。我当年在上海当...（内容快涉嫌违规了）。lifetime，其实是我们很熟悉的概念，就是变量的生存周期嘛。但是不管是C、C++还是Python，都已经把生存周期管理的事给做了，我们其实很难接触到生存周期的问题（除了C++中，最好不要返回函数中临时变量的引用或指针这样的例子外）。正如官方教程所说：</p>
-<blockquote>
-<p>Lifetimes are unnecessary in garbage collected languages because the
-garbage collector ensures that everything magically lives as long as it
-needs to. Most data in Rust is <em>manually</em> managed, so that data
-needs another solution. C and C++ give us a clear example what happens
-if you just let people take pointers to random data on the stack:
-pervasive unmanageable unsafety. This can be roughly separated into two
-classes of error:</p>
-<ul>
-<li>Holding a pointer to something that went out of scope</li>
-<li>Holding a pointer to something that got mutated away</li>
-</ul>
-<p>Lifetimes solve both of these problems, and 99% of the time, they do
-this in a totally transparent way.</p>
-</blockquote>
-<p>​
-抄了好大一段啊，我就不翻译了，反正看不懂的都应该反思一下自己高中大学学的英语都用来干什么了，看不良网站去了？省流：Rust可以避免引用指针失效问题，各种处理都是完全透明的。强啊，只能说。</p>
-<p>​
-但同时lifetime是一个相对较为复杂的概念（上午看了半小时概念，愣是没看懂）。首先我们确定一下，lifetime的应用场景。对于普通的变量而言，其实一般不需要考虑lifetime概念，倒是引用（reference）这些玩意，由于他们可能指向一个已经move、out
-of
-scope或者其他原因失效的变量，我们需要特别小心。也即：对于引用而言，我们希望其指向的变量活着的时间可以至少与引用变量本身一样长。别在引用还valid的时候，白发人送黑发人了。那么为什么编译器可能会有lifetime的困惑呢？这里我引用<a href="https://www.youtube.com/watch?v=juIINGuZyBc">Youtube上一个博主的例子</a></p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longer_string</span>(x: &amp;<span class="type">String</span>, y: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​
-这段程序看起来很正确，但实际上没办法编译。为什么？编译器认为：<code>longer_string</code>函数输入输出的lifetime是有问题的。在这个例子中，没有什么问题，但是如果main改写成：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
-<p>​
-确实就是错的了。但是你会觉得，诶呀这不就跟js一样嘛，一个块内部的变量不能在外部访问，很正常啊做一个检查应该就知道。确实，但如果进一步改呢？</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
-<p>​
-这里已经不仅仅是result在局部块中的问题了。可以根据<code>longer_string</code>的定义知道，返回的引用是<code>&amp; str1</code>。而即便println可以访问到变量result，result指向的也已经是一个销毁后的变量。此外，上面这个例子的流程已经非常简单了，更复杂的情况下，编译器无法判定在引用result存活时，其指向的内容是否也是存活的。这就需要我们进行限定：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longer_string</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>&#123; ...</span><br></pre></td></tr></table></figure>
-<p>​
-这里<code>'a</code>表示限定的lifetime，主要用来限定输入输出的lifetime（输入之间其实无所谓）。lifetime实际上是generic的，我们需要用类似模板的方法，使用尖括号进行限定。<code>a</code>实际只是一个名字，我们可以随便起，但是惯例就是单个小写的字母。注意，此处虽然<code>x</code>与<code>y</code>的lifetime可能不一致，我们仍然写了两个一样的<code>'a</code>，这种情况下，编辑器将会选择更小的一个作为输出的lifetime。这样的lifetime限定，根本目的是：
-<strong><u>使得输入至少可以与输出存活得一样久</u></strong>。</p>
-<p>​ <strong><u>注意：</u></strong>
-lifetime用在<code>type</code>，函数、结构体、枚举类等上，一般<strong><u>不需要用在函数的内部</u></strong>。个人的理解是，这应该是一个声明的“特性”，而不需要出现在实现里。我们尝试使用lifetime来修改stack的iterator：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span>&#123;			<span class="comment">// 这里应该表示的是，Iter能存活多久，this指向的内容就应该存活多久（因为this引用的lifetime现在与Iter一致）</span></span><br><span class="line">    this: &amp;<span class="symbol">&#x27;a</span> Link&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;				 <span class="comment">// List本身不需要显式lifetime概念，故不用写</span></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Iter&lt;T&gt; &#123;			<span class="comment">// 根据lifetime省略第三规则，输入有&amp;self，则输出的lifetime默认与self一致，这样iter的lifetime会与链表本身一致，内部的引用也一样</span></span><br><span class="line">        Iter&#123;this: &amp;<span class="keyword">self</span>.head&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span> &#123;		<span class="comment">// 由于Iter在模板定义中，有&lt;&#x27;a, T&gt;，我们在impl块中、Iter模板定义中也要写&#x27;a</span></span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;a&#x27; T;															<span class="comment">// type 需要设置lifetime</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;					<span class="comment">// 这里不需要pub，写pub会报错，说是`pub` not permitted here because it&#x27;s implied。估计是因为impl块中默认pub</span></span><br><span class="line">        <span class="keyword">self</span>.this.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;node.next;</span><br><span class="line">            &amp;node.elem</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 这里注意，不能写成：<code>&lt;'a, T: Default&gt;</code>
-否则会出现一些<code>'a</code> not bounded
-这种奇怪的，我不知道如何处理的错误。关于lifetime省略（ellision）规则，可以参考官方教程<a href="https://rust-unofficial.github.io/too-many-lists/second-iter.html">An
-Ok Stack:
-Iter</a>，也可以看上文提到的油管博主的视频。exmmm结果我发现，通过作者实现的方法，后面还有报错？我这一版本加上lifetime
-annotation就直接过编译了。整活！开始（但实际上，我和教程实现的完全不是一个东西，虽然功能上类似，说实话，我觉得作者实现有点复杂？（开始飘了））。让我非常惊讶的是...
-我感觉这玩意是个立即数啊，怎么还能引用呢？</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="built_in">assert_eq!</span>(iterator.<span class="title function_ invoke__">next</span>(), <span class="title function_ invoke__">Some</span>(&amp;<span class="number">4</span>));			<span class="comment">// 写的iter测试，如果去掉&amp;符号，就会报错，说iterator.next()返回了一个Option&lt;&amp;i32&gt;，而你这是Option&lt;i32&gt;</span></span><br></pre></td></tr></table></figure>
-<p>​ 这里我保存教程中几个有趣的（颜）表情（作者编译连跪三把）：</p>
-<blockquote>
-<p>(╯°□°)╯︵ ┻━┻ ---&gt; (ﾉಥ益ಥ）ﾉ﻿ ┻━┻ ---&gt; 😭</p>
-</blockquote>
-<p>​
-看到最后，作者直接祭出了<code>as_deref</code>，好吧，我不能因为我的实现可以编译就不管他这一版本，我也想知道<code>as_deref</code>是干什么的。作者做的事情很简单：作者的next项保存的是node，由于node实际已经是内部Link内部的类型了（被封装了，因为Link是<code>Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>），作者需要通过map将其取出：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">next: <span class="keyword">self</span>.head.<span class="title function_ invoke__">map</span>(|node| &amp;*node)			<span class="comment">// 直接这样会导致移动的(self.head被移动)，需要as_ref</span></span><br></pre></td></tr></table></figure>
-<p>​
-注意，node本身（由map，也即match类方法取出）是<code>Box&lt;Node&lt;T&gt;&gt;</code>，需要从堆中取出则用*。作者用了<code>deref</code>，但是我发现只要改成：‘</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; &#123;</span><br><span class="line">    next: <span class="type">Option</span>&lt;&amp;<span class="symbol">&#x27;a</span> <span class="type">Box</span>&lt;Node&lt;T&gt;&gt;&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​
-并且把map中node之前的<code>&amp;*</code>去掉其实就可以了。<code>as_deref</code>，官方文档的意思写的很明确：</p>
-<blockquote>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">as_deref</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;&amp;&lt;T <span class="keyword">as</span> Deref&gt;::Target&gt;</span><br></pre></td></tr></table></figure>
-<p>Converts from <code>Option&lt;T&gt;</code> (or
-<code>&amp;mut Option&lt;T&gt;</code>) to
-<code>Option&lt;&amp;mut T::Target&gt;</code>.</p>
-<p>Leaves the original <code>Option</code> in-place, creating a new one
-containing a mutable reference to the inner type’s
-[<code>Deref::Target</code>] type.</p>
-</blockquote>
-<p>​
-可能刚开始有点晕，什么是<code>T::Target</code>？结合stack例子，以及这个函数的名字就可以知道，这里实际上做了一个dereference操作，从<code>Box</code>中将被Boxed的元素取出，target实际上就是<code>Node&lt;T&gt;</code>。这里，<code>as_deref</code>做了两件连续的事情：（1）给返回值增加引用，（2）dereference操作，取出box内元素。其实看<code>std::ops::Deref</code>的说明也可以知道：</p>
-<blockquote>
-<p>Used for immutable dereferencing operations, like
-<code>*v</code>.</p>
-</blockquote>
-<p>​
-那么，<code>self.head</code>进行<code>as_deref</code>操作的结果也就很明显了。从<code>&amp;Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>先转化为<code>Option&lt;&amp;Box&lt;Node&lt;T&gt;&gt;&gt;</code>再成为<code>Option&lt;&amp;Node&lt;T&gt;&gt;</code>。我自己原来的实现，说是<code>this: Link&lt;T&gt;</code>
-但由于<code>Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>，故实际上我原来的实现和我自己的修改<code>next: Option&lt;&amp;'a Box&lt;Node&lt;T&gt;&gt;&gt;</code>应该是没有太大差别的。</p>
-<h3 id="理解有误">2.3 理解有误？</h3>
-<p>​
-尝试实现<code>IterMut</code>但出现了问题，此问题我想了很久没有想明白，于是在stackoverflow上挂了一下，两小时后有两个人回复了我。其中一人的“修改”实际上与官方教程完全重合，对我的帮助不大，但他在回答中提到的东西对我很有启发。问题在这里：<a href="https://stackoverflow.com/questions/72090145/lifetime-confusion-for-iterator">Stackoverflow:
-Lifetime Confusion for iterator</a>。这里我重新列一下：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">IterMut</span>&lt;<span class="symbol">&#x27;a</span>, T&gt;&#123;</span><br><span class="line">    this: &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> Link&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter_mut</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> IterMut&lt;T&gt; &#123;</span><br><span class="line">        IterMut &#123;</span><br><span class="line">            this: &amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">IterMut</span>&lt;<span class="symbol">&#x27;a</span>, T&gt;&#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> T;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(node) = <span class="keyword">self</span>.this &#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;<span class="keyword">mut</span> node.next;</span><br><span class="line">            <span class="title function_ invoke__">Some</span>(&amp;<span class="keyword">mut</span> node.elem)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="literal">None</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// self.this.as_mut().map(|node|&#123;</span></span><br><span class="line">        <span class="comment">//     self.this = &amp;mut node.next;</span></span><br><span class="line">        <span class="comment">//     &amp;mut node.elem</span></span><br><span class="line">        <span class="comment">// &#125;)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>​
-使用如上方法实现一个<code>IterMut</code>，（这里为了可以更加清晰地看出发生了什么事情，将<code>map</code>替换为了match方法，原来的实现在注释中）。这里会报错：说我发返回的<code>Some(&amp;mut node.elem)</code>的声明周期实际上是<code>'1</code>（与匿名生命周期引用&amp;mut
-self一致），而我在<code>impl</code>块中显式定义了一个<code>'a</code>，两者冲突了，错误是：</p>
-<blockquote>
-<p>returning this value requires that <code>'1</code> must outlive
-<code>'a</code></p>
-</blockquote>
-<p>​
-这里我根据歪果仁们的回答以及我自己理解，解释一下产生此问题的原因。首先，我们定义了一个<code>IterMut</code>，它的生命周期是<code>'a</code>。这个<code>IterMut</code>使用<code>iter_mut</code>函数返回，那么我们可以根据生命周期省略规律得到，<code>IterMut</code>的生命周期就是List的<code>self</code>周期。也即<code>'a</code>与<code>List</code>（stack本体）一致（或者说，<code>IterMut</code>至少与stack本体活得一样久）。接下来，由于我对Rust语言的理解有限，我无法确定以下两个想法哪一个是正确的，所以我在此分支，两个都记录下来：</p>
-<p>（1）个人更加倾向于这种解释：next函数中的<code>&amp;mut self</code>可能有单独的生命周期，因为这里的self只是一个引用，不一定需要与实例化的本体有同样的生命周期（更短即可）。也即假如<code>IterMut</code>的生命周期就是<code>'a</code>，<code>&amp;mut self</code>可能有一个单独的生命周期<code>'b</code>。self.this没办法导出正确的生命周期到node中，毕竟self.this生命周期应该是<code>'a</code>
-（与<code>IterMut</code>一致），而对于self的引用又是生命周期<code>'b</code>的。如果要保证传出的<code>&amp;mut node.elem</code>是有效的，<code>'b</code>显然应该长于<code>'a</code>，（因为<code>Item = &amp;'a mut T</code>'，返回值的生命周期是<code>'a</code>的）。而如果<code>'b</code>长于<code>'a</code>，会产生一个问题：我如何确定返回值何时无效呢？如果<code>'b</code>很长，在下一次调用next时，会对此<code>IterMut</code>创建一个新mutable
-reference，而原来的mutable
-reference（还记得吗，它的生命周期是<code>'b</code>）<strong><u>还没有销毁</u></strong>！</p>
-<div class="note warning"><p>​ Rust不允许对同一个变量保留多个valid的mutable
-reference，甚至以下情况也是不允许的（一个引用整体，一个引用内部域）：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">TestStruct</span> &#123;a: <span class="type">i32</span>, b: <span class="type">f32</span>&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">t1</span> = TestStruct&#123;a: <span class="number">0</span>, b: <span class="number">1.5</span>&#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ptr1</span>: &amp;<span class="keyword">mut</span> TestStruct = &amp;<span class="keyword">mut</span> t1;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ptr2</span>: &amp;<span class="keyword">mut</span> <span class="type">i32</span> = &amp;<span class="keyword">mut</span> t1.a;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elem &#123;&#125;&quot;</span>, ptr2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elems &#123;&#125;, &#123;&#125;&quot;</span>, ptr1.a, ptr1.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​ 关于此问题更详细的介绍，见：<a href="https://oribenshir.github.io/afternoon_rusting/blog/mutable-reference">Multiple
-Mutable Reference</a></p>
-</div>
-<p>​ 此外，关于这种解释，stackoverflow上的大佬也说：</p>
-<blockquote>
-<ul>
-<li>So to use the exclusive reference there must be a guarantee that you
-can't obtain the same mutable reference again. (Note that as written, if
-you call <code>next()</code> twice you'll get the same mutable reference
-back, which would be a problem -- that's why the lifetime of the return
-value must be bound to the lifetime of <code>&amp;mut self</code> in
-this particular implementation.)</li>
-<li>The principal problem lies in trying to take a reference to the
-whole <code>head</code>. While that reference lives, you can't hand out
-mutable references to anything inside it.</li>
-</ul>
-</blockquote>
-<p>（2）next没有单独的生命周期，其中的<code>&amp;mut self</code>生命周期也是<code>'a</code>。这也会引发类似的问题：我们已经知道<code>'a</code>是非常长的（与stack本体一致），而这里虽然<code>&amp;mut self</code>在next函数结束之后，看似已经不见了（本次<code>&amp;mut self</code>已经销毁了），但实际上并非如此，由于我们定义了<code>&amp;mut self</code>的生命周期是<code>'a</code>，它实际还是存活着的。故也会出现多mutable
-reference的问题。</p>
-<p>​
-已经知道错了，求求Rust不要再打我了，\(T益T)/。接下来我们来细致分析一下教程的实现。在stackoverflow的回答中，参与回答的大佬说：</p>
-<blockquote>
-<p>The principal problem lies in trying to take a reference to the whole
-<code>head</code>.</p>
-</blockquote>
-<p>​
-原实现中，在构造<code>IterMut</code>的过程中，this传入的参数是<code>&amp;mut self.head</code>。而<code>self.head</code>的生命周期非常长（与stack本体一致）。如果像作者一样，this指向的不是一个Link结构，而是一个Node，可能可以解决问题。教程中实现是：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">IterMut &#123;</span><br><span class="line">    this: <span class="keyword">self</span>.head.<span class="title function_ invoke__">as_deref_mut</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​
-<code>as_deref_mut</code>可以将<code>&amp;mut Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>转化为<code>Option&lt;&amp;mut Node&lt;T&gt;&gt;</code>。而<code>self.head.as_deref_mut()</code>得到的这个node，生命周期是什么呢？个人的理解是：可以很短！因为这不是stack中常驻的head（只要stack在就有），node是可以轻易invalidate的。也就是说，之所以用node写，就是因为head已经成了...
-老不死的玩意。对于一个node而言，只要take它，它就之后就没了，销毁了，使得此生命周期不会影响代码的其他部分，也不会使得某个引用活太长而挤占可以用的mutable
-reference资源。其他其实没有太好说的。吐槽一下，这样的next peeking...
-貌似会毁掉整个stack，我不能做到修改之后还保证原来的结构？</p>
-<h3 id="生命周期的其他问题">2.4 生命周期的其他问题</h3>
-<p>​
-lifetime深究起来很是复杂，在编写程序的过程中很容易搞糊涂。这里我想再分析一下stackoverflow上关于conflict
-lifetime的另一个例子。个人觉得，这个例子理解起来较为简单，并且如果你真的理解了lifetime，分析这个例子是很轻松的。原问题：<a href="https://stackoverflow.com/questions/41270052/cannot-infer-an-appropriate-lifetime-for-autoref-due-to-conflicting-requirements">Cannot
-infer an appropriate lifetime for autoref due to conflicting
-requirements</a></p>
-<p>​ 其中一个佬将问题进行了简化：</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FontLoader</span>(<span class="type">String</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Font</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">FontLoader</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">load</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Font &#123;</span><br><span class="line">        <span class="title function_ invoke__">Font</span>(&amp;<span class="keyword">self</span>.<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Window</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Phi</span>&lt;<span class="symbol">&#x27;window</span>&gt; &#123;</span><br><span class="line">    window: &amp;<span class="symbol">&#x27;window</span> Window,</span><br><span class="line">    loader: FontLoader,</span><br><span class="line">    font: <span class="type">Option</span>&lt;Font&lt;<span class="symbol">&#x27;window</span>&gt;&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;window</span>&gt; Phi&lt;<span class="symbol">&#x27;window</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">do_the_thing</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">font</span> = <span class="keyword">self</span>.loader.<span class="title function_ invoke__">load</span>();</span><br><span class="line">        <span class="keyword">self</span>.font = <span class="title function_ invoke__">Some</span>(font);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​
-试问，为什么load函数编译时，无法正确导出lifetime？首先，看第二个<code>impl</code>块，此块限制了（定义了）<code>Phi</code>结构体的生存时间。但此处，<code>&amp;mut self</code>却仍然是一个local的lifetime（并不一定是<code>'window</code>），接下来的流程是：</p>
-<ul>
-<li>loader.load。loader没有标注生存周期。load之后，返回的load将会装入loader的生命周期（这里符合生存周期省略规则，故<code>&amp;self.0</code>对应的生存周期
---- loader的生存周期被装入。）</li>
-<li>返回后，希望使用Option封装装入<code>self.font</code>，但是self.font的生命周期是<code>'window</code>...，那么loader的周期是<code>'window</code>吗？我们已经说了，并不见得。假如没有人操作这个变量，很可能<code>self.loader</code>直到结构体<code>Phi</code>被销毁时才随之销毁。但是...
-假设它在之前就被move了呢？故这里我们将loader的类型改写为<code>&amp;'window Fontloader</code>。这样，只要loader本身存活时间够长，就不会有冲突问题。</li>
 </ul>
 ]]></content>
       <categories>
@@ -8807,6 +8621,192 @@ Pytorch)</a></p>
       </tags>
   </entry>
   <entry>
+    <title>Rust学习 II</title>
+    <url>/2022/05/03/Rust%E5%AD%A6%E4%B9%A0-II/</url>
+    <content><![CDATA[<h1 id="rust---ii">Rust - II</h1>
+<hr>
+<h2 id="i.-intro">I. Intro</h2>
+<p>​
+变量的lifetime之前的部分，理解起来都比较简单。而一到lifetime出场，一群妖魔鬼怪也就跟着出场了。不过其实是因为之前的两天学习中，对于变量的引用，所有权的租借理解不够到位。本文仍然是在跟着Rust官方（的非官方，它自己写的）教程学习过程中，整活扩展的一些记录。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-使得stack更强">II. 使得stack更强</h2>
+<h3 id="迭代器的构造">2.1 迭代器的构造</h3>
+<p>​
+在之前的实践中，为了查看我的stack是否正确，我使用match语法糖写了一个简单的遍历方法。但这种遍历方法不够强，它无法使得我可以直接使用for循环遍历此stack。如果要直接for循环遍历，正如C++中一样，需要重构（或者实现）iterator相关方法。这里我们介绍<code>IntoIter</code>，<code>Iter</code>与<code>IterMut</code></p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">IntoIter</span>&lt;T&gt;(List&lt;T&gt;) <span class="keyword">where</span> T: <span class="built_in">Default</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">into_iter</span>(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> IntoIter&lt;T&gt; &#123;</span><br><span class="line">        <span class="title function_ invoke__">IntoIter</span>(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">IntoIter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = T;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.<span class="title function_ invoke__">pop</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这里有两点需要注意：</p>
+<ul>
+<li>首先，iterator这玩意就像C++中的迭代器一样，与原类型是不同的。这也就是为什么我们需要重新定义一个叫做<code>IntoIter</code>的模块。实际上这告诉我们，不是<code>List&lt;T&gt;</code>本身有迭代器，而是其在执行<code>into_iter</code>函数之后，返回的迭代器可以进行迭代。那么，以上代码的三个块，分别代表了：定义需要返回的迭代器类型（<code>IntoIter</code>），给<code>List</code>实现返回迭代器的操作，实际实现迭代器的内部功能<code>next</code></li>
+<li><code>self.0</code>是什么玩意？注意到，此struct只有一个域，本质上是一个tuple
+struct（内部的变量没有名字），那么他们的域可以按照<code>self.k</code>来依顺序访问。此外，由于这里调用了pop，并且我们发现，返回值是<code>Option&lt;T&gt;</code>，不难发现此迭代器会逐步销毁原<code>List</code>。在执行<code>into_iter</code>操作之后，原变量（stack本体）应该丧失了所有权，转移到一个<code>IntoIter</code>变量中。我们要求原stack是mutable的（不是mutable也没有意义，全域静止管理的stack是吧），否则无法进行pop。</li>
+</ul>
+<p>​
+怎么说呢，此实现需要非常遵守固定程式，故也没有给我整活留下太大的空间。</p>
+<p>​
+但是很多时候，我并不想使得原来的stack被销毁，我只想迭代一下，输出看看。则我们可以实现一个返回引用的iterator，也即我希望内部的所有逻辑都是引用：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span> &#123;</span><br><span class="line">	this: &amp;Link&lt;T&gt;				<span class="comment">// this的type与stack.head一致，记录此this，才能在每一次next时知道下一次next应该从何处开始</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;			<span class="comment">// 返回一个自定义的迭代器</span></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter</span>(&amp; <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Iter</span>(&amp; <span class="keyword">self</span>.head)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">Iter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;T;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;		<span class="comment">// 注意，为什么需要&amp;mut 呢？每一次next，我们都要修改Iter的this指向（指向下一个）</span></span><br><span class="line">        <span class="keyword">self</span>.this.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;node.next;</span><br><span class="line">            &amp;node.elem</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​
+逻辑看起来很正确，对吧？看了一眼官方教程，很不一样。。。但是没关系！要有自信。结果一编译就爆炸了，无奈瞅了一眼官方教程，结果发现它也爆炸了。可以的，我们都炸在了
+<strong><u>lifetime</u></strong> 这玩意上。</p>
+<h2 id="impotant-lifetime">2.2 Impotant: Lifetime</h2>
+<p>​
+人的一生啊（lifetime），他自己就不知道。一个人的前途命运啊，当然要靠自我奋斗。啊同时还要考虑到历史的进程。我当年在上海当...（内容快涉嫌违规了）。lifetime，其实是我们很熟悉的概念，就是变量的生存周期嘛。但是不管是C、C++还是Python，都已经把生存周期管理的事给做了，我们其实很难接触到生存周期的问题（除了C++中，最好不要返回函数中临时变量的引用或指针这样的例子外）。正如官方教程所说：</p>
+<blockquote>
+<p>Lifetimes are unnecessary in garbage collected languages because the
+garbage collector ensures that everything magically lives as long as it
+needs to. Most data in Rust is <em>manually</em> managed, so that data
+needs another solution. C and C++ give us a clear example what happens
+if you just let people take pointers to random data on the stack:
+pervasive unmanageable unsafety. This can be roughly separated into two
+classes of error:</p>
+<ul>
+<li>Holding a pointer to something that went out of scope</li>
+<li>Holding a pointer to something that got mutated away</li>
+</ul>
+<p>Lifetimes solve both of these problems, and 99% of the time, they do
+this in a totally transparent way.</p>
+</blockquote>
+<p>​
+抄了好大一段啊，我就不翻译了，反正看不懂的都应该反思一下自己高中大学学的英语都用来干什么了，看不良网站去了？省流：Rust可以避免引用指针失效问题，各种处理都是完全透明的。强啊，只能说。</p>
+<p>​
+但同时lifetime是一个相对较为复杂的概念（上午看了半小时概念，愣是没看懂）。首先我们确定一下，lifetime的应用场景。对于普通的变量而言，其实一般不需要考虑lifetime概念，倒是引用（reference）这些玩意，由于他们可能指向一个已经move、out
+of
+scope或者其他原因失效的变量，我们需要特别小心。也即：对于引用而言，我们希望其指向的变量活着的时间可以至少与引用变量本身一样长。别在引用还valid的时候，白发人送黑发人了。那么为什么编译器可能会有lifetime的困惑呢？这里我引用<a href="https://www.youtube.com/watch?v=juIINGuZyBc">Youtube上一个博主的例子</a></p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longer_string</span>(x: &amp;<span class="type">String</span>, y: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​
+这段程序看起来很正确，但实际上没办法编译。为什么？编译器认为：<code>longer_string</code>函数输入输出的lifetime是有问题的。在这个例子中，没有什么问题，但是如果main改写成：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
+<p>​
+确实就是错的了。但是你会觉得，诶呀这不就跟js一样嘛，一个块内部的变量不能在外部访问，很正常啊做一个检查应该就知道。确实，但如果进一步改呢？</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">str2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;2nd string.&quot;</span>);</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">str1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;The first string.&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: &amp;<span class="type">str</span> = <span class="title function_ invoke__">longer_string</span>(&amp;str1, &amp;str2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Longer string is &#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
+<p>​
+这里已经不仅仅是result在局部块中的问题了。可以根据<code>longer_string</code>的定义知道，返回的引用是<code>&amp; str1</code>。而即便println可以访问到变量result，result指向的也已经是一个销毁后的变量。此外，上面这个例子的流程已经非常简单了，更复杂的情况下，编译器无法判定在引用result存活时，其指向的内容是否也是存活的。这就需要我们进行限定：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longer_string</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span>&#123; ...</span><br></pre></td></tr></table></figure>
+<p>​
+这里<code>'a</code>表示限定的lifetime，主要用来限定输入输出的lifetime（输入之间其实无所谓）。lifetime实际上是generic的，我们需要用类似模板的方法，使用尖括号进行限定。<code>a</code>实际只是一个名字，我们可以随便起，但是惯例就是单个小写的字母。注意，此处虽然<code>x</code>与<code>y</code>的lifetime可能不一致，我们仍然写了两个一样的<code>'a</code>，这种情况下，编辑器将会选择更小的一个作为输出的lifetime。这样的lifetime限定，根本目的是：
+<strong><u>使得输入至少可以与输出存活得一样久</u></strong>。</p>
+<p>​ <strong><u>注意：</u></strong>
+lifetime用在<code>type</code>，函数、结构体、枚举类等上，一般<strong><u>不需要用在函数的内部</u></strong>。个人的理解是，这应该是一个声明的“特性”，而不需要出现在实现里。我们尝试使用lifetime来修改stack的iterator：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span>&#123;			<span class="comment">// 这里应该表示的是，Iter能存活多久，this指向的内容就应该存活多久（因为this引用的lifetime现在与Iter一致）</span></span><br><span class="line">    this: &amp;<span class="symbol">&#x27;a</span> Link&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">impl</span>&lt;T: <span class="built_in">Default</span>&gt; List&lt;T&gt; &#123;				 <span class="comment">// List本身不需要显式lifetime概念，故不用写</span></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Iter&lt;T&gt; &#123;			<span class="comment">// 根据lifetime省略第三规则，输入有&amp;self，则输出的lifetime默认与self一致，这样iter的lifetime会与链表本身一致，内部的引用也一样</span></span><br><span class="line">        Iter&#123;this: &amp;<span class="keyword">self</span>.head&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="keyword">where</span> T: <span class="built_in">Default</span> &#123;		<span class="comment">// 由于Iter在模板定义中，有&lt;&#x27;a, T&gt;，我们在impl块中、Iter模板定义中也要写&#x27;a</span></span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;a&#x27; T;															<span class="comment">// type 需要设置lifetime</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;					<span class="comment">// 这里不需要pub，写pub会报错，说是`pub` not permitted here because it&#x27;s implied。估计是因为impl块中默认pub</span></span><br><span class="line">        <span class="keyword">self</span>.this.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">map</span>(|node|&#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;node.next;</span><br><span class="line">            &amp;node.elem</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 这里注意，不能写成：<code>&lt;'a, T: Default&gt;</code>
+否则会出现一些<code>'a</code> not bounded
+这种奇怪的，我不知道如何处理的错误。关于lifetime省略（ellision）规则，可以参考官方教程<a href="https://rust-unofficial.github.io/too-many-lists/second-iter.html">An
+Ok Stack:
+Iter</a>，也可以看上文提到的油管博主的视频。exmmm结果我发现，通过作者实现的方法，后面还有报错？我这一版本加上lifetime
+annotation就直接过编译了。整活！开始（但实际上，我和教程实现的完全不是一个东西，虽然功能上类似，说实话，我觉得作者实现有点复杂？（开始飘了））。让我非常惊讶的是...
+我感觉这玩意是个立即数啊，怎么还能引用呢？</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="built_in">assert_eq!</span>(iterator.<span class="title function_ invoke__">next</span>(), <span class="title function_ invoke__">Some</span>(&amp;<span class="number">4</span>));			<span class="comment">// 写的iter测试，如果去掉&amp;符号，就会报错，说iterator.next()返回了一个Option&lt;&amp;i32&gt;，而你这是Option&lt;i32&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​ 这里我保存教程中几个有趣的（颜）表情（作者编译连跪三把）：</p>
+<blockquote>
+<p>(╯°□°)╯︵ ┻━┻ ---&gt; (ﾉಥ益ಥ）ﾉ﻿ ┻━┻ ---&gt; 😭</p>
+</blockquote>
+<p>​
+看到最后，作者直接祭出了<code>as_deref</code>，好吧，我不能因为我的实现可以编译就不管他这一版本，我也想知道<code>as_deref</code>是干什么的。作者做的事情很简单：作者的next项保存的是node，由于node实际已经是内部Link内部的类型了（被封装了，因为Link是<code>Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>），作者需要通过map将其取出：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">next: <span class="keyword">self</span>.head.<span class="title function_ invoke__">map</span>(|node| &amp;*node)			<span class="comment">// 直接这样会导致移动的(self.head被移动)，需要as_ref</span></span><br></pre></td></tr></table></figure>
+<p>​
+注意，node本身（由map，也即match类方法取出）是<code>Box&lt;Node&lt;T&gt;&gt;</code>，需要从堆中取出则用*。作者用了<code>deref</code>，但是我发现只要改成：‘</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Iter</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; &#123;</span><br><span class="line">    next: <span class="type">Option</span>&lt;&amp;<span class="symbol">&#x27;a</span> <span class="type">Box</span>&lt;Node&lt;T&gt;&gt;&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​
+并且把map中node之前的<code>&amp;*</code>去掉其实就可以了。<code>as_deref</code>，官方文档的意思写的很明确：</p>
+<blockquote>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">as_deref</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;&amp;&lt;T <span class="keyword">as</span> Deref&gt;::Target&gt;</span><br></pre></td></tr></table></figure>
+<p>Converts from <code>Option&lt;T&gt;</code> (or
+<code>&amp;mut Option&lt;T&gt;</code>) to
+<code>Option&lt;&amp;mut T::Target&gt;</code>.</p>
+<p>Leaves the original <code>Option</code> in-place, creating a new one
+containing a mutable reference to the inner type’s
+[<code>Deref::Target</code>] type.</p>
+</blockquote>
+<p>​
+可能刚开始有点晕，什么是<code>T::Target</code>？结合stack例子，以及这个函数的名字就可以知道，这里实际上做了一个dereference操作，从<code>Box</code>中将被Boxed的元素取出，target实际上就是<code>Node&lt;T&gt;</code>。这里，<code>as_deref</code>做了两件连续的事情：（1）给返回值增加引用，（2）dereference操作，取出box内元素。其实看<code>std::ops::Deref</code>的说明也可以知道：</p>
+<blockquote>
+<p>Used for immutable dereferencing operations, like
+<code>*v</code>.</p>
+</blockquote>
+<p>​
+那么，<code>self.head</code>进行<code>as_deref</code>操作的结果也就很明显了。从<code>&amp;Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>先转化为<code>Option&lt;&amp;Box&lt;Node&lt;T&gt;&gt;&gt;</code>再成为<code>Option&lt;&amp;Node&lt;T&gt;&gt;</code>。我自己原来的实现，说是<code>this: Link&lt;T&gt;</code>
+但由于<code>Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>，故实际上我原来的实现和我自己的修改<code>next: Option&lt;&amp;'a Box&lt;Node&lt;T&gt;&gt;&gt;</code>应该是没有太大差别的。</p>
+<h3 id="理解有误">2.3 理解有误？</h3>
+<p>​
+尝试实现<code>IterMut</code>但出现了问题，此问题我想了很久没有想明白，于是在stackoverflow上挂了一下，两小时后有两个人回复了我。其中一人的“修改”实际上与官方教程完全重合，对我的帮助不大，但他在回答中提到的东西对我很有启发。问题在这里：<a href="https://stackoverflow.com/questions/72090145/lifetime-confusion-for-iterator">Stackoverflow:
+Lifetime Confusion for iterator</a>。这里我重新列一下：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">IterMut</span>&lt;<span class="symbol">&#x27;a</span>, T&gt;&#123;</span><br><span class="line">    this: &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> Link&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iter_mut</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> IterMut&lt;T&gt; &#123;</span><br><span class="line">        IterMut &#123;</span><br><span class="line">            this: &amp;<span class="keyword">mut</span> <span class="keyword">self</span>.head</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>, T&gt; <span class="built_in">Iterator</span> <span class="keyword">for</span> <span class="title class_">IterMut</span>&lt;<span class="symbol">&#x27;a</span>, T&gt;&#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> T;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(node) = <span class="keyword">self</span>.this &#123;</span><br><span class="line">            <span class="keyword">self</span>.this = &amp;<span class="keyword">mut</span> node.next;</span><br><span class="line">            <span class="title function_ invoke__">Some</span>(&amp;<span class="keyword">mut</span> node.elem)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="literal">None</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// self.this.as_mut().map(|node|&#123;</span></span><br><span class="line">        <span class="comment">//     self.this = &amp;mut node.next;</span></span><br><span class="line">        <span class="comment">//     &amp;mut node.elem</span></span><br><span class="line">        <span class="comment">// &#125;)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​
+使用如上方法实现一个<code>IterMut</code>，（这里为了可以更加清晰地看出发生了什么事情，将<code>map</code>替换为了match方法，原来的实现在注释中）。这里会报错：说我发返回的<code>Some(&amp;mut node.elem)</code>的声明周期实际上是<code>'1</code>（与匿名生命周期引用&amp;mut
+self一致），而我在<code>impl</code>块中显式定义了一个<code>'a</code>，两者冲突了，错误是：</p>
+<blockquote>
+<p>returning this value requires that <code>'1</code> must outlive
+<code>'a</code></p>
+</blockquote>
+<p>​
+这里我根据歪果仁们的回答以及我自己理解，解释一下产生此问题的原因。首先，我们定义了一个<code>IterMut</code>，它的生命周期是<code>'a</code>。这个<code>IterMut</code>使用<code>iter_mut</code>函数返回，那么我们可以根据生命周期省略规律得到，<code>IterMut</code>的生命周期就是List的<code>self</code>周期。也即<code>'a</code>与<code>List</code>（stack本体）一致（或者说，<code>IterMut</code>至少与stack本体活得一样久）。接下来，由于我对Rust语言的理解有限，我无法确定以下两个想法哪一个是正确的，所以我在此分支，两个都记录下来：</p>
+<p>（1）个人更加倾向于这种解释：next函数中的<code>&amp;mut self</code>可能有单独的生命周期，因为这里的self只是一个引用，不一定需要与实例化的本体有同样的生命周期（更短即可）。也即假如<code>IterMut</code>的生命周期就是<code>'a</code>，<code>&amp;mut self</code>可能有一个单独的生命周期<code>'b</code>。self.this没办法导出正确的生命周期到node中，毕竟self.this生命周期应该是<code>'a</code>
+（与<code>IterMut</code>一致），而对于self的引用又是生命周期<code>'b</code>的。如果要保证传出的<code>&amp;mut node.elem</code>是有效的，<code>'b</code>显然应该长于<code>'a</code>，（因为<code>Item = &amp;'a mut T</code>'，返回值的生命周期是<code>'a</code>的）。而如果<code>'b</code>长于<code>'a</code>，会产生一个问题：我如何确定返回值何时无效呢？如果<code>'b</code>很长，在下一次调用next时，会对此<code>IterMut</code>创建一个新mutable
+reference，而原来的mutable
+reference（还记得吗，它的生命周期是<code>'b</code>）<strong><u>还没有销毁</u></strong>！</p>
+<div class="note warning"><p>​ Rust不允许对同一个变量保留多个valid的mutable
+reference，甚至以下情况也是不允许的（一个引用整体，一个引用内部域）：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">TestStruct</span> &#123;a: <span class="type">i32</span>, b: <span class="type">f32</span>&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">t1</span> = TestStruct&#123;a: <span class="number">0</span>, b: <span class="number">1.5</span>&#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ptr1</span>: &amp;<span class="keyword">mut</span> TestStruct = &amp;<span class="keyword">mut</span> t1;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ptr2</span>: &amp;<span class="keyword">mut</span> <span class="type">i32</span> = &amp;<span class="keyword">mut</span> t1.a;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elem &#123;&#125;&quot;</span>, ptr2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elems &#123;&#125;, &#123;&#125;&quot;</span>, ptr1.a, ptr1.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​ 关于此问题更详细的介绍，见：<a href="https://oribenshir.github.io/afternoon_rusting/blog/mutable-reference">Multiple
+Mutable Reference</a></p>
+</div>
+<p>​ 此外，关于这种解释，stackoverflow上的大佬也说：</p>
+<blockquote>
+<ul>
+<li>So to use the exclusive reference there must be a guarantee that you
+can't obtain the same mutable reference again. (Note that as written, if
+you call <code>next()</code> twice you'll get the same mutable reference
+back, which would be a problem -- that's why the lifetime of the return
+value must be bound to the lifetime of <code>&amp;mut self</code> in
+this particular implementation.)</li>
+<li>The principal problem lies in trying to take a reference to the
+whole <code>head</code>. While that reference lives, you can't hand out
+mutable references to anything inside it.</li>
+</ul>
+</blockquote>
+<p>（2）next没有单独的生命周期，其中的<code>&amp;mut self</code>生命周期也是<code>'a</code>。这也会引发类似的问题：我们已经知道<code>'a</code>是非常长的（与stack本体一致），而这里虽然<code>&amp;mut self</code>在next函数结束之后，看似已经不见了（本次<code>&amp;mut self</code>已经销毁了），但实际上并非如此，由于我们定义了<code>&amp;mut self</code>的生命周期是<code>'a</code>，它实际还是存活着的。故也会出现多mutable
+reference的问题。</p>
+<p>​
+已经知道错了，求求Rust不要再打我了，\(T益T)/。接下来我们来细致分析一下教程的实现。在stackoverflow的回答中，参与回答的大佬说：</p>
+<blockquote>
+<p>The principal problem lies in trying to take a reference to the whole
+<code>head</code>.</p>
+</blockquote>
+<p>​
+原实现中，在构造<code>IterMut</code>的过程中，this传入的参数是<code>&amp;mut self.head</code>。而<code>self.head</code>的生命周期非常长（与stack本体一致）。如果像作者一样，this指向的不是一个Link结构，而是一个Node，可能可以解决问题。教程中实现是：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">IterMut &#123;</span><br><span class="line">    this: <span class="keyword">self</span>.head.<span class="title function_ invoke__">as_deref_mut</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​
+<code>as_deref_mut</code>可以将<code>&amp;mut Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;</code>转化为<code>Option&lt;&amp;mut Node&lt;T&gt;&gt;</code>。而<code>self.head.as_deref_mut()</code>得到的这个node，生命周期是什么呢？个人的理解是：可以很短！因为这不是stack中常驻的head（只要stack在就有），node是可以轻易invalidate的。也就是说，之所以用node写，就是因为head已经成了...
+老不死的玩意。对于一个node而言，只要take它，它就之后就没了，销毁了，使得此生命周期不会影响代码的其他部分，也不会使得某个引用活太长而挤占可以用的mutable
+reference资源。其他其实没有太好说的。吐槽一下，这样的next peeking...
+貌似会毁掉整个stack，我不能做到修改之后还保证原来的结构？</p>
+<h3 id="生命周期的其他问题">2.4 生命周期的其他问题</h3>
+<p>​
+lifetime深究起来很是复杂，在编写程序的过程中很容易搞糊涂。这里我想再分析一下stackoverflow上关于conflict
+lifetime的另一个例子。个人觉得，这个例子理解起来较为简单，并且如果你真的理解了lifetime，分析这个例子是很轻松的。原问题：<a href="https://stackoverflow.com/questions/41270052/cannot-infer-an-appropriate-lifetime-for-autoref-due-to-conflicting-requirements">Cannot
+infer an appropriate lifetime for autoref due to conflicting
+requirements</a></p>
+<p>​ 其中一个佬将问题进行了简化：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FontLoader</span>(<span class="type">String</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Font</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">FontLoader</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">load</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Font &#123;</span><br><span class="line">        <span class="title function_ invoke__">Font</span>(&amp;<span class="keyword">self</span>.<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Window</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Phi</span>&lt;<span class="symbol">&#x27;window</span>&gt; &#123;</span><br><span class="line">    window: &amp;<span class="symbol">&#x27;window</span> Window,</span><br><span class="line">    loader: FontLoader,</span><br><span class="line">    font: <span class="type">Option</span>&lt;Font&lt;<span class="symbol">&#x27;window</span>&gt;&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;window</span>&gt; Phi&lt;<span class="symbol">&#x27;window</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">do_the_thing</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">font</span> = <span class="keyword">self</span>.loader.<span class="title function_ invoke__">load</span>();</span><br><span class="line">        <span class="keyword">self</span>.font = <span class="title function_ invoke__">Some</span>(font);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​
+试问，为什么load函数编译时，无法正确导出lifetime？首先，看第二个<code>impl</code>块，此块限制了（定义了）<code>Phi</code>结构体的生存时间。但此处，<code>&amp;mut self</code>却仍然是一个local的lifetime（并不一定是<code>'window</code>），接下来的流程是：</p>
+<ul>
+<li>loader.load。loader没有标注生存周期。load之后，返回的load将会装入loader的生命周期（这里符合生存周期省略规则，故<code>&amp;self.0</code>对应的生存周期
+--- loader的生存周期被装入。）</li>
+<li>返回后，希望使用Option封装装入<code>self.font</code>，但是self.font的生命周期是<code>'window</code>...，那么loader的周期是<code>'window</code>吗？我们已经说了，并不见得。假如没有人操作这个变量，很可能<code>self.loader</code>直到结构体<code>Phi</code>被销毁时才随之销毁。但是...
+假设它在之前就被move了呢？故这里我们将loader的类型改写为<code>&amp;'window Fontloader</code>。这样，只要loader本身存活时间够长，就不会有冲突问题。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SVM算法与实现</title>
     <url>/2021/02/24/SVM%E7%AE%97%E6%B3%95%E4%B8%8E%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="svm">SVM</h1>
@@ -9201,338 +9201,6 @@ Machines"</a></p>
       <tags>
         <tag>knowings</tag>
         <tag>ML</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Taichi-Learning-II</title>
-    <url>/2023/01/15/Taichi-Learning-II/</url>
-    <content><![CDATA[<h1 id="taichi-lang-ii">Taichi Lang II</h1>
-<hr>
-<h2 id="i.-intros">I. Intros</h2>
-<p>​
-深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable
-programming）目前对我而言比较重要的就是SSDS，可微编程...
-可微渲染可能可以用到，但是本身实在是太复杂了...
-我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi
-入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking
-simulation（鸟群模拟）中所学到的一些知识。文末附有flocking
-sim的视频。</p>
-<p>​ 预计我下一步将会使用Taichi写一个带有participating media功能的path
-tracer（3D，之前Rust + CUDA写了一个没开源的2D
-tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等...
-想想就刺激。</p>
-<table>
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr>
-<th style="text-align: center;">frame 52
-(红色为掠食者，白色为普通鸟)</th>
-<th style="text-align: center;">frame 58
-(红色为掠食者，白色为普通鸟)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: center;"><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/000052.png" alt="000052"></td>
-<td style="text-align: center;"><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/000058.png" alt="000058"></td>
-</tr>
-</tbody>
-</table>
-<center>
-Figure 1. Flocking simulation with predators (64 regular boids (this is
-not a typo) and 4 predators)
-</center>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-type-system">II. Type System</h2>
-<h3 id="type-system">2.1 Type System</h3>
-<h4 id="prerequisites-casting">2.1.1 Prerequisites &amp; Casting</h4>
-<p>​
-其实这部分并没有太多可以说的，只有些零零碎碎的点需要提醒，我在实现的时候没有遇到太多有关类型的问题。首先需要说明的是，Taichi是静态强类型语言，所以类型不能乱来。虽然其撰写时的语法就是Python，但由于没有显式类型声明，类型推断以及隐式类型转换可能导致非常多的问题。首先说一下
-type alias 以及一些入门级前置知识：</p>
-<ul>
-<li>Type alias实际上是Taichi default
-types可以使用的别名，例如不进行特殊设置（<code>ti.init</code>时），<code>float = ti.f32</code>，<code>int = ti.i32</code>，<code>float, int</code>分别为<code>ti.f32, ti.i32</code>的
-type aliases</li>
-<li>Taichi有两大类类型：primitive
-types，就是基础类型，诸如<code>f32, i32, u8</code>等等，没有boolean
-type（用<code>i32</code>代替）。另一类是 compound
-types，也即复杂的数据结构：vector，matrix（vector就是matrix），<code>ndarray</code>以及struct（其实我现在都还没怎么用到<code>ndarray</code>）。上一篇博文中，我简要分析了一下field与<code>ndarray</code>的区别：<code>ndarray</code>不允许在kernel内进行非compile-time-known的indexing操作。这主要是因为，<code>ndarray</code>是compound
-type（具有明确的类型），而field不具有明确的类型（是一个复杂container）。</li>
-</ul>
-<p>​
-此外，在上篇博客中忘记说了，我在开始学Taichi时曾经碰到这样的问题：</p>
-<ul>
-<li>教程中简单的examples全都将field设为全局变量。使用全局变量并不是好习惯，并且很丑（封装性很差）</li>
-<li>开始时我想<strong><u>将field作为参数传入kernel函数</u></strong>。但是遇到了type
-annotation的问题：我无法找到field的type定义：从我现在所学的知识来看，可能确实找不到，毕竟field不是两大类型中的任意一种。</li>
-</ul>
-<p>​
-于是我觉得：说不定作者并不想让field传来传去呢？于是之后的三个小demo全部改成了使用<code>@ti.data_oriented</code>的class。<strong><u>但field无法当参数传递是个错误的想法</u></strong>，我犯这个错误是因为两天的入门学得太浅。此概念实际与Taichi
-metaprogramming关系非常密切，这里说到field的类型就忍不住跑了个题...，下面说说casting。</p>
-<p>​ <code>ti.cast</code>可以执行类型转换（在compile
-time对某个变量强制赋予某个类型，以免implicit casting / type
-inference造成的类型错误）</p>
-<div class="note danger"><p>​
-但是注意，此函数只能在<code>ti.init</code>之后使用，并且返回值并不是primitive
-types：</p>
-<ul>
-<li>返回值类型是<code>ti.Expr</code>（个人对Expr的理解类似Eigen库，表达式模板运算，惰性计算，compile），与下面所表达的意思比较一致：先生成类似表达式模板的东西（相当于知晓接下来要进行什么操作），并且由于Taichi对于platform敏感，乘法操作在不同的backend下实现可能不同，所以总是先生成一个Expr，Expr中的乘法操作会根据backend进行不同的调用。</li>
-</ul>
-<blockquote>
-<p><a href="https://forum.taichi-lang.cn/t/what-does-expr-stands-for/78">来自这里</a>:
-In fact, when you type <code>x * 2</code>, it’s not evaluated
-immediately. That’s why we need x to be <code>Expr</code>. What
-<code>Expr</code> express is not a value, but an instruction.</p>
-</blockquote>
-</div>
-<p>​
-在上一篇博客中，我也提到了<code>Expr</code>导致的一些误解（例如直接使用看似为integer的变量为什么无法直接indexing），个人觉得应该与惰性计算有一定的关系。故在<code>kernel</code>函数中，一般无法调用<code>numpy</code>等函数（计算张量、数值而非表达式运算），而Taichi函数有处理表达式以及立即数（可以理解为<code>constexpr</code>运算么）的能力。</p>
-<ul>
-<li><code>ti.i32, ti.f64</code>这样的操作也可以进行casting，并且由于<code>int, float</code>是对应的default
-types，故也可以直接使用作为casting方法，例如<code>ti.f32(1)</code></li>
-</ul>
-<div class="note info"><p>​ Taichi中能type annotation的地方尽量type
-annotation，并且不要写得太像python（例如让解释器进行自动类型转换），该手动强制类型转换的地方尽量手动转：（1）隐式类型转换经常出问题（2）不出问题也有可能因为损失精度而在编译阶段报一堆烦人的warnings</p>
-</div>
-<h4 id="compound-types">2.1.2 Compound Types</h4>
-<p>​
-vector以及matrix就不多说了，这里只提一个与性能相关的点，个人觉得有点坑（不看文档是不知道的）：</p>
-<div class="note "><p>​
-Matrix以及vector操作在compile时会进行unrolling：<code>a = [[1, 2, 3], [4, 5, 6]]</code>会成为对应index的赋值（刚学到这里的时候我觉得非常怪：明明是spatially
-neighboring的数据，这样不会影响效率吗？可以SIMD吗？答案是：确实会影响效率）</p>
-<blockquote>
-<p>Operating on larger matrices (for example <code>32x128</code>) can
-lead to <strong>longer compilation time</strong> and <strong>poorer
-performance</strong>. For performance reasons, it is recommended that
-you keep your matrices small. (So bad)</p>
-</blockquote>
-</div>
-<p>​
-Struct这玩意，熟悉C的同志们应该并不陌生（？奇妙的逻辑）。但就我当前对struct的理解（涉及到advanced
-container的部分内容，如SoA以及AoS），想要追求性能机制时对于struct的使用需要慎之又慎：我们知道，struct存在的意义就是让数据更有组织，每个具名域表达一个清晰的含义，如：<code>name</code>,
-<code>age</code>等等。但由于struct在物理实现上是空间连续的结构，空间连续性以及内存的分页机制将产生一系列的问题，具体的讨论留到<a href="#3-1">【第三节3.1 SoA vs.
-AoS】</a>。我在这里说这个是想强调：按照我的理解，我并不推荐无脑照搬C/C++那一套封装数据一定就得上struct甚至class的思想。</p>
-<p>​ 首先，如何创建一个high level compound type struct捏？</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ti.types.struct(a = type_1, b = type_2, ...)</span><br></pre></td></tr></table></figure>
-<p>​ 其中，<code>type_1</code>以及<code>type_2</code>可以是primitive
-types或者compound
-types，注意上述代码返回了一个特定的类型（一个struct类型，而非struct实例）。由于struct也是compound
-type，struct的复合是可以的，但貌似struct的构造必须使用keyword
-arguments（即便按顺序，不使用keyword
-arguments，则需要将内部struct展开，比如看下面一个例子）：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">vec2 = ti.types.vector(<span class="number">2</span>, <span class="built_in">float</span>)</span><br><span class="line">inner_type = ti.types.struct(weight = <span class="built_in">int</span>, center = vec2)</span><br><span class="line">ball_type = ti.types.struct(desc = inner_type, radii = vec2)</span><br></pre></td></tr></table></figure>
-<p>​
-以上例子定义了一个椭球（由于radii是二维向量，意味着可以长短轴可以不同长度）。如果要进行构造，有两种办法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ball_1 = ball_type(desc = inner_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>])), radii = vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br><span class="line">ball_2 = ball_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>]), vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br></pre></td></tr></table></figure>
-<p>​ 第一种构造方法需要限定keyword arguments，直接这样构造是不行的：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ball_1 = ball_type(inner_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>])), vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br></pre></td></tr></table></figure>
-<p>​ 会报如下错：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TypeError: int() argument must be a string, a bytes-like object or a number, not &#x27;Struct&#x27;</span><br></pre></td></tr></table></figure>
-<p>​ 只能说很奇妙，与C++确实比较不同，C++就没有explicit keyword
-argument这一说。而<code>ti.dataclass</code>则提供了如同rust一般的struct定义方法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ti.dataclass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Ball</span>:</span><br><span class="line"><span class="meta">	@ti.dataclass</span></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Inner</span>:</span><br><span class="line">		center: vec2</span><br><span class="line">		radius: <span class="built_in">float</span></span><br><span class="line">	inner: Inner</span><br><span class="line">	weight: <span class="built_in">int</span></span><br></pre></td></tr></table></figure>
-<p>​ 使用冒号进行type annotate（当做type
-definition），这一点与Rust很像，此后不用任何其他方法（当做struct用就好了，实际上其类型也是<code>Struct</code>）。原始Python则不支持这么做：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span>:</span><br><span class="line">    	a: <span class="built_in">int</span></span><br><span class="line"><span class="comment"># test = Test(1)		 当然是会报错的</span></span><br><span class="line">test = Test()</span><br><span class="line">test.a							<span class="comment"># 只留type hint的话，a当然是NoneType（没有定义，只有“声明”当然没有用）</span></span><br></pre></td></tr></table></figure>
-<p>​
-但很可惜的是，<code>dataclass</code>定义的struct（在Python中是带有<code>@ti.dataclass</code>修饰的class）并不支持继承，一定程度上限制了应用吧？（至少在我的flocking
-simulation中，我曾经想使用<code>dataclass</code>修饰类作为基类，但发现这玩意已经是<code>final</code>了），这个例子我在第三节会简单介绍一下。</p>
-<hr>
-<h2 id="iii.-spatially-sparse-data-structure-实例分析">III. Spatially
-Sparse Data Structure 实例分析</h2>
-<h3 id="background">3.0 Background</h3>
-<p>​ 本节所介绍的内容为 Taichi 中最重要的部分之一，基础知识部分参见 <a href="https://docs.taichi-lang.org/docs/field">Taichi Lang Docs: Data
-Containers</a>。Taichi
-做这样的设计有充分的理由：稀疏的数据结构（Spatially Sparse Data
-Structure -
-SSDS）需要有更加有效的并行操作实现。举个例子，笔者在研一上（也就是这个学期）时陷在CUDA中，因为写CUDA就像炒期货：风险巨大（调参困难，并且需要充分的内存、逻辑设计才能快）但可以给人一种巨大的成就感（前提是写出来能跑、结果对、速度快、能正确链接到Rust上进行可视化）。CUDA中就有两个重要的feature限制了稀疏数据结构的使用：</p>
-<ul>
-<li>CUDA中的内存操作（这一点非常深，我也只能算门外汉）：比如memory
-coalescing (“have consecutive threads access consecutive memory
-addresses”[1]) 以及内存带宽优化等。要好理解的话，假设有一个C++
-vector以及C++
-deque存在GPU上，由于vector是连续内存，读取对内存操作是友好的（在CPU上也是，特别是有分页机制时）要基于vector做稀疏存储结构，则需要一定的辅助结构（如boolean
-flags）。而deque可以做到稀疏（由于其非连续读取，虽然iterator的使用隐藏了这一点），但分散的内存不便于内存操作的优化。</li>
-<li>warp
-divergence：基于flag、bitmask等的数据结构可以通过判定某块区域是否valid达到对于invalid块不进行内存分配的目的。但在GPU代码中，判断应当尽可能避免（除非另一个branch是NOP），否则就会产生divergence
-serialization问题。</li>
-</ul>
-<p>​ 强如Nvidia，设计出来的CUDA，也不是特别适合SSDS...
-所以Taichi出手了。SSDS的应用广泛性不用多说，例如基于voxels的NeRF，强一点可以使用coarse-to-fine
-resolutions的层级voxels，弱一点的做一个empty voxel
-culling总是可以的吧？这些都涉及到将一个dense的内存块变为sparse的操作（或者是内存的分级管理），Taichi则有这样的API（或者内部特性）。</p>
-<p><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/sparse_grids_3d.jpg"></p>
-<center>
-Figure 2. SSDS Taichi official examples: fluid particle / multi-res grid
-mixture representation simulation[2]
-</center>
-<p>​
-光看文档是没用的（再次quote西交刘龙军老师的话：”读论文不复现等于白读“）。确实，读书与上课会给人一种你已经学会了的错觉，但停留于”知道了、了解了“等级的”学会“是没用的，只能用于吹逼；我们应当时刻追求”会用，深入实验了“等级的”学会“。所以我给自己Taichi入门级别学习定的最后一个作业是：Flocking
-simulation (<a href="http://www.red3d.com/cwr/boids/">Craig Reynolds'
-Boid
-Algorithm</a>)。我很早之前就注意到这个算法了（当时才大四，在学Rust，苦于不知道用什么可视化库的时候），问题参考【<a href="First%20rust%20program%20%7C%20flocking%20simulation.">Reddit:
-First rust program | flocking
-simulation.</a>】，但我并不想去复现它。对于简单的算法，复现别人的复现（复现<span class="math inline">\(^2\)</span>）并没有太大的意思，尝试用自己的理解写出算法才是有趣的事情。于是我只参考了其美术设计（确实，nannou看起来挺高大上的），用Taichi写了一个flocking
-simulation（可能与Craig Reynolds' Boid
-Algorithm不太像，毕竟我只用了其最抽象的思想，什么separation,
-alignment以及cohesion，具体这几个鸟群性质怎么实现都得自己设计）。我在本小项目中尝试使用SSDS加速邻近搜索（neighbor
-search），道理是挺有道理的，但没有做过profiling看具体的加速效果。</p>
-<blockquote>
-<p>Boid: Bird-roids 或是bird的一种带有口音的读法。</p>
-</blockquote>
-<center>
-<img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/flocking.png" style="zoom:50%;">
-</center>
-<center>
-Figure 3. Flocking simulation with multiple predators
-</center>
-<h3 id="soa-vs.-aos">3.1 SoA vs. AoS</h3>
-<p><span id="3-1"></span></p>
-<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">SoA</a></li><li class="tab"><a href="#span-unique-name-2">AoS</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ Struct of Arrays（SoA）:
-意思是一个struct中的变量是array（比如一个struct中有好几个数组），很显然对于struct中的每一个Array，内部元素都是空间临近的（直接邻近）。而不同array的内存可以分配在不同的位置，没有空间邻近性。</p></div><div class="tab-pane" id="span-unique-name-2"><p>​ Array of
-Struct（AoS）的意思是：某个array的元素是一个struct。很明显，Array of
-struct中，单个struct内部的元素之间是空间邻近的（由于struct需要连续的内存区），而不同的struct
-element之间只有有限的邻近性，举个例子：一个struct中含有<code>double a</code>,
-<code>double b</code> ,
-<code>std::shared_ptr&lt;xxx&gt; c</code>，那么即使是相邻的两个struct中的变量<code>a</code>都可能相距几十个字节。</p></div></div></div>
-<p>​
-正如我在第二节时所说的：SoA与AoS需谨慎选择，GPU背后的intuition已经提了，而现代CPU内存也存在选择问题。当有内存分页机制（或者什么分段、段页）时，对于某块内存的取出是将其所在的页整个取出（如果我微机原理没记错的话）。如果所需的数据空间较为分散，频繁地调页将会浪费memory
-bandwidth：试想你为了SIM卡卡针去买了一部又一部的手机...
-就为了里面赠送的卡针，顶级买椟还珠行为 ---
-调一整页只为了其中的一小部分内容。此外，cache
-coherence也是一大考虑。频繁地更换在cache中的页将会导致大量cache
-miss，那就慢了啊。</p>
-<p>​
-假设struct存储了某个个体中我们需要的信息，如果要追求极致速度，我们应该根据计算所需信息的内存分布选择SoA/AoS。举个例子：</p>
-<ul>
-<li>struct中存储了位置，速度，加速度信息，我需要根据匀加速模型更新每一个个体的位置。一般来说，这种情况使用AoS比较好，<strong><u>因为计算使用的是struct的内部信息</u></strong>
---- 意味着我们需要struct的内部信息邻近性</li>
-<li>我的Flocking
-simulation：需要存储所有boids的角度、位置。例如当我希望邻近boids之间有相近的角度时，我需要访问其他boids的角度以及位置，此时使用SoA会比较好：利用同种类型的数据之间的邻近性，由于不同种类数据之间可能无法进行直接运算。</li>
-</ul>
-<p>​ 我当时就没有把boid写成struct，而是进行了以下实现：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self.ang_vel 		= ti.field(ti.f32, self.boid_num)</span><br><span class="line">self.angles 		= ti.field(ti.f32, self.boid_num)</span><br><span class="line">self.pos 			= ti.Vector.field(<span class="number">2</span>, ti.f32, self.boid_num)</span><br><span class="line">self.dirs 			= ti.Vector.field(<span class="number">2</span>, ti.f32, self.boid_num)</span><br></pre></td></tr></table></figure>
-<p>​
-角速度、角度、位置以及2D朝向（2D朝向用于结果绘制）都是分开存储的，虽然在计算角度时常常需要<code>angles</code>以及<code>ang_vel</code>，但其实这种不同类型的数据计算还是挺有独立性的。不过，AoS可能导致代码可读性变差（struct确实很有组织，正如我们存储人的身份信息时，一般都是把每个人作为一个单独的实例，内部有完整的各信息条目，而不会什么”年龄存一起，姓名分开并一起存在另外一个地方“）。</p>
-<h3 id="ssds">3.2 SSDS</h3>
-<p>​
-有四种node（四种SSDS支持的数据结构）：（1）Dynamic（本文不讲，原因见后）（2）Pointer：指针类型，每个区都可以指向完全没有空间规律性的地址（3）bitmasked：每个存储区存在一个1bit的flag，以指示当前存储区是否active（inactive的存储区将不会耗费除bit
-flag之外的内存）（4）dense：可以理解为field，无条件active的存储区，仅有dense的结构不是稀疏的。下面，给出官方教程的一个例子，关于具体的语法以及API的使用我就不说了，本博客也不是那种抄别人文档，代替读者paraphrase一下之后还给读者的那种答辩博客（虽然我博客内容质量也不行，但不至于开始就是答辩）。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = ti.field(ti.i32)</span><br><span class="line">y = ti.field(ti.i32)</span><br><span class="line">z = ti.field(ti.i32)</span><br><span class="line">S0 = ti.root</span><br><span class="line">S1 = S0.pointer(ti.i, <span class="number">4</span>)</span><br><span class="line">S2 = S1.dense(ti.i, <span class="number">2</span>)</span><br><span class="line">S2.place(x, y) <span class="comment"># S3: x; S4: y</span></span><br><span class="line">S5 = S1.dense(ti.i, <span class="number">2</span>)</span><br><span class="line">S5.place(z) <span class="comment"># S6: z</span></span><br></pre></td></tr></table></figure>
-<p>​
-文档给出了存储结构图（注意，我觉得官方文档的图有问题，见下图的红框）。官方文档的红框区域中，靠上方的两个cell是2，下方两个为3，我感觉这是不对的，毕竟这违反了place的含义。</p>
-<center>
-<img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/structure.png" style="zoom:67%;">
-</center>
-<center>
-Figure 4.
-层级结构图（灰色的container部分，被红框框住的区域为官方文档画错的区域）
-</center>
-<p>​
-如果真想要深入学习Taichi，这张图的含义必须要完全看明白并且能与代码对上。按照图论中对树的理解开始即可，S0为根结点，根节点处有四个子树，每个子树都是一个pointer，所有子树归为S1层。S1层上每个子树上，挂两个子树，每个子树是一个dense存储区。对S2层而言，这一层是叶结点了，叶节点可以直接与某个field挂钩
----
-确定每个叶子元素是什么类型，在这里是<code>i32</code>。注意：<code>x.place(y)</code>函数可以理解为：将x所含有的层级结构，应用在变量y确定的存储区域上，存储区域的类型与y本身有关。下面我着重说一下flocking
-simulation中所需要的SSDS。</p>
-<p>​
-我们知道（你知道吗），邻近搜索是一件很烦人的事情，特别是在元素较多的时候，因为对于人类来说邻近搜索简单直观：我要找出我附近的人并不要求我把我到所有中国境内的人的距离全部测一遍。而计算机比较暴力，简单地查找邻居需要基于距离度量。那用稀疏数据结构就是一种可行的加速手段，以搜索附近的人为例，我只要找出我当前所在县市周围县市人进行计算即可。Flocking
-simulation中我使用SSDS实现了稀疏grid（两层）：</p>
-<ul>
-<li>第一层，是2D pointer grid：代表了我对2D空间的划分 --- 划分为<span class="math inline">\((W/D) \times
-(H/D)\)</span>个2Dgrid，每个grid大小为<span class="math inline">\(D\times
-D\)</span>。那么对于一个boid，它只需要搜索自己所在的 +
-邻近的（我代码内取8-邻域）grid即可</li>
-<li>第二层，1D
-bitmasked：由于我不知道会有多少只boid落在同一个grid中，所以我只能在开始时设置一个大的存储区（比如64
-boids对应每个grid中需要有64个存储区）。使用dense显然...
-不好，我可能根本用不到这么多存储区域，除非我代码写得有问题，鸟喜欢聚在同一个地方。bitmasked则是一个很好的选择，相当于有条件的dense结构</li>
-</ul>
-<p>​
-第一层用pointer或者bitmasked都行，bitmasked是空间邻近的结构，pointer是离散存储的结构，在本用例中并没有太大的区别。用dense则不行：有些grid中可能一只boid都没有，没必要浪费这个内存。第二层的设计稍微有点tricky（可能是我想复杂了），理由如下：</p>
-<ul>
-<li>boid在grid中的位置也是2D的，那么2D存储在1D的结构上自然要赋予一个地址值（或者下标索引）</li>
-<li>Taichi喜欢lock-free操作（貌似在Taichi中也没有找到mutex）</li>
-</ul>
-<p>​ 于是我的第一版实现是这样的：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self.mask_grids = ti.field(ti.u8)      <span class="comment"># storing indices (atomic_add will return the original index, which is thread-safe)</span></span><br><span class="line">self.sn_handle  = ti.root.pointer(ti.ij, (grid_x + <span class="number">2</span>, grid_y + <span class="number">2</span>))</span><br><span class="line">self.atom_ptr   = ti.field(ti.u8, (grid_x, grid_y))     <span class="comment"># atomic dynamic indices for bitmask (no offset needed)</span></span><br><span class="line">self.sn_handle.bitmasked(ti.k, <span class="number">128</span>).place(self.mask_grids, offset = (-<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
-<p>​ <code>mask_grids</code>最终是<span class="math inline">\((W/D,H/D,C)\)</span>大小的，其中C是每个grid能存储的boid数量上限，这个变量是我们用于邻近查找所需的变量。<code>atom_ptr</code>是一个原子操作数据，用于存储每个grid当前记录的boid数量。<code>atom_ptr</code>不仅有记录数量的能力，在并行计算时可以用于获取存储位置的数组下标：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">id_x, id_y = <span class="built_in">int</span>(new_pos[<span class="number">0</span>] / self.radius), <span class="built_in">int</span>(new_pos[<span class="number">1</span>] / self.radius)</span><br><span class="line">index = ti.atomic_add(self.atom_ptr[id_x, id_y], <span class="number">0x01</span>)</span><br><span class="line">self.mask_grids[id_x, id_y, <span class="built_in">int</span>(index)] = ti.u8(idx)          <span class="comment"># store the index of the boid</span></span><br></pre></td></tr></table></figure>
-<p>​
-上面三行中，第一行先计算了grid坐标，此后<code>ti.atomic_add</code>将对应位置的计数+1，注意
-<strong><u>其返回了+1之前的数组大小</u></strong>，可以直接当成我们的index使用。由于+1
-/ 返回原始值这个类似replace的操作是原子的，所以相当于我们可以进行lock
-free的动态大小存储。</p>
-<p>​
-或许有人会说：为什么要这么复杂，我不能这样处理吗？既然是bitmasked，假设当前boid的id是k，那我只需要在<code>masked_grid[i, j, k]</code>处存储（或者activate）就可以了，根本不需要知道有多少boid、不需要<code>atom_ptr</code>以及原子操作啊？反正Taichi的
-struct-for loop会自动遍历稀疏的active区域。</p>
-<div class="note warning"><p>​
-<strong>不行！</strong>我们要实现的是手动for循环（三层），最外面的两层是在遍历当前grid以及其周围8-邻域grids，而最内层是在遍历存储在对应grid中的所有boid（记录的indices）。
-struct-for loop
-据我所知，不支持手动以及分步indexing（你写range限定范围是不行的，<code>[i,j][k]</code>这样的分步indexing方式也是不支持的）。</p>
-</div>
-<p>​
-此外，这里简单提一下与meta-programming有关的内容。Taichi的meta-programming貌似并没有C++/Rust那么复杂，并不涉及到非常底层的类型推断、泛型等问题。Taichi中的<code>ti.template()</code>与field作为函数参数输入有关，由于field是复杂的data
-container，其可以是scalar container，也可以是vector / matrix
-container，内部的类型也是可变的，作为matrix
-container时维度也是可变的。如果没有<code>ti.template()</code>而是要清楚地
-type annotate
-输入类型，会很繁琐，并且也不方便代码复用。使用<code>ti.template()</code>作为
-type hint 可以方便输入不同类型的field。此外，如果需要达到 shape
-agnostic，可以使用<code>grouped</code>方法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> I <span class="keyword">in</span> ti.grouped(y):</span><br><span class="line">    x[I] = y[I]</span><br></pre></td></tr></table></figure>
-<p>​
-可以避免：一维时<code>x[i]</code>，二维时<code>x[i, j]</code>，三维时<code>x[i, j, k]</code>这样与shape有关的写法。</p>
-<p>​ 最后注意：</p>
-<ul>
-<li>dynamic
-node在当今的1.3.0版本已经deprecated，所以不用特别关注。即将到来的1.4.0版本中，pointer以及bitmasked也将不再支持。我很好奇官方会推出什么替代方案。</li>
-<li><code>@ti.pyfunc</code>是已经deprecated的修饰符，虽然博文I中提到了，但我自己用了之后总是有warnings。</li>
-<li>offset是很有用的功能，在field中，可以直接作为初始化参数设置offset，而对于SSDS，则在place阶段进行设置。offset可以实现padding，使得实现者无需考虑padding之后index的改变问题（这个学期写视频处理和宽带通信课的patch
-matching的时候老折磨了，padding之后的index得认真推）</li>
-<li>虽然我们只需SSDS最终的叶节点有想要的层级结构，适当地保存一些非叶节点作为handle，对于每次迭代需要清零的情况，可以使用handle直接执行：<code>deactivate_all()</code>方法以递归地deactivate当前以及所有子结点。</li>
-</ul>
-<h3 id="关于逻辑">3.3 关于逻辑</h3>
-<p>​ 自己看代码吧，主要逻辑是这样的：</p>
-<ul>
-<li>角速度控制：直接控制的是角速度，角度更新根据角速度乘以系数。平滑随机方向：正常情况下boid的轨迹是随机的，但由于随机性体现在角速度上并且经过了很强的指数平滑，角度将会较为平滑地变化，轨迹是连续平滑的。有关随机性的实现，见基类<code>boid_random_vel</code>函数</li>
-<li>超界转向：参考<code>oob_angular_acc</code>，即超界后将会计算一个目标角度（当前位置到图像中心的方向角），随后使用P控制扭转方向</li>
-<li>Alignment：搜索邻近boid，根据距离加权角度（由于角度加权存在奇异性问题，故加权方向向量后atan2函数转为角度）</li>
-<li>Separation &amp;
-Cohesion：两者实现在一起，都需要计算当前位置到局部质心的方向向量。Separation倾向于原理局部质心，而cohesion倾向于靠近局部质心。接近与远离依靠目标角的方向实现：接近即目标角指向局部质心，远离即目标角指向局部质心方向旋转180°后的结果。当前应当接近、远离按当前位置距离质心的距离确定，参考粒子间作用力模型，实现是一个不对称截断（clamp）的平移后tanh函数。</li>
-<li>普通鸟与掠食者（普通鸟就是鸽子，<code>Pigeon</code>类），掠食者之间不会相互作用或者配合。普通鸟存在警戒范围，倾向于远离警戒范围内的掠食者（的质心），而掠食者将在掠食范围内追踪距离最近的普通鸟。</li>
-<li>掠食者可以进行自动控制，也可以选其一进行鼠标控制（跟踪鼠标方向）</li>
-</ul>
-<hr>
-<h2 id="iv.-传统艺能-结果">IV. 传统艺能-结果</h2>
-<p>​
-结果如下，45FPS的样子（注意，如果使用<code>arch = ti.gpu</code>，需要把代码中的<code>atom_ptr</code>类型从u8换为i32，貌似GPU不支持u8
-<code>atomic_add</code>，我记得也是这样，有些数据类型，有符号的原子操作存在，无符号则不存在）。</p>
-<video src="video.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
-</video>
-<center>
-Figure 5. 什么鸟视频
-</center>
-<p>​ 如果你感兴趣，安装Taichi之后可以自己clone我的 <a href="https://github.com/Enigmatisms/learn_taichi">learn_taichi</a>
-库，在learning_examples中，<code>flocking_sim.py</code>可以直接运行。参数在<code>if __name__ == "__main__"</code>后。如果需要开启鼠标控制其中一只掠食者，请将<code>line 262</code>的<code>last_one_human</code>改为True。注意，当前代码暂不支持无掠食者（在我前几个commit中应该是有无掠食者的，现在的代码稍微有点复杂）。</p>
-<p>​ 最后提一句，如有有兴趣，看<a href="https://docs.taichi-lang.org/docs/overview">官方文档</a>，官方文档质量非常高。看完就自己写写，文档不是看会的，是用会的。</p>
-<hr>
-<h2 id="reference">Reference</h2>
-<p>[1] <a href="https://stackoverflow.com/questions/5041328/in-cuda-what-is-memory-coalescing-and-how-is-it-achieved">In
-CUDA, what is memory coalescing, and how is it achieved?</a></p>
-<p>[2] <a href="https://docs.taichi-lang.org/docs/sparse">Taichi Lang
-Docs v1.3.0: Spatially Sparse Data Structures</a></p>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>Taichi lang</tag>
-        <tag>CUDA</tag>
-        <tag>LLVM</tag>
       </tags>
   </entry>
   <entry>
@@ -9955,6 +9623,338 @@ Lord Tennyson</a></p>
       </categories>
       <tags>
         <tag>poetry</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Taichi-Learning-II</title>
+    <url>/2023/01/15/Taichi-Learning-II/</url>
+    <content><![CDATA[<h1 id="taichi-lang-ii">Taichi Lang II</h1>
+<hr>
+<h2 id="i.-intros">I. Intros</h2>
+<p>​
+深入了解Taichi语言，简单的并行算法设计无法满足我（毕竟真要说并行算法设计，Taichi所需的工作量与CUDA暂时没办法比）。Taichi中重要的两个features：稀疏数据结构（SSDS），可微编程（differentiable
+programming）目前对我而言比较重要的就是SSDS，可微编程...
+可微渲染可能可以用到，但是本身实在是太复杂了...
+我一直觉得，不动手就学不到真正的知识，所以还是给自己布置了一道题，并且要求将SSDS以及在第一篇博客完成后学到的内容整合到此题的解答中。本文是最后一篇Taichi
+入门博客，关于一些进阶的用法以及特性，以及在实现题目：flocking
+simulation（鸟群模拟）中所学到的一些知识。文末附有flocking
+sim的视频。</p>
+<p>​ 预计我下一步将会使用Taichi写一个带有participating media功能的path
+tracer（3D，之前Rust + CUDA写了一个没开源的2D
+tracer，只能看光路，不能看渲染结果（毕竟是2D）），以加深我对光线追踪算法的理解。不过这是个大项目，简单版本的也至少涉及到mesh的读取、加载、光线弹射、采样、介质实现、蒙特卡洛积分等等...
+想想就刺激。</p>
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">frame 52
+(红色为掠食者，白色为普通鸟)</th>
+<th style="text-align: center;">frame 58
+(红色为掠食者，白色为普通鸟)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/000052.png" alt="000052"></td>
+<td style="text-align: center;"><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/000058.png" alt="000058"></td>
+</tr>
+</tbody>
+</table>
+<center>
+Figure 1. Flocking simulation with predators (64 regular boids (this is
+not a typo) and 4 predators)
+</center>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-type-system">II. Type System</h2>
+<h3 id="type-system">2.1 Type System</h3>
+<h4 id="prerequisites-casting">2.1.1 Prerequisites &amp; Casting</h4>
+<p>​
+其实这部分并没有太多可以说的，只有些零零碎碎的点需要提醒，我在实现的时候没有遇到太多有关类型的问题。首先需要说明的是，Taichi是静态强类型语言，所以类型不能乱来。虽然其撰写时的语法就是Python，但由于没有显式类型声明，类型推断以及隐式类型转换可能导致非常多的问题。首先说一下
+type alias 以及一些入门级前置知识：</p>
+<ul>
+<li>Type alias实际上是Taichi default
+types可以使用的别名，例如不进行特殊设置（<code>ti.init</code>时），<code>float = ti.f32</code>，<code>int = ti.i32</code>，<code>float, int</code>分别为<code>ti.f32, ti.i32</code>的
+type aliases</li>
+<li>Taichi有两大类类型：primitive
+types，就是基础类型，诸如<code>f32, i32, u8</code>等等，没有boolean
+type（用<code>i32</code>代替）。另一类是 compound
+types，也即复杂的数据结构：vector，matrix（vector就是matrix），<code>ndarray</code>以及struct（其实我现在都还没怎么用到<code>ndarray</code>）。上一篇博文中，我简要分析了一下field与<code>ndarray</code>的区别：<code>ndarray</code>不允许在kernel内进行非compile-time-known的indexing操作。这主要是因为，<code>ndarray</code>是compound
+type（具有明确的类型），而field不具有明确的类型（是一个复杂container）。</li>
+</ul>
+<p>​
+此外，在上篇博客中忘记说了，我在开始学Taichi时曾经碰到这样的问题：</p>
+<ul>
+<li>教程中简单的examples全都将field设为全局变量。使用全局变量并不是好习惯，并且很丑（封装性很差）</li>
+<li>开始时我想<strong><u>将field作为参数传入kernel函数</u></strong>。但是遇到了type
+annotation的问题：我无法找到field的type定义：从我现在所学的知识来看，可能确实找不到，毕竟field不是两大类型中的任意一种。</li>
+</ul>
+<p>​
+于是我觉得：说不定作者并不想让field传来传去呢？于是之后的三个小demo全部改成了使用<code>@ti.data_oriented</code>的class。<strong><u>但field无法当参数传递是个错误的想法</u></strong>，我犯这个错误是因为两天的入门学得太浅。此概念实际与Taichi
+metaprogramming关系非常密切，这里说到field的类型就忍不住跑了个题...，下面说说casting。</p>
+<p>​ <code>ti.cast</code>可以执行类型转换（在compile
+time对某个变量强制赋予某个类型，以免implicit casting / type
+inference造成的类型错误）</p>
+<div class="note danger"><p>​
+但是注意，此函数只能在<code>ti.init</code>之后使用，并且返回值并不是primitive
+types：</p>
+<ul>
+<li>返回值类型是<code>ti.Expr</code>（个人对Expr的理解类似Eigen库，表达式模板运算，惰性计算，compile），与下面所表达的意思比较一致：先生成类似表达式模板的东西（相当于知晓接下来要进行什么操作），并且由于Taichi对于platform敏感，乘法操作在不同的backend下实现可能不同，所以总是先生成一个Expr，Expr中的乘法操作会根据backend进行不同的调用。</li>
+</ul>
+<blockquote>
+<p><a href="https://forum.taichi-lang.cn/t/what-does-expr-stands-for/78">来自这里</a>:
+In fact, when you type <code>x * 2</code>, it’s not evaluated
+immediately. That’s why we need x to be <code>Expr</code>. What
+<code>Expr</code> express is not a value, but an instruction.</p>
+</blockquote>
+</div>
+<p>​
+在上一篇博客中，我也提到了<code>Expr</code>导致的一些误解（例如直接使用看似为integer的变量为什么无法直接indexing），个人觉得应该与惰性计算有一定的关系。故在<code>kernel</code>函数中，一般无法调用<code>numpy</code>等函数（计算张量、数值而非表达式运算），而Taichi函数有处理表达式以及立即数（可以理解为<code>constexpr</code>运算么）的能力。</p>
+<ul>
+<li><code>ti.i32, ti.f64</code>这样的操作也可以进行casting，并且由于<code>int, float</code>是对应的default
+types，故也可以直接使用作为casting方法，例如<code>ti.f32(1)</code></li>
+</ul>
+<div class="note info"><p>​ Taichi中能type annotation的地方尽量type
+annotation，并且不要写得太像python（例如让解释器进行自动类型转换），该手动强制类型转换的地方尽量手动转：（1）隐式类型转换经常出问题（2）不出问题也有可能因为损失精度而在编译阶段报一堆烦人的warnings</p>
+</div>
+<h4 id="compound-types">2.1.2 Compound Types</h4>
+<p>​
+vector以及matrix就不多说了，这里只提一个与性能相关的点，个人觉得有点坑（不看文档是不知道的）：</p>
+<div class="note "><p>​
+Matrix以及vector操作在compile时会进行unrolling：<code>a = [[1, 2, 3], [4, 5, 6]]</code>会成为对应index的赋值（刚学到这里的时候我觉得非常怪：明明是spatially
+neighboring的数据，这样不会影响效率吗？可以SIMD吗？答案是：确实会影响效率）</p>
+<blockquote>
+<p>Operating on larger matrices (for example <code>32x128</code>) can
+lead to <strong>longer compilation time</strong> and <strong>poorer
+performance</strong>. For performance reasons, it is recommended that
+you keep your matrices small. (So bad)</p>
+</blockquote>
+</div>
+<p>​
+Struct这玩意，熟悉C的同志们应该并不陌生（？奇妙的逻辑）。但就我当前对struct的理解（涉及到advanced
+container的部分内容，如SoA以及AoS），想要追求性能机制时对于struct的使用需要慎之又慎：我们知道，struct存在的意义就是让数据更有组织，每个具名域表达一个清晰的含义，如：<code>name</code>,
+<code>age</code>等等。但由于struct在物理实现上是空间连续的结构，空间连续性以及内存的分页机制将产生一系列的问题，具体的讨论留到<a href="#3-1">【第三节3.1 SoA vs.
+AoS】</a>。我在这里说这个是想强调：按照我的理解，我并不推荐无脑照搬C/C++那一套封装数据一定就得上struct甚至class的思想。</p>
+<p>​ 首先，如何创建一个high level compound type struct捏？</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ti.types.struct(a = type_1, b = type_2, ...)</span><br></pre></td></tr></table></figure>
+<p>​ 其中，<code>type_1</code>以及<code>type_2</code>可以是primitive
+types或者compound
+types，注意上述代码返回了一个特定的类型（一个struct类型，而非struct实例）。由于struct也是compound
+type，struct的复合是可以的，但貌似struct的构造必须使用keyword
+arguments（即便按顺序，不使用keyword
+arguments，则需要将内部struct展开，比如看下面一个例子）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">vec2 = ti.types.vector(<span class="number">2</span>, <span class="built_in">float</span>)</span><br><span class="line">inner_type = ti.types.struct(weight = <span class="built_in">int</span>, center = vec2)</span><br><span class="line">ball_type = ti.types.struct(desc = inner_type, radii = vec2)</span><br></pre></td></tr></table></figure>
+<p>​
+以上例子定义了一个椭球（由于radii是二维向量，意味着可以长短轴可以不同长度）。如果要进行构造，有两种办法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ball_1 = ball_type(desc = inner_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>])), radii = vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br><span class="line">ball_2 = ball_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>]), vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br></pre></td></tr></table></figure>
+<p>​ 第一种构造方法需要限定keyword arguments，直接这样构造是不行的：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ball_1 = ball_type(inner_type(<span class="number">2</span>, vec2([<span class="number">1</span>, <span class="number">3</span>])), vec2([<span class="number">0.5</span>, <span class="number">0.5</span>]))</span><br></pre></td></tr></table></figure>
+<p>​ 会报如下错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TypeError: int() argument must be a string, a bytes-like object or a number, not &#x27;Struct&#x27;</span><br></pre></td></tr></table></figure>
+<p>​ 只能说很奇妙，与C++确实比较不同，C++就没有explicit keyword
+argument这一说。而<code>ti.dataclass</code>则提供了如同rust一般的struct定义方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ti.dataclass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Ball</span>:</span><br><span class="line"><span class="meta">	@ti.dataclass</span></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Inner</span>:</span><br><span class="line">		center: vec2</span><br><span class="line">		radius: <span class="built_in">float</span></span><br><span class="line">	inner: Inner</span><br><span class="line">	weight: <span class="built_in">int</span></span><br></pre></td></tr></table></figure>
+<p>​ 使用冒号进行type annotate（当做type
+definition），这一点与Rust很像，此后不用任何其他方法（当做struct用就好了，实际上其类型也是<code>Struct</code>）。原始Python则不支持这么做：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span>:</span><br><span class="line">    	a: <span class="built_in">int</span></span><br><span class="line"><span class="comment"># test = Test(1)		 当然是会报错的</span></span><br><span class="line">test = Test()</span><br><span class="line">test.a							<span class="comment"># 只留type hint的话，a当然是NoneType（没有定义，只有“声明”当然没有用）</span></span><br></pre></td></tr></table></figure>
+<p>​
+但很可惜的是，<code>dataclass</code>定义的struct（在Python中是带有<code>@ti.dataclass</code>修饰的class）并不支持继承，一定程度上限制了应用吧？（至少在我的flocking
+simulation中，我曾经想使用<code>dataclass</code>修饰类作为基类，但发现这玩意已经是<code>final</code>了），这个例子我在第三节会简单介绍一下。</p>
+<hr>
+<h2 id="iii.-spatially-sparse-data-structure-实例分析">III. Spatially
+Sparse Data Structure 实例分析</h2>
+<h3 id="background">3.0 Background</h3>
+<p>​ 本节所介绍的内容为 Taichi 中最重要的部分之一，基础知识部分参见 <a href="https://docs.taichi-lang.org/docs/field">Taichi Lang Docs: Data
+Containers</a>。Taichi
+做这样的设计有充分的理由：稀疏的数据结构（Spatially Sparse Data
+Structure -
+SSDS）需要有更加有效的并行操作实现。举个例子，笔者在研一上（也就是这个学期）时陷在CUDA中，因为写CUDA就像炒期货：风险巨大（调参困难，并且需要充分的内存、逻辑设计才能快）但可以给人一种巨大的成就感（前提是写出来能跑、结果对、速度快、能正确链接到Rust上进行可视化）。CUDA中就有两个重要的feature限制了稀疏数据结构的使用：</p>
+<ul>
+<li>CUDA中的内存操作（这一点非常深，我也只能算门外汉）：比如memory
+coalescing (“have consecutive threads access consecutive memory
+addresses”[1]) 以及内存带宽优化等。要好理解的话，假设有一个C++
+vector以及C++
+deque存在GPU上，由于vector是连续内存，读取对内存操作是友好的（在CPU上也是，特别是有分页机制时）要基于vector做稀疏存储结构，则需要一定的辅助结构（如boolean
+flags）。而deque可以做到稀疏（由于其非连续读取，虽然iterator的使用隐藏了这一点），但分散的内存不便于内存操作的优化。</li>
+<li>warp
+divergence：基于flag、bitmask等的数据结构可以通过判定某块区域是否valid达到对于invalid块不进行内存分配的目的。但在GPU代码中，判断应当尽可能避免（除非另一个branch是NOP），否则就会产生divergence
+serialization问题。</li>
+</ul>
+<p>​ 强如Nvidia，设计出来的CUDA，也不是特别适合SSDS...
+所以Taichi出手了。SSDS的应用广泛性不用多说，例如基于voxels的NeRF，强一点可以使用coarse-to-fine
+resolutions的层级voxels，弱一点的做一个empty voxel
+culling总是可以的吧？这些都涉及到将一个dense的内存块变为sparse的操作（或者是内存的分级管理），Taichi则有这样的API（或者内部特性）。</p>
+<p><img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/sparse_grids_3d.jpg"></p>
+<center>
+Figure 2. SSDS Taichi official examples: fluid particle / multi-res grid
+mixture representation simulation[2]
+</center>
+<p>​
+光看文档是没用的（再次quote西交刘龙军老师的话：”读论文不复现等于白读“）。确实，读书与上课会给人一种你已经学会了的错觉，但停留于”知道了、了解了“等级的”学会“是没用的，只能用于吹逼；我们应当时刻追求”会用，深入实验了“等级的”学会“。所以我给自己Taichi入门级别学习定的最后一个作业是：Flocking
+simulation (<a href="http://www.red3d.com/cwr/boids/">Craig Reynolds'
+Boid
+Algorithm</a>)。我很早之前就注意到这个算法了（当时才大四，在学Rust，苦于不知道用什么可视化库的时候），问题参考【<a href="First%20rust%20program%20%7C%20flocking%20simulation.">Reddit:
+First rust program | flocking
+simulation.</a>】，但我并不想去复现它。对于简单的算法，复现别人的复现（复现<span class="math inline">\(^2\)</span>）并没有太大的意思，尝试用自己的理解写出算法才是有趣的事情。于是我只参考了其美术设计（确实，nannou看起来挺高大上的），用Taichi写了一个flocking
+simulation（可能与Craig Reynolds' Boid
+Algorithm不太像，毕竟我只用了其最抽象的思想，什么separation,
+alignment以及cohesion，具体这几个鸟群性质怎么实现都得自己设计）。我在本小项目中尝试使用SSDS加速邻近搜索（neighbor
+search），道理是挺有道理的，但没有做过profiling看具体的加速效果。</p>
+<blockquote>
+<p>Boid: Bird-roids 或是bird的一种带有口音的读法。</p>
+</blockquote>
+<center>
+<img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/flocking.png" style="zoom:50%;">
+</center>
+<center>
+Figure 3. Flocking simulation with multiple predators
+</center>
+<h3 id="soa-vs.-aos">3.1 SoA vs. AoS</h3>
+<p><span id="3-1"></span></p>
+<div class="tabs" id="span-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#span-unique-name-1">SoA</a></li><li class="tab"><a href="#span-unique-name-2">AoS</a></li></ul><div class="tab-content"><div class="tab-pane active" id="span-unique-name-1"><p>​ Struct of Arrays（SoA）:
+意思是一个struct中的变量是array（比如一个struct中有好几个数组），很显然对于struct中的每一个Array，内部元素都是空间临近的（直接邻近）。而不同array的内存可以分配在不同的位置，没有空间邻近性。</p></div><div class="tab-pane" id="span-unique-name-2"><p>​ Array of
+Struct（AoS）的意思是：某个array的元素是一个struct。很明显，Array of
+struct中，单个struct内部的元素之间是空间邻近的（由于struct需要连续的内存区），而不同的struct
+element之间只有有限的邻近性，举个例子：一个struct中含有<code>double a</code>,
+<code>double b</code> ,
+<code>std::shared_ptr&lt;xxx&gt; c</code>，那么即使是相邻的两个struct中的变量<code>a</code>都可能相距几十个字节。</p></div></div></div>
+<p>​
+正如我在第二节时所说的：SoA与AoS需谨慎选择，GPU背后的intuition已经提了，而现代CPU内存也存在选择问题。当有内存分页机制（或者什么分段、段页）时，对于某块内存的取出是将其所在的页整个取出（如果我微机原理没记错的话）。如果所需的数据空间较为分散，频繁地调页将会浪费memory
+bandwidth：试想你为了SIM卡卡针去买了一部又一部的手机...
+就为了里面赠送的卡针，顶级买椟还珠行为 ---
+调一整页只为了其中的一小部分内容。此外，cache
+coherence也是一大考虑。频繁地更换在cache中的页将会导致大量cache
+miss，那就慢了啊。</p>
+<p>​
+假设struct存储了某个个体中我们需要的信息，如果要追求极致速度，我们应该根据计算所需信息的内存分布选择SoA/AoS。举个例子：</p>
+<ul>
+<li>struct中存储了位置，速度，加速度信息，我需要根据匀加速模型更新每一个个体的位置。一般来说，这种情况使用AoS比较好，<strong><u>因为计算使用的是struct的内部信息</u></strong>
+--- 意味着我们需要struct的内部信息邻近性</li>
+<li>我的Flocking
+simulation：需要存储所有boids的角度、位置。例如当我希望邻近boids之间有相近的角度时，我需要访问其他boids的角度以及位置，此时使用SoA会比较好：利用同种类型的数据之间的邻近性，由于不同种类数据之间可能无法进行直接运算。</li>
+</ul>
+<p>​ 我当时就没有把boid写成struct，而是进行了以下实现：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self.ang_vel 		= ti.field(ti.f32, self.boid_num)</span><br><span class="line">self.angles 		= ti.field(ti.f32, self.boid_num)</span><br><span class="line">self.pos 			= ti.Vector.field(<span class="number">2</span>, ti.f32, self.boid_num)</span><br><span class="line">self.dirs 			= ti.Vector.field(<span class="number">2</span>, ti.f32, self.boid_num)</span><br></pre></td></tr></table></figure>
+<p>​
+角速度、角度、位置以及2D朝向（2D朝向用于结果绘制）都是分开存储的，虽然在计算角度时常常需要<code>angles</code>以及<code>ang_vel</code>，但其实这种不同类型的数据计算还是挺有独立性的。不过，AoS可能导致代码可读性变差（struct确实很有组织，正如我们存储人的身份信息时，一般都是把每个人作为一个单独的实例，内部有完整的各信息条目，而不会什么”年龄存一起，姓名分开并一起存在另外一个地方“）。</p>
+<h3 id="ssds">3.2 SSDS</h3>
+<p>​
+有四种node（四种SSDS支持的数据结构）：（1）Dynamic（本文不讲，原因见后）（2）Pointer：指针类型，每个区都可以指向完全没有空间规律性的地址（3）bitmasked：每个存储区存在一个1bit的flag，以指示当前存储区是否active（inactive的存储区将不会耗费除bit
+flag之外的内存）（4）dense：可以理解为field，无条件active的存储区，仅有dense的结构不是稀疏的。下面，给出官方教程的一个例子，关于具体的语法以及API的使用我就不说了，本博客也不是那种抄别人文档，代替读者paraphrase一下之后还给读者的那种答辩博客（虽然我博客内容质量也不行，但不至于开始就是答辩）。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = ti.field(ti.i32)</span><br><span class="line">y = ti.field(ti.i32)</span><br><span class="line">z = ti.field(ti.i32)</span><br><span class="line">S0 = ti.root</span><br><span class="line">S1 = S0.pointer(ti.i, <span class="number">4</span>)</span><br><span class="line">S2 = S1.dense(ti.i, <span class="number">2</span>)</span><br><span class="line">S2.place(x, y) <span class="comment"># S3: x; S4: y</span></span><br><span class="line">S5 = S1.dense(ti.i, <span class="number">2</span>)</span><br><span class="line">S5.place(z) <span class="comment"># S6: z</span></span><br></pre></td></tr></table></figure>
+<p>​
+文档给出了存储结构图（注意，我觉得官方文档的图有问题，见下图的红框）。官方文档的红框区域中，靠上方的两个cell是2，下方两个为3，我感觉这是不对的，毕竟这违反了place的含义。</p>
+<center>
+<img decoding="async" loading="lazy" src="/2023/01/15/Taichi-Learning-II/structure.png" style="zoom:67%;">
+</center>
+<center>
+Figure 4.
+层级结构图（灰色的container部分，被红框框住的区域为官方文档画错的区域）
+</center>
+<p>​
+如果真想要深入学习Taichi，这张图的含义必须要完全看明白并且能与代码对上。按照图论中对树的理解开始即可，S0为根结点，根节点处有四个子树，每个子树都是一个pointer，所有子树归为S1层。S1层上每个子树上，挂两个子树，每个子树是一个dense存储区。对S2层而言，这一层是叶结点了，叶节点可以直接与某个field挂钩
+---
+确定每个叶子元素是什么类型，在这里是<code>i32</code>。注意：<code>x.place(y)</code>函数可以理解为：将x所含有的层级结构，应用在变量y确定的存储区域上，存储区域的类型与y本身有关。下面我着重说一下flocking
+simulation中所需要的SSDS。</p>
+<p>​
+我们知道（你知道吗），邻近搜索是一件很烦人的事情，特别是在元素较多的时候，因为对于人类来说邻近搜索简单直观：我要找出我附近的人并不要求我把我到所有中国境内的人的距离全部测一遍。而计算机比较暴力，简单地查找邻居需要基于距离度量。那用稀疏数据结构就是一种可行的加速手段，以搜索附近的人为例，我只要找出我当前所在县市周围县市人进行计算即可。Flocking
+simulation中我使用SSDS实现了稀疏grid（两层）：</p>
+<ul>
+<li>第一层，是2D pointer grid：代表了我对2D空间的划分 --- 划分为<span class="math inline">\((W/D) \times
+(H/D)\)</span>个2Dgrid，每个grid大小为<span class="math inline">\(D\times
+D\)</span>。那么对于一个boid，它只需要搜索自己所在的 +
+邻近的（我代码内取8-邻域）grid即可</li>
+<li>第二层，1D
+bitmasked：由于我不知道会有多少只boid落在同一个grid中，所以我只能在开始时设置一个大的存储区（比如64
+boids对应每个grid中需要有64个存储区）。使用dense显然...
+不好，我可能根本用不到这么多存储区域，除非我代码写得有问题，鸟喜欢聚在同一个地方。bitmasked则是一个很好的选择，相当于有条件的dense结构</li>
+</ul>
+<p>​
+第一层用pointer或者bitmasked都行，bitmasked是空间邻近的结构，pointer是离散存储的结构，在本用例中并没有太大的区别。用dense则不行：有些grid中可能一只boid都没有，没必要浪费这个内存。第二层的设计稍微有点tricky（可能是我想复杂了），理由如下：</p>
+<ul>
+<li>boid在grid中的位置也是2D的，那么2D存储在1D的结构上自然要赋予一个地址值（或者下标索引）</li>
+<li>Taichi喜欢lock-free操作（貌似在Taichi中也没有找到mutex）</li>
+</ul>
+<p>​ 于是我的第一版实现是这样的：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self.mask_grids = ti.field(ti.u8)      <span class="comment"># storing indices (atomic_add will return the original index, which is thread-safe)</span></span><br><span class="line">self.sn_handle  = ti.root.pointer(ti.ij, (grid_x + <span class="number">2</span>, grid_y + <span class="number">2</span>))</span><br><span class="line">self.atom_ptr   = ti.field(ti.u8, (grid_x, grid_y))     <span class="comment"># atomic dynamic indices for bitmask (no offset needed)</span></span><br><span class="line">self.sn_handle.bitmasked(ti.k, <span class="number">128</span>).place(self.mask_grids, offset = (-<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<p>​ <code>mask_grids</code>最终是<span class="math inline">\((W/D,H/D,C)\)</span>大小的，其中C是每个grid能存储的boid数量上限，这个变量是我们用于邻近查找所需的变量。<code>atom_ptr</code>是一个原子操作数据，用于存储每个grid当前记录的boid数量。<code>atom_ptr</code>不仅有记录数量的能力，在并行计算时可以用于获取存储位置的数组下标：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">id_x, id_y = <span class="built_in">int</span>(new_pos[<span class="number">0</span>] / self.radius), <span class="built_in">int</span>(new_pos[<span class="number">1</span>] / self.radius)</span><br><span class="line">index = ti.atomic_add(self.atom_ptr[id_x, id_y], <span class="number">0x01</span>)</span><br><span class="line">self.mask_grids[id_x, id_y, <span class="built_in">int</span>(index)] = ti.u8(idx)          <span class="comment"># store the index of the boid</span></span><br></pre></td></tr></table></figure>
+<p>​
+上面三行中，第一行先计算了grid坐标，此后<code>ti.atomic_add</code>将对应位置的计数+1，注意
+<strong><u>其返回了+1之前的数组大小</u></strong>，可以直接当成我们的index使用。由于+1
+/ 返回原始值这个类似replace的操作是原子的，所以相当于我们可以进行lock
+free的动态大小存储。</p>
+<p>​
+或许有人会说：为什么要这么复杂，我不能这样处理吗？既然是bitmasked，假设当前boid的id是k，那我只需要在<code>masked_grid[i, j, k]</code>处存储（或者activate）就可以了，根本不需要知道有多少boid、不需要<code>atom_ptr</code>以及原子操作啊？反正Taichi的
+struct-for loop会自动遍历稀疏的active区域。</p>
+<div class="note warning"><p>​
+<strong>不行！</strong>我们要实现的是手动for循环（三层），最外面的两层是在遍历当前grid以及其周围8-邻域grids，而最内层是在遍历存储在对应grid中的所有boid（记录的indices）。
+struct-for loop
+据我所知，不支持手动以及分步indexing（你写range限定范围是不行的，<code>[i,j][k]</code>这样的分步indexing方式也是不支持的）。</p>
+</div>
+<p>​
+此外，这里简单提一下与meta-programming有关的内容。Taichi的meta-programming貌似并没有C++/Rust那么复杂，并不涉及到非常底层的类型推断、泛型等问题。Taichi中的<code>ti.template()</code>与field作为函数参数输入有关，由于field是复杂的data
+container，其可以是scalar container，也可以是vector / matrix
+container，内部的类型也是可变的，作为matrix
+container时维度也是可变的。如果没有<code>ti.template()</code>而是要清楚地
+type annotate
+输入类型，会很繁琐，并且也不方便代码复用。使用<code>ti.template()</code>作为
+type hint 可以方便输入不同类型的field。此外，如果需要达到 shape
+agnostic，可以使用<code>grouped</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> I <span class="keyword">in</span> ti.grouped(y):</span><br><span class="line">    x[I] = y[I]</span><br></pre></td></tr></table></figure>
+<p>​
+可以避免：一维时<code>x[i]</code>，二维时<code>x[i, j]</code>，三维时<code>x[i, j, k]</code>这样与shape有关的写法。</p>
+<p>​ 最后注意：</p>
+<ul>
+<li>dynamic
+node在当今的1.3.0版本已经deprecated，所以不用特别关注。即将到来的1.4.0版本中，pointer以及bitmasked也将不再支持。我很好奇官方会推出什么替代方案。</li>
+<li><code>@ti.pyfunc</code>是已经deprecated的修饰符，虽然博文I中提到了，但我自己用了之后总是有warnings。</li>
+<li>offset是很有用的功能，在field中，可以直接作为初始化参数设置offset，而对于SSDS，则在place阶段进行设置。offset可以实现padding，使得实现者无需考虑padding之后index的改变问题（这个学期写视频处理和宽带通信课的patch
+matching的时候老折磨了，padding之后的index得认真推）</li>
+<li>虽然我们只需SSDS最终的叶节点有想要的层级结构，适当地保存一些非叶节点作为handle，对于每次迭代需要清零的情况，可以使用handle直接执行：<code>deactivate_all()</code>方法以递归地deactivate当前以及所有子结点。</li>
+</ul>
+<h3 id="关于逻辑">3.3 关于逻辑</h3>
+<p>​ 自己看代码吧，主要逻辑是这样的：</p>
+<ul>
+<li>角速度控制：直接控制的是角速度，角度更新根据角速度乘以系数。平滑随机方向：正常情况下boid的轨迹是随机的，但由于随机性体现在角速度上并且经过了很强的指数平滑，角度将会较为平滑地变化，轨迹是连续平滑的。有关随机性的实现，见基类<code>boid_random_vel</code>函数</li>
+<li>超界转向：参考<code>oob_angular_acc</code>，即超界后将会计算一个目标角度（当前位置到图像中心的方向角），随后使用P控制扭转方向</li>
+<li>Alignment：搜索邻近boid，根据距离加权角度（由于角度加权存在奇异性问题，故加权方向向量后atan2函数转为角度）</li>
+<li>Separation &amp;
+Cohesion：两者实现在一起，都需要计算当前位置到局部质心的方向向量。Separation倾向于原理局部质心，而cohesion倾向于靠近局部质心。接近与远离依靠目标角的方向实现：接近即目标角指向局部质心，远离即目标角指向局部质心方向旋转180°后的结果。当前应当接近、远离按当前位置距离质心的距离确定，参考粒子间作用力模型，实现是一个不对称截断（clamp）的平移后tanh函数。</li>
+<li>普通鸟与掠食者（普通鸟就是鸽子，<code>Pigeon</code>类），掠食者之间不会相互作用或者配合。普通鸟存在警戒范围，倾向于远离警戒范围内的掠食者（的质心），而掠食者将在掠食范围内追踪距离最近的普通鸟。</li>
+<li>掠食者可以进行自动控制，也可以选其一进行鼠标控制（跟踪鼠标方向）</li>
+</ul>
+<hr>
+<h2 id="iv.-传统艺能-结果">IV. 传统艺能-结果</h2>
+<p>​
+结果如下，45FPS的样子（注意，如果使用<code>arch = ti.gpu</code>，需要把代码中的<code>atom_ptr</code>类型从u8换为i32，貌似GPU不支持u8
+<code>atomic_add</code>，我记得也是这样，有些数据类型，有符号的原子操作存在，无符号则不存在）。</p>
+<video src="video.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Figure 5. 什么鸟视频
+</center>
+<p>​ 如果你感兴趣，安装Taichi之后可以自己clone我的 <a href="https://github.com/Enigmatisms/learn_taichi">learn_taichi</a>
+库，在learning_examples中，<code>flocking_sim.py</code>可以直接运行。参数在<code>if __name__ == "__main__"</code>后。如果需要开启鼠标控制其中一只掠食者，请将<code>line 262</code>的<code>last_one_human</code>改为True。注意，当前代码暂不支持无掠食者（在我前几个commit中应该是有无掠食者的，现在的代码稍微有点复杂）。</p>
+<p>​ 最后提一句，如有有兴趣，看<a href="https://docs.taichi-lang.org/docs/overview">官方文档</a>，官方文档质量非常高。看完就自己写写，文档不是看会的，是用会的。</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<p>[1] <a href="https://stackoverflow.com/questions/5041328/in-cuda-what-is-memory-coalescing-and-how-is-it-achieved">In
+CUDA, what is memory coalescing, and how is it achieved?</a></p>
+<p>[2] <a href="https://docs.taichi-lang.org/docs/sparse">Taichi Lang
+Docs v1.3.0: Spatially Sparse Data Structures</a></p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>Taichi lang</tag>
+        <tag>CUDA</tag>
+        <tag>LLVM</tag>
       </tags>
   </entry>
   <entry>
@@ -10487,6 +10487,204 @@ LaTeX(optional) ）</li>
       </tags>
   </entry>
   <entry>
+    <title>Volume2D Shader Pro</title>
+    <url>/2021/08/02/Volume2D-Shader-Pro/</url>
+    <content><![CDATA[<h1 id="volume2d-pro">Volume2D Pro</h1>
+<hr>
+<h2 id="i.-preface">I. Preface</h2>
+<p>​
+觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github
+Repo：<a href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
+<video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 1. 不规则障碍物体积光算法效果
+</center>
+<p>​
+不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
+<details class="note primary"><summary><p>什么叫叠buff式编程</p>
+</summary>
+<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自
+HQY）</p>
+
+</details>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-算法设计简介">II. 算法设计简介</h2>
+<h3 id="数据表示">2.1 数据表示</h3>
+<div class="tabs" id="two-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#two-unique-name-1">Edge</a></li><li class="tab"><a href="#two-unique-name-2">Object</a></li></ul><div class="tab-content"><div class="tab-pane active" id="two-unique-name-1"><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Edge</span>: <span class="keyword">public</span> std::deque&lt;Eigen::Vector3d&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; proj_ids;           <span class="comment">// 待投影点的id</span></span><br><span class="line">    <span class="type">double</span> min_dist = <span class="number">1e9</span>;</span><br><span class="line">    <span class="type">bool</span> valid = <span class="literal">true</span>;                      <span class="comment">// 是否完全被遮挡</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​
+Edge是一个继承了<code>std::vector&lt;Eigen::Vector3d&gt;</code>的类，除了包含vector的所有特性之外，还实现了一些方法，诸如<strong><u>旋转数组二分查找</u></strong>，带奇异性的角度判定等等。Edge实际上就是每一条参与投影的边，在Edge之上有Object来进行管理。Edge是<strong><u>不断开的，面向光源的障碍物边界部分</u></strong>。</p>
+<p>​
+Vector3d在此处表示的是：x，y，角度（点到观测点形成的向量，求反正切的角度）。</p></div><div class="tab-pane" id="two-unique-name-2"><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Object</span> &#123;</span><br><span class="line"><span class="keyword">using</span> HeapType = std::priority_queue&lt;<span class="type">size_t</span>, std::vector&lt;<span class="type">size_t</span>&gt;, EdgeCompFunctor&gt;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">bool</span> valid;</span><br><span class="line">    <span class="type">double</span> min_dist;</span><br><span class="line">    std::vector&lt;Edge&gt; edges;</span><br><span class="line">    std::pair&lt;<span class="type">double</span>, <span class="type">double</span>&gt; angle_range;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​
+Object是Edge的集合体，除了Edge之外还封装了一些附加信息，用于判定：</p>
+<ul>
+<li>哪些Edge先参与投影</li>
+<li>哪些Edge完全被遮挡等等</li>
+</ul>
+<p>​
+Object内部有一个Edge的堆，堆结构在Volume2D中也曾使用，本次使用了双层堆，并且堆称为了临时变量（因为调试过程中发现全局堆有些问题）。</p></div></div></div>
+<h3 id="边界分割">2.2 边界分割</h3>
+<p>​ 之前在做点云相关工作的时候，知道：</p>
+<blockquote>
+<p>LaserScan内部的点都是具有方向性的，可根据两个点形成线段的法向量判定面向激光器与背向激光器的scan</p>
+</blockquote>
+<p>​ 和Volume 2D一样，我也不希望太多无效的边界参与投影过程，进行“Back
+Culling”理论上可以减少一半的计算量（障碍物面向以及背向光源的部分正常来说各占一半）。故在做边界分割时，只保留面向光源边对应的点。</p>
+<p>​
+此外由于边界是使用vector进行顺序保存的，存在以下的几种情况需要考虑：</p>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/cases.PNG"></p>
+<center>
+Figure 1. 三种不同的情况
+</center>
+<div class="tabs" id="fourth-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-unique-name-1">最简单的情形</a></li><li class="tab"><a href="#fourth-unique-name-2">循环添加1</a></li><li class="tab"><a href="#fourth-unique-name-3">循环添加2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-unique-name-1"><p>​
+最简单的显然就是：需要添加的边从front()或者中间位置开始，最多需要添加到back()处的点。这种情况下可以直接遍历添加，无需下标循环。</p></div><div class="tab-pane" id="fourth-unique-name-2"><p>​
+第二种情况在开始撰写代码时考虑到了，觉得可能会有这种需要从front()到back()循环连接的情况。所以一开始设计Edge类就使用了双端队列（真的号用）。因为已知：同一个Object上由于中间有不可视（背向光源）的段，可能会将一条完整的边界分割为若干段面向光源的edges，那：front()处加入的点留在对应的edge种，而back()对应的edges则需要反向加入到front()对应edge的头部。也就像这样：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (Edge::const_reverse_iterator rit = to_add.<span class="built_in">crbegin</span>(); rit != to_add.<span class="built_in">crend</span>(); rit++)</span><br><span class="line">	front.<span class="built_in">push_front</span>(*rit);</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-unique-name-3"><p>​
+第三种情况开始没有考虑到（不周啊），头部只有一个点加入。我的逻辑是不会保存孤立点的（形成Edge至少要两个点），而如果front()确实应该加入，但遍历时，front()联系的边都是背向边，那么可能会错误地丢弃front()。最后是多加入了几个判断才完成这部分。</p></div></div></div>
+<h3 id="内外投影">2.3 内外投影</h3>
+<h4 id="内外投影简介">2.3.1 内外投影简介</h4>
+<p>​ 已知，我的算法对于Edge的管理基于类Object，其逻辑是：</p>
+<ul>
+<li>内投影：首先选择离光源最近的物体，计算该物体内部的遮挡（内部的形状复杂时）</li>
+<li>外投影：此物体如何影响别的物体，如何判定遮挡关系</li>
+</ul>
+<p>​
+为什么要区分内外投影呢？内投影与外投影有什么关系呢？在我最初的构想中，区别挺大的，但仔细思考后发现，内外都会有如下的情况发生：</p>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/proj.PNG" style="zoom:67%;"></p>
+<center>
+Figure 2. 两种内部遮挡情况
+</center>
+<p>​
+尤其是第一种，开始时我认为第一种情况是不会出在内投影的情况中的，我开始认为：内部不会有切分一条边为两条的情况。（我对应的切分函数<code>breakEdge</code>开始是给外部投影实现的），但事实上是，都有可能。</p>
+<h4 id="两个设计">2.3.2 两个设计</h4>
+<h5 id="proj_ids">proj_ids</h5>
+<p>​
+proj_ids是每一个Edge都携带的结构，是一个<code>std::pair&lt;int, int&gt;</code>。使用这个pair可以快速查找，此edge有哪些是需要参与后续内外投影的点。示意图如下：</p>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/examples.PNG"></p>
+<center>
+Figure 3. proj_ids 使用
+</center>
+<p>​
+图中蓝色点是投影形成的点，在判断外部遮挡时，显然应该由外侧点（意味着范围更大）来进行投影（也就是红色点）。也就是说，蓝色点只保存，不参与后续的投影，但是红色点与后续投影有很大的关系。蓝色点不参与计算可以减少部分计算负担。</p>
+<h5 id="eigenvector3d">Eigen::Vector3d</h5>
+<p>​
+为什么不好好地使用Eigen::Vector2d，反倒要使用Vector3d，保存一个角度？首先我对问题做了一个这样的假设：</p>
+<blockquote>
+<p>我们的每一个edge，上面每一个点的角度（相对于观测点的反正切角度）都不同，并且由于做了背面剔除，在非奇异（atan函数角度从<span class="math inline">\(-\pi\)</span>到<span class="math inline">\(\pi\)</span>的奇异跃迁）情况下，是一个按角度递增的数组。存在奇异的情况下，是一个旋转数组，front()必然大于back()</p>
+</blockquote>
+<p>​
+顺序化或者旋转顺序化的数据结构可以使用二分查找或是旋转数组二分查找，在障碍物表面特别不平（比如激光点云）时，可以显著加快交点搜索速度。此处我们使用旋转数组二分查找，查找投影关系：</p>
+<ul>
+<li>主投影边src上的点，如何投影到被投影边dst上，src的front() / back()
+角度对应到dst的哪两个点之间？</li>
+<li>使用这两个点以及已知的src投影光线，进行交点计算</li>
+</ul>
+<h4 id="主要函数-projedge2edge">2.3.2 主要函数 projEdge2Edge</h4>
+<p>​
+<code>projEdge2Edge</code>是用于投影的主要函数，此函数适用于内外投影。其主要逻辑是：</p>
+<div class="note info"><p>首先规定：主投影边（产生遮挡的边）为src，dst则为被遮挡的边。一般来说，主投影边的min_dist（内部点到光源的最小距离）会比dst的min_dist更小，但是也有例外。见下图。</p>
+</div>
+<center>
+<img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/special.PNG" style="zoom:50%;">
+</center>
+<center>
+Figure 4. 按照最小距离建立堆产生的问题
+</center>
+<p>​
+上图首先选中更长的边（蓝色线连接的长边），因为最小距离长边对应最小（观测点选得好就会这样）。那么场边会先于两个实际上应该判定为更近的小障碍物进行投影，这样就会出现问题。比如：</p>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot from 2021-08-02 02-13-46.png" style="zoom:60%;"></p>
+<center>
+Figure 5. 边异常消失问题
+</center>
+<p>​
+可能原因是，由于开始的实现是：只要dst在src的角度范围内（角度上完全覆盖），那么dst就会被设为valid
+= false（完全覆盖不需要再投影）。但是如果src选错，就会出现如上问题。</p>
+<p>​ 本函数的逻辑为：</p>
+<ul>
+<li>首先判定src可用投影点数为（proj_ids中有多少个大于等于0者），如果有两个，可能出现breakEdge的情况（投影产生新的Edge）</li>
+<li>如果只有一个可用点，需要判定（实际逻辑比下面简介的复杂得多，因为情况太多了）：
+<ul>
+<li>src /
+dst首尾两点到观测点的连线夹角是否小于90度？不小于则可能是反方向的障碍物，不应该参与</li>
+<li>判定src是否完全覆盖dst。为了避免atan角度奇异性，这里使用了基于内积的相对判定方法。具体实现不讲了。</li>
+<li>如果可能存在完全覆盖，需要反向筛查（查找dst首尾两点会被src内部那两对点“夹住”），如果存在这样的点对，才能认为是完全覆盖的。</li>
+</ul></li>
+<li>根据计算结果求解交点（省略了很多逻辑，不想讲，逻辑太复杂了，包括奇异处理，裕量处理，一些意想不到的情况）</li>
+</ul>
+<h4 id="交点求解">2.4 交点求解</h4>
+<p>​
+求解两对点对应的两条直线的交点，只需要一些数学上的处理。首先我们知道，不能使用斜截式，因为
+<strong><u>在本问题中，可能存在斜率无穷大的直线，导致病态</u></strong>。而另一方面，我们知道线段上一点可以使用线段的法向量表示：</p>
+<blockquote>
+<p>直线上一点(x, y)到直线上已知一点<span class="math inline">\((x_0,y_0)\)</span>的向量会垂直于法向量</p>
+</blockquote>
+<p>​ 那么由此，交点可以列两个方程。假设光线发射点为<span class="math inline">\((x_0, y_0)\)</span>，交点位置为<span class="math inline">\((x,y)\)</span>，障碍物的edges对应两点为<span class="math inline">\((x_1,y_1),(x_2,y_2)\)</span>，光线的方向向量为<span class="math inline">\((v_x,v_y)\)</span>那么有： <span class="math display">\[
+\begin{align}
+&amp; (u_x,u_y)=(x_1-x_2,y_1-y_2) \\
+&amp; (-v_y,v_x)\cdot(x-x_0,y-y_0)=0\tag{eq 1}\\
+&amp; (-u_y,u_x)\cdot(x-x_1,y-y_1)=0\tag{eq 2}
+\end{align}
+\]</span> ​ 由(eq 1), (eq 2)组成两个方程，可以解出<span class="math inline">\((x,
+y)\)</span>，只需判定对应齐次方程系数矩阵行列式是否很小（不可逆），如果不可逆，直接返回被投影点更近的那个点，如果可逆，那么解出的<span class="math inline">\((x,y)\)</span>就是结果。</p>
+<h4 id="其他">2.5 其他</h4>
+<p>​
+还有很多！逻辑是真的很复杂，情况很多，我不想写这个，要一一解释太麻烦了。</p>
+<hr>
+<h2 id="iii.-效果一览">III. 效果一览</h2>
+<video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 1. 不规则障碍物体积光算法效果
+</center>
+<video src="cv_output2.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
+</video>
+<center>
+Video 2. 更多障碍物下的表现
+</center>
+<p>​ 边界计算结果使用截图的方式记录了一下：</p>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-49-37.png"></p>
+<center>
+Figure 6.
+边界计算（demo1），图中绿色点是观测点，黄色是计算最后需要绘制的边
+</center>
+<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-50-01.png"></p>
+<center>
+Figure 7.
+边界计算（demo2），图中绿色点是观测点，黄色是计算最后需要绘制的边
+</center>
+<hr>
+<h2 id="iv.-库的使用">IV. 库的使用</h2>
+<p>​ 本项目已经上传至Github，见Github库<a href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a>，里面有非常详细的说明，不过是英文的。怎么说呢，关于这个问题，我想到了一个绝妙的解决办法，可惜今晚很困，写不完（老费马了）。如果有细节方面的疑问，欢迎直接联系我。</p>
+<hr>
+<h3 id="reference">Reference</h3>
+<p>​ 关于<code>EdgeCompFunctor</code>这个还是有必要说一下的：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">EdgeCompFunctor</span>&#123;</span><br><span class="line">    <span class="built_in">EdgeCompFunctor</span>(<span class="type">const</span> std::vector&lt;Edge&gt;&amp; _egs): <span class="built_in">egs</span>(_egs) &#123;&#125;</span><br><span class="line">    <span class="type">const</span> std::vector&lt;Edge&gt;&amp; egs;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="type">const</span> <span class="type">size_t</span>&amp; e1, <span class="type">const</span> <span class="type">size_t</span>&amp; e2)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> egs[e1].min_dist &gt; egs[e2].min_dist;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​
+std::priority_queue接收一个自定义的比较函数，由于C++高版本的匿名函数特性很不错，一般都使用匿名函数来填充这个自定义比较函数，但也可以使用较为老式的Functor写法。而此处，我更改了在Volume2D算法中使用的“保存Edge*”的实现，因为已知保存在堆中的指针没有办法正确指向vector。原因我哥已经帮我解释了：</p>
+<blockquote>
+<ul>
+<li>因为vector的内部存储的地址是会变的</li>
+<li>比如resize的时候 它会构造一个新的数组 把原来的数据复制进去
+然后销毁之前的数组 这样地址就变了</li>
+<li>如果直接存指针 是会失效的</li>
+</ul>
+</blockquote>
+<p>​
+这种携带了一个常引用，初始化EdgeCompFunctor时需要传入edges这个vector常应用的写法来自于<a href="https://stackoverflow.com/questions/8372918/c-std-list-sort-with-custom-comparator-that-depends-on-an-member-variable-for">[stackoverflow/C++
+std list sort with custom comparator that depends on an member variable
+for the object instance]</a>。显然，保存索引比保存指针优雅多了。</p>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>algos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vision Transformers</title>
     <url>/2021/11/28/Vision-Transformers/</url>
     <content><![CDATA[<h1 id="vit">ViT</h1>
@@ -10794,204 +10992,6 @@ Deep Learning Training with PyTorch – a 2021 Guide</a></p>
       </tags>
   </entry>
   <entry>
-    <title>Volume2D Shader Pro</title>
-    <url>/2021/08/02/Volume2D-Shader-Pro/</url>
-    <content><![CDATA[<h1 id="volume2d-pro">Volume2D Pro</h1>
-<hr>
-<h2 id="i.-preface">I. Preface</h2>
-<p>​
-觉得之前的算法太菜了，只能处理方形障碍物（虽然如果要给我的游戏用也够了），所以想着升级一下算法。近期实习刚好也做了一些类似的事情，但实习期间设计的算法很难debug（bug制造机就是我），在实习末期重新设计了一下，见Github
-Repo：<a href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a></p>
-<video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
-</video>
-<center>
-Video 1. 不规则障碍物体积光算法效果
-</center>
-<p>​
-不得不说，叠buff式编程真的很恶心，从实习开始到现在我都处于叠buff式编程中。</p>
-<details class="note primary"><summary><p>什么叫叠buff式编程</p>
-</summary>
-<p>叠buff式编程指的是编写的代码不能一次性通过所有测试用例，需要一点一点测试之前没有考虑到的方面（定义来自
-HQY）</p>
-
-</details>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-算法设计简介">II. 算法设计简介</h2>
-<h3 id="数据表示">2.1 数据表示</h3>
-<div class="tabs" id="two-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#two-unique-name-1">Edge</a></li><li class="tab"><a href="#two-unique-name-2">Object</a></li></ul><div class="tab-content"><div class="tab-pane active" id="two-unique-name-1"><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Edge</span>: <span class="keyword">public</span> std::deque&lt;Eigen::Vector3d&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; proj_ids;           <span class="comment">// 待投影点的id</span></span><br><span class="line">    <span class="type">double</span> min_dist = <span class="number">1e9</span>;</span><br><span class="line">    <span class="type">bool</span> valid = <span class="literal">true</span>;                      <span class="comment">// 是否完全被遮挡</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​
-Edge是一个继承了<code>std::vector&lt;Eigen::Vector3d&gt;</code>的类，除了包含vector的所有特性之外，还实现了一些方法，诸如<strong><u>旋转数组二分查找</u></strong>，带奇异性的角度判定等等。Edge实际上就是每一条参与投影的边，在Edge之上有Object来进行管理。Edge是<strong><u>不断开的，面向光源的障碍物边界部分</u></strong>。</p>
-<p>​
-Vector3d在此处表示的是：x，y，角度（点到观测点形成的向量，求反正切的角度）。</p></div><div class="tab-pane" id="two-unique-name-2"><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Object</span> &#123;</span><br><span class="line"><span class="keyword">using</span> HeapType = std::priority_queue&lt;<span class="type">size_t</span>, std::vector&lt;<span class="type">size_t</span>&gt;, EdgeCompFunctor&gt;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">bool</span> valid;</span><br><span class="line">    <span class="type">double</span> min_dist;</span><br><span class="line">    std::vector&lt;Edge&gt; edges;</span><br><span class="line">    std::pair&lt;<span class="type">double</span>, <span class="type">double</span>&gt; angle_range;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​
-Object是Edge的集合体，除了Edge之外还封装了一些附加信息，用于判定：</p>
-<ul>
-<li>哪些Edge先参与投影</li>
-<li>哪些Edge完全被遮挡等等</li>
-</ul>
-<p>​
-Object内部有一个Edge的堆，堆结构在Volume2D中也曾使用，本次使用了双层堆，并且堆称为了临时变量（因为调试过程中发现全局堆有些问题）。</p></div></div></div>
-<h3 id="边界分割">2.2 边界分割</h3>
-<p>​ 之前在做点云相关工作的时候，知道：</p>
-<blockquote>
-<p>LaserScan内部的点都是具有方向性的，可根据两个点形成线段的法向量判定面向激光器与背向激光器的scan</p>
-</blockquote>
-<p>​ 和Volume 2D一样，我也不希望太多无效的边界参与投影过程，进行“Back
-Culling”理论上可以减少一半的计算量（障碍物面向以及背向光源的部分正常来说各占一半）。故在做边界分割时，只保留面向光源边对应的点。</p>
-<p>​
-此外由于边界是使用vector进行顺序保存的，存在以下的几种情况需要考虑：</p>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/cases.PNG"></p>
-<center>
-Figure 1. 三种不同的情况
-</center>
-<div class="tabs" id="fourth-unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-unique-name-1">最简单的情形</a></li><li class="tab"><a href="#fourth-unique-name-2">循环添加1</a></li><li class="tab"><a href="#fourth-unique-name-3">循环添加2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-unique-name-1"><p>​
-最简单的显然就是：需要添加的边从front()或者中间位置开始，最多需要添加到back()处的点。这种情况下可以直接遍历添加，无需下标循环。</p></div><div class="tab-pane" id="fourth-unique-name-2"><p>​
-第二种情况在开始撰写代码时考虑到了，觉得可能会有这种需要从front()到back()循环连接的情况。所以一开始设计Edge类就使用了双端队列（真的号用）。因为已知：同一个Object上由于中间有不可视（背向光源）的段，可能会将一条完整的边界分割为若干段面向光源的edges，那：front()处加入的点留在对应的edge种，而back()对应的edges则需要反向加入到front()对应edge的头部。也就像这样：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (Edge::const_reverse_iterator rit = to_add.<span class="built_in">crbegin</span>(); rit != to_add.<span class="built_in">crend</span>(); rit++)</span><br><span class="line">	front.<span class="built_in">push_front</span>(*rit);</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-unique-name-3"><p>​
-第三种情况开始没有考虑到（不周啊），头部只有一个点加入。我的逻辑是不会保存孤立点的（形成Edge至少要两个点），而如果front()确实应该加入，但遍历时，front()联系的边都是背向边，那么可能会错误地丢弃front()。最后是多加入了几个判断才完成这部分。</p></div></div></div>
-<h3 id="内外投影">2.3 内外投影</h3>
-<h4 id="内外投影简介">2.3.1 内外投影简介</h4>
-<p>​ 已知，我的算法对于Edge的管理基于类Object，其逻辑是：</p>
-<ul>
-<li>内投影：首先选择离光源最近的物体，计算该物体内部的遮挡（内部的形状复杂时）</li>
-<li>外投影：此物体如何影响别的物体，如何判定遮挡关系</li>
-</ul>
-<p>​
-为什么要区分内外投影呢？内投影与外投影有什么关系呢？在我最初的构想中，区别挺大的，但仔细思考后发现，内外都会有如下的情况发生：</p>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/proj.PNG" style="zoom:67%;"></p>
-<center>
-Figure 2. 两种内部遮挡情况
-</center>
-<p>​
-尤其是第一种，开始时我认为第一种情况是不会出在内投影的情况中的，我开始认为：内部不会有切分一条边为两条的情况。（我对应的切分函数<code>breakEdge</code>开始是给外部投影实现的），但事实上是，都有可能。</p>
-<h4 id="两个设计">2.3.2 两个设计</h4>
-<h5 id="proj_ids">proj_ids</h5>
-<p>​
-proj_ids是每一个Edge都携带的结构，是一个<code>std::pair&lt;int, int&gt;</code>。使用这个pair可以快速查找，此edge有哪些是需要参与后续内外投影的点。示意图如下：</p>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/examples.PNG"></p>
-<center>
-Figure 3. proj_ids 使用
-</center>
-<p>​
-图中蓝色点是投影形成的点，在判断外部遮挡时，显然应该由外侧点（意味着范围更大）来进行投影（也就是红色点）。也就是说，蓝色点只保存，不参与后续的投影，但是红色点与后续投影有很大的关系。蓝色点不参与计算可以减少部分计算负担。</p>
-<h5 id="eigenvector3d">Eigen::Vector3d</h5>
-<p>​
-为什么不好好地使用Eigen::Vector2d，反倒要使用Vector3d，保存一个角度？首先我对问题做了一个这样的假设：</p>
-<blockquote>
-<p>我们的每一个edge，上面每一个点的角度（相对于观测点的反正切角度）都不同，并且由于做了背面剔除，在非奇异（atan函数角度从<span class="math inline">\(-\pi\)</span>到<span class="math inline">\(\pi\)</span>的奇异跃迁）情况下，是一个按角度递增的数组。存在奇异的情况下，是一个旋转数组，front()必然大于back()</p>
-</blockquote>
-<p>​
-顺序化或者旋转顺序化的数据结构可以使用二分查找或是旋转数组二分查找，在障碍物表面特别不平（比如激光点云）时，可以显著加快交点搜索速度。此处我们使用旋转数组二分查找，查找投影关系：</p>
-<ul>
-<li>主投影边src上的点，如何投影到被投影边dst上，src的front() / back()
-角度对应到dst的哪两个点之间？</li>
-<li>使用这两个点以及已知的src投影光线，进行交点计算</li>
-</ul>
-<h4 id="主要函数-projedge2edge">2.3.2 主要函数 projEdge2Edge</h4>
-<p>​
-<code>projEdge2Edge</code>是用于投影的主要函数，此函数适用于内外投影。其主要逻辑是：</p>
-<div class="note info"><p>首先规定：主投影边（产生遮挡的边）为src，dst则为被遮挡的边。一般来说，主投影边的min_dist（内部点到光源的最小距离）会比dst的min_dist更小，但是也有例外。见下图。</p>
-</div>
-<center>
-<img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/special.PNG" style="zoom:50%;">
-</center>
-<center>
-Figure 4. 按照最小距离建立堆产生的问题
-</center>
-<p>​
-上图首先选中更长的边（蓝色线连接的长边），因为最小距离长边对应最小（观测点选得好就会这样）。那么场边会先于两个实际上应该判定为更近的小障碍物进行投影，这样就会出现问题。比如：</p>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot from 2021-08-02 02-13-46.png" style="zoom:60%;"></p>
-<center>
-Figure 5. 边异常消失问题
-</center>
-<p>​
-可能原因是，由于开始的实现是：只要dst在src的角度范围内（角度上完全覆盖），那么dst就会被设为valid
-= false（完全覆盖不需要再投影）。但是如果src选错，就会出现如上问题。</p>
-<p>​ 本函数的逻辑为：</p>
-<ul>
-<li>首先判定src可用投影点数为（proj_ids中有多少个大于等于0者），如果有两个，可能出现breakEdge的情况（投影产生新的Edge）</li>
-<li>如果只有一个可用点，需要判定（实际逻辑比下面简介的复杂得多，因为情况太多了）：
-<ul>
-<li>src /
-dst首尾两点到观测点的连线夹角是否小于90度？不小于则可能是反方向的障碍物，不应该参与</li>
-<li>判定src是否完全覆盖dst。为了避免atan角度奇异性，这里使用了基于内积的相对判定方法。具体实现不讲了。</li>
-<li>如果可能存在完全覆盖，需要反向筛查（查找dst首尾两点会被src内部那两对点“夹住”），如果存在这样的点对，才能认为是完全覆盖的。</li>
-</ul></li>
-<li>根据计算结果求解交点（省略了很多逻辑，不想讲，逻辑太复杂了，包括奇异处理，裕量处理，一些意想不到的情况）</li>
-</ul>
-<h4 id="交点求解">2.4 交点求解</h4>
-<p>​
-求解两对点对应的两条直线的交点，只需要一些数学上的处理。首先我们知道，不能使用斜截式，因为
-<strong><u>在本问题中，可能存在斜率无穷大的直线，导致病态</u></strong>。而另一方面，我们知道线段上一点可以使用线段的法向量表示：</p>
-<blockquote>
-<p>直线上一点(x, y)到直线上已知一点<span class="math inline">\((x_0,y_0)\)</span>的向量会垂直于法向量</p>
-</blockquote>
-<p>​ 那么由此，交点可以列两个方程。假设光线发射点为<span class="math inline">\((x_0, y_0)\)</span>，交点位置为<span class="math inline">\((x,y)\)</span>，障碍物的edges对应两点为<span class="math inline">\((x_1,y_1),(x_2,y_2)\)</span>，光线的方向向量为<span class="math inline">\((v_x,v_y)\)</span>那么有： <span class="math display">\[
-\begin{align}
-&amp; (u_x,u_y)=(x_1-x_2,y_1-y_2) \\
-&amp; (-v_y,v_x)\cdot(x-x_0,y-y_0)=0\tag{eq 1}\\
-&amp; (-u_y,u_x)\cdot(x-x_1,y-y_1)=0\tag{eq 2}
-\end{align}
-\]</span> ​ 由(eq 1), (eq 2)组成两个方程，可以解出<span class="math inline">\((x,
-y)\)</span>，只需判定对应齐次方程系数矩阵行列式是否很小（不可逆），如果不可逆，直接返回被投影点更近的那个点，如果可逆，那么解出的<span class="math inline">\((x,y)\)</span>就是结果。</p>
-<h4 id="其他">2.5 其他</h4>
-<p>​
-还有很多！逻辑是真的很复杂，情况很多，我不想写这个，要一一解释太麻烦了。</p>
-<hr>
-<h2 id="iii.-效果一览">III. 效果一览</h2>
-<video src="cv_output.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
-</video>
-<center>
-Video 1. 不规则障碍物体积光算法效果
-</center>
-<video src="cv_output2.mp4" preload="metadata" controlslist="nodownload" controls playsinline poster>
-</video>
-<center>
-Video 2. 更多障碍物下的表现
-</center>
-<p>​ 边界计算结果使用截图的方式记录了一下：</p>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-49-37.png"></p>
-<center>
-Figure 6.
-边界计算（demo1），图中绿色点是观测点，黄色是计算最后需要绘制的边
-</center>
-<p><img decoding="async" loading="lazy" src="/2021/08/02/Volume2D-Shader-Pro/Screenshot%20from%202021-08-02%2016-50-01.png"></p>
-<center>
-Figure 7.
-边界计算（demo2），图中绿色点是观测点，黄色是计算最后需要绘制的边
-</center>
-<hr>
-<h2 id="iv.-库的使用">IV. 库的使用</h2>
-<p>​ 本项目已经上传至Github，见Github库<a href="https://github.com/Enigmatisms/Volume">[Enigmatisms/Volume]</a>，里面有非常详细的说明，不过是英文的。怎么说呢，关于这个问题，我想到了一个绝妙的解决办法，可惜今晚很困，写不完（老费马了）。如果有细节方面的疑问，欢迎直接联系我。</p>
-<hr>
-<h3 id="reference">Reference</h3>
-<p>​ 关于<code>EdgeCompFunctor</code>这个还是有必要说一下的：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">EdgeCompFunctor</span>&#123;</span><br><span class="line">    <span class="built_in">EdgeCompFunctor</span>(<span class="type">const</span> std::vector&lt;Edge&gt;&amp; _egs): <span class="built_in">egs</span>(_egs) &#123;&#125;</span><br><span class="line">    <span class="type">const</span> std::vector&lt;Edge&gt;&amp; egs;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="type">const</span> <span class="type">size_t</span>&amp; e1, <span class="type">const</span> <span class="type">size_t</span>&amp; e2)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> egs[e1].min_dist &gt; egs[e2].min_dist;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>​
-std::priority_queue接收一个自定义的比较函数，由于C++高版本的匿名函数特性很不错，一般都使用匿名函数来填充这个自定义比较函数，但也可以使用较为老式的Functor写法。而此处，我更改了在Volume2D算法中使用的“保存Edge*”的实现，因为已知保存在堆中的指针没有办法正确指向vector。原因我哥已经帮我解释了：</p>
-<blockquote>
-<ul>
-<li>因为vector的内部存储的地址是会变的</li>
-<li>比如resize的时候 它会构造一个新的数组 把原来的数据复制进去
-然后销毁之前的数组 这样地址就变了</li>
-<li>如果直接存指针 是会失效的</li>
-</ul>
-</blockquote>
-<p>​
-这种携带了一个常引用，初始化EdgeCompFunctor时需要传入edges这个vector常应用的写法来自于<a href="https://stackoverflow.com/questions/8372918/c-std-list-sort-with-custom-comparator-that-depends-on-an-member-variable-for">[stackoverflow/C++
-std list sort with custom comparator that depends on an member variable
-for the object instance]</a>。显然，保存索引比保存指针优雅多了。</p>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>algos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>What is &#39;snippets&#39; section?</title>
     <url>/1970/01/01/What-is-snippet-section/</url>
     <content><![CDATA[<p>Snippet板块是专门为“小型博客”设置的，意在保存：</p>
@@ -11007,85 +11007,6 @@ for the object instance]</a>。显然，保存索引比保存指针优雅多了�
       </categories>
       <tags>
         <tag>notification</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Write a software CUDA path tracer from scratch: the road to better parallelism</title>
-    <url>/2024/12/16/Write-a-software-CUDA-path-tracer-from-scratch-the-road-to-better-parallelism/</url>
-    <content><![CDATA[<h1 id="cuda-pt">CUDA-PT</h1>
-<h2 id="i.-intro">I. Intro</h2>
-<p>I decide to write this blog post in English, which might potentially
-help more people, I guess. It's been a while since I've finished the
-backbone of the CUDA-PT, and I think it's time to honor the original
-purpose of developing this repo: write your own wheel, profile and
-benchmark it, feel the challenges and understand things better. I can't
-say I have done a pretty good job at benchmarking, since the commits
-make it difficult to rewind back to the previous sub-optimal
-implementation. Nevertheless, I'll try making my point, offering my two
-cents, even if they are insignificant for those CUDA geeks.</p>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-preliminaries">II. Preliminaries</h2>
-<p>I've already written a path tracing renderer <a href>AdaPT</a>, so
-why there is yet another path tracer? The answer is simple: I didn't
-dive deep into the IR layer of Taichi lang, therefore, it's difficult to
-max out the performance of GPU with the JIT of Taichi lang. The
-experiments show that my handcrafted CUDA kernels can be 2~3x as fast as
-the code based on Taichi lang. The more access we have to the basic
-elements, the more we, as humans, can do to manually improve the
-implementation. I am not saying that I am smarter than the compilers. I
-am just saying that if I don't know how these stuffs in the bottom layer
-work, it's highly unlikely that I wrote anything that's better than a
-good compiler</p>
-<blockquote>
-<p>Write your own wheel, profile and benchmark it, feel the challenges
-and understand things better along the way.</p>
-</blockquote>
-<p>So much for the self hypnosis, let's cut to the chase. The tide of AI
-is surging more fiercely lately, creating a huge demand for computation
-power. However, the AI related computation like deep learning is way too
-<em>regular</em>, that is, the parallelism seems to be a natural thing
-to do. Take General Matrix Multiply (GEMM) as an example. This is the
-most important building block of deep learning: linear layer and
-attention both need it. Yet for GEMM, the threads in a GPU can pretty
-much do the same thing, at any given time point: there can be no
-branching (flow divergence), and the memory access pattern are regular
-enough (coalesced, can be vectorized, even). We even have specialized
-cores for this op (Tensor Core, well, I do know we have RT Core for ray
-tracing). Balanced workloads and regular memory access make it possible
-for us to compute the theoretical upper bound of efficiency, and through
-optimization techniques, we can progressively approach this upper
-bound.</p>
-<p>But... it's somewhat hard for a soft path tracing program: for a
-classic path tracing pipeline, each thread processes the tracing of a
-ray (from a pixel). The ray bounces stochastically in the scene, meaning
-that:</p>
-<details class="note warning"><summary><p>problems</p>
-</summary>
-<ul>
-<li>The neighboring threads might access memory locations distant to
-each other (Random and un-coalesced accesses).</li>
-<li>The neighboring threads might have different behaviors, like one
-gets reflected, the other gets refracted (Breaks SIMT).</li>
-<li>Tailing effect: some threads are dead, while others survive (the
-warp is neither full nor empty).</li>
-</ul>
-
-</details>
-<p>All these problems can be fatal for the speed of the renderer.</p>
-<p>Ok, there are two main kinds of kernels (renderers):</p>
-<div class="tabs" id="algos"><ul class="nav-tabs"><li class="tab active"><a href="#algos-1">Megakernel</a></li><li class="tab"><a href="#algos-2">Wavefront</a></li></ul><div class="tab-content"><div class="tab-pane active" id="algos-1"><p>All the logics are in the same, big, kernel. We can use registers to
-hold some intermediate results.</p></div><div class="tab-pane" id="algos-2"></div></div></div>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>CG</tag>
-        <tag>renderer</tag>
-        <tag>GPU</tag>
-        <tag>CUDA</tag>
       </tags>
   </entry>
   <entry>
@@ -11861,6 +11782,85 @@ S_bw=\lambda w
       <tags>
         <tag>knowings</tag>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Write a software CUDA path tracer from scratch: the road to better parallelism</title>
+    <url>/2024/12/16/Write-a-software-CUDA-path-tracer-from-scratch-the-road-to-better-parallelism/</url>
+    <content><![CDATA[<h1 id="cuda-pt">CUDA-PT</h1>
+<h2 id="i.-intro">I. Intro</h2>
+<p>I decide to write this blog post in English, which might potentially
+help more people, I guess. It's been a while since I've finished the
+backbone of the CUDA-PT, and I think it's time to honor the original
+purpose of developing this repo: write your own wheel, profile and
+benchmark it, feel the challenges and understand things better. I can't
+say I have done a pretty good job at benchmarking, since the commits
+make it difficult to rewind back to the previous sub-optimal
+implementation. Nevertheless, I'll try making my point, offering my two
+cents, even if they are insignificant for those CUDA geeks.</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-preliminaries">II. Preliminaries</h2>
+<p>I've already written a path tracing renderer <a href>AdaPT</a>, so
+why there is yet another path tracer? The answer is simple: I didn't
+dive deep into the IR layer of Taichi lang, therefore, it's difficult to
+max out the performance of GPU with the JIT of Taichi lang. The
+experiments show that my handcrafted CUDA kernels can be 2~3x as fast as
+the code based on Taichi lang. The more access we have to the basic
+elements, the more we, as humans, can do to manually improve the
+implementation. I am not saying that I am smarter than the compilers. I
+am just saying that if I don't know how these stuffs in the bottom layer
+work, it's highly unlikely that I wrote anything that's better than a
+good compiler</p>
+<blockquote>
+<p>Write your own wheel, profile and benchmark it, feel the challenges
+and understand things better along the way.</p>
+</blockquote>
+<p>So much for the self hypnosis, let's cut to the chase. The tide of AI
+is surging more fiercely lately, creating a huge demand for computation
+power. However, the AI related computation like deep learning is way too
+<em>regular</em>, that is, the parallelism seems to be a natural thing
+to do. Take General Matrix Multiply (GEMM) as an example. This is the
+most important building block of deep learning: linear layer and
+attention both need it. Yet for GEMM, the threads in a GPU can pretty
+much do the same thing, at any given time point: there can be no
+branching (flow divergence), and the memory access pattern are regular
+enough (coalesced, can be vectorized, even). We even have specialized
+cores for this op (Tensor Core, well, I do know we have RT Core for ray
+tracing). Balanced workloads and regular memory access make it possible
+for us to compute the theoretical upper bound of efficiency, and through
+optimization techniques, we can progressively approach this upper
+bound.</p>
+<p>But... it's somewhat hard for a soft path tracing program: for a
+classic path tracing pipeline, each thread processes the tracing of a
+ray (from a pixel). The ray bounces stochastically in the scene, meaning
+that:</p>
+<details class="note warning"><summary><p>problems</p>
+</summary>
+<ul>
+<li>The neighboring threads might access memory locations distant to
+each other (Random and un-coalesced accesses).</li>
+<li>The neighboring threads might have different behaviors, like one
+gets reflected, the other gets refracted (Breaks SIMT).</li>
+<li>Tailing effect: some threads are dead, while others survive (the
+warp is neither full nor empty).</li>
+</ul>
+
+</details>
+<p>All these problems can be fatal for the speed of the renderer.</p>
+<p>Ok, there are two main kinds of kernels (renderers):</p>
+<div class="tabs" id="algos"><ul class="nav-tabs"><li class="tab active"><a href="#algos-1">Megakernel</a></li><li class="tab"><a href="#algos-2">Wavefront</a></li></ul><div class="tab-content"><div class="tab-pane active" id="algos-1"><p>All the logics are in the same, big, kernel. We can use registers to
+hold some intermediate results.</p></div><div class="tab-pane" id="algos-2"></div></div></div>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>CG</tag>
+        <tag>renderer</tag>
+        <tag>GPU</tag>
+        <tag>CUDA</tag>
       </tags>
   </entry>
   <entry>
@@ -12957,6 +12957,366 @@ tr}(AB)/dA=B\)</span>。（注意，这和我们上面所列表格不一致，�
       </tags>
   </entry>
   <entry>
+    <title>概率图模型</title>
+    <url>/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="crf-mrf">CRF &amp; MRF</h1>
+<hr>
+<h2 id="i.-introduction">I. Introduction</h2>
+<p>​ 本文是早期被挂在<a href="https://github.com/Enigmatisms/Algorithms-Plus">Github🔗:
+Enigmatisms/Algorithm
+Plus</a>上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。</p>
+<p>​ 可能我最近还是要重新学一下概率图模型:</p>
+<blockquote>
+<p>一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解</p>
+</blockquote>
+<p>​
+之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。</p>
+<span id="more"></span>
+<hr>
+<h2 id="ii.-dgm">II. DGM</h2>
+<h3 id="dgm-中三种典型结构的理解">2.1 DGM 中三种典型结构的理解</h3>
+<p>​ DGM(Directed Graph Model)。又叫贝叶斯网络。</p>
+<pre class="mermaid">
+graph LR
+
+A[A Intelligence]--&gt;B[B GPA]
+A--&gt;C[C Innovative prop.]
+
+</pre>
+<h4 id="结构一-tail-to-tail-单父多子">2.1.1 结构一 Tail to Tail
+(单父，多子)</h4>
+<ul>
+<li>当观测到A，B与C之间独立（不存在关系，<strong><u>没有可以有信息推断</u></strong>）</li>
+<li>没有观测到A，B，C之前可以有隐含的关系，不独立</li>
+</ul>
+<p>举个例子：</p>
+<ul>
+<li>A智力，B成绩，C创新力。当不知道A时，我们可以隐含地推定，当一个人成绩高，说明他创新能力高的概率很大（概率推断），反之亦然</li>
+<li>而如果GPA，创新力只受到智力一个因素的影响时，已知A，那么GPA和创新力就毫无关系了。因为这两个因素B,C已经确定了，再进行概率推断已经没有意义了（信息量为0）.<strong><u>如果这个例子不好理解，那么还有一个例子：</u></strong></li>
+<li>A
+今天下雨，B明天下雨，C今天地面湿。其中，A（下雨）有80%可能导致积水（C），20%可能导致不积水（<span class="math inline">\(\overline
+C\)</span>），50%下雨（B）。那么A未知时，地面湿时（假设C发生），可以反推A是否发生，再反推B是否发生，反过来也一样。</li>
+<li>但是如果A发生了，那么C与B只与A当前事实有关，<strong><u>已经不会受到来自B或者C的推断影响了！（影响消除）</u></strong>。</li>
+<li>A的观测会导致B,C的相互独立（信息的互不影响性）</li>
+</ul>
+<h4 id="结构二-head-to-tail-典型的因果关系">2.1.2 结构二 Head to Tail
+（典型的因果关系）</h4>
+<pre class="mermaid">
+graph LR
+
+A[A Diffculty]--&gt;B[B Grade]
+B--&gt;C[C Recommendation]
+
+</pre>
+<p>B为关键结点。当：</p>
+<ul>
+<li>B没有被观测，A和C是可以有推断关系（信息关联性）的，不独立</li>
+<li>B被观测：A与C独立，A已经不影响C的发生了</li>
+</ul>
+<p><strong><u>可以用马尔可夫链的想法来理解！</u></strong>历史事件的无后效性！当
+当前不确定时，<strong>由于历史状态可以确定当前状态</strong>，那么相当于历史可以影响未来（下一状态）。而当前状态已知的话，历史信息已经不起作用力，下一状态完全由当前状态决定。</p>
+<p>例子：</p>
+<ul>
+<li>不知道成绩的情况下，如果考试的难度大，那么每个人在考好的情况下获得推荐的概率都大。</li>
+<li>但是知道了成绩的话，收益就和风险没关系了。你考得好就能获得推荐，考不好就不行。</li>
+</ul>
+<h4 id="结构三-head-to-head-汇点">2.1.3 结构三 Head to Head
+（汇点）</h4>
+<pre class="mermaid">
+graph LR
+
+A[A Difficulty]--&gt;C[C Grade]
+B[B Intelligence]--&gt;C
+
+</pre>
+<p>C为关键节点。当：</p>
+<ul>
+<li>C没有被观测：那么A和B互相不影响（因为缺少信息判断A与B的相互影响性），结果未知，原因互相产生的影响不可知。<strong><u>条件独立</u></strong></li>
+<li>C被观测到：A与B存在联系的结果，可以A-&gt;B推断或者反之。</li>
+</ul>
+<p>例子：</p>
+<ul>
+<li>考试成绩不清楚的时候，每个人的智力 /
+考试难度两者之间如果也未知，知道其中一个也推不出另一个来。</li>
+<li>但是如果已知成绩，比如：成绩普遍很好。那么由B，比如某个人的智力不行，但是成绩好，可以推定A（难度低），反之，如果成绩普遍很差，由B（高智力），可以推知A（难度高）。</li>
+</ul>
+<p><strong><u>以上这三种有向图结构，可以方便进行条件独立判定以及信息关联性的快速区分，判定两个随机变量之间是否存在关联时可以应用。</u></strong>联系例子即可。</p>
+<ul>
+<li>每个节点：都是一个随机变量，一般未知，需要从信息中推断</li>
+<li>每个有向弧：都是条件概率。A发生时，C存在概率发生，则A-&gt;C有弧。</li>
+</ul>
+<h3 id="条件独立与马尔可夫链">2.2 条件独立与马尔可夫链</h3>
+<p>条件独立： <span class="math display">\[
+\begin{equation}
+P(X,Y|Z)=P(X|Z)P(Y|Z)
+\end{equation}
+\]</span> ​
+在Z发生的情况下，X，Y同时发生的概率为分别概率的积。可以写成另一种形式：
+<span class="math display">\[
+\begin{equation}
+P(X|Y,Z)=\frac{P(X,Y,Z)}{P(Y,Z)}=\frac{P(X,Y|Z)P(Z)}{P(Y|Z)P(Z)}=\frac{P(X,Y|Z)}{P(Y|Z)}=P(X|Z)
+\end{equation}
+\]</span> ​
+这最能直接说明条件独立的意义：给定条件Y,Z，若X,Y条件独立，Y条件不影响X事件，可以直接从条件中删除。而CRF中的有向边表征了条件概率，对应地，结点间关系（以上三种模式）表征了条件独立性。</p>
+<p>​ 如果两个结点之间的中间结点已经完全确定，已经没有
+<strong><u>不通过中间已经观测结点</u></strong>
+的直连路径或者间接路径了，此时两个结点条件独立。而条件独立可以用于理解Markov链：
+<span class="math display">\[
+\begin{equation}
+P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_1,x_2)...P(x_t|x_1,x_2,...x_{t-1})
+\end{equation}
+\]</span> ​
+这个是普通的链式法则。而由于一阶马尔可夫假设：历史不影响未来，过去的状态与未来条件独立。那么可以简化链式法则为：
+<span class="math display">\[
+\begin{equation}
+P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_2)...P(x_t|x_{t-1})=P(x_1)\prod_{i=1}^tP(x_{i}|x_{i-1})
+\end{equation}
+\]</span> ​ 这可以大大简化运算以及储存难度。</p>
+<h3 id="使用例子理解dgm-马尔可夫毯">2.3 使用例子理解DGM /
+马尔可夫毯</h3>
+<p>朴素贝叶斯就是个很典型的DGM例子。朴素（naive）就naive在：</p>
+<blockquote>
+<p>基于特征条件独立假设的分类器。</p>
+</blockquote>
+<p>​ 特征条件独立这个假设很强了，一般做不到。但是在DGM中可以表示为：</p>
+<pre class="mermaid">
+graph TB
+
+A[Label]--&gt;B[Feature 1]
+A--&gt;C[Feature 2]
+A--&gt;D[Feature 3]
+A--&gt;E[...]
+
+</pre>
+<p>​ 给定Label后，所有的Features毫无关联（Tail to Tail 结构）。</p>
+<h4 id="马尔可夫毯">2.3.1 马尔可夫毯</h4>
+<p>​ 马尔可夫毯说的是这样一个集合：集合<span class="math inline">\(\Pi(t)\)</span>表征了，当我们对集合<span class="math inline">\(\Pi(t)\)</span>内的所有随机变量进行观测，那么会导致结点t与剩下的结点之间完全条件独立（<strong>啊，被孤立了，相当于<span class="math inline">\(\Pi(t)\)</span></strong>把t墙了）。例子：</p>
+<pre class="mermaid">
+graph LR
+
+A(1)--&gt;B(2)
+A--&gt;C(3)
+B--&gt;D(5)
+C--&gt;D
+B--&gt;E(4)
+C--&gt;F(6)
+E--&gt;G(7)
+D--&gt;F
+D--&gt;G
+F--&gt;G
+
+</pre>
+<p>​ 那么对于结点5，其马尔可夫毯为？</p>
+<ul>
+<li>首先2，3给定之后，由于2，3为5的父结点，2，3的观测导致5与1的独立</li>
+<li>此后是5与4的独立：有赖于2的给定。</li>
+<li><strong><u>观测本身会导致被观测变量与其父节点或者子结点独立！</u></strong>不确定性消除。故5建立6，7的观测，6，7要给定。</li>
+<li>但是给定了7，在5，7，4形成了一个Head to Head
+结构。会导致5和4的不独立，那么需要给定4以消除不确定性的方式终结。</li>
+<li>最后的毯子是：<span class="math inline">\({\{2,3,4,6,7\}}\)</span></li>
+</ul>
+<h4 id="dgm到底能干什么">2.3.2 DGM到底能干什么</h4>
+<p>​
+多个变量错综复杂的因果关系，相互有影响。一个变量的改变可能导致整个网络（说到网络就会形成一个高维结构了，之所以是高维，指的是这个图可能不是平面图，不一定表达的就是二维关系）内部的变量发生连锁变化。那么为了解决有条件独立
+/ 条件概率联系起来的多个网络变量，需要使用这个方法。</p>
+<h4 id="有向图的概率表示">2.3.3 有向图的概率表示</h4>
+<p>由条件概率的定义，联合概率可以由边缘 /
+条件表示。在有向图中，由于有向图对条件概率进行建模（每一条边就是一个条件概率关系），那么使用有向图如何表示概率？举个例子：</p>
+<pre class="mermaid">
+graph LR
+
+A((X1))--&gt;B((X2))
+B--&gt;C((X3))
+B--&gt;D((X4))
+C--&gt;E((X5))
+D--&gt;E
+
+</pre>
+<p>​ 如果需要使用有向图关系表示<span class="math inline">\(\{x_1,x_2,x_3,x_4,x_5\}\)</span>的联合概率分布，如何写出这个表达式？（给定顶层结点，也就是起源结点<span class="math inline">\(x_1\)</span>的初始分布<span class="math inline">\(P(x_1)\)</span>），则表达式为： <span class="math display">\[
+\begin{equation}
+P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)\rightarrow?
+\end{equation}
+\]</span> ​ 之后，<span class="math inline">\(x_3\)</span> <span class="math inline">\(x_4\)</span>是乘法关系还是加法关系？首先可以肯定，接下来的概率表达式是<span class="math inline">\(P(x_4|x_2)\)</span>与<span class="math inline">\(P(x_3|x_2)\)</span>（由于<span class="math inline">\(x_2\)</span>的存在，导致<span class="math inline">\(x_1\)</span>，<span class="math inline">\(\{x_3,x_4\}\)</span>条件独立），个人认为，此处<span class="math inline">\(x_5\)</span>的产生是<span class="math inline">\(\{x_3,x_4\}\)</span>共同作用的结果。比如说，考试：<span class="math inline">\(\{x_3,x_4\}\)</span>分别表示难度以及学生智力，<span class="math inline">\(x_5\)</span>为分数。产生分数必须要有前两个因素，故此处虽然是两个通路，但是仍然是乘法原则起作用（与事件）（<strong><u>可能隐含表达了，DGM中子结点需要所有父结点成立而产生</u></strong>）
+<span class="math display">\[
+\begin{equation}
+P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)P(x_3|x_2)P(x_4|x_2)P(x5|x_3,x_4)
+\end{equation}
+\]</span> ​ 一个更加复杂的例子：</p>
+<pre class="mermaid">
+graph LR
+
+A((X1))
+B((X2))
+C((X3))
+D((X4))
+E((X5))
+F((X6))
+G((X7))
+A--&gt;D
+A--&gt;E
+B--&gt;D
+C--&gt;D
+C--&gt;E
+D--&gt;F
+D--&gt;G
+E--&gt;G
+
+</pre>
+<p>​ 可以立即得到联合分布：（不仔细推了） <span class="math display">\[
+\begin{equation}
+P(x_1,...x_7)=P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|x_4,x_5)
+\end{equation}
+\]</span></p>
+<p>​ 这样的联合概率求解规律是可以推广的。</p>
+<hr>
+<h2 id="iii.-无向图模型ugm">III. 无向图模型（UGM）</h2>
+<h3 id="基本概念">3.1 基本概念</h3>
+<p>​ 区别于有向图模型（DGM），无向图模型不是对因果关系进行建模。</p>
+<p>​
+无向图和有向图的区别是什么？有向图表征了因果关系，并且连接有方向性，导致了处理图像这样的问题时，<strong><u>不方便进行建模</u></strong>。</p>
+<pre class="mermaid">
+graph LR
+
+1--&gt;4
+2--&gt;5
+3--&gt;6
+1--&gt;2
+2--&gt;3
+
+4--&gt;5
+
+5--&gt;6
+
+4--&gt;7
+5--&gt;8
+6--&gt;9
+7--&gt;8
+8--&gt;9
+
+</pre>
+<p>​
+可以看出，在对有向图进行建模时，如果要进行条件独立分析（比如我们要单独分析5与其他的结点的条件独立性）。需要寻找马尔可夫毯，那么在有向图中，除了<span class="math inline">\(\{2,4,6,8\}\)</span>之外，实际上还有别的结点，而<span class="math inline">\(\{2,4,6,8\}\)</span>是1阶邻域，在图像处理中比较常见求一阶邻域与中心点间的关系。而此处，要加入<span class="math inline">\(\{3,7\}\)</span>结点（Head to
+Head，由于给定了8，5与7不再条件独立，需要给定7，3的话同理）。那么显然我们加入了奇怪的点，导致分析存在一些问题，并且与有向图网络的生成方向还存在关系。</p>
+<p>​
+而使用无向图的话，由于结点之间是平等的，在无向图中的马尔可夫毯直接就是<span class="math inline">\(\{2,4,6,8\}\)</span>。</p>
+<p>​ 无向图中，存在三种独立性：</p>
+<ol type="1">
+<li>全局独立性（全局马尔可夫性）</li>
+</ol>
+<pre class="mermaid">
+graph LR
+
+A((1))---B((2))
+B---D((4))
+A---C((3))
+C---D
+E((5))---A
+D---F((6))
+
+</pre>
+<p>​ 当我们删除结点<span class="math inline">\(\{2,3\}\)</span>时，可知集合<span class="math inline">\(\{1,5\}\)</span>以及<span class="math inline">\(\{4,6\}\)</span>之间完全没有联系了。删除两个结点之间的连通性结点，产生两个连通支，则这两个连通支
+<strong>独立</strong>。</p>
+<ol start="2" type="1">
+<li>局部独立性（局部马尔可夫性）</li>
+</ol>
+<pre class="mermaid">
+graph TB
+
+a((1))
+b((2))
+c((3))
+d((4))
+e((5))
+f((6))
+g((7))
+a---b
+a---c
+a---d
+a---e
+c---f
+e---g
+b---f
+d---g
+
+</pre>
+<p>​
+可知，当我们把2，3，4，5删去之后，1结点与所有其他结点完全没有联系了。<strong><u>1被孤立了，因为其马尔可夫毯已经被删除了。</u></strong>那么，1与其他结点条件独立。写为表达式可以如下：</p>
+<p>​ 设<span class="math inline">\(V_k\)</span>为我们探索的结点，<span class="math inline">\(V_M\)</span>为<span class="math inline">\(V_k\)</span>的马尔可夫毯的节点集合，而<span class="math inline">\(V_S\)</span>为<span class="math inline">\(V_i\in
+\{V\}/\{V_M\cup V_k\}\)</span>，则可知： <span class="math display">\[
+\begin{equation}
+V_k\perp V_S|V_M
+\end{equation}
+\]</span> ​
+即给定马尔可夫毯，则对应结点和除其本身以及马尔可夫毯结点之外的所有结点条件独立。</p>
+<ol start="3" type="1">
+<li>成对独立性（成对马尔可夫性）</li>
+</ol>
+<p>​
+u，v为两个没有直连边的结点。去掉u，v之外的其他点，<strong><u>u，v条件独立。</u></strong></p>
+<h3 id="团块clique的概念">3.2 团块（Clique）的概念</h3>
+<p>​
+如果一个结点集合内，任意两个结点之间存在连边，那么称这是一个团（Clique）。</p>
+<p>​
+最大团：在一个团C外部任意找一个结点，加入此团后都会破坏团的性质（此结点与至少一个结点之间不存在连边）。也即外部已经不能再加入结点使团变大了。</p>
+<p>​
+无向图模型中一般会涉及到大量结点，那么要表示这些结点的联合概率就十分麻烦。可以使用最大团来进行描述，将
+<strong><u>无向图中的联合概率分布表示为极大团的势函数（Potential
+Function）</u></strong>的积。也即： <span class="math display">\[
+\begin{equation}
+P(x)=\frac{1}{Z}\prod_{i=1}^n\psi_i(x_i)
+\end{equation}
+\]</span> ​ 上式中，<span class="math inline">\(\psi_i(x)\)</span>表示极大团<span class="math inline">\(x_i\)</span>的势函数，而Z则是归一化因子，为了使<span class="math inline">\(P(x)\)</span>满足概率的归一化性质。归一化因子又叫做：配分函数（Partition
+Function），但是如何进行计算呢？举个例子（例子来自CSDN，但是感觉讲的不太清楚，我自己理解一下：）</p>
+<div class="note info"><p>2021.11.15补充：当时还会看粪坑CSDN呢。PS：参考的文献都没有记录。</p>
+</div>
+<pre class="mermaid">
+graph TB
+
+A((x1))
+B((x2))
+C((x3))
+D((x4))
+E((x5))
+A---B
+A---C
+B---C
+C---D
+C---E
+
+</pre>
+<p>​ 可知，图中存在三个极大团：<span class="math inline">\(\{x_1, x_2,
+x_3\}\)</span>，<span class="math inline">\(\{x_3,x_5\}\)</span>，<span class="math inline">\(\{x_3, x_4\}\)</span>
+(注意一个结点可以存在于多个极大团中！)。那么整个联合概率分布可以写为：
+<span class="math display">\[
+\begin{equation}
+P(x_1, x_2, x_3,x_4,x_5)=\frac
+1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)
+\end{equation}
+\]</span> ​
+那么Z应如何计算？需要对每个结点进行遍历。下式为每个结点所在极大团的势函数：
+<span class="math display">\[
+\begin{align}
+    &amp; x_1:\psi_1(x_1,x_2,x_3)\\
+    &amp; x_2:\psi_1(x_1,x_2,x_3)\\
+    &amp; x_3:\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)\\
+    &amp; x_4:\psi_3(x_3,x_4)\\
+    &amp; x_5:\psi_2(x_3,x_5)
+\end{align}
+\]</span> ​
+对每个结点进行求和归一化。为什么要这么做？为什么是对每一个结点结点所在团的势函数？而不是求每一个结点对应的某一个其他函数进行累加求和？</p>
+<div class="note danger"><p>2021.11.15
+补充：诶？我最后在这里写了一个开放性思考题？应该是原来我没想清楚，但是最后也没去想。</p>
+</div>
+]]></content>
+      <categories>
+        <category>learning</category>
+      </categories>
+      <tags>
+        <tag>knowings</tag>
+        <tag>概率论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我贫瘠的数学世界【1】- SAM与优化方法</title>
     <url>/2022/01/30/%E6%88%91%E8%B4%AB%E7%98%A0%E7%9A%84%E6%95%B0%E5%AD%A6%E4%B8%96%E7%95%8C%E3%80%901%E3%80%91-SAM%E4%B8%8E%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h1 id="bfgsam">BFGSAM</h1>
@@ -13448,366 +13808,6 @@ filter[J]. arXiv preprint arXiv:1711.02508, 2017.</p>
         <tag>knowings</tag>
         <tag>线性代数</tag>
         <tag>控制理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>概率图模型</title>
-    <url>/2021/11/10/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="crf-mrf">CRF &amp; MRF</h1>
-<hr>
-<h2 id="i.-introduction">I. Introduction</h2>
-<p>​ 本文是早期被挂在<a href="https://github.com/Enigmatisms/Algorithms-Plus">Github🔗:
-Enigmatisms/Algorithm
-Plus</a>上的一篇学习总结。写这篇学习笔记的时候博客还没有诞生，也刚刚熟练掌握Typora。本文相当于是考古post，虽然古老，但我发现当年的我学习热情也还是挺高的，这篇笔记可以说是写得不错的一个概率图模型入门文章了（开始自夸，尽管UGM部分没写完）。</p>
-<p>​ 可能我最近还是要重新学一下概率图模型:</p>
-<blockquote>
-<p>一个概率图模型，上面的所有结点构成了所有随机变量的联合分布。需要表达的就是联合分布。--早期HQY的理解</p>
-</blockquote>
-<p>​
-之前应该只是清楚了其中的一些概念，但是并没有产生深入的理解，比如MRF与置信传播的原理以及具体的应用方式等等（虽然已经是很老的传统方法了）。方法老归老，思想本质有启发意义就是好的。</p>
-<span id="more"></span>
-<hr>
-<h2 id="ii.-dgm">II. DGM</h2>
-<h3 id="dgm-中三种典型结构的理解">2.1 DGM 中三种典型结构的理解</h3>
-<p>​ DGM(Directed Graph Model)。又叫贝叶斯网络。</p>
-<pre class="mermaid">
-graph LR
-
-A[A Intelligence]--&gt;B[B GPA]
-A--&gt;C[C Innovative prop.]
-
-</pre>
-<h4 id="结构一-tail-to-tail-单父多子">2.1.1 结构一 Tail to Tail
-(单父，多子)</h4>
-<ul>
-<li>当观测到A，B与C之间独立（不存在关系，<strong><u>没有可以有信息推断</u></strong>）</li>
-<li>没有观测到A，B，C之前可以有隐含的关系，不独立</li>
-</ul>
-<p>举个例子：</p>
-<ul>
-<li>A智力，B成绩，C创新力。当不知道A时，我们可以隐含地推定，当一个人成绩高，说明他创新能力高的概率很大（概率推断），反之亦然</li>
-<li>而如果GPA，创新力只受到智力一个因素的影响时，已知A，那么GPA和创新力就毫无关系了。因为这两个因素B,C已经确定了，再进行概率推断已经没有意义了（信息量为0）.<strong><u>如果这个例子不好理解，那么还有一个例子：</u></strong></li>
-<li>A
-今天下雨，B明天下雨，C今天地面湿。其中，A（下雨）有80%可能导致积水（C），20%可能导致不积水（<span class="math inline">\(\overline
-C\)</span>），50%下雨（B）。那么A未知时，地面湿时（假设C发生），可以反推A是否发生，再反推B是否发生，反过来也一样。</li>
-<li>但是如果A发生了，那么C与B只与A当前事实有关，<strong><u>已经不会受到来自B或者C的推断影响了！（影响消除）</u></strong>。</li>
-<li>A的观测会导致B,C的相互独立（信息的互不影响性）</li>
-</ul>
-<h4 id="结构二-head-to-tail-典型的因果关系">2.1.2 结构二 Head to Tail
-（典型的因果关系）</h4>
-<pre class="mermaid">
-graph LR
-
-A[A Diffculty]--&gt;B[B Grade]
-B--&gt;C[C Recommendation]
-
-</pre>
-<p>B为关键结点。当：</p>
-<ul>
-<li>B没有被观测，A和C是可以有推断关系（信息关联性）的，不独立</li>
-<li>B被观测：A与C独立，A已经不影响C的发生了</li>
-</ul>
-<p><strong><u>可以用马尔可夫链的想法来理解！</u></strong>历史事件的无后效性！当
-当前不确定时，<strong>由于历史状态可以确定当前状态</strong>，那么相当于历史可以影响未来（下一状态）。而当前状态已知的话，历史信息已经不起作用力，下一状态完全由当前状态决定。</p>
-<p>例子：</p>
-<ul>
-<li>不知道成绩的情况下，如果考试的难度大，那么每个人在考好的情况下获得推荐的概率都大。</li>
-<li>但是知道了成绩的话，收益就和风险没关系了。你考得好就能获得推荐，考不好就不行。</li>
-</ul>
-<h4 id="结构三-head-to-head-汇点">2.1.3 结构三 Head to Head
-（汇点）</h4>
-<pre class="mermaid">
-graph LR
-
-A[A Difficulty]--&gt;C[C Grade]
-B[B Intelligence]--&gt;C
-
-</pre>
-<p>C为关键节点。当：</p>
-<ul>
-<li>C没有被观测：那么A和B互相不影响（因为缺少信息判断A与B的相互影响性），结果未知，原因互相产生的影响不可知。<strong><u>条件独立</u></strong></li>
-<li>C被观测到：A与B存在联系的结果，可以A-&gt;B推断或者反之。</li>
-</ul>
-<p>例子：</p>
-<ul>
-<li>考试成绩不清楚的时候，每个人的智力 /
-考试难度两者之间如果也未知，知道其中一个也推不出另一个来。</li>
-<li>但是如果已知成绩，比如：成绩普遍很好。那么由B，比如某个人的智力不行，但是成绩好，可以推定A（难度低），反之，如果成绩普遍很差，由B（高智力），可以推知A（难度高）。</li>
-</ul>
-<p><strong><u>以上这三种有向图结构，可以方便进行条件独立判定以及信息关联性的快速区分，判定两个随机变量之间是否存在关联时可以应用。</u></strong>联系例子即可。</p>
-<ul>
-<li>每个节点：都是一个随机变量，一般未知，需要从信息中推断</li>
-<li>每个有向弧：都是条件概率。A发生时，C存在概率发生，则A-&gt;C有弧。</li>
-</ul>
-<h3 id="条件独立与马尔可夫链">2.2 条件独立与马尔可夫链</h3>
-<p>条件独立： <span class="math display">\[
-\begin{equation}
-P(X,Y|Z)=P(X|Z)P(Y|Z)
-\end{equation}
-\]</span> ​
-在Z发生的情况下，X，Y同时发生的概率为分别概率的积。可以写成另一种形式：
-<span class="math display">\[
-\begin{equation}
-P(X|Y,Z)=\frac{P(X,Y,Z)}{P(Y,Z)}=\frac{P(X,Y|Z)P(Z)}{P(Y|Z)P(Z)}=\frac{P(X,Y|Z)}{P(Y|Z)}=P(X|Z)
-\end{equation}
-\]</span> ​
-这最能直接说明条件独立的意义：给定条件Y,Z，若X,Y条件独立，Y条件不影响X事件，可以直接从条件中删除。而CRF中的有向边表征了条件概率，对应地，结点间关系（以上三种模式）表征了条件独立性。</p>
-<p>​ 如果两个结点之间的中间结点已经完全确定，已经没有
-<strong><u>不通过中间已经观测结点</u></strong>
-的直连路径或者间接路径了，此时两个结点条件独立。而条件独立可以用于理解Markov链：
-<span class="math display">\[
-\begin{equation}
-P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_1,x_2)...P(x_t|x_1,x_2,...x_{t-1})
-\end{equation}
-\]</span> ​
-这个是普通的链式法则。而由于一阶马尔可夫假设：历史不影响未来，过去的状态与未来条件独立。那么可以简化链式法则为：
-<span class="math display">\[
-\begin{equation}
-P(x_t)=P(x_1)P(x_2|x_1)P(x_3|x_2)...P(x_t|x_{t-1})=P(x_1)\prod_{i=1}^tP(x_{i}|x_{i-1})
-\end{equation}
-\]</span> ​ 这可以大大简化运算以及储存难度。</p>
-<h3 id="使用例子理解dgm-马尔可夫毯">2.3 使用例子理解DGM /
-马尔可夫毯</h3>
-<p>朴素贝叶斯就是个很典型的DGM例子。朴素（naive）就naive在：</p>
-<blockquote>
-<p>基于特征条件独立假设的分类器。</p>
-</blockquote>
-<p>​ 特征条件独立这个假设很强了，一般做不到。但是在DGM中可以表示为：</p>
-<pre class="mermaid">
-graph TB
-
-A[Label]--&gt;B[Feature 1]
-A--&gt;C[Feature 2]
-A--&gt;D[Feature 3]
-A--&gt;E[...]
-
-</pre>
-<p>​ 给定Label后，所有的Features毫无关联（Tail to Tail 结构）。</p>
-<h4 id="马尔可夫毯">2.3.1 马尔可夫毯</h4>
-<p>​ 马尔可夫毯说的是这样一个集合：集合<span class="math inline">\(\Pi(t)\)</span>表征了，当我们对集合<span class="math inline">\(\Pi(t)\)</span>内的所有随机变量进行观测，那么会导致结点t与剩下的结点之间完全条件独立（<strong>啊，被孤立了，相当于<span class="math inline">\(\Pi(t)\)</span></strong>把t墙了）。例子：</p>
-<pre class="mermaid">
-graph LR
-
-A(1)--&gt;B(2)
-A--&gt;C(3)
-B--&gt;D(5)
-C--&gt;D
-B--&gt;E(4)
-C--&gt;F(6)
-E--&gt;G(7)
-D--&gt;F
-D--&gt;G
-F--&gt;G
-
-</pre>
-<p>​ 那么对于结点5，其马尔可夫毯为？</p>
-<ul>
-<li>首先2，3给定之后，由于2，3为5的父结点，2，3的观测导致5与1的独立</li>
-<li>此后是5与4的独立：有赖于2的给定。</li>
-<li><strong><u>观测本身会导致被观测变量与其父节点或者子结点独立！</u></strong>不确定性消除。故5建立6，7的观测，6，7要给定。</li>
-<li>但是给定了7，在5，7，4形成了一个Head to Head
-结构。会导致5和4的不独立，那么需要给定4以消除不确定性的方式终结。</li>
-<li>最后的毯子是：<span class="math inline">\({\{2,3,4,6,7\}}\)</span></li>
-</ul>
-<h4 id="dgm到底能干什么">2.3.2 DGM到底能干什么</h4>
-<p>​
-多个变量错综复杂的因果关系，相互有影响。一个变量的改变可能导致整个网络（说到网络就会形成一个高维结构了，之所以是高维，指的是这个图可能不是平面图，不一定表达的就是二维关系）内部的变量发生连锁变化。那么为了解决有条件独立
-/ 条件概率联系起来的多个网络变量，需要使用这个方法。</p>
-<h4 id="有向图的概率表示">2.3.3 有向图的概率表示</h4>
-<p>由条件概率的定义，联合概率可以由边缘 /
-条件表示。在有向图中，由于有向图对条件概率进行建模（每一条边就是一个条件概率关系），那么使用有向图如何表示概率？举个例子：</p>
-<pre class="mermaid">
-graph LR
-
-A((X1))--&gt;B((X2))
-B--&gt;C((X3))
-B--&gt;D((X4))
-C--&gt;E((X5))
-D--&gt;E
-
-</pre>
-<p>​ 如果需要使用有向图关系表示<span class="math inline">\(\{x_1,x_2,x_3,x_4,x_5\}\)</span>的联合概率分布，如何写出这个表达式？（给定顶层结点，也就是起源结点<span class="math inline">\(x_1\)</span>的初始分布<span class="math inline">\(P(x_1)\)</span>），则表达式为： <span class="math display">\[
-\begin{equation}
-P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)\rightarrow?
-\end{equation}
-\]</span> ​ 之后，<span class="math inline">\(x_3\)</span> <span class="math inline">\(x_4\)</span>是乘法关系还是加法关系？首先可以肯定，接下来的概率表达式是<span class="math inline">\(P(x_4|x_2)\)</span>与<span class="math inline">\(P(x_3|x_2)\)</span>（由于<span class="math inline">\(x_2\)</span>的存在，导致<span class="math inline">\(x_1\)</span>，<span class="math inline">\(\{x_3,x_4\}\)</span>条件独立），个人认为，此处<span class="math inline">\(x_5\)</span>的产生是<span class="math inline">\(\{x_3,x_4\}\)</span>共同作用的结果。比如说，考试：<span class="math inline">\(\{x_3,x_4\}\)</span>分别表示难度以及学生智力，<span class="math inline">\(x_5\)</span>为分数。产生分数必须要有前两个因素，故此处虽然是两个通路，但是仍然是乘法原则起作用（与事件）（<strong><u>可能隐含表达了，DGM中子结点需要所有父结点成立而产生</u></strong>）
-<span class="math display">\[
-\begin{equation}
-P(x_1,x_2,x_3,x_4,x_5)=P(x_1)P(x_2|x_1)P(x_3|x_2)P(x_4|x_2)P(x5|x_3,x_4)
-\end{equation}
-\]</span> ​ 一个更加复杂的例子：</p>
-<pre class="mermaid">
-graph LR
-
-A((X1))
-B((X2))
-C((X3))
-D((X4))
-E((X5))
-F((X6))
-G((X7))
-A--&gt;D
-A--&gt;E
-B--&gt;D
-C--&gt;D
-C--&gt;E
-D--&gt;F
-D--&gt;G
-E--&gt;G
-
-</pre>
-<p>​ 可以立即得到联合分布：（不仔细推了） <span class="math display">\[
-\begin{equation}
-P(x_1,...x_7)=P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|x_4,x_5)
-\end{equation}
-\]</span></p>
-<p>​ 这样的联合概率求解规律是可以推广的。</p>
-<hr>
-<h2 id="iii.-无向图模型ugm">III. 无向图模型（UGM）</h2>
-<h3 id="基本概念">3.1 基本概念</h3>
-<p>​ 区别于有向图模型（DGM），无向图模型不是对因果关系进行建模。</p>
-<p>​
-无向图和有向图的区别是什么？有向图表征了因果关系，并且连接有方向性，导致了处理图像这样的问题时，<strong><u>不方便进行建模</u></strong>。</p>
-<pre class="mermaid">
-graph LR
-
-1--&gt;4
-2--&gt;5
-3--&gt;6
-1--&gt;2
-2--&gt;3
-
-4--&gt;5
-
-5--&gt;6
-
-4--&gt;7
-5--&gt;8
-6--&gt;9
-7--&gt;8
-8--&gt;9
-
-</pre>
-<p>​
-可以看出，在对有向图进行建模时，如果要进行条件独立分析（比如我们要单独分析5与其他的结点的条件独立性）。需要寻找马尔可夫毯，那么在有向图中，除了<span class="math inline">\(\{2,4,6,8\}\)</span>之外，实际上还有别的结点，而<span class="math inline">\(\{2,4,6,8\}\)</span>是1阶邻域，在图像处理中比较常见求一阶邻域与中心点间的关系。而此处，要加入<span class="math inline">\(\{3,7\}\)</span>结点（Head to
-Head，由于给定了8，5与7不再条件独立，需要给定7，3的话同理）。那么显然我们加入了奇怪的点，导致分析存在一些问题，并且与有向图网络的生成方向还存在关系。</p>
-<p>​
-而使用无向图的话，由于结点之间是平等的，在无向图中的马尔可夫毯直接就是<span class="math inline">\(\{2,4,6,8\}\)</span>。</p>
-<p>​ 无向图中，存在三种独立性：</p>
-<ol type="1">
-<li>全局独立性（全局马尔可夫性）</li>
-</ol>
-<pre class="mermaid">
-graph LR
-
-A((1))---B((2))
-B---D((4))
-A---C((3))
-C---D
-E((5))---A
-D---F((6))
-
-</pre>
-<p>​ 当我们删除结点<span class="math inline">\(\{2,3\}\)</span>时，可知集合<span class="math inline">\(\{1,5\}\)</span>以及<span class="math inline">\(\{4,6\}\)</span>之间完全没有联系了。删除两个结点之间的连通性结点，产生两个连通支，则这两个连通支
-<strong>独立</strong>。</p>
-<ol start="2" type="1">
-<li>局部独立性（局部马尔可夫性）</li>
-</ol>
-<pre class="mermaid">
-graph TB
-
-a((1))
-b((2))
-c((3))
-d((4))
-e((5))
-f((6))
-g((7))
-a---b
-a---c
-a---d
-a---e
-c---f
-e---g
-b---f
-d---g
-
-</pre>
-<p>​
-可知，当我们把2，3，4，5删去之后，1结点与所有其他结点完全没有联系了。<strong><u>1被孤立了，因为其马尔可夫毯已经被删除了。</u></strong>那么，1与其他结点条件独立。写为表达式可以如下：</p>
-<p>​ 设<span class="math inline">\(V_k\)</span>为我们探索的结点，<span class="math inline">\(V_M\)</span>为<span class="math inline">\(V_k\)</span>的马尔可夫毯的节点集合，而<span class="math inline">\(V_S\)</span>为<span class="math inline">\(V_i\in
-\{V\}/\{V_M\cup V_k\}\)</span>，则可知： <span class="math display">\[
-\begin{equation}
-V_k\perp V_S|V_M
-\end{equation}
-\]</span> ​
-即给定马尔可夫毯，则对应结点和除其本身以及马尔可夫毯结点之外的所有结点条件独立。</p>
-<ol start="3" type="1">
-<li>成对独立性（成对马尔可夫性）</li>
-</ol>
-<p>​
-u，v为两个没有直连边的结点。去掉u，v之外的其他点，<strong><u>u，v条件独立。</u></strong></p>
-<h3 id="团块clique的概念">3.2 团块（Clique）的概念</h3>
-<p>​
-如果一个结点集合内，任意两个结点之间存在连边，那么称这是一个团（Clique）。</p>
-<p>​
-最大团：在一个团C外部任意找一个结点，加入此团后都会破坏团的性质（此结点与至少一个结点之间不存在连边）。也即外部已经不能再加入结点使团变大了。</p>
-<p>​
-无向图模型中一般会涉及到大量结点，那么要表示这些结点的联合概率就十分麻烦。可以使用最大团来进行描述，将
-<strong><u>无向图中的联合概率分布表示为极大团的势函数（Potential
-Function）</u></strong>的积。也即： <span class="math display">\[
-\begin{equation}
-P(x)=\frac{1}{Z}\prod_{i=1}^n\psi_i(x_i)
-\end{equation}
-\]</span> ​ 上式中，<span class="math inline">\(\psi_i(x)\)</span>表示极大团<span class="math inline">\(x_i\)</span>的势函数，而Z则是归一化因子，为了使<span class="math inline">\(P(x)\)</span>满足概率的归一化性质。归一化因子又叫做：配分函数（Partition
-Function），但是如何进行计算呢？举个例子（例子来自CSDN，但是感觉讲的不太清楚，我自己理解一下：）</p>
-<div class="note info"><p>2021.11.15补充：当时还会看粪坑CSDN呢。PS：参考的文献都没有记录。</p>
-</div>
-<pre class="mermaid">
-graph TB
-
-A((x1))
-B((x2))
-C((x3))
-D((x4))
-E((x5))
-A---B
-A---C
-B---C
-C---D
-C---E
-
-</pre>
-<p>​ 可知，图中存在三个极大团：<span class="math inline">\(\{x_1, x_2,
-x_3\}\)</span>，<span class="math inline">\(\{x_3,x_5\}\)</span>，<span class="math inline">\(\{x_3, x_4\}\)</span>
-(注意一个结点可以存在于多个极大团中！)。那么整个联合概率分布可以写为：
-<span class="math display">\[
-\begin{equation}
-P(x_1, x_2, x_3,x_4,x_5)=\frac
-1Z\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)
-\end{equation}
-\]</span> ​
-那么Z应如何计算？需要对每个结点进行遍历。下式为每个结点所在极大团的势函数：
-<span class="math display">\[
-\begin{align}
-    &amp; x_1:\psi_1(x_1,x_2,x_3)\\
-    &amp; x_2:\psi_1(x_1,x_2,x_3)\\
-    &amp; x_3:\psi_1(x_1,x_2,x_3)\psi_2(x_3,x_5)\psi_3(x_3,x_4)\\
-    &amp; x_4:\psi_3(x_3,x_4)\\
-    &amp; x_5:\psi_2(x_3,x_5)
-\end{align}
-\]</span> ​
-对每个结点进行求和归一化。为什么要这么做？为什么是对每一个结点结点所在团的势函数？而不是求每一个结点对应的某一个其他函数进行累加求和？</p>
-<div class="note danger"><p>2021.11.15
-补充：诶？我最后在这里写了一个开放性思考题？应该是原来我没想清楚，但是最后也没去想。</p>
-</div>
-]]></content>
-      <categories>
-        <category>learning</category>
-      </categories>
-      <tags>
-        <tag>knowings</tag>
-        <tag>概率论</tag>
       </tags>
   </entry>
   <entry>

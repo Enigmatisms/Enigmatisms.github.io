@@ -1,0 +1,19 @@
+Black-hole observatory — readable open-source standalone release
+Copyright (c) 2026 Enigmatisms
+SPDX-License-Identifier: AGPL-3.0-only
+
+The original observatory application is licensed under GNU AGPL version 3
+only (LICENSE), subject to the third-party notices below. This applies to
+this observatory module, not to unrelated Hexo code, themes, or blog posts.
+You may share and modify this application under that license. There is
+no warranty; see LICENSE for the complete terms.
+
+Renderer project reference: https://github.com/dgreenheck/webgpu-black-hole
+Copyright (c) 2025 dgreenheck; MIT license: licenses/black-hole-LICENSE.txt
+License source: https://raw.githubusercontent.com/dgreenheck/webgpu-black-hole/main/LICENSE
+Manrope font: SIL Open Font License 1.1; see licenses/Manrope-OFL.txt.
+
+Readable application JavaScript and embedded GLSL are shipped unchanged
+under assets/js/. Source, stylesheet and document links: source.html.
+No build step or Hexo installation is needed to edit or serve this release.
+Preserve copyright and license notices when redistributing.

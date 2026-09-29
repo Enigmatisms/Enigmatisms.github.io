@@ -1,0 +1,108 @@
+<!DOCTYPE html><!-- SPDX-License-Identifier: AGPL-3.0-only; Copyright (C) 2026 Enigmatisms. --><html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b0e">
+  <meta name="description" content="黑洞场景预设与自由编辑器。调整相机、吸积盘、辐射与颜色，保存和导入视角。">
+  <title>黑洞观测站 · Event Horizon</title>
+  <link rel="stylesheet" href="./assets/css/black-hole-observatory.css?v=4dfeab20cfbe">
+<meta name="generator" content="Hexo 5.4.1">
+</head>
+<body>
+  <a class="skip-link" href="#black-hole">跳至交互视窗</a>
+  <header class="observatory-header">
+    <a class="brand" href="https://enigmatisms.github.io/" aria-label="返回博客首页"><span class="brand-mark" aria-hidden="true"></span> EVENT HORIZON <span class="brand-divider">/</span> <span class="brand-subtitle">黑洞观测站</span></a>
+    <div class="header-actions"><span class="metric-badge">SCHWARZSCHILD · a* = 0</span><div class="language-toggle" id="language-toggle" role="group" aria-label="Language"><button id="language-en" type="button" aria-pressed="false">EN</button><button id="language-cn" type="button" aria-pressed="true">CN</button></div><button id="panel-toggle" type="button" aria-controls="observatory-panel" aria-expanded="true">收起面板</button></div>
+  </header>
+  <main class="observatory">
+    <button class="drawer-shade" id="drawer-shade" type="button" aria-label="关闭观测控制" tabindex="-1" hidden=""></button>
+    <aside class="observatory-panel" id="observatory-panel" aria-label="观测控制">
+      <div class="panel-heading"><h1>场景控制</h1><button id="panel-close" type="button" aria-label="关闭观测控制">关闭</button></div>
+      <fieldset id="scene-controls" disabled="">
+        <div class="mode-switch" role="group" aria-label="工作模式"><button id="mode-presets" type="button" aria-pressed="true">预设场景</button><button id="mode-editor" type="button" aria-pressed="false">自由编辑</button></div>
+        <div id="preset-panel">
+          <div class="object-picker"><label for="object-select">选择场景</label><select id="object-select"></select></div>
+          <p class="object-description" id="object-description"></p>
+          <button id="copy-to-editor" class="wide-button" type="button">复制当前画面到编辑器</button>
+          <p class="control-note">复制会替换编辑工作区；切换模式不会丢失已有编辑。</p>
+        </div>
+        <div id="statistics-controls">
+          <label class="toggle-row" for="statistics-toggle"><span>时钟与距离统计</span><input id="statistics-toggle" type="checkbox"></label>
+          <div class="proximity-presets" role="group" aria-label="移动至时间膨胀位置"><span>移动至时间膨胀位置</span><div class="button-row"><button id="proximity-2" type="button" data-clock-ratio="2">2×</button><button id="proximity-10" type="button" data-clock-ratio="10">10×</button><button id="proximity-100" type="button" data-clock-ratio="100">100×</button></div></div>
+          <p class="control-note">真实移动相机；不改变时间倍率。</p>
+        </div>
+        <div class="button-row playback-controls"><button class="primary-button" id="play-toggle" type="button" aria-pressed="false">播放</button><button id="freeze-frame" type="button">冻结帧</button><button id="reset-camera" type="button">重置视点</button></div>
+        <fieldset id="editor-controls" hidden="">
+          <label class="select-control" for="workspace-name"><span>视角名称</span><input id="workspace-name" class="text-input" type="text" maxlength="32" autocomplete="off"></label>
+          <div class="button-row"><button id="save-workspace" type="button">保存到浏览器</button><button id="reset-workspace" type="button">重置编辑</button></div>
+          <p id="workspace-status" class="control-note" role="status"></p>
+          <details class="control-section" open=""><summary><span>辐射与颜色</span></summary><div class="section-body">
+            <label class="select-control" for="radiation-mode"><span>辐射模式</span><select id="radiation-mode"><option value="0">艺术调色</option><option value="1">Planck 黑体谱</option><option value="2">幂律谱 · 假色</option></select></label>
+            <p id="palette-note" class="control-note"></p>
+            <div id="palette-controls"><div id="color-controls"></div><div id="gradient-preview" role="img" aria-label="冷区至热区颜色渐变"></div></div>
+            <div id="radiation-controls"></div><div id="appearance-controls"></div>
+          </div></details>
+          <details class="control-section"><summary><span>相机</span></summary><div class="section-body">
+            <label class="select-control" for="camera-layout"><span>编辑相机</span><select id="camera-layout"><option value="current">当前画布</option><option value="desktop">桌面相机</option><option value="mobile">手机相机</option><option value="both" selected="">同步两套相机</option></select></label>
+            <p class="control-note" id="camera-layout-note"></p><div id="camera-controls"></div>
+          </div></details>
+          <details class="control-section"><summary><span>吸积盘</span></summary><div class="section-body">
+            <label class="select-control" for="radius-unit"><span>内外缘与相机距离单位</span><select id="radius-unit"><option value="raw">场景单位</option><option value="rs">视界半径 rₛ</option></select></label>
+            <p class="control-note">视界半径使用场景单位。内外缘与视界联动，始终保持有效边界。</p><div id="disk-controls"></div>
+          </div></details>
+          <details class="control-section"><summary><span>时间与物理尺度</span></summary><div class="section-body" id="physical-controls"></div><p class="control-note">相位记录当前帧；输入相位会暂停播放。质量决定物理时钟尺度，播放速度不改变气体轨道速度。</p></details>
+          <details class="control-section"><summary><span>背景星空</span></summary><div class="section-body" id="background-controls"></div></details>
+          <details class="control-section"><summary><span>导入 / 导出</span></summary><div class="section-body">
+            <label class="select-control" for="view-json"><span>视角或完整配置 JSON</span><textarea id="view-json" rows="7" spellcheck="false" autocomplete="off"></textarea></label>
+            <div class="button-row"><button id="export-view" type="button">生成 JSON</button><button id="download-view" type="button">下载 JSON</button></div>
+            <label class="select-control" for="import-file"><span>读取 JSON 文件</span><input id="import-file" type="file" accept=".json,application/json"></label>
+            <button id="inspect-import" class="wide-button" type="button">检查导入</button>
+            <div id="import-preview" hidden=""><label class="select-control" for="import-view-select"><span>选择导入视角</span><select id="import-view-select"></select></label><button id="apply-import" class="wide-button" type="button">替换编辑工作区</button></div>
+          </div></details>
+        </fieldset>
+        <details class="control-section"><summary><span>画面质量</span></summary><div class="section-body"><label class="select-control" for="quality-select"><span>渲染预算</span><select id="quality-select"><option value="auto">自动</option><option value="0">省电 · 30 fps 上限</option><option value="1">均衡 · 30 fps 上限</option><option value="2">精细 · 30 fps 上限</option><option value="3">流畅精细 · 60 fps 上限</option></select></label><p class="control-note">暂停后累积采样以减少噪点。</p></div></details>
+      </fieldset>
+      <p class="control-error" id="control-error" role="alert" hidden=""></p>
+      <a class="back-link" href="https://enigmatisms.github.io/">← 返回博客</a>
+    <p class="control-note">© 2026 Enigmatisms · <a href="./LICENSE">AGPL-3.0-only</a> · <a href="./source.html">源码 / Source</a> · <a href="./NOTICE">声明 / Notices</a><br>无担保；依许可条款分享和修改。 No warranty; share and modify under the license.</p></aside>
+    <section class="observation-window" aria-label="黑洞交互视窗">
+      <div class="black-hole-stage" data-renderer="poster">
+        <img class="black-hole-fallback" src="./assets/images/black-hole-observatory.webp?v=57ac7484c62e" alt="黑洞引力透镜示意预览；交互渲染不可用时显示" fetchpriority="high">
+        <canvas id="black-hole" tabindex="0" role="application" aria-label="黑洞交互视窗" aria-describedby="interaction-help"></canvas>
+      </div>
+      <div class="scene-heading"><div><span class="eyebrow" id="object-kind"></span><h2 id="object-name">Sagittarius A*</h2><p id="object-subtitle"></p></div><span class="render-status" id="render-status" role="status">正在加载</span></div>
+      <aside class="statistics-panel" id="statistics-panel" aria-label="时钟与距离统计" hidden="">
+        <div class="statistics-heading"><span>时钟与距离</span><button id="reset-statistics" type="button">重置计时</button></div>
+        <button id="return-to-view" type="button">返回观景位置</button>
+        <dl>
+          <div><dt>距中心（坐标半径）</dt><dd id="stat-centre">—</dd></div>
+          <div><dt>离视界还有（半径差）</dt><dd id="stat-horizon">—</dd></div>
+          <div><dt>地球秒 / 本地秒</dt><dd id="stat-ratio">—</dd></div>
+          <div class="clock-equivalent"><dt>本地 1 小时 → 地球</dt><dd id="stat-clock-equivalent">—</dd></div>
+          <div><dt>模拟累计地球时间</dt><dd id="stat-earth">—</dd></div>
+          <div><dt>模拟累计本地时间</dt><dd id="stat-local">—</dd></div>
+        </dl>
+        <p id="stat-gap-explanation"></p>
+        <p title="静态引力时间膨胀；不包含相机运动引起的狭义相对论效应。">静止观察者 · 地球按远方观察者近似</p>
+        <p id="stat-shadow-hint" hidden=""></p>
+      </aside>
+      <div class="scene-bottom">
+        <div class="scale-readouts" aria-label="当前物理尺度">
+          <div><span>史瓦西半径 rₛ</span><strong id="readout-radius">—</strong><small id="readout-radius-au">—</small></div>
+          <div><span>ISCO 轨道周期</span><strong id="readout-period">—</strong><small>远方坐标时间 · 3 rₛ</small></div>
+          <div><span>远场阴影角直径</span><strong id="readout-shadow">—</strong><small id="readout-distance">—</small></div>
+          <div id="temperature-readout"><span>吸积盘平均色温</span><strong id="readout-temperature">—</strong><small id="readout-temperature-edges">—</small><small class="temperature-note">模型色温，非实测气体温度</small></div>
+        </div>
+        <details class="scene-help"><summary>操作指南 <span id="camera-readout">自由视点</span></summary><p id="interaction-help">拖动环绕；Shift、右键或中键拖动平移。滚轮移动相机，Ctrl / ⌘ + 滚轮调整 FOV。触屏单指环绕，双指平移与缩放。聚焦画布后：W / S 前后移动，A / D 横向移动；方向键环绕，Shift + 方向键平移，+ / − 前后移动，[ / ] 调整 FOV，R 重置视点，空格播放 / 暂停。</p></details>
+        <div class="scene-caption"><span id="time-readout">暂停</span><span>Schwarzschild · 程序化渲染</span></div>
+      </div>
+    </section>
+  </main>
+  <noscript><p class="noscript-message">开启 JavaScript 可使用交互控制；当前仅显示预览图。</p></noscript>
+  <script defer="" src="./assets/js/black-hole-config.js?v=c9b9155b96d9"></script>
+  <script defer="" src="./assets/js/black-hole-physics.js?v=e7f0e955fec0"></script>
+  <script defer="" src="./assets/js/black-hole-shaders.js?v=b004fd4c96da"></script>
+  <script defer="" src="./assets/js/black-hole.js?v=29f17fd7fbdb"></script>
+  <script defer="" src="./assets/js/black-hole-observatory.js?v=ce6ab2f84b32"></script>
+
+
+</body></html>

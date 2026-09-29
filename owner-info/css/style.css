@@ -112,6 +112,8 @@ h1 { font-size: clamp(2.5rem, 4.6vw, 3.5rem); line-height: 1.25; letter-spacing:
 .resourcelist { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .resourcelist span { display: contents; }
 .resourcelist a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 13px; border: 1px solid #e9d8d6; border-radius: 12px; background: #fff; font-size: .86rem; text-decoration: none; }
+ .resourcelist a.museum-link { border-color: #172554; background: linear-gradient(135deg, #0f172a, #1e3a8a 58%, #0e7490); color: #e0f2fe; box-shadow: 0 10px 24px -14px #0369a1; font-weight: 700; letter-spacing: .01em; }
+ .resourcelist a.museum-link:hover { border-color: #67e8f9; background: linear-gradient(135deg, #172554, #0369a1 58%, #0f766e); color: #fff; transform: translateY(-2px); box-shadow: 0 14px 28px -14px #0891b2; }
 .resourcelist a:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
 .experience-row { display: grid; grid-template-columns: 150px minmax(180px, .8fr) minmax(0, 1.3fr); gap: 28px; padding-block: 22px; border-top: 1px solid var(--rule); }
 .experience-row:first-child { border-top: 0; padding-top: 0; }
