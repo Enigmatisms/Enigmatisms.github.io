@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FlashMask-3 · Efficient and Expressive Mask-Aware Distributed Attention</title>
+<meta name="description" content="FlashMask-3: a mask-aware Hopper attention kernel with zero-communication mask localization, sparsity-aware load balancing (HCC-IPO), and mask-aware compute-communication overlap for context parallelism." />
+<meta name="theme-color" content="#020617" />
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('fm3-theme'),l=localStorage.getItem('fm3-lang');d.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));d.lang=l||((navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en');}catch(e){d.setAttribute('data-theme','light');}})();</script>
+<style>
+:root{
+  --ink:#0b1324;--ink2:#334155;--muted:#64748b;--faint:#94a3b8;--line:#e2e8f0;--line2:#eef2f7;
+  --bg:#f6f8fc;--bg2:#f1f5fa;--card:#fff;
+  --accent:#1d4ed8;--accent2:#0ea5e9;--b2:#2563eb;--b3:#3b82f6;--b4:#93c5fd;--b5:#dbeafe;--cy:#06b6d4;--ind:#4f46e5;
+  --amber:#f59e0b;--red:#e11d48;--ok:#059669;--warn:#b45309;
+  --sans:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --r:14px;--r2:20px;
+  --sh:0 1px 2px rgba(15,23,42,.04),0 10px 30px -16px rgba(15,23,42,.14);
+  --sh2:0 28px 60px -30px rgba(15,40,110,.38);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.65;font-size:16px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+b,strong{font-weight:650;color:var(--ink)}
+em{font-style:italic;color:var(--accent)}
+sup,sub{font-size:.68em;line-height:0}
+.mono,code{font-family:var(--mono)}
+::selection{background:#bfdbfe}
+button{font:inherit}
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:11px clamp(16px,4vw,44px);background:rgba(246,248,252,.8);-webkit-backdrop-filter:saturate(1.6) blur(14px);
+  backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid rgba(15,23,42,.06);transition:background .35s,border-color .35s}
+.nav.dark{background:rgba(2,6,23,.25);border-bottom-color:rgba(255,255,255,.06)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1rem;white-space:nowrap}
+.logo{display:inline-flex;align-items:center;justify-content:center;height:30px;padding:0 8px;border-radius:8px;
+  background:linear-gradient(135deg,#1d4ed8,#0ea5e9);color:#fff;font:700 .78rem/1 var(--mono);letter-spacing:-.02em}
+.logo i{font-style:normal;font-size:.56rem;margin-left:1px;align-self:flex-start;margin-top:7px;opacity:.9}
+.nav-links{display:flex;gap:20px;font-size:.88rem;font-weight:500}
+.nav-links a{color:var(--ink2);position:relative;padding:2px 0;transition:color .2s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-3px;height:2px;width:0;background:var(--accent);transition:width .25s}
+.nav-links a:hover,.nav-links a.on{color:var(--accent)} .nav-links a:hover::after,.nav-links a.on::after{width:100%}
+.nav-cta{padding:7px 15px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:.84rem;white-space:nowrap}
+.nav.dark .brand,.nav.dark .nav-links a{color:#dbe4f3} .nav.dark .nav-links a:hover,.nav.dark .nav-links a.on{color:#fff}
+.nav.dark .nav-links a::after{background:#60a5fa} .nav.dark .nav-cta{background:#fff;color:#0b1324}
+@media(max-width:980px){.nav-links{display:none}}
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden;color:#e2e8f0;
+  background:radial-gradient(900px 640px at 72% 48%,rgba(37,99,235,.26),transparent 65%),
+  radial-gradient(700px 520px at 12% 95%,rgba(14,165,233,.10),transparent 70%),linear-gradient(180deg,#020617,#030a1f 62%,#020617)}
+#galaxy{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.hero-in{position:relative;z-index:2;width:100%;max-width:1240px;margin:0 auto;padding:110px clamp(20px,5vw,48px);pointer-events:none}
+.hero-txt{max-width:600px;pointer-events:auto}
+.venue{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--mono);color:#cbd5e1;padding:6px 13px;border-radius:999px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);margin-bottom:22px}
+.venue i{width:6px;height:6px;border-radius:50%;background:#38bdf8;box-shadow:0 0 10px #38bdf8}
+.hero h1{font-size:clamp(2.7rem,9.4vw,6.2rem);font-weight:800;letter-spacing:-.05em;line-height:1;margin:0 0 16px;white-space:nowrap;
+  background:linear-gradient(180deg,#fff 25%,#93c5fd 115%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.04em}
+.hero .h1sub{font-size:clamp(1.12rem,2.2vw,1.5rem);font-weight:500;letter-spacing:-.02em;color:#e2e8f0;line-height:1.3;margin-bottom:16px}
+.hero .sub{color:#94a3b8;font-size:1rem;line-height:1.72;margin-bottom:22px}
+.hero .sub b{color:#e2e8f0}
+.authors{color:#cbd5e1;font-size:.9rem;font-weight:500;margin-bottom:4px} .authors b{color:#fff} .authors a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(203,213,225,.35);transition:border-color .15s} .authors a:hover{border-bottom-color:currentColor}
+.affil{color:#64748b;font-size:.84rem;margin-bottom:26px}
+.hbtns{display:flex;flex-wrap:wrap;gap:10px}
+.hbtn{display:inline-flex;align-items:center;gap:8px;padding:9px 17px;border-radius:999px;font-weight:600;font-size:.9rem;color:#e2e8f0;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);transition:.2s}
+.hbtn:hover{border-color:#60a5fa;color:#fff;background:rgba(96,165,250,.14)}
+.hbtn.primary{background:#fff;color:#0b1324;border-color:#fff} .hbtn.primary:hover{background:#dbeafe}
+.hbtn svg{width:16px;height:16px}
+.g-hint{position:absolute;z-index:2;right:clamp(20px,6vw,90px);bottom:80px;font:500 .7rem var(--mono);color:#64748b;letter-spacing:.08em;
+  text-transform:uppercase;pointer-events:none} .g-hint b{color:#93c5fd;font-weight:600}
+.cue{position:absolute;left:50%;bottom:24px;margin-left:-11px;z-index:2;width:22px;height:36px;border:1.5px solid rgba(255,255,255,.28);border-radius:12px}
+.cue::after{content:'';position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:#93c5fd;animation:cue 1.8s infinite}
+@keyframes cue{0%{opacity:0;transform:none}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+.hero-txt>*{opacity:0;transform:translateY(14px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+.hero-txt>*:nth-child(2){animation-delay:.07s}.hero-txt>*:nth-child(3){animation-delay:.14s}.hero-txt>*:nth-child(4){animation-delay:.2s}
+.hero-txt>*:nth-child(5){animation-delay:.26s}.hero-txt>*:nth-child(6){animation-delay:.32s}.hero-txt>*:nth-child(7){animation-delay:.38s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(max-width:900px){.hero{align-items:flex-end}.hero-in{padding-top:54vh;padding-bottom:78px}.hero-txt{max-width:none}.g-hint{display:none}}
+.kband{background:linear-gradient(180deg,#020617 0%,#020617 50%,var(--bg) 100%);padding:0 clamp(18px,5vw,40px) 60px}
+.kpis{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border-radius:22px;overflow:hidden;
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 90px -50px rgba(37,99,235,.7)}
+.kpi{background:rgba(3,10,31,.94);padding:26px 22px}
+.kpi .n{color:#fff;font-weight:700;letter-spacing:-.03em;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .n small{color:#60a5fa;font-size:.6em;margin-left:2px}
+.kpi .l{color:#94a3b8;font-size:.8rem;margin-top:8px;line-height:1.4}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+/* ---------- sections ---------- */
+.section{max-width:1200px;margin:0 auto;padding:104px clamp(18px,5vw,40px) 28px}
+.shead{margin-bottom:36px}
+.eyebrow{display:inline-block;font:600 .72rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.shead h2{font-weight:700;font-size:clamp(1.65rem,3.3vw,2.6rem);line-height:1.12;text-wrap:balance;letter-spacing:-.035em;padding-bottom:.05em;
+  background:linear-gradient(180deg,#0b1324 35%,#1e3a8a 120%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.shead .lead{font-size:1.08rem;line-height:1.72;color:var(--ink2);max-width:790px;margin-top:16px}
+.rule{display:none}
+.card{background:var(--card);border:1px solid rgba(15,23,42,.07);border-radius:var(--r2);box-shadow:var(--sh)}
+.fig{padding:24px clamp(16px,2.4vw,28px)}
+.fig-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px 18px;flex-wrap:wrap;margin-bottom:16px}
+.fig-h h3{font-size:1.02rem;font-weight:650;letter-spacing:-.01em}
+.fig-h .sub{font:500 .74rem var(--mono);color:var(--muted)}
+.fig-cap{margin-top:16px;font-size:.9rem;color:var(--ink2);line-height:1.65}
+.fig-cap b{color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px} .grid2>*{min-width:0}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+/* ---------- controls ---------- */
+.ctl{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;margin-bottom:20px}
+.cgroup{display:flex;flex-direction:column;gap:7px;min-width:0}
+.cgroup>label{font:600 .68rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;flex-wrap:wrap;background:#eef2f8;border-radius:11px;padding:3px;gap:2px}
+.seg button{border:none;background:transparent;padding:7px 13px;border-radius:8px;font-size:.84rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:.15s;white-space:nowrap}
+.seg button:hover{color:var(--accent)}
+.seg button.active{background:#fff;color:var(--accent);font-weight:600;box-shadow:0 1px 2px rgba(15,23,42,.08),0 2px 8px -2px rgba(15,23,42,.12)}
+.seg button[disabled]{opacity:.38;cursor:default}
+.btn-play{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:10px;border:none;cursor:pointer;color:#fff;font-weight:600;font-size:.86rem;
+  background:linear-gradient(135deg,#1d4ed8,#0ea5e9);box-shadow:0 10px 22px -12px rgba(29,78,216,.8);transition:filter .2s;white-space:nowrap}
+.btn-play:hover{filter:brightness(1.1)} .btn-play svg{width:14px;height:14px}
+.btn-ic{padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink2)}
+.btn-ic:hover{border-color:var(--accent);color:var(--accent)} .btn-ic svg{width:15px;height:15px;display:block}
+.play-row{display:flex;align-items:center;gap:8px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:.86rem;font-weight:500;cursor:pointer;user-select:none;white-space:nowrap}
+.switch input{display:none}
+.switch .tk{width:34px;height:19px;border-radius:999px;background:#cbd5e1;position:relative;transition:.2s;flex:none}
+.switch .tk::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch input:checked+.tk{background:var(--b2)} .switch input:checked+.tk::after{transform:translateX(15px)}
+.player{display:flex;align-items:center;gap:12px;margin-top:14px}
+.player input[type=range]{flex:1;min-width:80px}
+.player .pt{font:500 .72rem var(--mono);color:var(--muted);min-width:64px;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--line);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--b2);box-shadow:0 0 0 4px rgba(37,99,235,.15)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-radius:50%;background:var(--b2)}
+.callout{margin-top:16px;padding:13px 16px;border-radius:12px;border:1px solid var(--line);border-left:3px solid var(--b2);background:#fff;font-size:.9rem;color:var(--ink2);line-height:1.6}
+.callout.ok{border-left-color:var(--ok)} .callout.warn{border-left-color:var(--amber)} .callout b{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:var(--ink2);margin-top:12px}
+.legend .i{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.legend .sw{width:12px;height:12px;border-radius:2px;flex:none}
+.legend .sw-part{background:linear-gradient(to top right,#93c5fd 50%,#f1f5f9 50%);box-shadow:inset 0 0 0 1px #93c5fd}
+.legend .ln{width:18px;height:0;border-top:2.5px solid;flex:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:16px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+.stat .v{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat .k{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.35}
+.stat.ok{background:#ecfdf5;border-color:#a7f3d0} .stat.ok .v{color:var(--ok)}
+.stat.hot .v{color:var(--red)} .stat.blue .v{color:var(--accent)}
+.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:600;white-space:nowrap}
+.chip.skip{background:#e2e8f0;color:#64748b} .chip.part{background:#dbeafe;color:#1d4ed8} .chip.full{background:#1d4ed8;color:#fff}
+/* ---------- gantt ---------- */
+.gantt{display:grid;grid-template-columns:128px minmax(0,1fr);row-gap:8px;column-gap:12px;position:relative}
+.g-lab{font-size:.76rem;font-weight:650;color:var(--ink2);text-align:right;line-height:1.2;align-self:center}
+.g-lab small{display:block;font:500 .64rem var(--mono);color:var(--faint);margin-top:2px}
+.g-track{position:relative;height:30px;border-radius:8px;background:var(--bg2);border:1px solid var(--line2);overflow:hidden}
+.g-blk{position:absolute;top:3px;bottom:3px;border-radius:5px;background:var(--c,#2563eb);color:#fff;font:600 .62rem/24px var(--mono);
+  text-align:center;white-space:nowrap;overflow:hidden;text-overflow:clip;opacity:.22;transition:opacity .2s,box-shadow .2s}
+.g-blk.done{opacity:1} .g-blk.run{opacity:1;box-shadow:0 0 0 2px #fff inset,0 0 12px var(--c)}
+.g-blk.skip{background:repeating-linear-gradient(45deg,#e2e8f0 0 4px,#cbd5e1 4px 8px);color:#64748b}
+.g-blk.stall{background:repeating-linear-gradient(45deg,#ffe4e6 0 4px,#fecdd3 4px 8px);color:#be123c;border:1px dashed #fb7185}
+.g-blk.ghost{background:#cbd5e1;color:#475569}
+.g-ph{grid-column:2;position:relative;pointer-events:none;z-index:3}
+.g-ph i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--ink);border-radius:2px}
+.g-ph i::before{content:'';position:absolute;top:-4px;left:-3px;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.g-axis{grid-column:2;display:flex;justify-content:space-between;font:500 .66rem var(--mono);color:var(--faint)}
+@media(max-width:600px){.gantt{grid-template-columns:86px minmax(0,1fr)}.g-lab small{display:none}}
+@media(min-width:900px){.shead h2{white-space:nowrap}}
+[hidden]{display:none!important}
+.g-blk{cursor:pointer}
+.g-blk.hov{filter:brightness(1.1);box-shadow:0 0 0 2px rgba(11,19,36,.85) inset;z-index:2}
+.g-blk.sel{opacity:1!important;box-shadow:0 0 0 2px #fff inset,0 0 0 2px #0b1324;z-index:2}
+.gantt.picking .g-blk:not(.sel){filter:grayscale(.65);opacity:.3}
+.g-tip{position:fixed;left:0;top:0;z-index:95;pointer-events:none;max-width:290px;padding:8px 11px;border-radius:10px;background:#0b1324;color:#cbd5e1;
+  font-size:.76rem;line-height:1.45;box-shadow:0 12px 30px rgba(11,19,36,.3);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+.g-tip.on{opacity:1;transform:none} .g-tip b{color:#fff} .g-tip span{display:block;font:500 .68rem var(--mono);color:#7dd3fc;margin-top:3px}
+.g-insp{margin-top:12px;min-height:56px;padding:11px 14px;border-radius:12px;background:var(--bg2);border:1px dashed var(--line);font-size:.84rem;
+  color:var(--muted);line-height:1.55;display:flex;gap:12px;align-items:flex-start;transition:background .2s,border-color .2s}
+.g-insp.on{background:#fff;border-style:solid;border-color:var(--accent);color:var(--ink2)}
+.g-insp b{color:var(--ink)} .g-insp .m{font:500 .72rem var(--mono);color:var(--muted);margin-left:8px}
+.g-insp .g-blk{position:static;flex:none;width:14px;height:14px;margin-top:3px;opacity:1;cursor:default;box-shadow:none;filter:none}
+.zc-eq{margin-top:18px;display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:11px 16px;border-radius:12px;
+  background:#0a1227;color:#e2e8f0;font:500 .86rem var(--mono)}
+.zc-eq em{font:italic 500 .86rem system-ui,-apple-system,"Segoe UI",sans-serif;color:#93c5fd}
+/* ---------- charts ---------- */
+.ch{position:relative;width:100%}
+.ch svg{display:block;width:100%;height:auto;overflow:visible}
+.ch .gl{stroke:#eef2f7} .ch .ax{font:500 11px var(--mono);fill:#94a3b8} .ch .xl{font:500 11.5px var(--sans);fill:#475569}
+.ch .vl{font:700 10.5px var(--mono)} .ch .ref{stroke:#94a3b8;stroke-dasharray:4 4}
+.ch .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both} .ch .bar.neg{transform-origin:50% 0}
+.ch .ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease forwards}
+@keyframes grow{from{transform:scaleY(0)}} @keyframes draw{to{stroke-dashoffset:0}}
+.ch-tip{position:absolute;pointer-events:none;background:#0b1324;color:#fff;font-size:.76rem;line-height:1.5;padding:8px 11px;border-radius:9px;
+  box-shadow:0 10px 30px -10px rgba(0,0,0,.4);opacity:0;transition:opacity .12s;white-space:nowrap;transform:translate(-50%,calc(-100% - 10px));z-index:5}
+.ch-tip .r{display:flex;align-items:center;gap:7px} .ch-tip .d{width:8px;height:8px;border-radius:50%} .ch-tip b{color:#fff;margin-left:auto;padding-left:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tabs button{border:1px solid var(--line);background:#fff;padding:9px 18px;border-radius:999px;font-weight:600;font-size:.86rem;color:var(--ink2);cursor:pointer;transition:.15s}
+.tabs button:hover{color:var(--accent)}
+.tabs button.active{background:linear-gradient(135deg,#1d4ed8,#0ea5e9);border-color:transparent;color:#fff}
+.view{display:none} .view.active{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+.tbl{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl thead th{font:600 .68rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.tbl td{color:var(--ink2)} .tbl td.hi{color:var(--accent);font-weight:700} .tbl tbody tr:hover{background:var(--bg2)}
+.tblwrap{overflow-x:auto}
+.rng{display:grid;grid-template-columns:150px 1fr;gap:12px 14px;align-items:center;font-size:.84rem}
+.rng .lab{color:var(--ink2);font-weight:600;text-align:right}
+.rng .tr{position:relative;height:26px;border-radius:7px;background:var(--bg2)}
+.rng .bar{position:absolute;top:4px;bottom:4px;border-radius:5px;background:linear-gradient(90deg,#60a5fa,#1d4ed8);transform-origin:left;animation:grow-x .8s cubic-bezier(.2,.7,.2,1) both}
+.rng .tx{position:absolute;top:4px;font:700 .72rem/18px var(--mono);color:#fff;padding:0 8px;white-space:nowrap}
+.rng .tx.out{color:#1d4ed8;padding:0}
+.rng .ax{grid-column:2;display:flex;justify-content:space-between;font:500 .68rem var(--mono);color:var(--faint)}
+@keyframes grow-x{from{transform:scaleX(0)}}
+/* ---------- overview ---------- */
+.ov-split{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:start}
+@media(max-width:940px){.ov-split{grid-template-columns:1fr}}
+.prob{font-size:1rem;color:var(--ink2);line-height:1.75}
+.prob p+p{margin-top:12px}
+.prob ul{margin:12px 0 0;padding:0;list-style:none}
+.prob li{position:relative;padding-left:20px;margin:6px 0}
+.prob li::before{content:'';position:absolute;left:3px;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--b2)}
+.insight{margin-top:18px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,#eff6ff,#ecfeff);border:1px solid #bfdbfe;font-size:.95rem;line-height:1.65}
+.stack{position:relative;padding:20px 20px 20px 58px}
+.stack .rail{position:absolute;left:20px;top:22px;bottom:22px;width:24px;border-radius:12px;background:linear-gradient(180deg,#1d4ed8,#0ea5e9)}
+.stack .rail>span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;font:600 .62rem var(--mono);color:#fff;letter-spacing:.08em}
+.layer{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;
+  margin-bottom:10px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.layer:last-child{margin-bottom:0}
+.layer:hover{transform:translateX(4px);box-shadow:var(--sh2);border-color:#bfdbfe}
+.layer .no{font:700 .7rem var(--mono);color:var(--accent);grid-row:span 2}
+.layer h3{font-size:.98rem;letter-spacing:-.01em} .layer p{font-size:.85rem;color:var(--ink2);line-height:1.55}
+.stack .cls{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;font-size:.76rem;color:var(--muted);align-items:center}
+/* ---------- kernel ---------- */
+.kn-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:start}
+@media(max-width:980px){.kn-grid{grid-template-columns:1fr}}
+.cvbox{position:relative}
+.cvbox canvas{display:block;cursor:pointer;touch-action:none}
+.kv-row{display:flex;gap:4px;margin:4px 0 16px}
+.kv{flex:1 1 0;min-width:0;padding:6px 2px;overflow:hidden;border-radius:8px;text-align:center;font:600 .68rem var(--mono);line-height:1.3}
+.kv small{display:block;font-weight:500;font-size:.6rem;opacity:.85}
+.kv.skip{background:#e2e8f0;color:#64748b} .kv.part{background:#dbeafe;color:#1d4ed8} .kv.full{background:#1d4ed8;color:#fff}
+.rule-box{margin-top:14px;font-size:.84rem;color:var(--ink2);line-height:1.7;padding:12px 14px;border-radius:12px;background:var(--bg2)}
+.rule-box .mono{font-size:.8rem;color:var(--ink)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:820px){.roles{grid-template-columns:1fr}}
+.role{padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:#fff}
+.role .tg{display:inline-block;font:600 .64rem var(--mono);padding:3px 8px;border-radius:6px;color:#fff;margin-bottom:8px}
+.role h4{font-size:.94rem;margin-bottom:4px} .role p{font-size:.84rem;color:var(--ink2);line-height:1.55}
+/* ---------- load balancing ---------- */
+.lb-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:start}
+@media(max-width:1000px){.lb-grid{grid-template-columns:1fr}}
+.lbars{display:flex;flex-direction:column;gap:7px;position:relative}
+.lrow{display:grid;grid-template-columns:40px minmax(0,1fr) 44px 72px;gap:10px;align-items:center;font-size:.78rem;border-radius:8px;transition:background .3s}
+.lrow .rk{font:700 .74rem var(--mono);display:flex;align-items:center;gap:6px}
+.lrow .rk i{width:10px;height:10px;border-radius:3px}
+.ltrack{position:relative;height:22px;border-radius:6px;background:var(--bg2);overflow:visible}
+.lseg{position:absolute;top:0;bottom:0;border-right:1.5px solid #fff;transition:left .5s cubic-bezier(.2,.7,.2,1),width .5s cubic-bezier(.2,.7,.2,1)}
+.lseg:first-child{border-radius:6px 0 0 6px}
+.lrow .v{text-align:right;font:600 .76rem var(--mono);color:var(--ink2)}
+.lrow .tag{font:700 .64rem var(--mono);color:var(--red);white-space:nowrap}
+.lrow.peak .v{color:var(--red)}
+.lrow.hl{background:#fff7ed;box-shadow:0 0 0 1px #fdba74}
+.lline{position:absolute;top:-6px;bottom:-6px;width:0;z-index:4;pointer-events:none;transition:left .5s}
+.lline.avg{border-left:2px dashed #64748b} .lline.lb{border-left:2px solid var(--ink)}
+.lline b{position:absolute;top:-16px;left:-14px;font:600 .6rem var(--mono);white-space:nowrap}
+.lb-ax{display:grid;grid-template-columns:40px minmax(0,1fr) 44px 72px;gap:10px;margin-top:6px;font:500 .64rem var(--mono);color:var(--faint)}
+.lb-ax span:nth-child(2){display:flex;justify-content:space-between}
+.lb-step{margin-top:14px;min-height:48px;font-size:.88rem;color:var(--ink2);line-height:1.6;padding:11px 14px;border-radius:12px;background:var(--bg2)}
+/* ---------- overlap ---------- */
+.ovl-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media(max-width:1000px){.ovl-grid{grid-template-columns:1fr}}
+.topo svg{width:100%;height:auto;display:block}
+.topo .node{fill:#f8fafc;stroke:#cbd5e1}
+.topo .gpu{fill:#fff;stroke:#94a3b8;stroke-width:1.2}
+.topo .gpu.me{fill:#1d4ed8;stroke:#1d4ed8}
+.topo text{font:600 10px var(--mono);fill:#334155} .topo .me+text{fill:#fff}
+.topo .ar{fill:none;stroke-width:2.2;opacity:.18;transition:opacity .2s}
+.topo .ar.on{opacity:1} .topo .ar.done{opacity:.55} .topo .ar.sk{stroke-dasharray:3 4}
+.kvbuf{position:relative;display:flex;gap:3px;margin-top:6px}
+.kvbuf .s{flex:1;height:30px;border-radius:6px;display:grid;place-items:center;font:700 .62rem var(--mono);color:#fff;opacity:.3;transition:opacity .2s}
+.kvbuf .s.got{opacity:1} .kvbuf .s.sk{background:repeating-linear-gradient(45deg,#e2e8f0 0 4px,#cbd5e1 4px 8px)!important;color:#64748b}
+.kvbuf .s.cmp{box-shadow:inset 0 -4px 0 #0b1324}
+.ptr{position:absolute;top:-8px;bottom:-8px;width:2px;transition:left .08s linear;z-index:2}
+.ptr b{position:absolute;font:700 .6rem var(--mono);white-space:nowrap}
+.ptr.w{background:var(--ok)} .ptr.w b{top:-14px;left:3px;color:var(--ok)}
+.ptr.r{background:var(--ink)} .ptr.r b{bottom:-14px;left:3px;color:var(--ink)}
+.bitmask{display:flex;gap:4px;margin-top:8px;align-items:center;font:600 .7rem var(--mono);color:var(--muted);flex-wrap:wrap}
+.bitmask .bit{width:26px;height:24px;border-radius:5px;display:grid;place-items:center;background:#1d4ed8;color:#fff;transition:background .2s,color .2s}
+.bitmask .bit.clr{background:#e2e8f0;color:#94a3b8}
+.ov-now{margin-top:14px;min-height:46px;font-size:.88rem;color:var(--ink2);line-height:1.6;padding:11px 14px;border-radius:12px;background:var(--bg2)}
+.sidecard{padding:20px}
+.sidecard h4{font-size:.9rem;margin-bottom:10px}
+.kvl{display:flex;flex-direction:column;gap:8px}
+.kvl .r{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--ink2);padding:8px 11px;border:1px solid var(--line);border-radius:10px}
+.kvl .r b{font-family:var(--mono);font-size:.78rem;text-align:right}
+.kvl .r b.g{color:var(--ok)}
+/* ---------- bib/footer ---------- */
+.bib{position:relative;padding:6px}
+.bib pre{font:.82rem/1.65 var(--mono);background:#0b1324;color:#cbd5e1;padding:22px;border-radius:14px;overflow-x:auto}
+.copy{position:absolute;top:18px;right:18px;padding:7px 14px;border-radius:8px;border:none;background:rgba(255,255,255,.14);color:#fff;font-weight:600;font-size:.78rem;cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.24)}
+.footer{background:#020617;color:#94a3b8;text-align:center;padding:40px 20px 50px;margin-top:90px;font-size:.88rem}
+.footer p+p{margin-top:6px;color:#64748b;font-size:.8rem}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}.hero-txt>*{opacity:1;transform:none}.reveal{opacity:1;transform:none}}
+/* ===== zero-comm localization (Fig. 1b, interactive) ===== */
+.zc-explain{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+@media(max-width:860px){.zc-explain{grid-template-columns:1fr}}
+.zc-ex{padding:22px;border-radius:18px;background:#fff;border:1px solid rgba(15,23,42,.07);box-shadow:var(--sh)}
+.zc-ex .k{font:700 .68rem var(--mono);color:var(--accent);letter-spacing:.1em}
+.zc-ex h3{font-size:1.02rem;margin:8px 0 6px;letter-spacing:-.01em}
+.zc-ex p{font-size:.88rem;color:var(--ink2);line-height:1.6}
+.zc-ex .eq{margin-top:10px;font:500 .8rem var(--mono);background:#0a1227;color:#e2e8f0;border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:nowrap}
+.zc-ex .eq .y{color:#fbbf24}
+.zc{position:relative;padding:26px clamp(16px,2.4vw,30px)}
+.zc-controls{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.zc-stage{display:grid;grid-template-columns:auto minmax(290px,1fr) auto;gap:26px;align-items:start}
+@media(max-width:1120px){.zc-stage{grid-template-columns:auto auto;justify-content:space-around}.zc-mid{grid-column:1/-1;order:3}}
+@media(max-width:760px){.zc-stage{grid-template-columns:1fr}.zmx{--cs:24px}.zmx.n16{--cs:13px}}
+.zc-ph{font-weight:650;font-size:.95rem;margin-bottom:12px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.zc-ph span{font:500 .7rem var(--mono);color:var(--muted)}
+.zmx{--cs:28px;display:inline-flex;flex-direction:column;gap:3px;font-family:var(--mono)}
+.zmx.n16{--cs:15px}
+.zc-row{display:flex;gap:3px;align-items:center}
+.zc-row.cb{margin-top:6px} .zc-row.vg{margin-top:10px}
+.zc-lab{width:34px;flex:none;font:700 .62rem var(--mono);text-align:right;color:var(--muted);padding-right:5px}
+.zc-rlab{width:28px;flex:none;font:500 .58rem var(--mono);color:var(--faint);padding-left:4px}
+.zc-h{width:var(--cs);flex:none;text-align:center;font-size:.58rem;color:var(--faint);cursor:pointer}
+.zc-h.sel{color:#d97706;font-weight:700}
+.zc-c{width:var(--cs);height:var(--cs);border-radius:4px;background:#e8eef7;flex:none;transition:background .3s,box-shadow .2s;cursor:pointer}
+.zc-c.v{background:var(--rc)}
+.zc-c.sel{box-shadow:inset 0 0 0 2px #f59e0b}
+.zc-c.v.sel{box-shadow:inset 0 0 0 2px #fde68a,0 0 0 1px #f59e0b}
+.zc-c.ph{background:transparent;border:1px dashed #cbd5e1}
+.zc-tag{width:34px;height:var(--cs);flex:none;border-radius:5px;background:var(--rc);color:#fff;font:700 .58rem var(--mono);
+  display:grid;place-items:center;cursor:pointer;transition:transform .2s,filter .2s}
+.zc-tag:hover{filter:brightness(1.15);transform:scale(1.06)}
+.zc-v{width:var(--cs);height:24px;flex:none;border:1px solid var(--line);border-radius:5px;background:#fff;display:grid;place-items:center;
+  font:600 .66rem var(--mono);color:var(--ink);cursor:pointer;transition:background .25s,border-color .25s}
+.zmx.n16 .zc-v{font-size:.52rem;height:20px}
+.zc-v.sel{border-color:#f59e0b;background:#fff7ed;color:#b45309;font-weight:800}
+.zc-v.pend{color:#cbd5e1;background:#f8fafc}
+.zc-v.pop{animation:zpop .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes zpop{0%{transform:scale(.55);background:#fde68a}100%{transform:none}}
+.zc-vr .zc-lab{color:var(--faint)} .zc-vr.act .zc-lab{color:var(--accent)}
+.zc-lr{margin-bottom:20px} .zc-lr:last-child{margin-bottom:0}
+.zc-lh{display:flex;align-items:center;gap:8px;font-weight:650;font-size:.9rem;margin-bottom:8px;flex-wrap:wrap}
+.zc-lh .dot,.zc-rk .dot{width:10px;height:10px;border-radius:3px;background:var(--rc);flex:none}
+.zc-lh .m{font:500 .68rem var(--mono);color:var(--muted)}
+.zc-ok{font:700 .66rem var(--mono);color:#047857;background:#ecfdf5;padding:3px 9px;border-radius:999px;animation:zpop .5s}
+.zc-ok.bad{color:#be123c;background:#fff1f2}
+.zc-mid{background:radial-gradient(420px 220px at 0 0,rgba(37,99,235,.28),transparent 70%),#0a1227;color:#cbd5e1;border-radius:16px;padding:18px 18px 16px;font-size:.84rem;min-width:0;box-shadow:0 20px 50px -30px rgba(10,18,39,.8)}
+.zc-mid h4{font:600 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#7dd3fc;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.zc-nav button{background:rgba(255,255,255,.1);border:none;color:#e2e8f0;width:26px;height:24px;border-radius:6px;cursor:pointer;font-size:.9rem}
+.zc-nav button:hover{background:rgba(255,255,255,.2)}
+.zc-x{font-family:var(--mono);font-size:.82rem;color:#e2e8f0;margin-bottom:4px;line-height:1.55}
+.zc-x .hl{color:#fbbf24;font-weight:700} .zc-x .c{color:#94a3b8}
+.zc-rk{border-top:1px solid rgba(255,255,255,.08);padding-top:10px;margin-top:10px}
+.zc-rk .t{font-weight:650;color:#fff;margin-bottom:6px;display:flex;gap:8px;align-items:center;font-size:.85rem}
+.zc-rk .t span.o{font:500 .68rem var(--mono);color:#64748b}
+.zc-tb{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.72rem}
+.zc-tb th{color:#64748b;font-weight:500;text-align:right;padding:2px 5px;white-space:nowrap}
+.zc-tb td{text-align:right;padding:3px 5px;color:#94a3b8;white-space:nowrap}
+.zc-tb td.z{color:#475569}
+.zc-tb tr.win td{color:#fff} .zc-tb tr.win td:last-child{color:#fbbf24;font-weight:700}
+.zc-res{margin-top:6px;font-family:var(--mono);font-size:.78rem;color:#e2e8f0}
+.zc-res b{color:#fbbf24;font-size:.92rem}
+.zc-why{margin-top:3px;font-size:.74rem;color:#7dd3fc}
+.zc-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:.78rem;color:var(--ink2)}
+.zc-legend .i{display:inline-flex;align-items:center;gap:6px}
+.zc-legend .sw{width:14px;height:14px;border-radius:4px;flex:none}
+.zc-foot{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:start}
+@media(max-width:860px){.zc-foot{grid-template-columns:1fr}}
+.zc-steps{display:flex;gap:8px;flex-wrap:wrap}
+.zc-step{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px 5px 5px;
+  font:600 .8rem var(--sans);color:var(--ink2);cursor:pointer;transition:all .25s}
+.zc-step i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eef2f8;color:var(--muted);font:700 .68rem var(--mono);transition:all .25s}
+.zc-step.done i{background:#dbeafe;color:var(--accent)}
+.zc-step.on{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+.zc-step.on i{background:var(--accent);color:#fff}
+.zc-cap{margin-top:14px;font-size:.95rem;line-height:1.7;color:var(--ink2);min-height:56px;max-width:760px}
+.zc-cap b{color:var(--ink)}
+.zc-badges{display:flex;flex-direction:column;gap:8px;min-width:260px}
+.zc-badge{font:600 .74rem var(--mono);padding:9px 13px;border-radius:10px;background:#f1f5fa;color:var(--ink2);display:flex;justify-content:space-between;gap:18px}
+.zc-badge b{color:var(--accent)} .zc-badge.ok{background:#ecfdf5;color:#047857} .zc-badge.ok b{color:#047857}
+.zc-fly{position:absolute;z-index:90;pointer-events:none;margin:0;font-family:var(--mono);filter:drop-shadow(0 10px 18px rgba(15,40,110,.35))}
+.zc-after{margin-top:18px}
+
+
+/* ---------- language / theme toggles ---------- */
+.nav-r{display:flex;align-items:center;gap:8px}
+.tg{height:32px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;
+  transition:border-color .2s,color .2s,background .2s}
+.tg:hover{border-color:var(--accent);color:var(--accent)}
+.tg-lang{position:relative;padding:3px;font:600 .72rem/1 var(--sans)}
+.tg-lang span{position:relative;z-index:1;width:30px;height:24px;display:grid;place-items:center;transition:color .25s}
+.tg-lang::before{content:'';position:absolute;top:3px;left:3px;width:30px;height:24px;border-radius:999px;background:var(--ink);transition:transform .32s cubic-bezier(.2,.7,.2,1),background .2s}
+html[lang=zh] .tg-lang::before{transform:translateX(30px)}
+html:not([lang=zh]) .tg-lang .l-en,html[lang=zh] .tg-lang .l-zh{color:var(--bg)}
+.tg-theme{position:relative;width:32px;justify-content:center}
+.tg-theme svg{position:absolute;width:16px;height:16px;transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.tg-theme .moon{opacity:0;transform:rotate(-90deg) scale(.5)}
+html[data-theme=dark] .tg-theme .sun{opacity:0;transform:rotate(90deg) scale(.5)}
+html[data-theme=dark] .tg-theme .moon{opacity:1;transform:none}
+.nav.dark .tg{border-color:rgba(255,255,255,.16);color:#dbe4f3}
+.nav.dark .tg:hover{border-color:#60a5fa;color:#fff}
+.nav.dark .tg-lang::before{background:#fff}
+html:not([lang=zh]) .nav.dark .tg-lang .l-en,html[lang=zh] .nav.dark .tg-lang .l-zh{color:#0b1324}
+@media(max-width:560px){.nav-cta{display:none}}
+html[lang=zh]:not(.i18n-ready) .i18n{visibility:hidden}
+html[lang=zh]{--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",Inter,"Segoe UI",Roboto,sans-serif}
+html[lang=zh] .shead h2,html[lang=zh] .hero .h1sub{letter-spacing:0}
+html[lang=zh] .shead .lead,html[lang=zh] .prob{line-height:1.85}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.32s}
+html.tt,html.tt *{transition:background-color .3s,border-color .3s,color .3s,fill .3s,stroke .3s!important}
+.ch .dot{fill:var(--card)} .ch .wk{stroke:var(--ink)} .ch .gd{stroke:var(--faint)}
+/* ---------- dark theme ---------- */
+html[data-theme=dark]{color-scheme:dark;
+  --ink:#e6edf7;--ink2:#b4c0d3;--muted:#8394ad;--faint:#5f6f88;--line:#223049;--line2:#1a2540;
+  --bg:#070d1c;--bg2:#0f1729;--card:#0c1426;--accent:#60a5fa;--b5:#1e3a8a;--ok:#34d399;--red:#fb7185;
+  --sh:0 1px 2px rgba(0,0,0,.3),0 14px 34px -20px rgba(0,0,0,.7);--sh2:0 28px 60px -30px rgba(0,0,0,.75)}
+html[data-theme=dark] ::selection{background:rgba(96,165,250,.35)}
+html[data-theme=dark] .nav{background:rgba(7,13,28,.78);border-bottom-color:rgba(148,163,184,.1)}
+html[data-theme=dark] .nav-cta{color:#0b1324}
+html[data-theme=dark] .zc-ex{background:var(--card);border-color:var(--line)}
+html[data-theme=dark] .shead h2{background:linear-gradient(180deg,#f1f5ff 35%,#93c5fd 125%);-webkit-background-clip:text;background-clip:text}
+html[data-theme=dark] .card{border-color:rgba(148,163,184,.12)}
+html[data-theme=dark] .seg{background:#111b30}
+html[data-theme=dark] .seg button.active{background:#1d2b47;color:#bfdbfe;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+html[data-theme=dark] .btn-ic,html[data-theme=dark] .callout,html[data-theme=dark] .stat,html[data-theme=dark] .tabs button,
+html[data-theme=dark] .layer,html[data-theme=dark] .role,html[data-theme=dark] .zc-step,html[data-theme=dark] .zc-v,html[data-theme=dark] .g-insp.on{background:var(--card)}
+html[data-theme=dark] .tabs button.active{background:linear-gradient(135deg,#1d4ed8,#0ea5e9)}
+html[data-theme=dark] .switch .tk{background:#334155}
+html[data-theme=dark] .stat.ok{background:rgba(16,185,129,.1);border-color:rgba(52,211,153,.3)}
+html[data-theme=dark] .chip.skip,html[data-theme=dark] .kv.skip{background:#1b2638;color:#8394ad}
+html[data-theme=dark] .chip.part,html[data-theme=dark] .kv.part{background:rgba(59,130,246,.2);color:#bfdbfe}
+html[data-theme=dark] .g-blk.skip,html[data-theme=dark] .kvbuf .s.sk{background:repeating-linear-gradient(45deg,#1b2638 0 4px,#243149 4px 8px)!important;color:#8394ad}
+html[data-theme=dark] .g-blk.stall{background:repeating-linear-gradient(45deg,rgba(244,63,94,.16) 0 4px,rgba(244,63,94,.28) 4px 8px);color:#fda4af;border-color:#f43f5e}
+html[data-theme=dark] .g-blk.ghost{background:#2a3850;color:#cbd5e1}
+html[data-theme=dark] .g-blk.hov{box-shadow:0 0 0 2px rgba(255,255,255,.85) inset}
+html[data-theme=dark] .g-blk.sel{box-shadow:0 0 0 2px #0c1426 inset,0 0 0 2px #e6edf7}
+html[data-theme=dark] .g-tip,html[data-theme=dark] .ch-tip{background:#18233c;border:1px solid rgba(148,163,184,.18);box-shadow:0 14px 34px rgba(0,0,0,.5)}
+html[data-theme=dark] .rng .tx.out{color:#93c5fd}
+html[data-theme=dark] .insight{background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(6,182,212,.07));border-color:rgba(96,165,250,.25)}
+html[data-theme=dark] .layer:hover{border-color:rgba(96,165,250,.45)}
+html[data-theme=dark] .lseg{border-right-color:var(--card)}
+html[data-theme=dark] .lrow.hl{background:rgba(245,158,11,.1);box-shadow:0 0 0 1px rgba(245,158,11,.4)}
+html[data-theme=dark] .lline.avg{border-left-color:#8394ad}
+html[data-theme=dark] .topo .node{fill:#0f1729;stroke:#26334d}
+html[data-theme=dark] .topo .gpu{fill:#16213a;stroke:#475569}
+html[data-theme=dark] .topo text{fill:#b4c0d3} html[data-theme=dark] .topo .me+text{fill:#fff}
+html[data-theme=dark] .kvbuf .s.cmp{box-shadow:inset 0 -4px 0 #e6edf7}
+html[data-theme=dark] .bitmask .bit.clr{background:#1b2638;color:#5f6f88}
+html[data-theme=dark] .bib pre,html[data-theme=dark] .zc-mid,html[data-theme=dark] .zc-eq{border:1px solid var(--line)}
+html[data-theme=dark] .zc-c{background:#17223a}
+html[data-theme=dark] .zc-c.ph{border-color:#334155}
+html[data-theme=dark] .zc-v.sel{background:rgba(245,158,11,.14);color:#fbbf24}
+html[data-theme=dark] .zc-v.pend{color:#334155;background:#0f1729}
+html[data-theme=dark] .zc-ok{background:rgba(16,185,129,.14);color:#34d399}
+html[data-theme=dark] .zc-ok.bad{background:rgba(244,63,94,.14);color:#fb7185}
+html[data-theme=dark] .zc-step i{background:#16213a}
+html[data-theme=dark] .zc-step.done i{background:rgba(59,130,246,.22)}
+html[data-theme=dark] .zc-step.on i{color:#0b1324}
+html[data-theme=dark] .zc-badge{background:var(--bg2)}
+html[data-theme=dark] .zc-badge.ok,html[data-theme=dark] .zc-badge.ok b{background:rgba(16,185,129,.12);color:#34d399}
+html[data-theme=dark] .zc-legend .sw[style*="#e8eef7"]{background:#17223a!important}
+html[data-theme=dark] .zc-legend .sw[style*="#fff7ed"]{background:rgba(245,158,11,.14)!important}
+html[data-theme=dark] .legend .sw-part{background:linear-gradient(to top right,#93c5fd 50%,#101a2e 50%)}
+html[data-theme=dark] .legend .sw[style*="#e2e8f0"]{background:repeating-linear-gradient(45deg,#1b2638 0 3px,#2a3850 3px 6px)!important}
+html[data-theme=dark] .ch .xl{fill:var(--ink2)} html[data-theme=dark] .ch .gl{stroke:var(--line2)}
+</style>
+</head>
+<body>
+<nav class="nav dark" id="nav">
+  <a href="#top" class="brand"><span class="logo">FM<i>3</i></span><span>FlashMask-3</span></a>
+  <div class="nav-links">
+    <a href="#overview"><span class="i18n" data-zh="概览">Overview</span></a><a href="#kernel"><span class="i18n" data-zh="算子">Kernel</span></a><a href="#transform"><span class="i18n" data-zh="掩码本地化">Localization</span></a>
+    <a href="#balance"><span class="i18n" data-zh="负载均衡">Balancing</span></a><a href="#overlap"><span class="i18n" data-zh="通信重叠">Overlap</span></a><a href="#results"><span class="i18n" data-zh="实验结果">Results</span></a><a href="#bibtex"><span class="i18n" data-zh="引用">Cite</span></a>
+  </div>
+  <div class="nav-r">
+    <button class="tg tg-lang" id="lang-btn" type="button" aria-label="切换到中文"><span class="l-en">EN</span><span class="l-zh">中</span></button>
+    <button class="tg tg-theme" id="theme-btn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20.5 14.2A8.6 8.6 0 1 1 9.8 3.5a6.9 6.9 0 0 0 10.7 10.7z"/></svg></button>
+    <a href="#" class="nav-cta"><span class="i18n" data-zh="论文">Paper</span></a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="galaxy" aria-hidden="true"></canvas>
+  <div class="hero-in"><div class="hero-txt">
+    <div class="venue"><i></i><span class="i18n" data-zh="NeurIPS 2026 · Poster">NeurIPS 2026 · Poster</span></div>
+    <h1>FlashMask-3</h1>
+    <p class="h1sub"><span class="i18n" data-zh="兼顾效率与表达力的掩码感知分布式注意力。">Efficient &amp; expressive mask-aware distributed attention.</span></p>
+    <p class="sub"><span class="i18n" data-zh="在 FlashAttention-3 流水线上实现掩码感知的 Hopper 算子，再通过&lt;b&gt;零通信掩码本地化&lt;/b&gt;、稀疏感知负载均衡 &lt;b&gt;HCC-IPO&lt;/b&gt; 和&lt;b&gt;掩码感知的计算–通信重叠&lt;/b&gt;，把它扩展到多机上下文并行。">A mask-aware Hopper kernel on the FlashAttention-3 pipeline, scaled to multi-node context parallelism
+      through <b>zero-communication mask localization</b>, the sparsity-aware balancer <b>HCC-IPO</b>, and
+      <b>mask-aware compute–communication overlap</b>.</span></p>
+    <p class="authors"><b><a href="https://github.com/GuoxiaWang" target="_blank" rel="noopener">Guoxia Wang</a></b><sup>*</sup>, <b><a href="https://github.com/Enigmatisms" target="_blank" rel="noopener">Qianyue He</a></b><sup>*</sup>, <b><a href="https://github.com/umiswing" target="_blank" rel="noopener">Siming Wu</a></b><sup>*</sup>, <b><a href="https://github.com/starcrown001" target="_blank" rel="noopener">Haoyang Xie</a></b><sup>*</sup>, <a href="https://github.com/baoqiwen" target="_blank" rel="noopener">Qiwen Bao</a>, Jinle Zeng, Jiabin Yang, Tian Wu, Dianhai Yu<sup>†</sup></p>
+    <p class="affil"><span class="i18n" data-zh="百度 · &lt;sup&gt;*&lt;/sup&gt;共同第一作者 · &lt;sup&gt;†&lt;/sup&gt;通讯作者">Baidu Inc. · <sup>*</sup>Equal contribution · <sup>†</sup>Corresponding author</span></p>
+    <div class="hbtns">
+      <a class="hbtn primary" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg><span class="i18n" data-zh="论文">Paper</span></a>
+      <a class="hbtn" href="https://github.com/PaddlePaddle/FlashMask" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 19c-4 1.5-4-2.5-6-3m12 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.8 11.8 0 0 0-6 0C6.3 1.3 5.3 1.6 5.3 1.6a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 3.9 8c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V22"/></svg><span class="i18n" data-zh="代码">Code</span></a>
+      <a class="hbtn" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>arXiv</a>
+      <a class="hbtn" href="#bibtex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 4h9l5 5v11H6z"/><path d="M9 13h6M9 16h6"/></svg>BibTeX</a>
+    </div>
+  </div></div>
+  <div class="g-hint" id="g-hint">click the stars to morph → <b>mask</b></div>
+  <a class="cue" href="#overview" aria-label="Scroll down"></a>
+</header>
+<div class="kband"><div class="kpis" id="kpis">
+  <div class="kpi"><div class="n"><span data-count="82.6" data-dec="1" data-pre="+">+82.6</span><small>%</small></div><div class="l"><span class="i18n" data-zh="相对 FlashMask 的平均 TFLOPs/s 提升&lt;br/&gt;（几何平均，12 种掩码，4K–128K，H100）">mean TFLOPs/s gain over FlashMask<br/>(geo-mean, 12 masks, 4K–128K, H100)</span></div></div>
+  <div class="kpi"><div class="n"><span data-count="501.6" data-dec="1">501.6</span></div><div class="l"><span class="i18n" data-zh="CP32 下的单卡 TFLOPs/s&lt;br/&gt;（Causal Document 掩码，每卡 8K）">TFLOPs/s per GPU at CP32<br/>(Causal Document mask, 8K/device)</span></div></div>
+  <div class="kpi"><div class="n"><span data-count="3.71" data-dec="2">3.71</span><small>×</small></div><div class="l"><span class="i18n" data-zh="相对 Megatron-CP ring 的最高加速比&lt;br/&gt;（不同掩码与 CP 度下为 1.80–3.71×）">peak speedup over Megatron-CP ring<br/>(1.80–3.71× across masks × CP)</span></div></div>
+  <div class="kpi"><div class="n"><span data-count="0" data-dec="0">0</span><small>B</small></div><div class="l"><span class="i18n" data-zh="各 rank 本地化掩码&lt;br/&gt;所需的跨 rank 通信量">cross-rank traffic to localize<br/>the mask on every rank</span></div></div>
+</div></div>
+
+<main>
+<!-- ================= OVERVIEW ================= -->
+<section class="section" id="overview">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="概览">Overview</span></div>
+    <h2><span class="i18n" data-zh="注意力掩码已成为瓶颈">The attention mask has become the bottleneck</span></h2>
+    <p class="lead"><span class="i18n" data-zh="长上下文训练会把多条样本打包进同一序列，随之带来各种结构化掩码（document、prefix-LM、share-question、滑动窗口、块稀疏）。到了多机上下文并行（CP），掩码处理占据了单步的大部分时间。">Packed long-context batches carry structured masks (document, prefix-LM, share-question, sliding-window,
+      block-sparse). Under multi-node context parallelism (CP), the mask itself dominates step time.</span></p></div>
+  <div class="ov-split">
+    <div class="prob reveal">
+      <p><span class="i18n" data-zh="掩码和 CP 叠加后，主要有三类开销：">Three costs appear once masks meet CP:</span></p>
+      <ul><li><span class="i18n" data-zh="&lt;b&gt;显式存储&lt;/b&gt;：稠密的 &lt;i&gt;n×n&lt;/i&gt; 掩码在长上下文下放不下。"><b>Materialization</b>: dense <i>n×n</i> masks do not fit long contexts.</span></li>
+        <li><span class="i18n" data-zh="&lt;b&gt;掩码感知调度&lt;/b&gt;：算子要跳过被遮蔽的计算，又不能让流水线停顿。"><b>Mask-aware scheduling</b>: kernels must skip masked work without stalling the pipeline.</span></li>
+        <li><span class="i18n" data-zh="&lt;b&gt;掩码导致的负载不均&lt;/b&gt;：等长的分片，计算量却相差悬殊。"><b>Mask-induced imbalance</b>: equal-length shards carry very unequal work.</span></li></ul>
+      <p style="margin-top:14px"><span class="i18n" data-zh="FlashMask 已经用四个按列存储的边界向量（LTS、LTE、UTS、UTE）把掩码压缩到 &lt;b&gt;O(n)&lt;/b&gt;，但它只针对 Ampere 实现，也不支持分布式。">FlashMask already compresses masks to <b>O(n)</b> with four column-wise boundary vectors
+        (LTS, LTE, UTS, UTE), but it targets Ampere and has no distributed support.</span></p>
+      <div class="insight"><span class="i18n" data-zh="&lt;b&gt;关键观察：&lt;/b&gt;列式掩码&lt;b&gt;按 key 索引&lt;/b&gt;，存的却是 &lt;b&gt;query 行边界&lt;/b&gt;。因此，每个 rank 本地化掩码时只需做一次零通信的逐元素映射；同一套“全遮蔽 / 部分遮蔽 / 无遮蔽”的 tile 分类，也可以从算子一路用到分布式调度。"><b>Key observation.</b> The column-wise mask is <b>indexed by key</b> but <b>stores query-row
+        boundaries</b>. That single asymmetry makes per-rank localization a zero-communication elementwise map, and the
+        same full / partial / unmasked tile classification can drive every layer of the stack.</span></div>
+    </div>
+    <div class="card stack reveal">
+      <div class="rail"><span><span class="i18n" data-zh="同一套 tile 分类">one tile classification</span></span></div>
+      <a class="layer" href="#kernel"><span class="no">§3.1</span><h3><span class="i18n" data-zh="掩码感知的 Hopper 算子">Mask-aware Hopper kernel</span></h3>
+        <p><span class="i18n" data-zh="三角色 warp 特化：全遮蔽 tile 直接跳过，只有部分遮蔽 tile 需要加掩码，掩码处理不占 WGMMA 关键路径。">Three-role warp specialization skips fully-masked tiles and masks only partial ones, off the WGMMA critical path.</span></p></a>
+      <a class="layer" href="#transform"><span class="no">§3.2</span><h3><span class="i18n" data-zh="零通信本地化">Zero-communication localization</span></h3>
+        <p><span class="i18n" data-zh="clip–shift–max 把全局边界换算成 rank 本地边界，无损，也不需要通信。">clip–shift–max rewrites global boundaries into rank-local ones: lossless and without communication.</span></p></a>
+      <a class="layer" href="#balance"><span class="no">§3.3</span><h3><span class="i18n" data-zh="稀疏感知负载均衡">Sparsity-aware balancing</span></h3>
+        <p><span class="i18n" data-zh="按 tile 代价 {0, α&lt;sub&gt;p&lt;/sub&gt;, α&lt;sub&gt;u&lt;/sub&gt;} 累加出每个 chunk 的负载，HCC-IPO 据此做均衡；峰值负载达到下界时，即可确认结果最优。">Tile costs {0, α<sub>p</sub>, α<sub>u</sub>} give per-chunk loads; HCC-IPO balances them and proves the result optimal whenever the peak load reaches the lower bound.</span></p></a>
+      <a class="layer" href="#overlap"><span class="no">§3.4</span><h3><span class="i18n" data-zh="掩码感知的通信重叠">Mask-aware overlap</span></h3>
+        <p><span class="i18n" data-zh="分层 all-gather 和分段 reduce-scatter 都与注意力计算重叠；全遮蔽的 chunk 不发送。">Hierarchical all-gather and segmented reduce-scatter hide behind attention; fully-masked chunks are never sent.</span></p></a>
+      <div class="cls"><span class="i18n" data-zh="tile 类别：&lt;span class=&quot;chip full&quot;&gt;无遮蔽&lt;/span&gt;&lt;span class=&quot;chip part&quot;&gt;部分遮蔽&lt;/span&gt;&lt;span class=&quot;chip skip&quot;&gt;全遮蔽&lt;/span&gt;">tile classes: <span class="chip full">unmasked</span><span class="chip part">partial</span><span class="chip skip">fully-masked</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KERNEL ================= -->
+<section class="section" id="kernel">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="方法 · §3.1">Method · §3.1</span></div>
+    <h2><span class="i18n" data-zh="增加第三个 warp 角色，专门读掩码">A third warp role that reads the mask</span></h2>
+    <p class="lead"><span class="i18n" data-zh="FA3 的 producer warp group 有 128 个线程，但发起 TMA 加载只需一个线程，每轮迭代都有 96 个线程闲着。FlashMask-3 让这些线程充当 &lt;b&gt;KV Index Generator&lt;/b&gt;，按边界向量给 tile 分类，这样掩码处理就不会进入 WGMMA 关键路径。">FA3's producer warp group has 128 threads, yet one thread is enough to issue each TMA load, so
+      96 threads sit idle every iteration. FlashMask-3 turns them into a <b>KV Index Generator</b> that classifies
+      tiles from the boundary vectors, so masking never enters the WGMMA critical path.</span></p></div>
+  <div class="card fig reveal" id="kn">
+    <div class="ctl">
+      <div class="cgroup"><label><span class="i18n" data-zh="掩码">Mask</span></label><div class="seg" id="kn-mask">
+        <button data-v="causaldoc" class="active">Causal Doc</button><button data-v="prefix">Prefix-LM Doc</button>
+        <button data-v="document">Document</button><button data-v="swa"><span class="i18n" data-zh="滑动窗口">Sliding Window</span></button></div></div>
+      <div class="cgroup"><label><span class="i18n" data-zh="Q-block（也可直接点击图中某一行）">Q-block (click a tile row)</span></label><div class="seg" id="kn-qb"></div></div>
+    </div>
+    <div class="kn-grid">
+      <div>
+        <div class="fig-h"><h3><span class="i18n" data-zh="64 × 64 掩码，8 × 8 个 tile">64 × 64 mask, 8 × 8 tiles</span></h3><span class="sub"><span class="i18n" data-zh="行 = Q-block · 列 = KV block">row = Q-block · column = KV block</span></span></div>
+        <div class="cvbox"><canvas id="kn-cv" aria-label="tiled attention mask"></canvas></div>
+        <div class="legend"><span class="i"><span class="sw" style="background:#1d4ed8"></span><span class="i18n" data-zh="无遮蔽 tile">unmasked tile</span></span>
+          <span class="i"><span class="sw sw-part"></span><span class="i18n" data-zh="部分遮蔽 tile（浅色格被遮蔽）">partial tile (pale cells masked)</span></span>
+          <span class="i"><span class="sw" style="background:repeating-linear-gradient(45deg,#e2e8f0 0 3px,#cbd5e1 3px 6px)"></span><span class="i18n" data-zh="全遮蔽（跳过）">fully-masked (skipped)</span></span></div>
+        <div class="rule-box"><span class="i18n" data-zh="一个 tile 对应行区间 [q&lt;sub&gt;0&lt;/sub&gt;, q&lt;sub&gt;1&lt;/sub&gt;) 与一个 KV block，按边界向量在该 block 内的 max/min 判断类别：&lt;br/&gt;&lt;span class=&quot;mono&quot;&gt;skip&lt;/span&gt;：q&lt;sub&gt;0&lt;/sub&gt; ≥ max LTS 或 q&lt;sub&gt;1&lt;/sub&gt; ≤ min UTE · &lt;span class=&quot;mono&quot;&gt;unmasked&lt;/span&gt;：q&lt;sub&gt;1&lt;/sub&gt; ≤ min LTS 且 q&lt;sub&gt;0&lt;/sub&gt; ≥ max UTE · 其余为 &lt;span class=&quot;mono&quot;&gt;partial&lt;/span&gt;。">Tile rows [q<sub>0</sub>, q<sub>1</sub>) × a KV block, using block-wise max/min of the vectors:<br/>
+          <span class="mono">skip</span> if q<sub>0</sub> ≥ max LTS or q<sub>1</sub> ≤ min UTE ·
+          <span class="mono">unmasked</span> if q<sub>1</sub> ≤ min LTS and q<sub>0</sub> ≥ max UTE ·
+          otherwise <span class="mono">partial</span>.</span></div>
+      </div>
+      <div>
+        <div class="fig-h"><h3 id="kn-title">Q-block 5: KV blocks visited right → left</h3><span class="sub" id="kn-sub"></span></div>
+        <div class="kv-row" id="kn-kv"></div>
+        <div id="kn-gantt"></div>
+        <div class="player" id="kn-player"></div>
+        <div class="stats" id="kn-stats"></div>
+      </div>
+    </div>
+    <div class="roles">
+      <div class="role"><span class="tg" style="background:#64748b"><span class="i18n" data-zh="producer WG · 96 个空闲线程">producer WG · 96 idle threads</span></span><h4>KV Index Generator</h4>
+        <p><span class="i18n" data-zh="扫描边界向量，输出有效 KV block 的队列，并标明每块是部分遮蔽还是无遮蔽。">Scans the boundary vectors and emits a queue of valid KV blocks, each tagged partial or unmasked.</span></p></div>
+      <div class="role"><span class="tg" style="background:#0891b2">producer WG · TMA</span><h4>KV Loader</h4>
+        <p><span class="i18n" data-zh="&lt;b&gt;只为队列中的 block&lt;/b&gt; 发起 TMA 加载。在 CP 下还会轮询 all-gather 的写指针（§3.4）。">Issues TMA loads <b>only for queued blocks</b>. In CP it also polls the all-gather write pointer (§3.4).</span></p></div>
+      <div class="role"><span class="tg" style="background:#1d4ed8">2× consumer WG · WGMMA</span><h4>MMA Consumer</h4>
+        <p><span class="i18n" data-zh="计算 score、softmax 与输出，&lt;b&gt;只在部分遮蔽的 block 上&lt;/b&gt;施加行区间掩码。">Runs score, softmax and output, applying the row-interval mask <b>only on partial blocks</b>.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="transform">
+  <div class="shead"><div class="rule"></div><div class="eyebrow"><span class="i18n" data-zh="方法 · §3.2">Method · §3.2</span></div>
+    <h2><span class="i18n" data-zh="零通信掩码本地化">Zero-communication mask localization</span></h2>
+    <p class="lead"><span class="i18n" data-zh="K 本来就要 all-gather，所以每个 rank 都已持有 O(n) 掩码的全部 key 列，只需把行边界换算成&lt;strong&gt;自己的&lt;/strong&gt;本地行号。这只是一次本地计数，&lt;strong&gt;不产生任何跨 rank 通信&lt;/strong&gt;。">Keys are all-gathered, so every rank already holds every key column of the O(n) mask.
+      It only has to renumber each row boundary into <strong>its own</strong> rows. That is a purely local count, so
+      <strong>zero bytes cross ranks</strong>.</span></p>
+    <div class="zc-eq"><span>x<sup>(r)</sup> = max<sub>i</sub> [ clip(x − O<sub>i</sub>, 0, C) + i·C·𝟙(clip&gt;0) ]</span><em><span class="i18n" data-zh="= rank r 在全局第 x 行之前的行数">= number of rank r's rows before global row x</span></em></div></div>
+  <div class="card zc" id="zc">
+    <div class="zc-controls">
+      <div class="cgroup"><label><span class="i18n" data-zh="掩码">Mask</span></label><div class="seg" id="zc-preset">
+        <button data-zp="paper" class="active"><span class="i18n" data-zh="论文示例">Paper example</span></button><button data-zp="causaldoc">Causal Doc</button><button data-zp="document">Document</button><button data-zp="prefix">Prefix-LM Doc</button><button data-zp="swa" hidden><span class="i18n" data-zh="滑动窗口">Sliding Window</span></button><button data-zp="causal" hidden>Causal</button></div></div>
+      <div class="cgroup"><label>Chunk → rank</label><div class="seg" id="zc-assign">
+        <button data-za="dual" class="active">Dual-chunk</button><button data-za="contig"><span class="i18n" data-zh="连续切分">Contiguous</span></button><button data-za="inter" hidden>Interleaved</button><button data-za="custom" disabled><span class="i18n" data-zh="自定义">Custom</span></button></div></div>
+      <div class="cgroup" hidden><label>Length n</label><div class="seg" id="zc-n"><button data-zn="8" class="active">8</button><button data-zn="16">16</button></div></div>
+      <div class="cgroup" hidden><label>Explain vector</label><div class="seg" id="zc-vec"><button data-zv="LTS" class="active">LTS</button><button data-zv="UTE">UTE</button></div></div>
+      <div class="cgroup"><label>&nbsp;</label><div class="play-row" style="display:flex;gap:8px">
+        <button class="btn-play" id="zc-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>Play</span></button>
+        <button class="btn-ic" id="zc-shuffle" hidden title="Shuffle document lengths"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
+      </div></div>
+    </div>
+    <div class="zc-stage">
+      <div><div class="zc-ph"><span class="i18n" data-zh="全局掩码 &lt;i&gt;FM&lt;sub&gt;g&lt;/sub&gt;&lt;/i&gt;&lt;span&gt;每个 rank 各持一份 · O(n)&lt;/span&gt;">Global mask <i>FM<sub>g</sub></i><span>held by every rank · O(n)</span></span></div><div id="zc-global"></div></div>
+      <div class="zc-mid" id="zc-mid"></div>
+      <div><div class="zc-ph"><span class="i18n" data-zh="本地掩码 &lt;i&gt;FM&lt;sub&gt;l&lt;/sub&gt;&lt;sup&gt;(r)&lt;/sup&gt;&lt;/i&gt;&lt;span&gt;各 rank 算子实际使用的掩码&lt;/span&gt;">Local masks <i>FM<sub>l</sub><sup>(r)</sup></i><span>what each rank's kernel consumes</span></span></div><div id="zc-local"></div></div>
+    </div>
+    <div class="zc-legend">
+      <span class="i"><span class="sw" style="background:#2563eb"></span><span class="i18n" data-zh="可见 · 该行属于 Rank 0">attended · row owned by Rank 0</span></span>
+      <span class="i"><span class="sw" style="background:#06b6d4"></span><span class="i18n" data-zh="可见 · 该行属于 Rank 1">attended · row owned by Rank 1</span></span>
+      <span class="i"><span class="sw" style="background:#e8eef7"></span><span class="i18n" data-zh="被遮蔽">masked</span></span>
+      <span class="i"><span class="sw" style="background:#fff7ed;box-shadow:inset 0 0 0 2px #f59e0b"></span><span class="i18n" data-zh="当前 key 列（悬停切换）">selected key column (hover to change)</span></span>
+    </div>
+    <div class="zc-foot">
+      <div><div class="zc-steps" id="zc-steps">
+        <button class="zc-step" data-st="0"><i>1</i><span class="i18n" data-zh="全局掩码">Global mask</span></button>
+        <button class="zc-step" data-st="1"><i>2</i><span class="i18n" data-zh="保留本 rank 的行">Keep my rows</span></button>
+        <button class="zc-step" data-st="2"><i>3</i>Clip–shift–max</button>
+        <button class="zc-step" data-st="3"><i>4</i><span class="i18n" data-zh="验证">Verify</span></button></div>
+        <div class="zc-cap" id="zc-cap"></div></div>
+      <div class="zc-badges" id="zc-badges"></div>
+    </div>
+  </div>
+  <div class="callout ok zc-after"><span class="i18n" data-zh="&lt;b&gt;定理 1（无损）：&lt;/b&gt;对任意 chunk 分配，本地区间都与对应行上的全局区间完全一致。开销只有 &lt;span class=&quot;mono&quot;&gt;O(n&lt;sub&gt;r&lt;/sub&gt;·N&lt;sub&gt;K&lt;/sub&gt;)&lt;/span&gt; 的逐元素计算，通信量为&lt;b&gt;零&lt;/b&gt;。"><b>Theorem 1 (lossless).</b> For any chunk assignment, the local intervals equal the global intervals at the corresponding rows. Cost: <span class="mono">O(n<sub>r</sub>·N<sub>K</sub>)</span> elementwise work, <b>zero</b> communication.</span></div>
+</section>
+
+
+<!-- ================= LOAD BALANCING ================= -->
+<section class="section" id="balance">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="方法 · §3.3">Method · §3.3</span></div>
+    <h2><span class="i18n" data-zh="要均衡的是计算量，不是序列长度">Balance the work, not the length</span></h2>
+    <p class="lead"><span class="i18n" data-zh="CP 把 query 轴切成 &lt;i&gt;N = P·κ&lt;/i&gt; 个 chunk，每个 rank 分到 κ 个。在结构化掩码下，等长 chunk 的计算量差别很大，而单步耗时由&lt;b&gt;最慢的 rank&lt;/b&gt; 决定。HCC-IPO 在每个 rank 分到的 chunk 数固定的前提下，最小化最大负载 Φ。">CP cuts the query axis into <i>N = P·κ</i> chunks and gives each rank κ of them. Under structured masks,
+      chunks of equal length carry very different work, and step time is set by the <b>slowest rank</b>. HCC-IPO
+      minimizes that makespan Φ under the cardinality constraint.</span></p></div>
+  <div class="card fig reveal" id="lb">
+    <div class="ctl">
+      <div class="cgroup"><label><span class="i18n" data-zh="掩码">Mask</span></label><div class="seg" id="lb-mask">
+        <button data-v="causaldoc">Causal Doc</button><button data-v="document">Document</button><button data-v="prefixlm" class="active">Prefix-LM Doc</button></div></div>
+      <div class="cgroup"><label><span class="i18n" data-zh="分配策略">Assignment</span></label><div class="seg" id="lb-strat">
+        <button data-v="contig"><span class="i18n" data-zh="连续切分">Contiguous</span></button><button data-v="dual">Dual-Chunk</button><button data-v="lpt">LPT</button><button data-v="ipo" class="active">HCC-IPO</button></div></div>
+      <div class="cgroup"><label><span class="i18n" data-zh="每个 rank 的 chunk 数 κ">Chunks per rank κ</span></label><div class="seg" id="lb-k"><button data-v="2">2</button><button data-v="4" class="active">4</button></div></div>
+      <div class="cgroup"><label><span class="i18n" data-zh="rank 数 P">Ranks P</span></label><div class="seg" id="lb-p"><button data-v="4">4</button><button data-v="8" class="active">8</button></div></div>
+      <div class="cgroup"><label>&nbsp;</label><button class="btn-play" id="lb-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span><span class="i18n" data-zh="演示 IPO">Watch IPO</span></span></button></div>
+    </div>
+    <div class="lb-grid">
+      <div>
+        <div class="fig-h"><h3><span class="i18n" data-zh="掩码、chunk 及其所属 rank">Mask, chunks &amp; owners</span></h3><span class="sub" id="lb-msub"></span></div>
+        <canvas id="lb-cv" aria-label="mask with chunk owners"></canvas>
+        <div class="legend"><span class="i"><span class="sw" style="background:#3b82f6"></span><span class="i18n" data-zh="无遮蔽 tile（α&lt;sub&gt;u&lt;/sub&gt;=1）">unmasked tile (α<sub>u</sub>=1)</span></span>
+          <span class="i"><span class="sw" style="background:#93c5fd"></span><span class="i18n" data-zh="部分遮蔽 tile（α&lt;sub&gt;p&lt;/sub&gt;=1.3，示意值）">partial tile (α<sub>p</sub>=1.3, illustrative)</span></span>
+          <span class="i"><span class="i18n" data-zh="右侧条带 = chunk 负载 w&lt;sub&gt;i&lt;/sub&gt;">right strip = chunk load w<sub>i</sub></span></span></div>
+      </div>
+      <div>
+        <div class="fig-h"><h3><span class="i18n" data-zh="各 rank 负载 L&lt;sub&gt;j&lt;/sub&gt; = Σ w&lt;sub&gt;i&lt;/sub&gt;">Per-rank load L<sub>j</sub> = Σ w<sub>i</sub></span></h3><span class="sub"><span class="i18n" data-zh="每一段是一个 chunk">each segment is one chunk</span></span></div>
+        <div class="lbars" id="lb-bars"></div>
+        <div class="lb-ax"><span></span><span><span>0</span><span id="lb-axmax"></span></span><span></span><span></span></div>
+        <div class="legend"><span class="i"><span class="ln" style="border-color:#64748b;border-top-style:dashed"></span><span class="i18n" data-zh="平均负载">average load</span></span>
+          <span class="i"><span class="ln" style="border-color:#0b1324"></span><span class="i18n" data-zh="下界 LB = max(⌈Σw/P⌉, max w)">lower bound LB = max(⌈Σw/P⌉, max w)</span></span></div>
+        <div class="stats" id="lb-stats"></div>
+        <div class="lb-step" id="lb-step"></div>
+      </div>
+    </div>
+  </div>
+  <div class="callout reveal"><span class="i18n" data-zh="&lt;b&gt;完整的 HCC-IPO：&lt;/b&gt;第一阶段（上图）均衡各 rank 的计算量。第二阶段在节点间成对交换 chunk，降低最重的跨节点 KV 流量，同时保证每个 rank 的负载与平均值相差不超过 ε。第三阶段在各节点内部重新运行 IPO。第二阶段只在节点间移动 chunk，第三阶段只在节点内调整，两者互不干扰。"><b>The full HCC-IPO.</b> Stage 1 (shown above) balances rank compute. Stage 2 swaps chunks one-for-one
+    across nodes to cut the worst inter-node KV traffic while keeping every rank within an ε band of the average. Stage 3
+    reruns IPO inside each node. Stage 2 only moves chunks across nodes and Stage 3 only within them, so they do not interfere.</span></div>
+</section>
+
+<!-- ================= OVERLAP ================= -->
+<section class="section" id="overlap">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="方法 · §3.4">Method · §3.4</span></div>
+    <h2><span class="i18n" data-zh="用稀疏注意力的计算掩盖通信">Hide communication behind sparse attention</span></h2>
+    <p class="lead"><span class="i18n" data-zh="CP 前向要 all-gather K,V，反向要 reduce-scatter dK,dV。FlashMask-3 在高优先级流上执行这两类通信，只占 4–8 个 SM，并与&lt;b&gt;单个不拆分的注意力算子&lt;/b&gt;重叠；被掩码完全遮蔽的 chunk 一律不发送，在 causal 和 prefix-LM document 掩码上约能省掉 50% 的 AG/RS 流量。下图为 2 节点 × 4 GPU 的配置，从 rank R0 的视角展示。">CP must all-gather K,V in the forward pass and reduce-scatter dK,dV in the backward pass. FlashMask-3 runs
+      both on 4–8 SMs of high-priority streams, overlaps them with a <b>single unsplit attention kernel</b>, and never sends a
+      chunk that the mask fully hides (≈50% of AG/RS traffic on causal and prefix-LM document masks). Setup here: 2 nodes × 4 GPUs, viewed from rank R0.</span></p></div>
+  <div class="tabs" id="ovl-tabs"><button data-v="fwd" class="active"><span class="i18n" data-zh="前向 · all-gather ∥ 注意力">Forward · all-gather ∥ attention</span></button><button data-v="bwd"><span class="i18n" data-zh="反向 · AG ∥ 梯度 ∥ reduce-scatter">Backward · AG ∥ grad ∥ reduce-scatter</span></button></div>
+  <div class="card fig reveal">
+    <div class="ctl" id="ovl-ctl">
+      <label class="switch"><input type="checkbox" id="ovl-prune" checked><span class="tk"></span><span class="i18n" data-zh="掩码感知剪枝">Mask-aware pruning</span></label>
+      <label class="switch" id="ovl-hier-w"><input type="checkbox" id="ovl-hier" checked><span class="tk"></span><span class="i18n" data-zh="分层路由">Hierarchical routing</span></label>
+    </div>
+    <div class="ovl-grid">
+      <div>
+        <div class="fig-h"><h3 id="ovl-title"></h3><span class="sub"><span class="i18n" data-zh="示意时序模型 · 时间为任意单位">schematic timing model · time in arbitrary units</span></span></div>
+        <div id="ovl-gantt"></div>
+        <div class="player" id="ovl-player"></div>
+        <div id="ovl-extra"></div>
+        <div class="ov-now" id="ovl-now"></div>
+      </div>
+      <div>
+        <div class="topo card sidecard" id="ovl-topo"></div>
+        <div class="stats" id="ovl-stats"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section class="section" id="results">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="实验 · §4">Experiments · §4</span></div>
+    <h2><span class="i18n" data-zh="实验结果">Results</span></h2>
+    <p class="lead"><span class="i18n" data-zh="H100 80GB SXM5，每节点 8 张 GPU，节点内走 NVLink，节点间走 RoCE。CUDA 12.4、NVSHMEM 3.2.5、BF16，head dim 为 128。CP 实验采用弱扩展：每卡 8K token，B = 32/P，H&lt;sub&gt;q&lt;/sub&gt; = 64，H&lt;sub&gt;kv&lt;/sub&gt; = 1。">H100 80GB SXM5, 8 GPUs per node, NVLink inside a node and RoCE across nodes. CUDA 12.4, NVSHMEM 3.2.5, BF16,
+      head dim 128. CP runs use weak scaling with 8K tokens per device, B = 32/P, H<sub>q</sub> = 64, H<sub>kv</sub> = 1.</span></p></div>
+  <div class="tabs" id="res-tabs"><button data-v="kernel" class="active"><span class="i18n" data-zh="单卡">Single GPU</span></button><button data-v="cp"><span class="i18n" data-zh="CP 扩展性">CP scaling</span></button>
+    <button data-v="overlap"><span class="i18n" data-zh="重叠效率">Overlap efficiency</span></button><button data-v="ablate"><span class="i18n" data-zh="消融实验">Ablations</span></button><button data-v="e2e"><span class="i18n" data-zh="端到端训练">End-to-end</span></button></div>
+  <div class="view active" data-v="kernel">
+    <div class="grid2">
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="FlashMask-3 的 TFLOPs/s 提升">TFLOPs/s gain of FlashMask-3</span></h3><span class="sub"><span class="i18n" data-zh="几何平均 · 误差线为 12 种掩码 × 4K–128K 的最小–最大值">geo-mean · whisker = min–max over 12 masks × 4K–128K</span></span></div><div id="c-kernel"></div></div>
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="相对 FlashMask 的提升随长度增大">Gain over FlashMask grows with length</span></h3><span class="sub"><span class="i18n" data-zh="各掩码几何平均">geo-mean over masks</span></span></div><div id="c-len"></div></div>
+    </div>
+    <p class="fig-cap"><span class="i18n" data-zh="FlashMask-3 在&lt;b&gt;所有&lt;/b&gt;掩码和长度上都优于三个基线。MagiAttention 的均值不含 Random Eviction，因为它的块稀疏格式在这个掩码上要慢 50 倍以上。序列越长，注意力越受访存限制，提升也越大（相对 FlashMask 从 +66.2% 升到 +97.3%）。">FlashMask-3 beats all three baselines on <b>every</b> mask and length. The MagiAttention mean excludes
+      Random Eviction, where its block-sparse format is over 50× slower. Gains grow with length (+66.2% → +97.3% over FlashMask) as attention becomes more memory-bound.</span></p>
+  </div>
+  <div class="view" data-v="cp">
+    <div class="ctl"><div class="cgroup"><label><span class="i18n" data-zh="掩码">Mask</span></label><div class="seg" id="cp-mask"><button data-v="causaldoc" class="active">Causal Doc</button><button data-v="document">Document</button><button data-v="prefixlm">Prefix-LM Doc</button></div></div></div>
+    <div class="grid2">
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="单卡 TFLOPs/s 随 CP 度的变化">Per-GPU TFLOPs/s vs CP degree</span></h3><span class="sub" id="cp-sub">hover to compare</span></div><div id="c-cp"></div><div class="legend" id="cp-leg"></div></div>
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="FlashMask-3 的吞吐加速比">Throughput speedup of FlashMask-3</span></h3><span class="sub"><span class="i18n" data-zh="各掩码 × CP 4–32 的最小–最大值">min–max over masks × CP 4–32</span></span></div><div class="rng" id="c-speed"></div>
+        <p class="fig-cap"><span class="i18n" data-zh="CP 4–8 全走 NVLink；到 CP 16 开始出现跨节点 RoCE 通信，两种 Megatron 变体随之下滑，FlashMask-3 仍在上升（Causal Doc 上从 430.5 升到 501.6 TFLOPs/s）。Megatron 不支持 Prefix-LM Document 掩码。">CP 4–8 stays on NVLink; at CP 16 inter-node RoCE appears, and the Megatron variants dip while FlashMask-3 keeps rising (430.5 → 501.6 TFLOPs/s on Causal Doc). Megatron supports no Prefix-LM Document mask.</span></p></div>
+    </div>
+  </div>
+  <div class="view" data-v="overlap">
+    <div class="ctl"><div class="cgroup"><label><span class="i18n" data-zh="掩码">Mask</span></label><div class="seg" id="oe-mask"><button data-v="causaldoc" class="active">Causal Doc</button><button data-v="document">Document</button><button data-v="prefixlm">Prefix-LM Doc</button></div></div></div>
+    <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="重叠效率 E = 1 − T&lt;sub&gt;exposed&lt;/sub&gt; / T&lt;sub&gt;comm&lt;/sub&gt;">Overlap efficiency E = 1 − T<sub>exposed</sub> / T<sub>comm</sub></span></h3><span class="sub"><span class="i18n" data-zh="前向与反向 · 总长 32K–256K">forward vs backward · 32K–256K total</span></span></div>
+      <div id="c-oe"></div><div class="legend"><span class="i"><span class="sw" style="background:#1d4ed8"></span><span class="i18n" data-zh="前向（AG）">Forward (AG)</span></span><span class="i"><span class="sw" style="background:#06b6d4"></span><span class="i18n" data-zh="反向（AG + RS）">Backward (AG + RS)</span></span></div>
+      <p class="fig-cap"><span class="i18n" data-zh="在不同掩码和 CP 度下，有 &lt;b&gt;31%–75%&lt;/b&gt; 的通信时间被计算掩盖。">Across masks and CP degrees, <b>0.31–0.75</b> of the communication time is hidden behind computation.</span></p></div>
+  </div>
+  <div class="view" data-v="ablate">
+    <div class="grid2">
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="单卡计算量的峰值 / 平均值">Peak / average per-device compute</span></h3><span class="sub"><span class="i18n" data-zh="CP · 越低越好 · 1.0 为理想">CP · lower is better · 1.0 = ideal</span></span></div><div id="c-lb"></div><div class="legend" id="lb-leg"></div></div>
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="单张 H100 上的 tile 调度器">Tile scheduler on one H100</span></h3><span class="sub"><span class="i18n" data-zh="归一化 TFLOPs/s（12 种掩码几何平均）">normalized TFLOPs/s (geo-mean over 12 masks)</span></span></div><div id="c-ppt"></div><div class="legend" id="ppt-leg"></div></div>
+    </div>
+    <div class="card fig" style="margin-top:20px"><div class="fig-h"><h3><span class="i18n" data-zh="IPO 各阶段消融（以 P 路分支定界求得的精确最优解为参照）">IPO phase ablation vs an exact P-way branch-and-bound optimum</span></h3><span class="sub"><span class="i18n" data-zh="每组 200 个随机实例（N = 128 时为 100 个）">200 random instances each (100 for N = 128)</span></span></div>
+      <div class="tblwrap"><table class="tbl"><thead><tr><th><span class="i18n" data-zh="配置 (N, P, κ, w&lt;sub&gt;max&lt;/sub&gt;)">Configuration (N, P, κ, w<sub>max</sub>)</span></th><th><span class="i18n" data-zh="LPT 非最优率">LPT subopt.</span></th><th><span class="i18n" data-zh="LPT 差距">LPT gap</span></th><th><span class="i18n" data-zh="+P2 非最优率">+P2 subopt.</span></th><th><span class="i18n" data-zh="+P2 差距">+P2 gap</span></th><th><span class="i18n" data-zh="+P2+P3 非最优率">+P2+P3 subopt.</span></th></tr></thead><tbody>
+        <tr><td><span class="i18n" data-zh="均匀 (64, 16, 4, 10³)">Uniform (64, 16, 4, 10³)</span></td><td>99.0%</td><td>6.54%</td><td>86.0%</td><td>6.29%</td><td class="hi">0%</td></tr>
+        <tr><td><span class="i18n" data-zh="均匀·宽范围 (64, 16, 4, 10⁴)">Uniform wide (64, 16, 4, 10⁴)</span></td><td>100%</td><td>8.67%</td><td>93.5%</td><td>3.42%</td><td class="hi">0%</td></tr>
+        <tr><td>Causal (64, 8, 8, 200)</td><td>93.5%</td><td>2.51%</td><td>53.5%</td><td>1.39%</td><td class="hi">0%</td></tr>
+        <tr><td><span class="i18n" data-zh="均匀† (128, 16, 8, 200)">Uniform† (128, 16, 8, 200)</span></td><td>85.0%</td><td>1.08%</td><td>48.0%</td><td>0.79%</td><td class="hi">0%</td></tr>
+      </tbody></table></div>
+      <p class="fig-cap"><span class="i18n" data-zh="只用 LPT 时，85%–100% 的实例达不到最优。加入精确的两两重划分（P2）后差距缩小；再加上三 rank 重划分（P3），所有测试配置都达到 &lt;b&gt;100% 最优&lt;/b&gt;，且均由下界验证。">LPT alone is sub-optimal in 85–100% of instances. Exact pairwise repartition (P2) narrows the gap; adding
+        three-rank repartition (P3) reaches a <b>100% LB-certified optimal</b> rate on every tested configuration.</span></p></div>
+  </div>
+  <div class="view" data-v="e2e">
+    <p class="fig-cap" style="margin:0 0 18px"><span class="i18n" data-zh="118B-A14B MoE 模型，128K 上下文，16 节点共 128 张 H100，CP 度 16，每卡 8K token，H&lt;sub&gt;q&lt;/sub&gt; = 64，H&lt;sub&gt;kv&lt;/sub&gt; = 8，document 掩码。基线同样使用 FlashMask-3 算子，但负载均衡用 Dual Chunk、通信用普通 all-gather。每组跑 70 步，去掉吞吐最高和最低的各 10 步，取其余 50 步的平均。三个数据集的平均掩码稀疏度分别为 70%、80% 和 86%。">118B-A14B MoE, 128K context, 128 H100s on 16 nodes, CP degree 16, 8K tokens per device,
+      H<sub>q</sub> = 64, H<sub>kv</sub> = 8, document mask. The baseline runs the same FlashMask-3 kernel with Dual Chunk balancing and plain all-gather.
+      Each run is 70 steps; the 10 fastest and 10 slowest are dropped and the remaining 50 averaged. The three datasets have an average mask sparsity of 70%, 80% and 86%.</span></p>
+    <div class="grid2">
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="端到端与注意力的加速">End-to-end vs attention speedup</span></h3><span class="sub"><span class="i18n" data-zh="完整 FlashMask-3 对比基线">full FlashMask-3 over the baseline</span></span></div><div id="c-e2e"></div><div class="legend" id="e2e-leg"></div></div>
+      <div class="card fig"><div class="fig-h"><h3><span class="i18n" data-zh="各组件的端到端收益">End-to-end gain by component</span></h3><span class="sub"><span class="i18n" data-zh="相对基线 · 逐项开启">over the baseline · one change at a time</span></span></div><div id="c-e2e-abl"></div><div class="legend" id="e2e-abl-leg"></div></div>
+    </div>
+    <div class="card fig" style="margin-top:20px"><div class="fig-h"><h3><span class="i18n" data-zh="118B-A14B MoE 训练吞吐，128 张 H100">Training throughput, 118B-A14B MoE on 128 H100s</span></h3><span class="sub"><span class="i18n" data-zh="50 步的均值 ± 标准差 · Δ&lt;sub&gt;attn&lt;/sub&gt; 为注意力前向+反向加速">mean ± std over 50 steps · Δ<sub>attn</sub> = attention fwd+bwd speedup</span></span></div>
+      <div class="tblwrap"><table class="tbl"><thead><tr><th></th><th colspan="2"><span class="i18n" data-zh="稀疏度 70%">70% sparsity</span></th><th colspan="2"><span class="i18n" data-zh="稀疏度 80%">80% sparsity</span></th><th colspan="2"><span class="i18n" data-zh="稀疏度 86%">86% sparsity</span></th></tr><tr><th><span class="i18n" data-zh="配置">Configuration</span></th><th>tokens/s/GPU</th><th>Δ<sub>attn</sub></th><th>tokens/s/GPU</th><th>Δ<sub>attn</sub></th><th>tokens/s/GPU</th><th>Δ<sub>attn</sub></th></tr></thead><tbody>
+        <tr><td><span class="i18n" data-zh="基线（Dual Chunk + all-gather）">Baseline (Dual Chunk + all-gather)</span></td><td>712.6 ± 8.7</td><td>–</td><td>753.3 ± 34.7</td><td>–</td><td>812.4 ± 57.1</td><td>–</td></tr>
+        <tr><td><span class="i18n" data-zh="+ HCC-IPO 负载均衡">+ HCC-IPO balancing</span></td><td>732.2 ± 24.5</td><td>+10.4%</td><td>786.2 ± 65.2</td><td>+19.1%</td><td>858.5 ± 62.1</td><td>+10.5%</td></tr>
+        <tr><td><span class="i18n" data-zh="+ 掩码感知重叠">+ mask-aware overlap</span></td><td>750.8 ± 6.4</td><td>+15.9%</td><td>785.0 ± 33.6</td><td>+13.9%</td><td>860.0 ± 55.0</td><td>+20.5%</td></tr>
+        <tr><td><span class="i18n" data-zh="+ 两者，关闭分层路由">+ both, hierarchical routing off</span></td><td>700.6 ± 28.8</td><td>+8.4%</td><td>742.0 ± 72.6</td><td>+21.5%</td><td>828.0 ± 60.6</td><td>+23.2%</td></tr>
+        <tr><td><span class="i18n" data-zh="+ 两者，不做 chunk 跳过剪枝">+ both, w/o chunk-skip pruning</span></td><td>750.0 ± 20.6</td><td>+20.5%</td><td>788.4 ± 55.0</td><td>+25.4%</td><td>888.6 ± 69.6</td><td>+27.9%</td></tr>
+        <tr><td class="hi"><span class="i18n" data-zh="FlashMask-3（均衡 + 重叠）">FlashMask-3 (balance + overlap)</span></td><td class="hi">764.7 ± 28.8</td><td class="hi">+24.5%</td><td class="hi">811.4 ± 75.9</td><td class="hi">+42.1%</td><td class="hi">902.1 ± 72.6</td><td class="hi">+44.9%</td></tr>
+      </tbody></table></div>
+      <p class="fig-cap"><span class="i18n" data-zh="端到端吞吐提升 &lt;b&gt;7.3%–11.0%&lt;/b&gt;，注意力前向+反向提速 24.5%–44.9%。两者有差距是正常的：完整配置下注意力只占前向+反向计算时间的 43.5% / 25.8% / 24.4%，端到端时间里还有梯度同步和优化器更新，这两部分 FlashMask-3 不做改动。均衡和重叠要在跨节点场景下叠加生效，离不开分层路由：关掉它，均衡器把 chunk 分散到不同节点，跨节点流量随之增加，两者合用（−1.7% / −1.5% / +1.9%）反而不如只开重叠。">End-to-end throughput rises by <b>7.3–11.0%</b> while attention forward+backward gets 24.5–44.9% faster.
+        The gap is expected: in the full configuration attention is only 43.5% / 25.8% / 24.4% of forward+backward compute, and the end-to-end step also includes
+        gradient synchronization and the optimizer update, which FlashMask-3 does not touch. Hierarchical routing is what lets balancing and overlap compose across nodes:
+        without it the balancer spreads chunks over nodes, inter-node traffic grows, and the combination (−1.7% / −1.5% / +1.9%) falls below overlap alone.</span></p></div>
+  </div>
+</section>
+
+<section class="section" id="bibtex">
+  <div class="shead"><div class="eyebrow"><span class="i18n" data-zh="引用">Cite</span></div><h2>BibTeX</h2></div>
+  <div class="card bib"><button class="copy" id="copy-bib">Copy</button><pre id="bib-pre">@inproceedings{wang2026flashmask3,
+  title     = {FlashMask-3: Efficient and Expressive Mask-Aware Distributed Attention},
+  author    = {Wang, Guoxia and He, Qianyue and Wu, Siming and Xie, Haoyang and
+               Bao, Qiwen and Zeng, Jinle and Yang, Jiabin and Wu, Tian and Yu, Dianhai},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026}
+}</pre></div>
+</section>
+</main>
+<footer class="footer"><p><span class="i18n" data-zh="FlashMask-3 · 百度 · NeurIPS 2026">FlashMask-3 · Baidu Inc. · NeurIPS 2026</span></p>
+  <p><span class="i18n" data-zh="交互图按论文算法重新实现；页面中的实验数据均取自论文的表格与图。单个自包含 HTML，不发起任何外部请求。">Interactive figures re-implement the paper's algorithms; all reported numbers come from the paper's tables and figures. Single self-contained HTML, no external requests.</span></p></footer>
+
+<script>
+'use strict';
+const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const NS='http://www.w3.org/2000/svg',sv=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ROOT=document.documentElement,DK=()=>ROOT.dataset.theme==='dark';
+let LANG=ROOT.lang==='zh'?'zh':'en';
+const Tx=(en,zh)=>LANG==='zh'?zh:en;
+const HOOKS={lang:[],theme:[]},onLang=f=>HOOKS.lang.push(f),onTheme=f=>HOOKS.theme.push(f);
+const TITLE_EN=document.title,TITLE_ZH='FlashMask-3：高效且表达力强的掩码感知分布式注意力';
+function applyLang(l,save){LANG=l;ROOT.lang=l;if(save)try{localStorage.setItem('fm3-lang',l);}catch(e){}
+  $$('.i18n').forEach(e=>{if(e._en==null)e._en=e.innerHTML;e.innerHTML=l==='zh'?e.dataset.zh:e._en;});
+  ROOT.classList.add('i18n-ready');document.title=l==='zh'?TITLE_ZH:TITLE_EN;
+  const cb=$('#copy-bib');if(cb)cb.textContent=Tx('Copy','复制');
+  const lb=$('#lang-btn');if(lb)lb.setAttribute('aria-label',Tx('切换到中文','Switch to English'));
+  HOOKS.lang.forEach(f=>f());}
+function applyTheme(t,save){ROOT.dataset.theme=t;if(save)try{localStorage.setItem('fm3-theme',t);}catch(e){}
+  const tb=$('#theme-btn');if(tb)tb.setAttribute('aria-label',t==='dark'?Tx('Switch to light mode','切换到浅色模式'):Tx('Switch to dark mode','切换到深色模式'));
+  HOOKS.theme.forEach(f=>f());}
+function vt(f,fade){if(REDUCE){f();return;}if(document.startViewTransition){document.startViewTransition(f);return;}
+  if(fade){ROOT.classList.add('tt');f();setTimeout(()=>ROOT.classList.remove('tt'),380);}else f();}
+applyLang(LANG,false);applyTheme(DK()?'dark':'light',false);
+$('#lang-btn').onclick=()=>vt(()=>applyLang(LANG==='zh'?'en':'zh',true));
+$('#theme-btn').onclick=()=>vt(()=>applyTheme(DK()?'light':'dark',true),true);
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!localStorage.getItem('fm3-theme'))applyTheme(e.matches?'dark':'light',false);});}catch(e){}
+const PLAY_P='<path d="M7 4l13 8-13 8z"/>',PAUSE_P='<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+function lazy(node,fn,margin='300px'){if(!node)return;const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();fn();}},{rootMargin:margin});io.observe(node);}
+function seg(sel,cb){const g=$(sel);if(!g)return;g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled||!g.contains(b))return;
+  $$('button',g).forEach(x=>x.classList.toggle('active',x===b));cb(b.dataset.v,b);});}
+function dprCanvas(cv,w,h){const d=Math.min(2,devicePixelRatio||1);cv.width=Math.round(w*d);cv.height=Math.round(h*d);cv.style.width=w+'px';cv.style.height=h+'px';
+  const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);return x;}
+
+/* ---------- shared: Gantt timeline + player ---------- */
+let GT;function gtip(){if(!GT){GT=el('div','g-tip');document.body.appendChild(GT);addEventListener('scroll',()=>GT.classList.remove('on'),{passive:true});}return GT;}
+const GNOTE_={en:{skip:'fully masked, so it is never loaded or computed',stall:'the consumer is ready but the data has not arrived yet; this is exposed communication',ghost:'reference lane, for comparison only'},
+  zh:{skip:'被完全遮蔽，不加载也不计算',stall:'计算端已就绪，但数据还没到，这段是暴露的通信',ghost:'对照轨道，仅供比较'}};
+const GINFO_={en:{
+  'Communication':'One comm kernel on 4–8 SMs fills the SR buffer in order: local K,V copy (on-device), then RoCE gets from the other node, then NVLink gets inside the node. Each landed chunk advances the write pointer.',
+  'KV Index Gen':'Spare producer threads compare the tile rows with the block-wise max/min of LTS/UTE, then enqueue the KV block as partial or unmasked, or drop it.',
+  'KV Loader':'TMA copies the queued KV block from HBM into shared memory. Dropped blocks are never loaded.',
+  'MMA Consumer':'WGMMA computes QKᵀ, softmax and PV. The row-interval mask is applied only on partial blocks (·m).',
+  'No skipping':'A kernel that loads and computes every KV block regardless of the mask.',
+  'Attention':'One unsplit attention pass. It consumes a chunk as soon as the write pointer has passed it.',
+  'No overlap':'Communication runs to completion first, then compute.',
+  'AG':'Chunk-wise all-gather. Each finished chunk sets work_done[c], which unblocks backward compute on it.',
+  'Backward attn':'dQ, dK, dV for one chunk, started as soon as its work_done flag is set.',
+  'Reduce-scatter':'Producers put partial dK, dV to the owner; the owner waits for its bitmask to clear, then reduces in fp32. Segment t overlaps segment t+1; only the last one is exposed.'},
+ zh:{
+  'Communication':'通信 kernel 只占 4–8 个 SM，按顺序填充 SR buffer：先做本地 K,V 拷贝（在本卡内），再经 RoCE 从另一节点拉取，最后经 NVLink 在节点内拉取。每落地一个 chunk，写指针就前移一格。',
+  'KV Index Gen':'producer 中空闲的线程把 tile 的行范围与 LTS/UTE 的块内 max/min 比较，再把 KV block 标成部分遮蔽或无遮蔽放入队列，或者直接丢弃。',
+  'KV Loader':'TMA 把队列中的 KV block 从 HBM 拷到共享内存。被丢弃的 block 不会加载。',
+  'MMA Consumer':'WGMMA 计算 QKᵀ、softmax 和 PV。只有部分遮蔽的 block（·m）才施加行区间掩码。',
+  'No skipping':'对照：不管掩码如何，每个 KV block 都加载并计算。',
+  'Attention':'单次不拆分的注意力计算。写指针一越过某个 chunk，就立即处理它。',
+  'No overlap':'对照：通信全部结束后才开始计算。',
+  'AG':'按 chunk 做 all-gather。每收完一个 chunk 就置位 work_done[c]，它的反向计算随即可以开始。',
+  'Backward attn':'一个 chunk 的 dQ、dK、dV，在其 work_done 置位后立即开始。',
+  'Reduce-scatter':'producer 把部分 dK、dV 发给归属 rank；归属 rank 等 bitmask 清零后做 fp32 归约。第 t 段与第 t+1 段重叠，只有最后一段暴露。'}};
+const GNOTE=new Proxy({},{get:(_,k)=>GNOTE_[LANG][k]}),GINFO=new Proxy({},{get:(_,k)=>GINFO_[LANG][k]});
+function gantt(host,{lanes,T,axis}){
+  host.innerHTML='';const g=el('div','gantt'),blks=[];
+  lanes.forEach((L,li)=>{const lb=el('div','g-lab',L.name+(L.sub?`<small>${L.sub}</small>`:''));lb.style.gridArea=`${li+1} / 1`;g.appendChild(lb);
+    const tr=el('div','g-track');tr.style.gridArea=`${li+1} / 2`;
+    L.blocks.forEach(b=>{const d=el('div','g-blk'+(b.cls?' '+b.cls:''));const w=(b.e-b.s)/T*100;
+      d.style.left=(b.s/T*100)+'%';d.style.width=Math.max(.4,w-.25)+'%';if(b.c)d.style.setProperty('--c',b.c);
+      if(b.label&&w>6)d.textContent=b.label;d._s=b.s;d._e=b.e;d._b=b;d._L=L;tr.appendChild(d);blks.push(d);});
+    g.appendChild(tr);});
+  const ph=el('div','g-ph');ph.style.gridRow=`1 / span ${lanes.length}`;const line=el('i');ph.appendChild(line);g.appendChild(ph);
+  const ax=el('div','g-axis',`<span>0</span><span>${axis||Tx('time →','时间 →')}</span><span>${T.toFixed(1)}</span>`);ax.style.gridArea=`${lanes.length+1} / 2`;g.appendChild(ax);
+  host.appendChild(g);
+  const HINT=Tx('Click any block for details.','点击任一方块查看说明。');
+  const ins=el('div','g-insp',HINT);host.appendChild(ins);
+  const tip=gtip();let sel=null;
+  const desc=d=>d._b.title||d._b.label||d._L.name;
+  const rng=d=>`t ${d._s.toFixed(1)} → ${d._e.toFixed(1)} · Δ ${(d._e-d._s).toFixed(1)}`;
+  const place=e=>{const x=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-8),y=e.clientY-tip.offsetHeight-12;
+    tip.style.transform='none';tip.style.left=x+'px';tip.style.top=(y<8?e.clientY+18:y)+'px';};
+  g.addEventListener('pointerover',e=>{const d=e.target.closest('.g-blk');if(!d)return;d.classList.add('hov');
+    tip.innerHTML=`<b>${d._L.name}</b> · ${desc(d)}<span>${rng(d)}</span>`;tip.classList.add('on');place(e);});
+  g.addEventListener('pointermove',e=>{if(tip.classList.contains('on'))place(e);});
+  g.addEventListener('pointerout',e=>{const d=e.target.closest('.g-blk');if(d&&!d.contains(e.relatedTarget)){d.classList.remove('hov');tip.classList.remove('on');}});
+  g.addEventListener('click',e=>{const d=e.target.closest('.g-blk');if(sel)sel.classList.remove('sel');
+    if(!d||d===sel){sel=null;g.classList.remove('picking');ins.className='g-insp';ins.innerHTML=HINT;return;}
+    sel=d;d.classList.add('sel');g.classList.add('picking');const b=d._b,L=d._L;
+    const sw=`<i class="g-blk${b.cls?' '+b.cls:''}"${b.c?` style="--c:${b.c}"`:''}></i>`;
+    ins.className='g-insp on';
+    ins.innerHTML=sw+`<div><b>${L.name}</b>${L.sub?`<span class="m">${L.sub}</span>`:''}<span class="m">${rng(d)}</span><br/>`+
+      `<b style="font-weight:600">${desc(d)}</b>${GNOTE[b.cls]?Tx(': ','：')+GNOTE[b.cls]:''}<br/>${GINFO[L.k||L.name]||''}</div>`;});
+  return {set(t){line.style.left=clamp(t/T,0,1)*100+'%';for(const d of blks){const run=t>=d._s&&t<d._e&&t<T;d.classList.toggle('run',run);d.classList.toggle('done',t>=d._e||t>=T);}}};
+}
+function player(box,{T,dur=7000,onT}){
+  box.innerHTML=`<button class="btn-play"><svg viewBox="0 0 24 24" fill="currentColor">${PLAY_P}</svg><span>Play</span></button>`+
+    `<input type="range" min="0" max="1000" value="1000" aria-label="timeline"><span class="pt"></span>`;
+  const b=$('button',box),r=$('input',box),lab=$('.pt',box);let t=T,raf=0,last=0,on=false;
+  const ui=()=>{$('span',b).textContent=on?Tx('Pause','暂停'):(t>=T?Tx('Replay','重播'):Tx('Play','播放'));$('svg',b).innerHTML=on?PAUSE_P:PLAY_P;};
+  function set(v){t=clamp(v,0,T);r.value=Math.round(t/T*1000);lab.textContent='t = '+t.toFixed(1);onT(t);}
+  function tick(now){set(t+(now-last)/dur*T);last=now;if(t>=T){on=false;ui();return;}raf=requestAnimationFrame(tick);}
+  function play(){if(t>=T)set(0);on=true;last=performance.now();ui();raf=requestAnimationFrame(tick);}
+  function stop(){on=false;cancelAnimationFrame(raf);ui();}
+  b.onclick=()=>on?stop():play();r.oninput=()=>{stop();set(r.value/1000*T);};
+  set(T);ui();
+  return {play,stop,retime(nT){stop();T=nT;set(T);ui();}};
+}
+
+/* ---------- nav / reveal / KPI ---------- */
+(()=>{
+  const nav=$('#nav'),hero=$('#top');
+  const tone=()=>nav.classList.toggle('dark',scrollY<hero.offsetHeight-70);
+  addEventListener('scroll',tone,{passive:true});tone();
+  const links=$$('.nav-links a');
+  const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-45% 0px -50% 0px'});
+  $$('main section[id]').forEach(s=>sio.observe(s));
+  const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target);}}),{threshold:.06});
+  $$('main .shead, main .reveal').forEach(e=>{e.classList.add('reveal');rio.observe(e);});
+  const nums=$$('#kpis [data-count]');nums.forEach(n=>n.textContent=(n.dataset.pre||'')+(0).toFixed(+n.dataset.dec));
+  lazy($('#kpis'),()=>{const t0=performance.now();(function f(now){const p=Math.min(1,(now-t0)/1400),e=1-Math.pow(1-p,3);
+    nums.forEach(n=>n.textContent=(n.dataset.pre||'')+(+n.dataset.count*e).toFixed(+n.dataset.dec));if(p<1)requestAnimationFrame(f);})(t0);},'0px');
+  $('#copy-bib').onclick=()=>navigator.clipboard&&navigator.clipboard.writeText($('#bib-pre').textContent).then(()=>{const b=$('#copy-bib');b.textContent=Tx('Copied ✓','已复制 ✓');setTimeout(()=>b.textContent=Tx('Copy','复制'),1500);});
+})();
+
+/* ---------- hero galaxy: stars condensing into a "3" ---------- */
+(()=>{
+  const hero=$('#top'),cv=$('#galaxy');if(!cv||!cv.getContext)return;
+  const ctx=cv.getContext('2d'),hint=$('#g-hint');
+  const COLS=['#ffffff','#dbeafe','#bfdbfe','#93c5fd','#60a5fa','#38bdf8','#3b82f6'];
+  const MODES=['three','mask','galaxy'],NEXT=['mask','galaxy','“3”'],NEXT_ZH=['掩码','星系','“3”'];
+  let W=0,H=0,cx=0,cy=0,R=0,P=[],mode=0,vis=true,raf=0,mx=-1e5,my=-1e5,SX=0,SY=0;
+  const T0=performance.now();
+  function glyph(size){const s=Math.max(64,Math.ceil(size)),o=document.createElement('canvas');o.width=o.height=s;
+    const g=o.getContext('2d');g.fillStyle='#fff';g.textAlign='center';g.textBaseline='middle';
+    g.font=`800 ${Math.round(s*.98)}px Inter,"Helvetica Neue",Arial,sans-serif`;g.fillText('3',s/2,s*.54);
+    const d=g.getImageData(0,0,s,s).data,pts=[],st=Math.max(2,Math.round(s/200));
+    for(let y=0;y<s;y+=st)for(let x=0;x<s;x+=st)if(d[(y*s+x)*4+3]>140)pts.push([x-s/2,y-s/2]);
+    return pts.length?pts:[[0,0]];}
+  function maskShape(size){const n=16,cell=size*.8/n,docs=[5,6,5],b=[],pts=[];let s0=0;
+    for(const d of docs){b.push([s0,s0+d]);s0+=d;}
+    for(let q=0;q<n;q++){const bd=b.find(x=>q>=x[0]&&q<x[1]);for(let k=bd[0];k<=q;k++)
+      for(let t=0;t<5;t++)pts.push([(k+.12+Math.random()*.76-n/2)*cell,(q+.12+Math.random()*.76-n/2)*cell]);}
+    return pts;}
+  function spiral(p,t,sc){const r=(.1+p.rr*.95)*R*sc,th=p.th+t*(.1/(.25+p.rr)),x=Math.cos(th)*r,y=Math.sin(th)*r*.38;
+    SX=cx+x*.914+y*.407;SY=cy-x*.407+y*.914;}
+  function build(){
+    const wide=W>900;cx=wide?W*.71:W*.5;cy=wide?H*.5:Math.min(H*.28,innerHeight*.3);
+    R=wide?Math.min(H*.66,660):Math.min(W*.66,380);
+    const n=Math.round(W<700?1400:(W*H>1.8e6?3200:2600));
+    const gp=glyph(R),mp=maskShape(R),old=P;P=[];
+    for(let i=0;i<n;i++){const p=old[i]||{vx:0,vy:0,fresh:1};
+      p.disc=Math.random()<.27;p.rr=Math.pow(Math.random(),.75);p.th=((Math.random()*3)|0)*2.094+p.rr*3.6+(Math.random()-.5)*.6;
+      const a=gp[(Math.random()*gp.length)|0];p.g=[a[0]+(Math.random()-.5)*2.2,a[1]+(Math.random()-.5)*2.2];
+      p.m=mp[(Math.random()*mp.length)|0];
+      p.sz=Math.random()<.05?2+Math.random()*1.4:.6+Math.random()*1.05;
+      p.c=COLS[Math.random()<.3?0:1+((Math.random()*6)|0)];p.ph=Math.random()*6.283;
+      if(p.fresh){p.dl=REDUCE?0:.2+Math.random()*1.4;spiral(p,0,1.5);p.x=SX;p.y=SY;p.fresh=0;}
+      P.push(p);}
+    P.sort((a,b)=>a.c<b.c?-1:a.c>b.c?1:0);}
+  function layout(){W=hero.clientWidth;H=hero.clientHeight;const d=Math.min(2,devicePixelRatio||1);
+    cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);build();}
+  const RR=80,R2=RR*RR;
+  function step(t,draw){const md=MODES[mode];let last='';
+    if(draw){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';}
+    for(const p of P){let tx,ty;
+      if(md==='galaxy'||p.disc||t<p.dl){spiral(p,t,md==='galaxy'?1.2:(t<p.dl?1.5:1.1));tx=SX;ty=SY;}
+      else{const h=md==='three'?p.g:p.m;tx=cx+h[0]+Math.sin(t*.9+p.ph)*1.5;ty=cy+h[1]+Math.cos(t*.7+p.ph)*1.5;}
+      const k=p.disc?.02:.045;p.vx+=(tx-p.x)*k;p.vy+=(ty-p.y)*k;
+      const dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;
+      if(d2<R2){const d=Math.sqrt(d2)+.01,q=1-d/RR,f=q*q*.55;p.vx+=dx/d*f;p.vy+=dy/d*f;}
+      p.vx*=.84;p.vy*=.84;p.x+=p.vx;p.y+=p.vy;
+      if(draw){if(p.c!==last){ctx.fillStyle=p.c;last=p.c;}
+        ctx.globalAlpha=(p.disc?.42:.9)*(.62+.38*Math.sin(t*1.8+p.ph));ctx.fillRect(p.x,p.y,p.sz,p.sz);}}
+    if(draw){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
+  function frame(now){raf=0;if(!vis)return;step((now-T0)/1000,true);raf=requestAnimationFrame(frame);}
+  function kick(){if(REDUCE){for(let i=0;i<160;i++)step(20,false);step(20,true);return;}if(vis&&!raf)raf=requestAnimationFrame(frame);}
+  let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(Math.abs(hero.clientWidth-W)>2||Math.abs(hero.clientHeight-H)>80){layout();kick();}},180);});
+  hero.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;},{passive:true});
+  hero.addEventListener('pointerleave',()=>{mx=my=-1e5;});
+  const setHint=()=>{if(hint)hint.innerHTML=Tx(`click the stars to morph → <b>${NEXT[mode]}</b>`,`点击星空切换形态 → <b>${NEXT_ZH[mode]}</b>`);};setHint();onLang(setHint);
+  cv.addEventListener('click',()=>{mode=(mode+1)%3;for(const p of P){p.vx+=(Math.random()-.5)*5;p.vy+=(Math.random()-.5)*5;}
+    setHint();kick();});
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;kick();}).observe(hero);
+  document.addEventListener('visibilitychange',()=>{vis=!document.hidden;kick();});
+  layout();kick();
+})();
+
+/* ---------- §3.1 kernel: tile classification + three-role pipeline ---------- */
+lazy($('#kn'),()=>{
+  const n=64,B=8,NB=8,CS=4.5,TP=B*CS,GAP=3,ML=24,MT=18;
+  const S={mask:'causaldoc',qb:5};let V=null,CL=null,pl=null,gx=null;
+  const DOCS={causaldoc:[20,28,16],prefix:[28,36],document:[24,24,16]};
+  function vectors(){const LTS=[],UTE=[],docs=DOCS[S.mask]||[n],b=[];let s=0;for(const d of docs){b.push([s,s+d]);s+=d;}
+    for(let j=0;j<n;j++){const [a,e]=b.find(x=>j>=x[0]&&j<x[1]);let lts=e,ute=j;
+      if(S.mask==='document')ute=a;
+      else if(S.mask==='prefix'){const p=Math.round((e-a)*.4);ute=j<a+p?a:j;}
+      else if(S.mask==='swa'){lts=Math.min(n,j+16);ute=j;}
+      LTS.push(lts);UTE.push(ute);}
+    return {LTS,UTE};}
+  const vis=(q,j)=>!(q>=V.LTS[j]||q<V.UTE[j]);
+  function classify(){CL=[];for(let qb=0;qb<NB;qb++){const row=[];const q0=qb*B,q1=q0+B;
+    for(let kb=0;kb<NB;kb++){let mxL=-1,mnL=1e9,mxU=-1,mnU=1e9;for(let j=kb*B;j<kb*B+B;j++){mxL=Math.max(mxL,V.LTS[j]);mnL=Math.min(mnL,V.LTS[j]);mxU=Math.max(mxU,V.UTE[j]);mnU=Math.min(mnU,V.UTE[j]);}
+      row.push(q0>=mxL||q1<=mnU?0:(q1<=mnL&&q0>=mxU?2:1));}CL.push(row);}}
+  const cv=$('#kn-cv'),SZ=NB*TP+(NB-1)*GAP;let ctx=null;
+  function draw(){if(!ctx)ctx=dprCanvas(cv,ML+SZ+2,MT+SZ+2);ctx.clearRect(0,0,ML+SZ+2,MT+SZ+2);
+    ctx.font='600 10px ui-monospace,Menlo,monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+    for(let kb=0;kb<NB;kb++){ctx.fillStyle='#94a3b8';ctx.fillText('k'+kb,ML+kb*(TP+GAP)+TP/2,MT/2);}
+    for(let qb=0;qb<NB;qb++){const y0=MT+qb*(TP+GAP);ctx.fillStyle=qb===S.qb?'#d97706':'#94a3b8';ctx.fillText('q'+qb,ML/2-2,y0+TP/2);
+      for(let kb=0;kb<NB;kb++){const x0=ML+kb*(TP+GAP),c=CL[qb][kb];
+        if(c===0){ctx.fillStyle=DK()?'#131d33':'#eef2f7';ctx.fillRect(x0,y0,TP,TP);ctx.strokeStyle=DK()?'#24314b':'#d5dde8';ctx.lineWidth=1;ctx.beginPath();
+          for(let d=-TP;d<TP;d+=6){ctx.moveTo(x0+Math.max(0,d),y0+Math.max(0,-d));ctx.lineTo(x0+Math.min(TP,TP+d),y0+Math.min(TP,TP-d));}ctx.stroke();continue;}
+        for(let r=0;r<B;r++)for(let s=0;s<B;s++){const on=vis(qb*B+r,kb*B+s);ctx.fillStyle=on?(c===2?'#1d4ed8':'#93c5fd'):(DK()?'#101a2e':'#f1f5f9');ctx.fillRect(x0+s*CS,y0+r*CS,CS+.3,CS+.3);}
+        if(c===1){ctx.strokeStyle='#93c5fd';ctx.lineWidth=1;ctx.strokeRect(x0+.5,y0+.5,TP-1,TP-1);}}}
+    const y0=MT+S.qb*(TP+GAP);ctx.strokeStyle='#f59e0b';ctx.lineWidth=2.5;ctx.strokeRect(ML-1.5,y0-1.5,SZ+3,TP+3);}
+  function sim(skip){const row=CL[S.qb],order=[...Array(NB).keys()].reverse();
+    const idx=[],ld=[],mm=[];let ti=0,tl=0,tm=0;
+    for(const kb of order){const c=row[kb];idx.push({s:ti,e:ti+.3,kb,c});const ie=ti+.3;ti=ie;
+      if(c===0&&skip)continue;const ls=Math.max(ie,tl),le=ls+1;ld.push({s:ls,e:le,kb,c});tl=le;
+      const ms=Math.max(le,tm),me=ms+(c===2?1:1.3);mm.push({s:ms,e:me,kb,c});tm=me;}
+    return {idx,ld,mm,T:Math.max(ti,tl,tm)};}
+  function render(){
+    const row=CL[S.qb],a=sim(true),ref=sim(false),T=Math.max(ref.T,a.T);
+    $('#kn-title').textContent=Tx(`Q-block ${S.qb}: KV blocks visited right → left`,`Q-block ${S.qb}：KV block 从右往左依次访问`);
+    $('#kn-kv').innerHTML=[...Array(NB).keys()].reverse().map(kb=>{const c=row[kb];return `<div class="kv ${['skip','part','full'][c]}">k${kb}<small>${(LANG==='zh'?['跳过','掩码','无掩码']:['skip','mask','no mask'])[c]}</small></div>`;}).join('');
+    const lanes=[
+      {k:'KV Index Gen',name:'KV Index Gen',sub:Tx('96 idle threads','96 个空闲线程'),blocks:a.idx.map(x=>({s:x.s,e:x.e,c:x.c===0?'#94a3b8':'#475569',title:Tx(`classify k${x.kb}`,`分类 k${x.kb}`)}))},
+      {k:'KV Loader',name:'KV Loader',sub:'TMA',blocks:a.ld.map(x=>({s:x.s,e:x.e,c:'#0891b2',label:'k'+x.kb,title:Tx(`TMA load k${x.kb}`,`TMA 加载 k${x.kb}`)}))},
+      {k:'MMA Consumer',name:'MMA Consumer',sub:'WGMMA',blocks:a.mm.map(x=>({s:x.s,e:x.e,c:x.c===1?'#60a5fa':'#1d4ed8',label:'k'+x.kb+(x.c===1?'·m':''),title:x.c===1?Tx(`k${x.kb}: row-interval mask applied`,`k${x.kb}：施加行区间掩码`):Tx(`k${x.kb}: no mask needed`,`k${x.kb}：无需掩码`)}))},
+      {k:'No skipping',name:Tx('No skipping','不跳过'),sub:Tx('reference','对照'),blocks:[{s:0,e:ref.T,cls:'ghost',label:Tx(`all ${NB} blocks loaded + computed · ${ref.T.toFixed(1)}`,`全部 ${NB} 个 block 都加载并计算 · ${ref.T.toFixed(1)}`)}]}];
+    gx=gantt($('#kn-gantt'),{lanes,T,axis:Tx('time (one KV load = 1)','时间（一次 KV 加载 = 1）')});
+    const sk=row.filter(c=>c===0).length,pa=row.filter(c=>c===1).length,fu=NB-sk-pa;
+    $('#kn-sub').textContent=Tx(`${sk} skipped · ${pa} partial · ${fu} unmasked`,`跳过 ${sk} · 部分遮蔽 ${pa} · 无遮蔽 ${fu}`);
+    $('#kn-stats').innerHTML=`<div class="stat blue"><div class="v">${NB-sk} / ${NB}</div><div class="k">${Tx('TMA loads issued','发起的 TMA 加载')}</div></div>`+
+      `<div class="stat"><div class="v">${pa}</div><div class="k">${Tx('blocks that pay the mask','需要施加掩码的 block')}</div></div>`+
+      `<div class="stat ok"><div class="v">${(ref.T/a.T).toFixed(2)}×</div><div class="k">${Tx('shorter than without skipping','相对不跳过的加速')}</div></div>`;
+    if(!pl)pl=player($('#kn-player'),{T,dur:5200,onT:t=>gx.set(t)});else pl.retime(T);
+    $('#kn-qb').innerHTML=[...Array(NB).keys()].map(q=>`<button data-v="${q}" class="${q===S.qb?'active':''}">${q}</button>`).join('');}
+  function refresh(){V=vectors();classify();draw();render();}
+  seg('#kn-mask',v=>{S.mask=v;refresh();});
+  $('#kn-qb').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.qb=+b.dataset.v;draw();render();});
+  const pick=e=>{const r=cv.getBoundingClientRect(),y=e.clientY-r.top-MT,q=Math.floor(y/(TP+GAP));if(q>=0&&q<NB&&q!==S.qb){S.qb=q;draw();render();}};
+  cv.addEventListener('click',pick);
+  refresh();onLang(render);onTheme(draw);
+  lazy($('#kn-gantt'),()=>{if(!REDUCE)pl.play();},'-20% 0px');
+});
+
+/* ---------- §3.3 load balancing ---------- */
+lazy($('#lb'),()=>{
+  const TT=128,DOCS={causaldoc:[6,102,6,7,7],document:[45,59,7,8,9],prefixlm:[100,6,8,7,7]};
+  const RCOL=['#1d4ed8','#0891b2','#7c3aed','#059669','#db2777','#d97706','#0284c7','#4f46e5'];
+  const S={pattern:'prefixlm',strat:'ipo',P:8,kappa:4};const GRID={},CACHE={};let timer=0;
+  function grid(p){if(GRID[p])return GRID[p];const g=new Uint8Array(TT*TT),b=[];let s=0;for(const d of DOCS[p]){b.push([s,s+d]);s+=d;}
+    for(let q=0;q<TT;q++){const dq=b.find(x=>q>=x[0]&&q<x[1]);for(let k=dq[0];k<dq[1];k++){const qq=q-dq[0],kk=k-dq[0];let st;
+      if(p==='document')st=1;else{const pf=p==='prefixlm'?Math.max(1,Math.round((dq[1]-dq[0])*.34)):0;st=kk<pf?1:(kk<qq?1:kk===qq?2:0);}
+      g[q*TT+k]=st;}}
+    return GRID[p]=g;}
+  function weights(p,N){const g=grid(p),rpc=TT/N,w=new Array(N).fill(0);for(let c=0;c<N;c++)for(let q=c*rpc;q<(c+1)*rpc;q++)for(let k=0;k<TT;k++){const s=g[q*TT+k];w[c]+=s===1?1:s===2?1.3:0;}
+    return w.map(x=>Math.round(x*10)/10);}
+  const loadsOf=(a,w,P)=>{const L=new Array(P).fill(0);a.forEach((j,c)=>L[j]+=w[c]);return L;};
+  function subsets(arr,k){const res=[];(function rec(st,cur){if(cur.length===k){res.push(cur.slice());return;}for(let i=st;i<arr.length;i++){cur.push(arr[i]);rec(i+1,cur);cur.pop();}})(0,[]);return res;}
+  function lpt(w,P,k){const N=w.length,a=new Array(N),L=new Array(P).fill(0),cnt=new Array(P).fill(0);
+    [...Array(N).keys()].sort((x,y)=>w[y]-w[x]).forEach(c=>{let b=-1;for(let j=0;j<P;j++)if(cnt[j]<k&&(b<0||L[j]<L[b]))b=j;a[c]=b;L[b]+=w[c];cnt[b]++;});return a;}
+  function ipo(w,P,k,LB){let a=lpt(w,P,k);const hist=[{a:a.slice(),note:'start from LPT'}];const sum=x=>x.reduce((s,c)=>s+w[c],0);
+    for(let it=0;it<80;it++){const L=loadsOf(a,w,P),phi=Math.max(...L);if(phi<=LB+1e-9)break;const H=L.indexOf(phi);
+      const of=j=>a.map((x,c)=>x===j?c:-1).filter(c=>c>=0);const others=ex=>Math.max(0,...L.filter((_,j)=>!ex.includes(j)));
+      let best=phi,mv=null;
+      for(let R=0;R<P;R++){if(R===H)continue;const pool=[...of(H),...of(R)];for(const A of subsets(pool,k)){const As=new Set(A),Bc=pool.filter(c=>!As.has(c));
+        const ng=Math.max(others([H,R]),sum(A),sum(Bc));if(ng<best-1e-9){best=ng;mv={A,B:Bc,R};}}}
+      if(mv){mv.A.forEach(c=>a[c]=H);mv.B.forEach(c=>a[c]=mv.R);hist.push({a:a.slice(),H,Rs:[mv.R],kind:'exact 2-way split',from:phi,to:Math.max(...loadsOf(a,w,P))});continue;}
+      const ord=[...Array(P).keys()].filter(j=>j!==H).sort((x,y)=>L[x]-L[y]),R1=ord[0],R2=ord[1];if(R2==null)break;
+      const pool=[...of(H),...of(R1),...of(R2)];let b3=phi,m3=null;
+      for(const A of subsets(pool,k)){const As=new Set(A),rem=pool.filter(c=>!As.has(c));for(const Bc of subsets(rem,k)){const Bs=new Set(Bc),Cc=rem.filter(c=>!Bs.has(c));
+        const ng=Math.max(others([H,R1,R2]),sum(A),sum(Bc),sum(Cc));if(ng<b3-1e-9){b3=ng;m3={A,B:Bc,C:Cc};}}}
+      if(m3){m3.A.forEach(c=>a[c]=H);m3.B.forEach(c=>a[c]=R1);m3.C.forEach(c=>a[c]=R2);hist.push({a:a.slice(),H,Rs:[R1,R2],kind:'exact 3-way split',from:phi,to:Math.max(...loadsOf(a,w,P))});continue;}
+      break;}
+    return {a,hist};}
+  function data(){const key=S.pattern+S.P+'_'+S.kappa;if(CACHE[key])return CACHE[key];const N=S.P*S.kappa,w=weights(S.pattern,N),tot=w.reduce((x,y)=>x+y,0);
+    const LB=Math.max(Math.ceil(tot/S.P*10)/10,Math.max(...w));
+    const A={contig:w.map((_,c)=>Math.floor(c/S.kappa)),lpt:lpt(w,S.P,S.kappa)};
+    if(S.kappa===2){A.dual=new Array(N);for(let j=0;j<S.P;j++){A.dual[j]=j;A.dual[N-1-j]=j;}}
+    const ip=ipo(w,S.P,S.kappa,LB);A.ipo=ip.a;
+    const scale=Math.max(...Object.values(A).map(a=>Math.max(...loadsOf(a,w,S.P))),LB)*1.04;
+    return CACHE[key]={N,w,tot,LB,A,hist:ip.hist,scale};}
+  const cv=$('#lb-cv');let ctx=null;const RAIL=26,MS=340,GAPW=8,WS=54,CW=RAIL+MS+GAPW+WS;
+  function drawMask(D,a,peak,hl){if(!ctx)ctx=dprCanvas(cv,CW,MS);const g=grid(S.pattern),cell=MS/TT,N=D.N,band=MS/N;
+    ctx.clearRect(0,0,CW,MS);ctx.fillStyle=DK()?'#0d1629':'#f8fafc';ctx.fillRect(RAIL,0,MS,MS);
+    for(let q=0;q<TT;q++)for(let k=0;k<TT;k++){const s=g[q*TT+k];if(!s)continue;ctx.fillStyle=s===1?'#3b82f6':'#93c5fd';ctx.fillRect(RAIL+k*cell,q*cell,cell+.4,cell+.4);}
+    const wm=Math.max(...D.w);ctx.textAlign='center';ctx.textBaseline='middle';
+    for(let c=0;c<N;c++){const j=a[c],y=c*band;ctx.fillStyle=RCOL[j]+'1f';ctx.fillRect(RAIL,y,MS,band);ctx.fillStyle=RCOL[j];ctx.fillRect(0,y,RAIL-3,band-.5);
+      ctx.fillRect(RAIL+MS+GAPW,y+band*.18,WS*D.w[c]/wm,band*.64);
+      if(band>=9){ctx.font=`700 ${Math.min(10,band*.62)}px ui-monospace,Menlo,monospace`;ctx.fillStyle='#fff';ctx.fillText('R'+j,(RAIL-3)/2,y+band/2);}}
+    ctx.strokeStyle=DK()?'rgba(12,20,38,.95)':'rgba(255,255,255,.95)';ctx.lineWidth=1;for(let c=1;c<N;c++){ctx.beginPath();ctx.moveTo(RAIL,c*band+.5);ctx.lineTo(RAIL+MS,c*band+.5);ctx.stroke();}
+    const mark=(j,col)=>{ctx.strokeStyle=col;ctx.lineWidth=2;for(let c=0;c<N;c++)if(a[c]===j)ctx.strokeRect(RAIL+1,c*band+1,MS-2,band-2);};
+    if(hl)hl.forEach(j=>mark(j,'#f59e0b'));else mark(peak,'#e11d48');
+    ctx.strokeStyle=DK()?'#26334d':'#e2e8f0';ctx.strokeRect(RAIL+.5,.5,MS-1,MS-1);}
+  function draw(a,hl,note){const D=data(),L=loadsOf(a,D.w,S.P),peak=Math.max(...L),pk=L.indexOf(peak),avg=D.tot/S.P;
+    drawMask(D,a,pk,hl);$('#lb-msub').textContent=Tx(`N = ${D.N} chunks · κ = ${S.kappa} per rank`,`N = ${D.N} 个 chunk · 每个 rank κ = ${S.kappa} 个`);
+    const pct=v=>v/D.scale*100;let h='';
+    for(let j=0;j<S.P;j++){const cs=a.map((x,c)=>x===j?c:-1).filter(c=>c>=0);let x=0;
+      const segs=cs.map((c,i)=>{const s=`<div class="lseg" title="chunk #${c} · w = ${D.w[c]}" style="left:${pct(x)}%;width:${pct(D.w[c])}%;background:${RCOL[j]};opacity:${i%2?.72:1}"></div>`;x+=D.w[c];return s;}).join('');
+      const isPk=!hl&&j===pk,isHl=hl&&hl.includes(j);
+      h+=`<div class="lrow${isPk?' peak':''}${isHl?' hl':''}"><span class="rk"><i style="background:${RCOL[j]}"></i>R${j}</span><div class="ltrack">${segs}</div><span class="v">${L[j].toFixed(0)}</span><span class="tag">${isPk?Tx('◄ straggler','◄ 拖尾'):isHl?(j===hl[0]?Tx('◄ heaviest','◄ 最重'):Tx('◄ partner','◄ 搭档')):''}</span></div>`;}
+    const bars=$('#lb-bars');bars.innerHTML=h;
+    const tr=$('.ltrack',bars),off=tr.offsetLeft,w=tr.offsetWidth;
+    [['avg',avg,Tx('avg','均值')],['lb',D.LB,'LB']].forEach(([c,v,t])=>{const d=el('div','lline '+c,`<b>${t}</b>`);d.style.left=(off+w*pct(v)/100)+'px';bars.appendChild(d);});
+    $('#lb-axmax').textContent=D.scale.toFixed(0);
+    const ratio=peak/avg,bub=(peak*S.P-D.tot)/(peak*S.P)*100,cert=peak<=D.LB+1e-6;
+    $('#lb-stats').innerHTML=`<div class="stat ${ratio>1.1?'hot':'blue'}"><div class="v">${ratio.toFixed(2)}×</div><div class="k">${Tx('peak / average (1.00 = ideal)','峰值 / 平均（1.00 为理想）')}</div></div>`+
+      `<div class="stat"><div class="v">${bub.toFixed(0)}%</div><div class="k">${Tx('idle compute behind the straggler','因等待最慢 rank 而空闲的算力')}</div></div>`+
+      `<div class="stat ${cert?'ok':''}"><div class="v">${cert?'Φ = LB ✓':'Φ > LB'}</div><div class="k">${cert?Tx('certified optimal in O(N)','已证明最优（O(N) 校验）'):Tx('no certificate','无法证明最优')}</div></div>`;
+    $('#lb-step').innerHTML=note||(LANG==='zh'?DESC_ZH:DESC)[S.strat];}
+  const DESC={contig:'<b>Contiguous.</b> Rank <i>j</i> owns κ adjacent chunks. This is blind to mask cost, so the ranks holding the dense rows become stragglers.',
+    dual:'<b>Dual-Chunk (Megatron).</b> Rank <i>j</i> owns chunk <i>j</i> and chunk <i>2P−1−j</i>. It pairs a light head with a heavy tail, which suits a monotone causal ramp, but this pairing is position-based and ignores the mask.',
+    lpt:'<b>LPT.</b> The heaviest remaining chunk goes to the lightest rank that still has a free slot (κ per rank). This is fast and usually good, but it can get stuck above the optimum.',
+    ipo:'<b>HCC-IPO, Stage 1.</b> Start from LPT, then repeatedly repartition the <b>heaviest rank</b> with a partner by an <b>exact</b> 2-way split, falling back to a 3-way split when stuck. Every accepted step lowers Φ, and Φ = LB certifies optimality. Press <b>Watch IPO</b> to see the steps.'};
+  const DESC_ZH={contig:'<b>连续切分。</b>rank <i>j</i> 拿到相邻的 κ 个 chunk。这种分法不考虑掩码代价，持有稠密行的 rank 会拖慢整步。',
+    dual:'<b>Dual-Chunk（Megatron）。</b>rank <i>j</i> 拿到第 <i>j</i> 个和第 <i>2P−1−j</i> 个 chunk，用轻的头部搭配重的尾部，适合单调递增的 causal 负载；但这种配对只看位置，不看掩码。',
+    lpt:'<b>LPT。</b>把剩下最重的 chunk 交给当前最轻、且还有空位（每个 rank κ 个）的 rank。速度快，结果通常不错，但不保证最优。',
+    ipo:'<b>HCC-IPO 第一阶段。</b>从 LPT 出发，反复把<b>最重的 rank</b> 和一个搭档做<b>精确</b>的两路重划分，卡住时改用三路重划分。每一步都会降低 Φ；Φ = LB 即证明最优。点<b>演示 IPO</b> 查看每一步。'};
+  function show(){clearTimeout(timer);const D=data();$('#lb-strat button[data-v="dual"]').disabled=S.kappa!==2;
+    if(S.strat==='dual'&&S.kappa!==2){S.strat='ipo';$$('#lb-strat button').forEach(b=>b.classList.toggle('active',b.dataset.v==='ipo'));}
+    $('#lb-play').style.visibility=S.strat==='ipo'?'visible':'hidden';draw(D.A[S.strat]);}
+  function watch(){const D=data(),H=D.hist;clearTimeout(timer);let i=0;
+    const tick=()=>{const h=H[i],L=loadsOf(h.a,D.w,S.P),phi=Math.max(...L);
+      const note=i===0?Tx(`<b>Step 0 · LPT start.</b> Φ = ${phi.toFixed(0)}, lower bound LB = ${D.LB.toFixed(0)}.`,`<b>第 0 步 · 从 LPT 出发。</b>Φ = ${phi.toFixed(0)}，下界 LB = ${D.LB.toFixed(0)}。`):
+        Tx(`<b>Step ${i} · ${h.kind}.</b> Heaviest rank R${h.H} re-splits its chunks with R${h.Rs.join(' and R')} so that the new maximum is as small as possible: Φ ${h.from.toFixed(0)} → <b>${h.to.toFixed(0)}</b>.`,`<b>第 ${i} 步 · ${h.kind==='exact 2-way split'?'精确两路重划分':'精确三路重划分'}。</b>最重的 R${h.H} 与 R${h.Rs.join('、R')} 重新划分 chunk，让新的最大负载尽可能小：Φ ${h.from.toFixed(0)} → <b>${h.to.toFixed(0)}</b>。`)+(i===H.length-1?(h.to<=D.LB+1e-6?Tx(' Φ = LB, so this assignment is <b>certified optimal</b>.','Φ = LB，该分配<b>已证明最优</b>。'):Tx(' No further improving split exists.','已找不到能继续改进的划分。')):'');
+      draw(h.a,i?[h.H,...h.Rs]:null,note);i++;if(i<H.length)timer=setTimeout(tick,1500);
+      else timer=setTimeout(()=>draw(D.A.ipo,null,note+(H.length===1?Tx(' LPT is already optimal here.','这里 LPT 本身已是最优。'):'')),1600);};
+    tick();}
+  seg('#lb-mask',v=>{S.pattern=v;show();});seg('#lb-strat',v=>{S.strat=v;show();});
+  seg('#lb-k',v=>{S.kappa=+v;show();});seg('#lb-p',v=>{S.P=+v;show();});
+  $('#lb-play').onclick=watch;addEventListener('resize',()=>{clearTimeout(timer);show();});onLang(show);onTheme(show);
+  show();
+});
+
+/* ---------- §3.4 overlap ---------- */
+lazy($('#overlap'),()=>{
+  const S={pass:'fwd',prune:true,hier:true};let g=null,pl=null,M=null;
+  const MASKED=new Set([3,6,7]);
+  const C={local:'#475569',nv:'#0891b2',roce:'#d97706',cmp:'#1d4ed8',grad:'#4f46e5',put:'#0e7490',red:'#0891b2',tail:'#b45309'};
+  function fwd(){const R=3,NV=.6,SKIP=.05;const U=[];
+    const order=S.hier?[['local',0],['roce',4,'P1'],['nv',1],['nv',2],['nv',3],['nv',5],['nv',6],['nv',7]]:[['local',0],['roce',4],['roce',5],['roce',6],['roce',7],['nv',1],['nv',2],['nv',3]];
+    let tc=0;
+    for(const [ln,r,ph] of order){const masked=MASKED.has(r),skip=S.prune&&masked&&ph!=='P1';
+      const s=tc,e=s+(ln==='local'?.3:skip?SKIP:ln==='roce'?R:NV);tc=e;
+      U.push({r,ln,s,e,masked,skip,via:S.hier&&r>=4?r-4:null});}
+    let fr=0,cf=0;U.forEach(u=>{fr=Math.max(fr,u.e);u.front=fr;u.ps=Math.max(fr,cf);u.pe=u.ps+(u.masked?.05:1);u.stall=u.ps-cf;cf=u.pe;});
+    const Tc=Math.max(...U.map(u=>u.e)),Tp=U.reduce((s,u)=>s+(u.pe-u.ps),0),mk=cf,exp=mk-Tp;
+    return {U,Tc,Tp,mk,E:clamp(1-exp/Tc,0,1),serial:Tc+Tp};}
+  function bwd(){const AG=.8,GR=1.6,PUT=1.1,RED=.35,SK=.05;const segs=[];let tc=0,tg=0,tp=0;
+    for(let t=0;t<4;t++){const ch=[2*t,2*t+1],ag=[],gr=[];
+      ch.forEach(c=>{const m=MASKED.has(c),sk=S.prune&&m;const s=tc,e=s+(c===0?.15:(sk?SK:AG));tc=e;ag.push({c,s,e,sk,m});});
+      ch.forEach((c,i)=>{const m=MASKED.has(c);const s=Math.max(ag[i].e,tg),e=s+(m?.05:GR);tg=e;gr.push({c,s,e,m});});
+      const live=ch.filter(c=>!(S.prune&&MASKED.has(c))).length;const ps=Math.max(tg,tp),pe=ps+(live?PUT*live/2:SK),re=pe+RED;tp=re;
+      segs.push({t,ch,ag,gr,ps,pe,re});}
+    const mk=Math.max(tp,tg),Tp=segs.reduce((s,x)=>s+x.gr.reduce((a,b)=>a+b.e-b.s,0),0),Tc=segs.reduce((s,x)=>s+x.ag.reduce((a,b)=>a+b.e-b.s,0)+(x.re-x.ps),0);
+    return {segs,mk,Tp,Tc,E:clamp(1-(mk-Tp)/Tc,0,1),serial:Tc+Tp};}
+  function topo(){const W=280,H=170;const s=sv('svg',{viewBox:`0 0 ${W} ${H}`});
+    [[8,Tx('Node 0','节点 0')],[146,Tx('Node 1','节点 1')]].forEach(([x,t])=>{s.appendChild(sv('rect',{x,y:22,width:126,height:140,rx:12,class:'node'}));const tx=sv('text',{x:x+63,y:14,'text-anchor':'middle'});tx.textContent=t;s.appendChild(tx);});
+    const pos=r=>{const n=r>>2,i=r&3;return [n?160+(i%2)*56:22+(i%2)*56,40+(i>>1)*62];};
+    const arrows={};
+    const arr=(from,to,col,key,dash)=>{const [x1,y1]=pos(from),[x2,y2]=pos(to);const p=sv('path',{d:`M${x1+22} ${y1+18} Q ${(x1+x2)/2+22} ${Math.min(y1,y2)-6} ${x2+22} ${y2+18}`,stroke:col,class:'ar'+(dash?' sk':'')});s.appendChild(p);arrows[key]=p;};
+    if(S.pass==='fwd'&&M)M.U.forEach(u=>{if(u.r===0)return;if(u.via!=null)arr(u.via,0,u.skip?'#94a3b8':C.nv,'u'+u.r,u.skip);else arr(u.r,0,u.skip?'#94a3b8':(u.ln==='roce'?C.roce:C.nv),'u'+u.r,u.skip);
+      if(u.via!=null&&!u.skip){}});
+    if(S.pass==='fwd'&&S.hier)[1,2,3].forEach(i=>arr(i+4,i,C.roce,'p'+i,false));
+    for(let r=0;r<8;r++){const [x,y]=pos(r);s.appendChild(sv('rect',{x,y,width:44,height:36,rx:7,class:'gpu'+(r===0?' me':'')}));const t=sv('text',{x:x+22,y:y+22,'text-anchor':'middle'});t.textContent='R'+r;s.appendChild(t);}
+    const box=$('#ovl-topo');box.innerHTML=`<h4>${S.pass==='fwd'?(S.hier?Tx('Hierarchical AG into R0','分层 AG 汇入 R0'):Tx('Flat AG into R0','非分层 AG 汇入 R0')):Tx('Backward: segments of C = 2 chunks','反向：每段 C = 2 个 chunk')}</h4>`;box.appendChild(s);
+    box.appendChild(el('div','legend',S.pass==='fwd'?`<span class="i"><span class="ln" style="border-color:${C.roce}"></span>RoCE</span><span class="i"><span class="ln" style="border-color:${C.nv}"></span>NVLink</span><span class="i"><span class="ln" style="border-color:#94a3b8;border-top-style:dashed"></span>${Tx('pruned','已剪枝')}</span>`:`<span class="i">${Tx('T = 4 segments','T = 4 段')} · C = 2<sup>⌊½log₂P⌋</sup> = 2</span>`));
+    return arrows;}
+  let ARR={};
+  function build(){
+    $('#ovl-hier-w').style.display=S.pass==='fwd'?'':'none';
+    if(S.pass==='fwd'){M=fwd();const lanes=[
+      {k:'Communication',name:Tx('Communication','通信'),sub:Tx('local → RoCE → NVLink','本地 → RoCE → NVLink'),blocks:M.U.map(u=>({s:u.s,e:u.e,c:u.ln==='local'?C.local:(u.ln==='roce'?C.roce:C.nv),cls:u.skip?'skip':'',
+        label:u.ln==='local'?'local':(u.skip?'':'R'+u.r+(u.ln==='roce'&&S.hier?' · P1':'')),
+        title:u.ln==='local'?Tx('Local copy: own K,V shard into the SR buffer (on-device, no link)','本地拷贝：把本卡的 K,V 分片写入 SR buffer（在本卡内完成，不经过链路）'):u.skip?Tx(`chunk of R${u.r}: fully masked, not sent`,`R${u.r} 的 chunk：被完全遮蔽，不发送`):
+          u.ln==='roce'?(S.hier?Tx(`Phase 1 · RoCE: chunk of congruence partner R${u.r}`,`Phase 1 · RoCE：同余组伙伴 R${u.r} 的 chunk`):Tx(`RoCE: chunk of R${u.r}`,`RoCE：R${u.r} 的 chunk`)):
+          Tx(`NVLink: chunk of R${u.r}`,`NVLink：R${u.r} 的 chunk`)+(u.via!=null?Tx(` relayed by R${u.via}`,`，由 R${u.via} 转发`):'')+(S.hier?' · Phase 2':'')}))},
+      {k:'Attention',name:Tx('Attention','注意力'),sub:Tx('one unsplit pass','单次不拆分'),blocks:M.U.flatMap(u=>{const o=[];if(u.stall>.02)o.push({s:u.ps-u.stall,e:u.ps,cls:'stall',label:Tx('wait','等待'),title:Tx('waiting on write pointer: exposed communication','等待写指针：这段是暴露的通信')});
+        o.push({s:u.ps,e:u.pe,c:C.cmp,label:u.masked?'':'R'+u.r,title:u.masked?Tx(`chunk of R${u.r}: fully masked → no compute`,`R${u.r} 的 chunk：被完全遮蔽，无需计算`):Tx(`attention on chunk of R${u.r}`,`对 R${u.r} 的 chunk 做注意力`)});return o;})},
+      {k:'No overlap',name:Tx('No overlap','无重叠'),sub:Tx('AG, then attention','先 AG，后注意力'),blocks:[{s:0,e:M.Tc,cls:'ghost',label:'all-gather'},{s:M.Tc,e:M.serial,c:'#94a3b8',label:Tx('attention','注意力')}]}];
+      const T=Math.max(M.serial,20);$('#ovl-title').textContent=Tx('Forward: the write pointer gates a single attention pass','前向：写指针决定单次注意力推进到哪里');
+      g=gantt($('#ovl-gantt'),{lanes,T});
+      $('#ovl-extra').innerHTML=`<div class="fig-h" style="margin:18px 0 6px"><h3>${Tx('SR buffer of R0 (work order)','R0 的 SR buffer（按处理顺序）')}</h3><span class="sub">${Tx('green = write ptr (AG) · black = read ptr (attention)','绿 = 写指针（AG）· 黑 = 读指针（注意力）')}</span></div><div class="kvbuf" id="kvbuf"></div>`;
+      const kb=$('#kvbuf');M.U.forEach(u=>kb.appendChild(el('div','s'+(u.skip?' sk':''),'R'+u.r)));$$('.s',kb).forEach((d,i)=>d.style.background=M.U[i].ln==='local'?C.local:(M.U[i].ln==='roce'?C.roce:C.nv));
+      kb.appendChild(el('div','ptr w','<b>wptr</b>'));kb.appendChild(el('div','ptr r',`<b>${Tx('read','读')}</b>`));
+      const inter=S.hier?1:4,pr=M.U.filter(u=>u.skip).length;
+      $('#ovl-stats').innerHTML=`<div class="stat blue"><div class="v">${M.mk.toFixed(1)}</div><div class="k">${Tx(`makespan (no overlap: ${M.serial.toFixed(1)})`,`总时长（无重叠：${M.serial.toFixed(1)}）`)}</div></div>`+
+        `<div class="stat"><div class="v">${M.E.toFixed(2)}</div><div class="k">${Tx('overlap efficiency E','重叠效率 E')}</div></div>`+
+        `<div class="stat"><div class="v">${inter}</div><div class="k">${Tx(`inter-node pulls per GPU (at P = 32: ${S.hier?'3':'24'})`,`每卡跨节点拉取次数（P = 32 时为 ${S.hier?'3':'24'}）`)}</div></div>`+
+        `<div class="stat ${pr?'ok':''}"><div class="v">${pr} / 7</div><div class="k">${Tx('remote chunks pruned','被剪掉的远端 chunk')}</div></div>`;
+      ARR=topo();
+      if(!pl)pl=player($('#ovl-player'),{T,dur:7500,onT:upd});else pl.retime(T);
+    }else{M=bwd();const sg=M.segs,lanes=[
+      {k:'AG',name:'AG',sub:Tx('comm · work_done[c]','通信 · work_done[c]'),blocks:sg.flatMap(x=>x.ag.map(a=>({s:a.s,e:a.e,c:C.nv,cls:a.sk?'skip':'',label:a.sk?'':'c'+a.c,title:a.sk?Tx(`chunk ${a.c}: fully masked, not gathered`,`chunk ${a.c}：被完全遮蔽，不收集`):Tx(`gather chunk ${a.c} → set work_done[${a.c}]`,`收集 chunk ${a.c} → 置位 work_done[${a.c}]`)})))},
+      {k:'Backward attn',name:Tx('Backward attn','反向注意力'),sub:Tx('compute · per chunk','计算 · 按 chunk'),blocks:sg.flatMap(x=>x.gr.map(a=>({s:a.s,e:a.e,c:C.grad,label:a.m?'':'c'+a.c,title:a.m?Tx(`chunk ${a.c}: fully masked, no work`,`chunk ${a.c}：被完全遮蔽，没有计算`):Tx(`dK,dV of chunk ${a.c} (starts when work_done[${a.c}] = 1)`,`chunk ${a.c} 的 dK,dV（work_done[${a.c}] = 1 时开始）`)})))},
+      {k:'Reduce-scatter',name:'Reduce-scatter',sub:'put → bitmask → reduce',blocks:sg.flatMap(x=>[{s:x.ps,e:x.pe,c:x.t===3?C.tail:C.put,label:'RS s'+x.t,title:Tx(`segment ${x.t}: producers put dK,dV${x.t===3?' (tail, exposed)':' while segment '+(x.t+1)+' computes'}`,`第 ${x.t} 段：producer 发送 dK,dV${x.t===3?'（尾段，暴露）':'，同时第 '+(x.t+1)+' 段在计算'}`)},{s:x.pe,e:x.re,c:C.red,label:'',title:Tx('consumer: bitmask = 0 → fp32 reduce','consumer：bitmask 归零 → fp32 归约')}])},
+      {k:'No overlap',name:Tx('No overlap','无重叠'),sub:Tx('AG, grad, RS','AG、梯度、RS 依次执行'),blocks:[{s:0,e:M.serial,cls:'ghost',label:Tx('sequential','串行')+' · '+M.serial.toFixed(1)}]}];
+      const T=Math.max(M.serial,M.mk,20);$('#ovl-title').textContent=Tx('Backward: RS of segment t overlaps segment t+1','反向：第 t 段的 RS 与第 t+1 段重叠');
+      g=gantt($('#ovl-gantt'),{lanes,T});
+      $('#ovl-extra').innerHTML=`<div class="fig-h" style="margin:18px 0 6px"><h3>${Tx('Consumer bitmask on R0','R0 上的 consumer bitmask')}</h3><span class="sub" id="bm-sub">${Tx('one bit per producer · cleared by remote AMO','每个 producer 占一位 · 由远端 AMO 清零')}</span></div><div class="bitmask" id="bm"></div>`;
+      $('#bm').innerHTML=[1,2,3,4,5,6,7].map(r=>`<span class="bit" data-r="${r}">R${r}</span>`).join('')+'<span id="bm-st" style="margin-left:8px"></span>';
+      $('#ovl-stats').innerHTML=`<div class="stat blue"><div class="v">${M.mk.toFixed(1)}</div><div class="k">${Tx(`makespan (no overlap: ${M.serial.toFixed(1)})`,`总时长（无重叠：${M.serial.toFixed(1)}）`)}</div></div>`+
+        `<div class="stat"><div class="v">${M.E.toFixed(2)}</div><div class="k">${Tx('overlap efficiency E','重叠效率 E')}</div></div>`+
+        `<div class="stat"><div class="v">4 × 2</div><div class="k">${Tx('segments × chunks','段数 × 每段 chunk 数')}</div></div>`+
+        `<div class="stat"><div class="v">${Tx('1 tail','1 段')}</div><div class="k">${Tx('only the last RS is exposed','只有最后一段 RS 暴露')}</div></div>`;
+      ARR=topo();
+      if(!pl)pl=player($('#ovl-player'),{T,dur:8000,onT:upd});else pl.retime(T);}
+  }
+  function upd(t){if(!g||!M)return;g.set(t);let now='';
+    if(S.pass==='fwd'){const U=M.U,n=U.length;let w=0;while(w<n&&U[w].front<=t)w++;let r=0;while(r<n&&U[r].pe<=t)r++;
+      const kb=$('#kvbuf');if(kb){$$('.s',kb).forEach((d,i)=>{d.classList.toggle('got',U[i].e<=t);d.classList.toggle('cmp',U[i].pe<=t&&!U[i].skip);});
+        const rp=r<n&&t>U[r].ps?r+(t-U[r].ps)/(U[r].pe-U[r].ps):r;$('.ptr.w',kb).style.left=(w/n*100)+'%';$('.ptr.r',kb).style.left=(clamp(rp,0,n)/n*100)+'%';}
+      for(const u of U){const a=ARR['u'+u.r];if(a){a.classList.toggle('on',t>=u.s&&t<u.e);a.classList.toggle('done',t>=u.e);}}
+      if(S.hier)[1,2,3].forEach(i=>{const a=ARR['p'+i];if(a){a.classList.toggle('on',t>=.3&&t<3.3);a.classList.toggle('done',t>=3.3);}});
+      const cur=U.find(u=>t>=u.ps-u.stall&&t<u.ps&&u.stall>.02);
+      if(t>=M.mk)now=Tx(`Done at t = ${M.mk.toFixed(1)} vs ${M.serial.toFixed(1)} without overlap. Toggle <b>pruning</b> or <b>hierarchical routing</b> to compare.`,`在 t = ${M.mk.toFixed(1)} 完成，无重叠需要 ${M.serial.toFixed(1)}。可切换<b>剪枝</b>或<b>分层路由</b>对比。`);
+      else if(cur)now=Tx(`<b style="color:#e11d48">Attention waits</b>: the read pointer caught up with the write pointer, so the chunk of R${cur.r} has not arrived yet. This wait is the exposed communication.`,`<b style="color:#e11d48">注意力在等待</b>：读指针追上了写指针，R${cur.r} 的 chunk 还没到。这段等待就是暴露的通信。`);
+      else if(t<.3)now=Tx('<b>Local copy</b>: R0 writes its own K,V shard into the SR buffer. On-device, no link involved.','<b>本地拷贝</b>：R0 把自己的 K,V 分片写入 SR buffer，在本卡内完成，不经过任何链路。');else if(S.hier&&t<3.3)now=Tx('<b>Phase 1 · RoCE</b>: every GPU pulls its congruence-group partner on the other node (R0 ← R4, R1 ← R5, …). NVLink starts only after this phase; attention already runs on the local chunk.','<b>Phase 1 · RoCE</b>：每张卡从另一节点上的同余组伙伴拉取数据（R0 ← R4，R1 ← R5，…）。这一阶段结束后才开始 NVLink 传输；此时注意力已在处理本地 chunk。');
+      else now=S.hier?Tx('<b>Phase 2 · NVLink</b>: Phase 1 is done, so each same-node peer now holds two chunks and R0 pulls both over NVLink (R1 → R1, R5; R2 → R2, R6; …). Fully masked chunks are skipped, so the write pointer jumps ahead.','<b>Phase 2 · NVLink</b>：Phase 1 已完成，本节点每个伙伴都持有两块数据，R0 经 NVLink 把它们拉过来（R1 → R1、R5；R2 → R2、R6；…）。被完全遮蔽的 chunk 直接跳过，写指针随之前移。'):Tx('Flat all-gather: R0 pulls every remote chunk itself: all four cross-node chunks over RoCE, then the same-node ones over NVLink.','非分层 all-gather：R0 自己拉取所有远端 chunk，先经 RoCE 拉另一节点的四块，再经 NVLink 拉本节点的。');
+    }else{const sg=M.segs,cur=sg.find(x=>t>=x.ps&&t<x.re)||(t>=M.mk?sg[3]:null);
+      $$('#bm .bit').forEach(b=>{const r=+b.dataset.r;let clr=false;if(cur){const frac=(t-cur.ps)/(cur.pe-cur.ps);const maskedP=S.prune&&(r===5||r===6);clr=t>=cur.pe||maskedP||frac>=r/8;}b.classList.toggle('clr',clr);});
+      const st=$('#bm-st');if(st)st.textContent=cur?(t>=cur.pe?Tx('= 0 → reduce','= 0 → 归约'):Tx(`segment ${cur.t}`,`第 ${cur.t} 段`)):Tx('idle','空闲');
+      const inG=sg.find(x=>x.gr.some(a=>t>=a.s&&t<a.e));
+      if(t>=M.mk)now=Tx(`Done at t = ${M.mk.toFixed(1)} vs ${M.serial.toFixed(1)} sequential. Only the <b>tail RS</b> of the last segment stays exposed.`,`在 t = ${M.mk.toFixed(1)} 完成，串行需要 ${M.serial.toFixed(1)}。只有最后一段的<b>尾部 RS</b> 暴露在外。`);
+      else if(cur&&inG&&inG.t>cur.t)now=Tx(`<b>RS of segment ${cur.t}</b> runs while <b>segment ${inG.t}</b> computes. Producers clear their bit after each put; masked producers clear it without sending.`,`<b>第 ${cur.t} 段的 RS</b> 与<b>第 ${inG.t} 段</b>的计算同时进行。producer 发完就清掉自己的位；被遮蔽的 producer 不发数据，直接清位。`);
+      else if(cur)now=Tx(`<b>Segment ${cur.t}</b>: producers put partial dK,dV to the chunk owner. The consumer reduces in fp32 once the bitmask reaches 0.`,`<b>第 ${cur.t} 段</b>：producer 把部分 dK,dV 发给 chunk 的归属 rank；bitmask 归零后，consumer 做 fp32 归约。`);
+      else now=Tx(`<b>Segment ${inG?inG.t:0}</b>: backward attention starts on each chunk as soon as its <span class="mono">work_done</span> flag is set, with no global barrier.`,`<b>第 ${inG?inG.t:0} 段</b>：某个 chunk 的 <span class="mono">work_done</span> 一置位，它的反向注意力就立即开始，无需全局同步。`);}
+    $('#ovl-now').innerHTML=now;}
+  $('#ovl-tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#ovl-tabs button').forEach(x=>x.classList.toggle('active',x===b));S.pass=b.dataset.v;build();if(!REDUCE)pl.play();});
+  $('#ovl-prune').onchange=e=>{S.prune=e.target.checked;build();};$('#ovl-hier').onchange=e=>{S.hier=e.target.checked;build();};
+  onLang(build);build();lazy($('#ovl-gantt'),()=>{if(!REDUCE)pl.play();},'-20% 0px');
+});
+
+/* ---------- charts (tooltips in HTML, labels clamped inside the plot) ---------- */
+const CH=(()=>{
+  const W=560,H=300,L=52,R=16,T=24,B=40,iw=W-L-R,ih=H-T-B;
+  function base(host,ymin,ymax,ticks,fy){host.innerHTML='';const wrap=el('div','ch'),s=sv('svg',{viewBox:`0 0 ${W} ${H}`});wrap.appendChild(s);
+    const tip=el('div','ch-tip');wrap.appendChild(tip);host.appendChild(wrap);const y=v=>T+ih-(v-ymin)/(ymax-ymin)*ih;
+    for(let i=0;i<=ticks;i++){const v=ymin+(ymax-ymin)*i/ticks,yy=y(v);s.appendChild(sv('line',{x1:L,x2:W-R,y1:yy,y2:yy,class:'gl'}));
+      const t=sv('text',{x:L-8,y:yy+4,'text-anchor':'end',class:'ax'});t.textContent=fy(v);s.appendChild(t);}
+    const show=(html,x,yy)=>{tip.innerHTML=html;tip.style.left=clamp(x/W,.18,.82)*100+'%';tip.style.top=Math.max(yy/H,.12)*100+'%';tip.style.opacity=1;};
+    const hide=()=>tip.style.opacity=0;return {s,y,show,hide};}
+  function xl(s,labels,px){labels.forEach((l,i)=>{const t=sv('text',{x:px(i),y:H-B+20,'text-anchor':'middle',class:'xl'});t.textContent=l;s.appendChild(t);});}
+  function lines(host,{x,series,ymin,ymax,ticks=5,fmt=v=>v,unit=''}){
+    const {s,y,show,hide}=base(host,ymin,ymax,ticks,v=>v.toFixed(0));const px=i=>L+iw*(i+.5)/x.length;xl(s,x,px);
+    const guide=sv('line',{y1:T,y2:T+ih,stroke:'#cbd5e1','stroke-dasharray':'3 3',opacity:0,class:'gd'});s.appendChild(guide);const dots=[];
+    series.forEach(se=>{const d=se.values.map((v,i)=>(i?'L':'M')+px(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+      const pa={d,fill:'none',stroke:se.color,'stroke-width':se.strong?3:2,'stroke-linejoin':'round','stroke-linecap':'round'};if(se.dash)pa['stroke-dasharray']=se.dash;else{pa.class='ln';pa.pathLength=1;}s.appendChild(sv('path',pa));
+      se.values.forEach((v,i)=>{const c=sv('circle',{cx:px(i),cy:y(v),r:se.strong?4.2:3.2,fill:'#fff',stroke:se.color,'stroke-width':2,class:'dot'});s.appendChild(c);dots.push({c,i});});
+      if(se.strong)se.values.forEach((v,i)=>{const t=sv('text',{x:px(i),y:Math.max(T+10,y(v)-10),'text-anchor':'middle',class:'vl',fill:se.color});t.textContent=fmt(v);s.appendChild(t);});});
+    const hit=sv('rect',{x:L,y:T,width:iw,height:ih,fill:'transparent'});s.appendChild(hit);
+    hit.addEventListener('mousemove',e=>{const r=s.getBoundingClientRect(),mx=(e.clientX-r.left)/r.width*W,i=clamp(Math.floor((mx-L)/iw*x.length),0,x.length-1);
+      guide.setAttribute('x1',px(i));guide.setAttribute('x2',px(i));guide.setAttribute('opacity',1);dots.forEach(d=>d.c.setAttribute('r',d.i===i?5:3.2));
+      const rows=series.map(se=>[se,se.values[i]]).sort((a,b)=>b[1]-a[1]).map(([se,v])=>`<div class="r"><span class="d" style="background:${se.color}"></span>${se.name}<b>${fmt(v)}${unit}</b></div>`).join('');
+      show(`<div style="font-weight:700;margin-bottom:2px">${x[i]}</div>${rows}`,px(i),Math.min(...series.map(se=>y(se.values[i]))));});
+    hit.addEventListener('mouseleave',()=>{guide.setAttribute('opacity',0);dots.forEach(d=>d.c.setAttribute('r',3.2));hide();});}
+  function bars(host,{x,series,ymin=0,ymax,ticks=5,fy,fmt=v=>v,ref,whisk,labels=true}){
+    const {s,y,show,hide}=base(host,ymin,ymax,ticks,fy||(v=>v.toFixed(1)));const bw=iw/x.length,px=i=>L+bw*(i+.5);xl(s,x,px);
+    if(ref){const yy=y(ref.v);s.appendChild(sv('line',{x1:L,x2:W-R,y1:yy,y2:yy,class:'ref'}));if(ref.label){const t=sv('text',{x:W-R-4,y:yy-5,'text-anchor':'end',class:'ax'});t.textContent=ref.label;s.appendChild(t);}}
+    const gw=bw*.74,w=gw/series.length,z=y(ymin<0&&ymax>0?0:ymin);
+    x.forEach((lab,i)=>series.forEach((se,k)=>{const v=se.values[i];if(v==null)return;const bx=L+bw*i+(bw-gw)/2+w*k,yy=y(v),neg=yy>z;
+      const r=sv('rect',{x:bx+w*.08,y:Math.min(yy,z),width:w*.84,height:Math.abs(z-yy),rx:Math.min(5,w*.2),fill:se.color,class:neg?'bar neg':'bar'});r.style.animationDelay=(i*60+k*40)+'ms';s.appendChild(r);
+      if(whisk&&whisk[i]){const [lo,hi]=whisk[i],cxw=bx+w/2;s.appendChild(sv('line',{x1:cxw,x2:cxw,y1:y(lo),y2:y(hi),stroke:'#0b1324','stroke-width':1.4,class:'wk'}));
+        [lo,hi].forEach(v2=>s.appendChild(sv('line',{x1:cxw-6,x2:cxw+6,y1:y(v2),y2:y(v2),stroke:'#0b1324','stroke-width':1.4,class:'wk'})));}
+      if(labels){const ty=whisk&&whisk[i]?y(whisk[i][1])-8:neg?yy+14:yy-7;const t=sv('text',{x:bx+w/2,y:Math.max(T+4,ty),'text-anchor':'middle',class:'vl',fill:se.color==='#cbd5e1'?'#64748b':se.color});
+        t.style.fontSize=series.length>3?'9px':'';t.textContent=fmt(v);s.appendChild(t);}
+      r.addEventListener('mouseenter',()=>show(`<div class="r"><span class="d" style="background:${se.color}"></span>${se.name?se.name+' · ':''}${lab}<b>${fmt(v)}${whisk&&whisk[i]?` (${fmt(whisk[i][0])}${Tx(' to ','–')}${fmt(whisk[i][1])})`:''}</b></div>`,bx+w/2,yy));
+      r.addEventListener('mouseleave',hide);}));}
+  return {lines,bars};
+})();
+const leg=(host,series)=>{host.innerHTML=series.map(s=>`<span class="i"><span class="${s.dash?'ln':'sw'}" style="${s.dash?`border-color:${s.color};border-top-style:dashed`:`background:${s.color}`}"></span>${s.name}</span>`).join('');};
+
+/* ---------- §4 results: data from the paper's figures/tables ---------- */
+lazy($('#results'),()=>{
+  const FM='#1d4ed8';
+  const CP={causaldoc:{ymin:100,ymax:550,s:[['FlashMask-3',FM,[430.5,471.8,491.8,501.6],1],['MagiAttention','#06b6d4',[295.5,343.8,418.1,451.2]],['Megatron all-gather','#94a3b8',[211.7,220.4,168.2,226.9],0,'6 4'],['Megatron ring','#cbd5e1',[206.8,186.6,132.4,158.8],0,'2 4']]},
+    document:{ymin:150,ymax:560,s:[['FlashMask-3',FM,[498.0,515.9,518.6,519.6],1],['MagiAttention','#06b6d4',[350.2,391.8,464.8,475.5]],['Megatron all-gather','#94a3b8',[291.2,295.4,245.6,296.1],0,'6 4'],['Megatron ring','#cbd5e1',[276.6,257.1,205.5,247.8],0,'2 4']]},
+    prefixlm:{ymin:250,ymax:550,s:[['FlashMask-3',FM,[437.3,481.2,503.6,509.2],1],['MagiAttention','#06b6d4',[298.8,344.8,416.7,452.9]]]}};
+  const OE={causaldoc:[[.48,.75,.59,.61],[.51,.53,.62,.63]],document:[[.56,.64,.57,.63],[.39,.31,.55,.52]],prefixlm:[[.63,.69,.64,.64],[.52,.49,.61,.61]]};
+  const cpx=['CP4','CP8','CP16','CP32'];let done={},curTab='kernel',cpM='causaldoc',oeM='causaldoc';
+  function cp(m){const d=CP[m],series=d.s.map(([name,color,values,strong,dash])=>({name,color,values,strong,dash}));
+    CH.lines($('#c-cp'),{x:cpx,series,ymin:d.ymin,ymax:d.ymax,ticks:5,fmt:v=>v.toFixed(1)});leg($('#cp-leg'),series);
+    $('#cp-sub').textContent=m==='prefixlm'?Tx('Megatron: unsupported · hover to compare','Megatron 不支持 · 悬停查看数值'):Tx('hover to compare','悬停查看数值');}
+  function oe(m){CH.bars($('#c-oe'),{x:cpx.map((c,i)=>c+' · '+['32K','64K','128K','256K'][i]),series:[{name:Tx('Forward','前向'),color:FM,values:OE[m][0]},{name:Tx('Backward','反向'),color:'#06b6d4',values:OE[m][1]}],ymax:1,ticks:4,fy:v=>v.toFixed(2),fmt:v=>v.toFixed(2)});}
+  function build(tab){if(done[tab])return;done[tab]=1;
+    if(tab==='kernel'){CH.bars($('#c-kernel'),{x:['vs FlashMask','vs FlexAttention','vs MagiAttention'],series:[{name:'',color:FM,values:[82.6,55.3,15.0]}],whisk:[[45,141],[34,71],[2,44]],ymax:150,ticks:5,fy:v=>v.toFixed(0)+'%',fmt:v=>'+'+v.toFixed(1)+'%'});
+      CH.bars($('#c-len'),{x:['8K','128K'],series:[{name:'vs FlashMask',color:'#3b82f6',values:[66.2,97.3]}],ymax:120,ticks:4,fy:v=>v.toFixed(0)+'%',fmt:v=>'+'+v.toFixed(1)+'%'});}
+    else if(tab==='cp'){cp(cpM);const sp=[['vs MagiAttention',1.09,1.46],['vs Megatron all-gather',1.71,2.92],['vs Megatron ring',1.80,3.71]],mx=4;
+      $('#c-speed').innerHTML=sp.map(([l,a,b],i)=>{const x0=(a-1)/(mx-1)*100,x1=(b-1)/(mx-1)*100,inn=x1-x0>30;
+        return `<span class="lab">${l}</span><div class="tr"><div class="bar" style="left:${x0}%;width:${x1-x0}%;animation-delay:${i*90}ms"></div>`+
+          `<span class="tx${inn?'':' out'}" style="${inn?`right:${100-x1}%`:`left:calc(${x1}% + 8px)`}">${a.toFixed(2)}–${b.toFixed(2)}×</span></div>`;}).join('')+
+        `<span></span><div class="ax"><span>1×</span><span>2×</span><span>3×</span><span>4×</span></div>`;}
+    else if(tab==='overlap')oe(oeM);
+    else if(tab==='ablate'){const lbs=[{name:Tx('Even split','均分'),color:'#cbd5e1',values:[1.95,1.40,1.88]},{name:'Dual Chunk',color:'#94a3b8',values:[1.71,1.29,1.66]},{name:'LPT',color:'#60a5fa',values:[1.04,1.05,1.04]},{name:Tx('IPO (ours)','IPO（本文）'),color:FM,values:[1.03,1.04,1.03]}];
+      CH.bars($('#c-lb'),{x:['Causal Doc','Document','Prefix-LM Doc'],series:lbs,ymax:2.1,ticks:3,fy:v=>v.toFixed(1),fmt:v=>v.toFixed(2),ref:{v:1}});leg($('#lb-leg'),lbs);$('#lb-leg').insertAdjacentHTML('beforeend','<span class="i"><span class="ln" style="border-color:#64748b;border-top-style:dashed"></span>'+Tx('ideal = 1.0','理想值 1.0')+'</span>');
+      const pp=[{name:Tx('Static persistent','静态调度'),color:'#cbd5e1',values:[1.00,1.00,1.00]},{name:Tx('Single tile','单 tile 调度'),color:'#60a5fa',values:[1.03,1.03,1.06]},{name:Tx('PPT (ours)','PPT（本文）'),color:FM,values:[1.12,1.12,1.16]}];
+      CH.bars($('#c-ppt'),{x:['8K','32K','128K'],series:pp,ymin:.9,ymax:1.2,ticks:3,fy:v=>v.toFixed(1)+'×',fmt:v=>v.toFixed(2)+'×'});leg($('#ppt-leg'),pp);}
+    else if(tab==='e2e'){const sx=[70,80,86].map(p=>Tx(p+'% sparsity','稀疏度 '+p+'%')),pct=v=>(v<0?'−':'+')+Math.abs(v).toFixed(1)+'%';
+      const sp=[{name:Tx('End-to-end','端到端'),color:FM,values:[7.3,7.7,11.0]},{name:Tx('Attention fwd+bwd','注意力前向+反向'),color:'#06b6d4',values:[24.5,42.1,44.9]}];
+      CH.bars($('#c-e2e'),{x:sx,series:sp,ymax:50,ticks:5,fy:v=>v.toFixed(0)+'%',fmt:pct});leg($('#e2e-leg'),sp);
+      const ab=[{name:Tx('Balancing only','仅均衡'),color:'#60a5fa',values:[2.8,4.4,5.7]},{name:Tx('Overlap only','仅重叠'),color:'#06b6d4',values:[5.4,4.2,5.9]},{name:Tx('Both, no hierarchical routing','两者，无分层路由'),color:'#94a3b8',values:[-1.7,-1.5,1.9]},{name:'FlashMask-3',color:FM,values:[7.3,7.7,11.0]}];
+      CH.bars($('#c-e2e-abl'),{x:sx,series:ab,ymin:-3,ymax:12,ticks:5,fy:v=>v.toFixed(0)+'%',fmt:pct,ref:{v:0}});leg($('#e2e-abl-leg'),ab);}}
+  seg('#res-tabs',v=>{curTab=v;$$('#results .view').forEach(x=>x.classList.toggle('active',x.dataset.v===v));build(v);});
+  seg('#cp-mask',v=>{cpM=v;cp(v);});seg('#oe-mask',v=>{oeM=v;oe(v);});build('kernel');onLang(()=>{done={};build(curTab);});
+});
+
+/* ===== v2: ZERO-COMM MASK LOCALIZATION — interactive Fig. 1(b), §3.2 ===== */
+(()=>{
+  const root=$('#zc');if(!root)return;
+  const RC=['#2563eb','#06b6d4'];
+  const ASSIGN={dual:[0,1,1,0],contig:[0,0,1,1],inter:[0,1,0,1]};
+  const ANAME={dual:'Megatron dual-chunk, rank j owns chunks j and 2P−1−j',contig:'contiguous',inter:'interleaved',custom:'custom'};
+  const S={N:8,preset:'paper',assign:'dual',own:ASSIGN.dual.slice(),k:3,vec:'LTS',step:0,filled:0,docs:null};
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let token=0,playing=false,M=null;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const C=()=>S.N/4;
+  function docs(){if(S.docs&&S.docs.reduce((a,b)=>a+b,0)===S.N)return S.docs;return S.N===8?[3,5]:[6,6,4];}
+  function buildMask(){const N=S.N;
+    if(S.preset==='paper')return {LTS:[8,5,8,4,8,6,8,8],UTE:[0,1,1,3,1,2,3,7]};
+    const b=[];let s=0;for(const d of docs()){b.push([s,s+d]);s+=d;}
+    const LTS=[],UTE=[];
+    for(let j=0;j<N;j++){const [a,e]=b.find(x=>j>=x[0]&&j<x[1]);let lts=e,ute=j;
+      if(S.preset==='causal')lts=N;
+      else if(S.preset==='document')ute=a;
+      else if(S.preset==='prefix'){const p=Math.max(1,Math.round((e-a)*.4));ute=j<a+p?a:j;}
+      else if(S.preset==='swa'){lts=Math.min(N,j+(N===8?3:5));}
+      LTS.push(lts);UTE.push(ute);}
+    return {LTS,UTE};}
+  const masked=(V,q,k)=>q>=V.LTS[k]||q<V.UTE[k];
+  function offsets(r){const o=[];S.own.forEach((x,c)=>{if(x===r)o.push(c*C());});return o;}
+  function xform(x,O){const c=C();const det=O.map((o,i)=>{const raw=x-o,L=clamp(raw,0,c);return {o,i,raw,L,cand:L>0?L+i*c:0};});
+    return {det,val:Math.max(0,...det.map(d=>d.cand))};}
+  const localVec=O=>({LTS:M.LTS.map(x=>xform(x,O).val),UTE:M.UTE.map(x=>xform(x,O).val)});
+  const rowsOf=O=>{const r=[];O.forEach(o=>{for(let t=0;t<C();t++)r.push(o+t);});return r;};
+  function verify(O,L){const rows=rowsOf(O);let ok=0;rows.forEach((g,l)=>{for(let k=0;k<S.N;k++)if(masked(M,g,k)===masked(L,l,k))ok++;});return {ok,tot:rows.length*S.N};}
+  const cls=S=>S;
+  function hdr(){let h='<div class="zc-row"><span class="zc-lab"></span>';
+    for(let k=0;k<S.N;k++)h+=`<span class="zc-h${k===S.k?' sel':''}" data-k="${k}">${k}</span>`;return h+'<span class="zc-rlab"></span></div>';}
+  function vecRow(name,arr,show,fresh,gap){let h=`<div class="zc-row zc-vr${gap?' vg':''}${name===S.vec?' act':''}"><span class="zc-lab">${name}</span>`;
+    arr.forEach((v,k)=>{const vis=show===true||k<show;
+      h+=`<span class="zc-v${k===S.k?' sel':''}${vis?'':' pend'}${vis&&fresh===k?' pop':''}" data-k="${k}">${vis?v:'?'}</span>`;});
+    return h+'<span class="zc-rlab"></span></div>';}
+  const zmx=()=>`<div class="zmx${S.N>8?' n16':''}">`;
+  function renderGlobal(){const N=S.N,c=C();let h=zmx()+hdr();
+    for(let q=0;q<N;q++){const ch=Math.floor(q/c),r=S.own[ch],lr=q%c,tag=lr===0?'R'+r:lr===1?'c'+ch:'';
+      h+=`<div class="zc-row${lr===0&&q?' cb':''}" data-g="${q}" style="--rc:${RC[r]}"><span class="zc-tag" data-ch="${ch}" title="${Tx(`Chunk #${ch} (rows ${ch*c}–${ch*c+c-1}) → click to move it to the other rank`,`chunk #${ch}（第 ${ch*c}–${ch*c+c-1} 行）→ 点击可改为分给另一个 rank`)}">${tag}</span>`;
+      for(let k=0;k<N;k++)h+=`<span class="zc-c${masked(M,q,k)?'':' v'}${k===S.k?' sel':''}" data-k="${k}"></span>`;
+      h+=`<span class="zc-rlab">${q}</span></div>`;}
+    return h+vecRow('LTS',M.LTS,true,-1,1)+vecRow('UTE',M.UTE,true,-1,0)+'</div>';}
+  function renderLocal(){const N=S.N,c=C();let h='';
+    for(let r=0;r<2;r++){const O=offsets(r);if(!O.length)continue;const L=localVec(O),v=verify(O,L);
+      h+=`<div class="zc-lr" style="--rc:${RC[r]}"><div class="zc-lh"><span class="dot"></span>Rank ${r}<span class="m">${Tx('chunks','chunk')} ${O.map(o=>'#'+o/c).join(', ')} · O = {${O.join(', ')}}</span>`+
+        (S.step>=3?`<span class="zc-ok${v.ok===v.tot?'':' bad'}">${v.ok===v.tot?Tx('✓ lossless','✓ 无损'):Tx('✗ mismatch','✗ 不一致')}</span>`:'')+`</div>`+zmx()+hdr();
+      let l=0;O.forEach((o,i)=>{for(let t=0;t<c;t++,l++){const g=o+t;
+        h+=`<div class="zc-row${t===0&&i?' cb':''}" data-src="${g}" style="--rc:${RC[r]}"><span class="zc-lab">${l}</span>`;
+        for(let k=0;k<N;k++)h+=S.step<1?`<span class="zc-c ph" data-k="${k}"></span>`:`<span class="zc-c${masked(M,g,k)?'':' v'}${k===S.k?' sel':''}" data-k="${k}"></span>`;
+        h+=`<span class="zc-rlab">g${g}</span></div>`;}});
+      const show=S.step>=3?true:S.step===2?S.filled:0,fr=S.step===2?S.filled-1:-1;
+      h+=vecRow('LTS',L.LTS,show,fr,1)+vecRow('UTE',L.UTE,show,fr,0)+'</div></div>';}
+    return h;}
+  function renderMid(){const k=S.k,x=M[S.vec][k],c=C();
+    const sem=S.vec==='LTS'?Tx(`rows ≥ ${x} masked`,`第 ${x} 行及之后被遮蔽`):Tx(`rows &lt; ${x} masked`,`第 ${x} 行之前被遮蔽`);
+    let h=`<h4><span>${Tx('key column','key 列')} k = ${k}</span><span class="zc-nav"><button data-d="-1" aria-label="previous column">‹</button> <button data-d="1" aria-label="next column">›</button></span></h4>`+
+      `<div class="zc-x">${Tx('global','全局')} ${S.vec}<sub>${k}</sub> = <span class="hl">${x}</span> <span class="c">· ${sem}</span></div>`;
+    for(let r=0;r<2;r++){const O=offsets(r);if(!O.length)continue;const d=xform(x,O),rows=rowsOf(O),before=rows.filter(g=>g<x);
+      let win=-1,best=0;d.det.forEach((e,i)=>{if(e.cand>best){best=e.cand;win=i;}});
+      h+=`<div class="zc-rk" style="--rc:${RC[r]}"><div class="t"><span class="dot"></span>Rank ${r}<span class="o">${Tx('my rows','本 rank 的行')} {${rows.join(',')}}</span></div>`+
+        `<table class="zc-tb"><tr><th>i</th><th>O<sub>i</sub></th><th>clip(x−O<sub>i</sub>,0,${c})</th><th>+i·C</th><th>cand</th></tr>`;
+      d.det.forEach((e,i)=>{h+=`<tr class="${i===win?'win':''}"><td>${i}</td><td>${e.o}</td><td>clip(${x}−${e.o}) = ${e.L}</td><td class="${e.L>0?'':'z'}">${e.L>0?'+'+e.i*c:Tx('skip','跳过')}</td><td>${e.cand}</td></tr>`;});
+      h+=`</table><div class="zc-res">${S.vec}<sup>(${r})</sup><sub>${k}</sub> = max(${d.det.map(e=>e.cand).join(', ')}) = <b>${d.val}</b></div>`+
+        `<div class="zc-why">= |${Tx(`my rows before ${x}`,`本 rank 在第 ${x} 行之前的行`)}| = |{${before.join(',')||'∅'}}| = ${before.length}</div></div>`;}
+    return h;}
+  const CAP=[
+    ()=>Tx(`The global mask, held by every rank. Column <i>j</i> masks rows <b>≥ LTS<sub>j</sub></b> and rows <b>&lt; UTE<sub>j</sub></b>. Row tags show which rank owns each chunk.`,`全局掩码，每个 rank 都有一份。第 <i>j</i> 列中，行号 <b>≥ LTS<sub>j</sub></b> 或 <b>&lt; UTE<sub>j</sub></b> 的行被遮蔽。行首标签表示每个 chunk 归哪个 rank。`),
+    ()=>Tx(`Each rank keeps <b>only its own rows</b>. The pattern is right, but the boundaries are still in <b>global</b> row numbers.`,`每个 rank <b>只保留自己的行</b>。遮蔽位置没有变，但边界值仍是<b>全局</b>行号。`),
+    ()=>Tx(`Clip–shift–max renumbers every boundary using only the rank's own offsets O<sub>i</sub>. Hover a column to follow the arithmetic.`,`clip–shift–max 只用本 rank 的偏移 O<sub>i</sub> 重新编号每个边界。鼠标移到某一列上，可查看具体计算。`),
+    ()=>Tx(`The local vectors reproduce every kept cell exactly (Theorem 1): lossless, <b>0 bytes exchanged</b>, same kernel as on one GPU.`,`本地向量逐格还原了保留下来的每个元素（定理 1）：无损、<b>零通信</b>，可以直接交给单卡算子使用。`)];
+  function render(){
+    M=buildMask();
+    $('#zc-global').innerHTML=renderGlobal();$('#zc-local').innerHTML=renderLocal();$('#zc-mid').innerHTML=renderMid();
+    $$('#zc-steps .zc-step').forEach(b=>{const n=+b.dataset.st;b.classList.toggle('on',n===S.step);b.classList.toggle('done',n<S.step);});
+    $('#zc-cap').innerHTML=CAP[S.step]();
+    let ok=0,tot=0,ops=0;[0,1].forEach(r=>{const O=offsets(r);if(!O.length)return;const v=verify(O,localVec(O));ok+=v.ok;tot+=v.tot;ops+=4*S.N*O.length;});
+    const done=S.step>=3;
+    $('#zc-badges').innerHTML=`<div class="zc-badge">${Tx('cross-rank traffic','跨 rank 通信')} <b>0 B</b></div>`+
+      `<div class="zc-badge${done&&ok===tot?' ok':''}">${Tx('local ≡ global rows','本地 ≡ 全局')} <b>${done?(ok===tot?'✓ ':'')+ok+'/'+tot:Tx('pending','待验证')}</b></div>`;
+    $$('#zc-preset button').forEach(b=>{b.classList.toggle('active',b.dataset.zp===S.preset);if(b.dataset.zp==='paper')b.disabled=S.N!==8;});
+    $$('#zc-assign button').forEach(b=>b.classList.toggle('active',b.dataset.za===S.assign));
+    $$('#zc-n button').forEach(b=>b.classList.toggle('active',+b.dataset.zn===S.N));
+    $$('#zc-vec button').forEach(b=>b.classList.toggle('active',b.dataset.zv===S.vec));}
+  function fly(){if(reduce)return Promise.resolve();
+    const ps=[],R0=root.getBoundingClientRect(),ox=R0.left+root.clientLeft,oy=R0.top+root.clientTop;$$('#zc-local .zc-row[data-src]').forEach((t,idx)=>{
+      const src=$(`#zc-global .zc-row[data-g="${t.dataset.src}"]`);if(!src)return;
+      const a=src.getBoundingClientRect(),b=t.getBoundingClientRect(),g=src.cloneNode(true);
+      g.classList.add('zc-fly');g.style.setProperty('--cs',getComputedStyle(src).getPropertyValue('--cs'));
+      Object.assign(g.style,{left:(a.left-ox)+'px',top:(a.top-oy)+'px',width:a.width+'px'});
+      root.appendChild(g);t.style.visibility='hidden';
+      const dx=b.left-a.left,dy=b.top-a.top;
+      const an=g.animate([{transform:'translate(0,0)'},{transform:`translate(${dx*.5}px,${dy*.5-26}px) scale(1.04)`,offset:.55},{transform:`translate(${dx}px,${dy}px)`}],
+        {duration:950,delay:idx*60,easing:'cubic-bezier(.45,.05,.25,1)',fill:'forwards'});
+      const end=()=>{g.remove();t.style.visibility='';};ps.push(an.finished.then(end,end));});
+    return Promise.all(ps);}
+  function setBtn(){const b=$('#zc-play');b.querySelector('span').textContent=playing?Tx('Stop','停止'):(S.step>=3?Tx('Replay','重播'):Tx('Play','播放'));
+    b.querySelector('svg').innerHTML=playing?'<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>':'<path d="M7 4l13 8-13 8z"/>';}
+  function stop(){token++;playing=false;$$('.zc-fly').forEach(e=>e.remove());setBtn();}
+  async function play(){const my=++token;playing=true;setBtn();
+    S.step=0;S.filled=0;render();await sleep(1300);if(my!==token)return;
+    S.step=1;render();await fly();if(my!==token)return;await sleep(500);if(my!==token)return;
+    S.step=2;const dt=S.N>8?230:420;
+    for(let f=1;f<=S.N;f++){S.filled=f;S.k=f-1;render();await sleep(dt);if(my!==token)return;}
+    await sleep(250);if(my!==token)return;S.step=3;playing=false;render();setBtn();}
+  function settle(){stop();S.step=3;S.filled=S.N;render();setBtn();}
+  root.addEventListener('mouseover',e=>{if(playing)return;const t=e.target.closest('[data-k]');if(!t)return;const k=+t.dataset.k;
+    if(k!==S.k){S.k=k;render();}});
+  root.addEventListener('click',e=>{
+    const tag=e.target.closest('.zc-tag');
+    if(tag){const ch=+tag.dataset.ch,r=S.own[ch];if(S.own.filter(x=>x===r).length<2){tag.animate([{transform:'translateX(-3px)'},{transform:'translateX(3px)'},{transform:'none'}],{duration:240});return;}
+      S.own[ch]=1-r;S.assign=Object.keys(ASSIGN).find(k=>ASSIGN[k].join()===S.own.join())||'custom';settle();return;}
+    const nv=e.target.closest('.zc-nav button');if(nv){S.k=(S.k+(+nv.dataset.d)+S.N)%S.N;render();return;}
+    const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.zp){S.preset=b.dataset.zp;settle();}
+    else if(b.dataset.za&&ASSIGN[b.dataset.za]){S.assign=b.dataset.za;S.own=ASSIGN[S.assign].slice();settle();}
+    else if(b.dataset.zn){S.N=+b.dataset.zn;S.k=Math.min(S.k,S.N-1);if(S.N!==8&&S.preset==='paper')S.preset='causaldoc';settle();}
+    else if(b.dataset.zv){S.vec=b.dataset.zv;render();}
+    else if(b.dataset.st!=null){stop();S.step=+b.dataset.st;S.filled=S.N;render();setBtn();if(S.step===1)fly();}
+    else if(b.id==='zc-play'){playing?settle():play();}
+    else if(b.id==='zc-shuffle'){const N=S.N,d=[];let left=N;while(left>0){const m=Math.min(left,2+((Math.random()*(N/2))|0));d.push(left-m<2?left:m);left-=d[d.length-1];}
+      S.docs=d;if(S.preset==='paper'||S.preset==='causal'||S.preset==='swa')S.preset='causaldoc';settle();}});
+  render();setBtn();onLang(()=>{render();setBtn();});
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();if(!reduce)play();else settle();}},{threshold:.35}).observe(root);
+})();
+
+</script>
+</body>
+</html>
