@@ -5,6 +5,109 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const connection = navigator.connection;
 
+  const root = document.documentElement;
+  const themeToggle = document.querySelector('#theme-toggle');
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const THEME_KEY = 'owner-info-theme';
+  let targetTheme = root.dataset.theme === 'dark' ? 'dark' : 'light';
+  let themeTransition = null;
+
+  function savedTheme() {
+    try {
+      const theme = localStorage.getItem(THEME_KEY);
+      return theme === 'dark' || theme === 'light' ? theme : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function applyTheme(theme, persist) {
+    const dark = theme === 'dark';
+    root.dataset.theme = dark ? 'dark' : 'light';
+    themeColor?.setAttribute('content', dark ? '#07050c' : '#ffffff');
+    if (themeToggle) {
+      const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+      themeToggle.setAttribute('aria-label', label);
+      themeToggle.setAttribute('aria-pressed', String(dark));
+      themeToggle.title = label;
+    }
+    if (persist) {
+      try {
+        localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+      } catch {
+        // Storage can be disabled without disabling theme switching.
+      }
+    }
+  }
+
+  function clearThemeTransitionState() {
+    delete root.dataset.themeTransition;
+    root.style.removeProperty('--theme-origin-x');
+    root.style.removeProperty('--theme-origin-y');
+    root.style.removeProperty('--theme-radius');
+  }
+
+  function cancelThemeTransition() {
+    const transition = themeTransition;
+    themeTransition = null;
+    try {
+      transition?.skipTransition();
+    } catch {
+      // A completed transition is already detached.
+    }
+  }
+
+  function switchTheme(theme, persist) {
+    const expanding = theme === 'dark';
+    const update = () => applyTheme(theme, persist);
+    cancelThemeTransition();
+    clearThemeTransitionState();
+    if (reducedMotion.matches || !document.startViewTransition || !themeToggle) {
+      update();
+      return;
+    }
+
+    const bounds = themeToggle.getBoundingClientRect();
+    const x = bounds.left + bounds.width / 2;
+    const y = bounds.top + bounds.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    root.style.setProperty('--theme-origin-x', `${x}px`);
+    root.style.setProperty('--theme-origin-y', `${y}px`);
+    root.style.setProperty('--theme-radius', `${radius}px`);
+    root.dataset.themeTransition = expanding ? 'expand' : 'contract';
+
+    let transition;
+    try {
+      // CSS owns the pseudo-element animation, so its state is destroyed with
+      // the View Transition tree and cannot leak into a later theme switch.
+      transition = document.startViewTransition(update);
+    } catch {
+      clearThemeTransitionState();
+      update();
+      return;
+    }
+    themeTransition = transition;
+    transition.ready.catch(() => {});
+    transition.updateCallbackDone.catch(() => {});
+    transition.finished.catch(() => {}).finally(() => {
+      if (themeTransition !== transition) return;
+      themeTransition = null;
+      clearThemeTransitionState();
+    });
+  }
+
+  applyTheme(targetTheme, false);
+  themeToggle?.addEventListener('click', () => {
+    targetTheme = targetTheme === 'dark' ? 'light' : 'dark';
+    switchTheme(targetTheme, true);
+  });
+  systemDark.addEventListener('change', event => {
+    if (savedTheme()) return;
+    targetTheme = event.matches ? 'dark' : 'light';
+    switchTheme(targetTheme, false);
+  });
+
   // Scroll-induced boundary events are not a request to download a preview.
   // A real mouse move clears this guard, including when it stays inside a row.
   let scrollOnly = false;
