@@ -104,7 +104,7 @@ h1 { font-size: clamp(2.5rem, 4.6vw, 3.5rem); line-height: 1.25; letter-spacing:
 .portfolio-text h3 a:hover { color: var(--accent); }
 .portfolio-text p { font-size: .97rem; line-height: 1.7; }
 .portfolio-text p + p { margin-top: .65rem; }
-.portfolio-text .authorlist { color: var(--muted); font-size: .93rem; }
+.portfolio-text .authorlist { color: var(--muted); font-size: .93rem; text-wrap: balance; }
 .authorlist a { color: inherit; }
 .authorlist a[href="/owner-info/"] { color: var(--accent); font-weight: 700; }
 .portfolio-text .venue { font-size: .9rem; color: var(--muted); }
